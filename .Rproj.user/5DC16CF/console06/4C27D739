@@ -6,3 +6,163 @@ For more details, please visit https://support.apple.com/kb/HT208050.
 Initialized empty Git repository in /Users/gwang/Dropbox/STAT 507 X/SLID_book/.git/
 ]0;~/Dropbox/STAT 507 X/SLID_bookYou have new mail in /var/mail/gwang
 Guannans-MBP:SLID_book gwang$ git add.[K .
+]0;~/Dropbox/STAT 507 X/SLID_bookGuannans-MBP:SLID_book gwang$ git commit -m"Initial boo kdown template"
+[master (root-commit) d52256a] Initial bookdown template
+ 33 files changed, 363 insertions(+)
+ create mode 100644 .Rproj.user/5DC16CF/console06/4C27D739
+ create mode 100644 .Rproj.user/5DC16CF/console06/4C27D739.env
+ create mode 100644 .Rproj.user/5DC16CF/console06/INDEX001
+ create mode 100644 .Rproj.user/5DC16CF/sources/prop/3ACD8E2D
+ create mode 100644 .Rproj.user/5DC16CF/sources/prop/44DB9AF1
+ create mode 100644 .Rproj.user/5DC16CF/sources/prop/7FAC40E7
+ create mode 100644 .Rproj.user/5DC16CF/sources/prop/D96AE72E
+ create mode 100644 .Rproj.user/5DC16CF/sources/prop/INDEX
+ create mode 100644 .Rproj.user/5DC16CF/sources/s-D670C5F/94BB51BF
+ create mode 100644 .Rproj.user/5DC16CF/sources/s-D670C5F/94BB51BF-contents
+ create mode 100644 .Rproj.user/5DC16CF/sources/s-D670C5F/BD6B1BE3
+ create mode 100644 .Rproj.user/5DC16CF/sources/s-D670C5F/BD6B1BE3-contents
+ create mode 100644 .Rproj.user/5DC16CF/sources/s-D670C5F/C2486AF8
+ create mode 100644 .Rproj.user/5DC16CF/sources/s-D670C5F/C2486AF8-contents
+ create mode 100644 .Rproj.user/5DC16CF/sources/s-D670C5F/C6F61222
+ create mode 100644 .Rproj.user/5DC16CF/sources/s-D670C5F/C6F61222-contents
+ create mode 100644 .Rproj.user/5DC16CF/sources/s-D670C5F/lock_file
+ create mode 100644 .Rproj.user/shared/notebooks/patch-chunk-names
+ create mode 100644 .Rproj.user/shared/notebooks/paths
+ create mode 100644 01-intro.Rmd
+ create mode 100644 02-literature.Rmd
+ create mode 100644 03-method.Rmd
+ create mode 100644 04-application.Rmd
+ create mode 100644 05-summary.Rmd
+ create mode 100644 06-references.Rmd
+ create mode 100644 README.md
+ create mode 100644 SLID_book.Rproj
+ create mode 100644 _bookdown.yml
+ create mode 100644 _output.yml
+ create mode 100644 book.bib
+ create mode 100644 index.Rmd
+ create mode 100644 preamble.tex
+ create mode 100644 style.css
+]0;~/Dropbox/STAT 507 X/SLID_bookGuannans-MBP:SLID_book gwang$ git commit -m"Initial bookkdown template"[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[Kgit status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	[31mmodified:   .Rproj.user/5DC16CF/console06/4C27D739[m
+
+no changes added to commit (use "git add" and/or "git commit -a")
+]0;~/Dropbox/STAT 507 X/SLID_bookGuannans-MBP:SLID_book gwang$ add _bookdowm.yml[Kn[K[K[K[K[Kn.yml
+bash: add: command not found
+]0;~/Dropbox/STAT 507 X/SLID_bookGuannans-MBP:SLID_book gwang$ h[Kgit add _bookdown.yml
+]0;~/Dropbox/STAT 507 X/SLID_bookGuannans-MBP:SLID_book gwang$ git add _output.yml
+]0;~/Dropbox/STAT 507 X/SLID_bookGuannans-MBP:SLID_book gwang$ git commit -m"Change book down d[Koutput default"
+[master bc738c4] Change bookdown output default
+ 2 files changed, 1 insertion(+), 7 deletions(-)
+]0;~/Dropbox/STAT 507 X/SLID_bookGuannans-MBP:SLID_book gwang$ [KGuannans-MBP:SLID_book gwang$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	[31mmodified:   .Rproj.user/5DC16CF/console06/4C27D739[m
+	[31mmodified:   .Rproj.user/5DC16CF/console06/INDEX001[m
+	[31mmodified:   .Rproj.user/5DC16CF/sources/prop/44DB9AF1[m
+	[31mmodified:   .Rproj.user/5DC16CF/sources/prop/D96AE72E[m
+	[31mdeleted:    .Rproj.user/5DC16CF/sources/s-D670C5F/94BB51BF[m
+	[31mdeleted:    .Rproj.user/5DC16CF/sources/s-D670C5F/BD6B1BE3[m
+	[31mmodified:   .Rproj.user/5DC16CF/sources/s-D670C5F/BD6B1BE3-contents[m
+	[31mdeleted:    .Rproj.user/5DC16CF/sources/s-D670C5F/C2486AF8[m
+	[31mdeleted:    .Rproj.user/5DC16CF/sources/s-D670C5F/C6F61222[m
+	[31mmodified:   .Rproj.user/5DC16CF/sources/s-D670C5F/C6F61222-contents[m
+	[31mmodified:   .Rproj.user/shared/notebooks/paths[m
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	[31m_bookdown_files/[m
+	[31mdocs/[m
+	[31mpackages.bib[m
+
+no changes added to commit (use "git add" and/or "git commit -a")
+]0;~/Dropbox/STAT 507 X/SLID_bookGuannans-MBP:SLID_book gwang$ git commint[K[Kt -m"Build initi al website"
+On branch master
+Changes not staged for commit:
+	[31mmodified:   .Rproj.user/5DC16CF/console06/4C27D739[m
+	[31mmodified:   .Rproj.user/5DC16CF/console06/INDEX001[m
+	[31mmodified:   .Rproj.user/5DC16CF/sources/prop/44DB9AF1[m
+	[31mmodified:   .Rproj.user/5DC16CF/sources/prop/D96AE72E[m
+	[31mdeleted:    .Rproj.user/5DC16CF/sources/s-D670C5F/94BB51BF[m
+	[31mdeleted:    .Rproj.user/5DC16CF/sources/s-D670C5F/BD6B1BE3[m
+	[31mmodified:   .Rproj.user/5DC16CF/sources/s-D670C5F/BD6B1BE3-contents[m
+	[31mdeleted:    .Rproj.user/5DC16CF/sources/s-D670C5F/C2486AF8[m
+	[31mdeleted:    .Rproj.user/5DC16CF/sources/s-D670C5F/C6F61222[m
+	[31mmodified:   .Rproj.user/5DC16CF/sources/s-D670C5F/C6F61222-contents[m
+	[31mmodified:   .Rproj.user/shared/notebooks/paths[m
+
+Untracked files:
+	[31m_bookdown_files/[m
+	[31mdocs/[m
+	[31mpackages.bib[m
+
+no changes added to commit
+]0;~/Dropbox/STAT 507 X/SLID_bookGuannans-MBP:SLID_book gwang$ git add docs/
+]0;~/Dropbox/STAT 507 X/SLID_bookGuannans-MBP:SLID_book gwang$ git add docs/commit -m"Build initiaal website"
+[master 7df1fbc] Build initial website
+ 29 files changed, 3489 insertions(+)
+ create mode 100644 docs/SLID_book_files/figure-html/nice-fig-1.png
+ create mode 100644 docs/applications.html
+ create mode 100644 docs/final-words.html
+ create mode 100644 docs/index.html
+ create mode 100644 docs/intro.html
+ create mode 100644 docs/libs/gitbook-2.6.7/css/fontawesome/fontawesome-webfont.ttf
+ create mode 100644 docs/libs/gitbook-2.6.7/css/plugin-bookdown.css
+ create mode 100644 docs/libs/gitbook-2.6.7/css/plugin-clipboard.css
+ create mode 100644 docs/libs/gitbook-2.6.7/css/plugin-fontsettings.css
+ create mode 100644 docs/libs/gitbook-2.6.7/css/plugin-highlight.css
+ create mode 100644 docs/libs/gitbook-2.6.7/css/plugin-search.css
+ create mode 100644 docs/libs/gitbook-2.6.7/css/plugin-table.css
+ create mode 100644 docs/libs/gitbook-2.6.7/css/style.css
+ create mode 100644 docs/libs/gitbook-2.6.7/js/app.min.js
+ create mode 100644 docs/libs/gitbook-2.6.7/js/clipboard.min.js
+ create mode 100644 docs/libs/gitbook-2.6.7/js/jquery.highlight.js
+ create mode 100644 docs/libs/gitbook-2.6.7/js/lunr.js
+ create mode 100644 docs/libs/gitbook-2.6.7/js/plugin-bookdown.js
+ create mode 100644 docs/libs/gitbook-2.6.7/js/plugin-clipboard.js
+ create mode 100644 docs/libs/gitbook-2.6.7/js/plugin-fontsettings.js
+ create mode 100644 docs/libs/gitbook-2.6.7/js/plugin-search.js
+ create mode 100644 docs/libs/gitbook-2.6.7/js/plugin-sharing.js
+ create mode 100644 docs/libs/jquery-2.2.3/jquery.min.js
+ create mode 100644 docs/literature.html
+ create mode 100644 docs/methods.html
+ create mode 100644 docs/reference-keys.txt
+ create mode 100644 docs/references.html
+ create mode 100644 docs/search_index.json
+ create mode 100644 docs/style.css
+]0;~/Dropbox/STAT 507 X/SLID_bookGuannans-MBP:SLID_book gwang$ git remote add origin htt ps://github.com/covid19-dashboard-us/SLID_book.git
+]0;~/Dropbox/STAT 507 X/SLID_bookGuannans-MBP:SLID_book gwang$ git branch -M main
+]0;~/Dropbox/STAT 507 X/SLID_bookGuannans-MBP:SLID_book gwang$ git push -u origin main
+Enumerating objects: 79, done.
+Counting objects:   1% (1/79)   Counting objects:   2% (2/79)   Counting objects:   3% (3/79)   Counting objects:   5% (4/79)   Counting objects:   6% (5/79)   Counting objects:   7% (6/79)   Counting objects:   8% (7/79)   Counting objects:  10% (8/79)   Counting objects:  11% (9/79)   Counting objects:  12% (10/79)   Counting objects:  13% (11/79)   Counting objects:  15% (12/79)   Counting objects:  16% (13/79)   Counting objects:  17% (14/79)   Counting objects:  18% (15/79)   Counting objects:  20% (16/79)   Counting objects:  21% (17/79)   Counting objects:  22% (18/79)   Counting objects:  24% (19/79)   Counting objects:  25% (20/79)   Counting objects:  26% (21/79)   Counting objects:  27% (22/79)   Counting objects:  29% (23/79)   Counting objects:  30% (24/79)   Counting objects:  31% (25/79)   Counting objects:  32% (26/79)   Counting objects:  34% (27/79)   Counting objects:  35% (28/79)   Counting objects:  36% (29/79)   Counting objects:  37% (30/79)   Counting objects:  39% (31/79)   Counting objects:  40% (32/79)   Counting objects:  41% (33/79)   Counting objects:  43% (34/79)   Counting objects:  44% (35/79)   Counting objects:  45% (36/79)   Counting objects:  46% (37/79)   Counting objects:  48% (38/79)   Counting objects:  49% (39/79)   Counting objects:  50% (40/79)   Counting objects:  51% (41/79)   Counting objects:  53% (42/79)   Counting objects:  54% (43/79)   Counting objects:  55% (44/79)   Counting objects:  56% (45/79)   Counting objects:  58% (46/79)   Counting objects:  59% (47/79)   Counting objects:  60% (48/79)   Counting objects:  62% (49/79)   Counting objects:  63% (50/79)   Counting objects:  64% (51/79)   Counting objects:  65% (52/79)   Counting objects:  67% (53/79)   Counting objects:  68% (54/79)   Counting objects:  69% (55/79)   Counting objects:  70% (56/79)   Counting objects:  72% (57/79)   Counting objects:  73% (58/79)   Counting objects:  74% (59/79)   Counting objects:  75% (60/79)   Counting objects:  77% (61/79)   Counting objects:  78% (62/79)   Counting objects:  79% (63/79)   Counting objects:  81% (64/79)   Counting objects:  82% (65/79)   Counting objects:  83% (66/79)   Counting objects:  84% (67/79)   Counting objects:  86% (68/79)   Counting objects:  87% (69/79)   Counting objects:  88% (70/79)   Counting objects:  89% (71/79)   Counting objects:  91% (72/79)   Counting objects:  92% (73/79)   Counting objects:  93% (74/79)   Counting objects:  94% (75/79)   Counting objects:  96% (76/79)   Counting objects:  97% (77/79)   Counting objects:  98% (78/79)   Counting objects: 100% (79/79)   Counting objects: 100% (79/79), done.
+Delta compression using up to 8 threads
+Compressing objects:   1% (1/71)   Compressing objects:   2% (2/71)   Compressing objects:   4% (3/71)   Compressing objects:   5% (4/71)   Compressing objects:   7% (5/71)   Compressing objects:   8% (6/71)   Compressing objects:   9% (7/71)   Compressing objects:  11% (8/71)   Compressing objects:  12% (9/71)   Compressing objects:  14% (10/71)   Compressing objects:  15% (11/71)   Compressing objects:  16% (12/71)   Compressing objects:  18% (13/71)   Compressing objects:  19% (14/71)   Compressing objects:  21% (15/71)   Compressing objects:  22% (16/71)   Compressing objects:  23% (17/71)   Compressing objects:  25% (18/71)   Compressing objects:  26% (19/71)   Compressing objects:  28% (20/71)   Compressing objects:  29% (21/71)   Compressing objects:  30% (22/71)   Compressing objects:  32% (23/71)   Compressing objects:  33% (24/71)   Compressing objects:  35% (25/71)   Compressing objects:  36% (26/71)   Compressing objects:  38% (27/71)   Compressing objects:  39% (28/71)   Compressing objects:  40% (29/71)   Compressing objects:  42% (30/71)   Compressing objects:  43% (31/71)   Compressing objects:  45% (32/71)   Compressing objects:  46% (33/71)   Compressing objects:  47% (34/71)   Compressing objects:  49% (35/71)   Compressing objects:  50% (36/71)   Compressing objects:  52% (37/71)   Compressing objects:  53% (38/71)   Compressing objects:  54% (39/71)   Compressing objects:  56% (40/71)   Compressing objects:  57% (41/71)   Compressing objects:  59% (42/71)   Compressing objects:  60% (43/71)   Compressing objects:  61% (44/71)   Compressing objects:  63% (45/71)   Compressing objects:  64% (46/71)   Compressing objects:  66% (47/71)   Compressing objects:  67% (48/71)   Compressing objects:  69% (49/71)   Compressing objects:  70% (50/71)   Compressing objects:  71% (51/71)   Compressing objects:  73% (52/71)   Compressing objects:  74% (53/71)   Compressing objects:  76% (54/71)   Compressing objects:  77% (55/71)   Compressing objects:  78% (56/71)   Compressing objects:  80% (57/71)   Compressing objects:  81% (58/71)   Compressing objects:  83% (59/71)   Compressing objects:  84% (60/71)   Compressing objects:  85% (61/71)   Compressing objects:  87% (62/71)   Compressing objects:  88% (63/71)   Compressing objects:  90% (64/71)   Compressing objects:  91% (65/71)   Compressing objects:  92% (66/71)   Compressing objects:  94% (67/71)   Compressing objects:  95% (68/71)   Compressing objects:  97% (69/71)   Compressing objects:  98% (70/71)   Compressing objects: 100% (71/71)   Compressing objects: 100% (71/71), done.
+Writing objects:   1% (1/79)   Writing objects:   2% (2/79)   Writing objects:   3% (3/79)   Writing objects:   5% (4/79)   Writing objects:   6% (5/79)   Writing objects:   7% (6/79)   Writing objects:   8% (7/79)   Writing objects:  10% (8/79)   Writing objects:  11% (9/79)   Writing objects:  12% (10/79)   Writing objects:  13% (11/79)   Writing objects:  15% (12/79)   Writing objects:  16% (13/79)   Writing objects:  17% (14/79)   Writing objects:  18% (15/79)   Writing objects:  20% (16/79)   Writing objects:  21% (17/79)   Writing objects:  22% (18/79)   Writing objects:  24% (19/79)   Writing objects:  25% (20/79)   Writing objects:  26% (21/79)   Writing objects:  27% (22/79)   Writing objects:  29% (23/79)   Writing objects:  30% (24/79)   Writing objects:  31% (25/79)   Writing objects:  32% (26/79)   Writing objects:  34% (27/79)   Writing objects:  35% (28/79)   Writing objects:  36% (29/79)   Writing objects:  37% (30/79)   Writing objects:  39% (31/79)   Writing objects:  40% (32/79)   Writing objects:  41% (33/79)   Writing objects:  43% (34/79)   Writing objects:  44% (35/79)   Writing objects:  45% (36/79)   Writing objects:  46% (37/79)   Writing objects:  48% (38/79)   Writing objects:  49% (39/79)   Writing objects:  50% (40/79)   Writing objects:  51% (41/79)   Writing objects:  53% (42/79)   Writing objects:  55% (44/79)   Writing objects:  56% (45/79)   Writing objects:  58% (46/79)   Writing objects:  59% (47/79)   Writing objects:  60% (48/79)   Writing objects:  62% (49/79)   Writing objects:  63% (50/79)   Writing objects:  64% (51/79)   Writing objects:  65% (52/79)   Writing objects:  67% (53/79)   Writing objects:  68% (54/79)   Writing objects:  69% (55/79)   Writing objects:  70% (56/79)   Writing objects:  72% (57/79)   Writing objects:  73% (58/79)   Writing objects:  74% (59/79)   Writing objects:  75% (60/79)   Writing objects:  77% (61/79)   Writing objects:  78% (62/79)   Writing objects:  79% (63/79)   Writing objects:  81% (64/79)   Writing objects:  82% (65/79)   Writing objects:  83% (66/79)   Writing objects:  84% (67/79)   Writing objects:  86% (68/79)   Writing objects:  87% (69/79)   Writing objects:  88% (70/79)   Writing objects:  89% (71/79)   Writing objects:  91% (72/79)   Writing objects:  92% (73/79)   Writing objects:  93% (74/79)   Writing objects:  94% (75/79)   Writing objects:  96% (76/79)   Writing objects:  97% (77/79)   Writing objects:  98% (78/79)   Writing objects: 100% (79/79)   Writing objects: 100% (79/79), 258.29 KiB | 2.13 MiB/s, done.
+Total 79 (delta 11), reused 0 (delta 0)
+remote: Resolving deltas:   0% (0/11)[Kremote: Resolving deltas:   9% (1/11)[Kremote: Resolving deltas:  18% (2/11)[Kremote: Resolving deltas:  27% (3/11)[Kremote: Resolving deltas:  36% (4/11)[Kremote: Resolving deltas:  45% (5/11)[Kremote: Resolving deltas:  54% (6/11)[Kremote: Resolving deltas:  63% (7/11)[Kremote: Resolving deltas:  72% (8/11)[Kremote: Resolving deltas:  81% (9/11)[Kremote: Resolving deltas:  90% (10/11)[Kremote: Resolving deltas: 100% (11/11)[Kremote: Resolving deltas: 100% (11/11), done.[K
+To https://github.com/covid19-dashboard-us/SLID_book.git
+ * [new branch]      main -> main
+Branch 'main' set up to track remote branch 'main' from 'origin'.
+]0;~/Dropbox/STAT 507 X/SLID_bookGuannans-MBP:SLID_book gwang$ install.packages('bookdow n')[K[K[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K
+The default interactive shell is now zsh.
+To update your account to use zsh, please run `chsh -s /bin/zsh`.
+For more details, please visit https://support.apple.com/kb/HT208050.
+
+The default interactive shell is now zsh.
+To update your account to use zsh, please run `chsh -s /bin/zsh`.
+For more details, please visit https://support.apple.com/kb/HT208050.
+
+The default interactive shell is now zsh.
+To update your account to use zsh, please run `chsh -s /bin/zsh`.
+For more details, please visit https://support.apple.com/kb/HT208050.
+]0;~/Dropbox/STAT 507 X/SLID_book[?1034hGuannans-MBP:SLID_book gwang$ 

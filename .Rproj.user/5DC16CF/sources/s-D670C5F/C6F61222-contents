@@ -1,5 +1,0 @@
-book_filename: "SLID_book"
-delete_merged_file: true
-language:
-  ui:
-    chapter_name: "Chapter "
