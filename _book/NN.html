@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 11 Neural Networks | Statistical Learning of Infectious Disease Data Analytics</title>
+  <meta name="description" content="The use of statistical models to understand infectious disease dynamics has a very rich history in epidemiology. This book introduces modern statistical models and state-of-the-art learning methods to analyze infectious disease data. Many of the key approaches, examples and case studies will be presented. The primary emphasis will be interpretation, inference and hands-on data analyses. This course also provides practical concepts and R computing skills to perform infectious disease data analysis and visualization." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 11 Neural Networks | Statistical Learning of Infectious Disease Data Analytics" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="The use of statistical models to understand infectious disease dynamics has a very rich history in epidemiology. This book introduces modern statistical models and state-of-the-art learning methods to analyze infectious disease data. Many of the key approaches, examples and case studies will be presented. The primary emphasis will be interpretation, inference and hands-on data analyses. This course also provides practical concepts and R computing skills to perform infectious disease data analysis and visualization." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 11 Neural Networks | Statistical Learning of Infectious Disease Data Analytics" />
+  
+  <meta name="twitter:description" content="The use of statistical models to understand infectious disease dynamics has a very rich history in epidemiology. This book introduces modern statistical models and state-of-the-art learning methods to analyze infectious disease data. Many of the key approaches, examples and case studies will be presented. The primary emphasis will be interpretation, inference and hands-on data analyses. This course also provides practical concepts and R computing skills to perform infectious disease data analysis and visualization." />
+  
+
+<meta name="author" content="Lily Wang" />
+
+
+<meta name="date" content="2021-02-08" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="timeseries.html"/>
+<link rel="next" href="ensemble.html"/>
+<script src="libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.9.3.9000/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#data-sets-used-in-labs-and-exercises"><i class="fa fa-check"></i><b>1.1</b> Data Sets Used in Labs and Exercises</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.2</b> Acknowledgements</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#about-the-author"><i class="fa fa-check"></i><b>1.3</b> About the Author</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a><ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#aims-and-scope-of-this-book"><i class="fa fa-check"></i><b>2.1</b> Aims and Scope of This Book</a></li>
+<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#the-structure-of-this-book"><i class="fa fa-check"></i><b>2.2</b> The Structure of This Book</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="intro.html"><a href="intro.html#infectious-disease-data"><i class="fa fa-check"></i><b>2.2.1</b> Infectious disease data</a></li>
+<li class="chapter" data-level="2.2.2" data-path="intro.html"><a href="intro.html#basic-characteristics-of-the-infection-process"><i class="fa fa-check"></i><b>2.2.2</b> Basic characteristics of the infection process</a></li>
+<li class="chapter" data-level="2.2.3" data-path="intro.html"><a href="intro.html#data-visualization"><i class="fa fa-check"></i><b>2.2.3</b> Data visualization</a></li>
+<li class="chapter" data-level="2.2.4" data-path="intro.html"><a href="intro.html#modeling-and-forecasting"><i class="fa fa-check"></i><b>2.2.4</b> Modeling and Forecasting</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>3</b> Data Wrangling with <code>dplyr</code> and <code>tidyr</code></a><ul>
+<li class="chapter" data-level="3.1" data-path="dplyr.html"><a href="dplyr.html#learning-dplyr"><i class="fa fa-check"></i><b>3.1</b> Learning <code>dplyr</code></a><ul>
+<li class="chapter" data-level="3.1.1" data-path="dplyr.html"><a href="dplyr.html#tibbles"><i class="fa fa-check"></i><b>3.1.1</b> Tibbles</a></li>
+<li class="chapter" data-level="3.1.2" data-path="dplyr.html"><a href="dplyr.html#import-data"><i class="fa fa-check"></i><b>3.1.2</b> Import data</a></li>
+<li class="chapter" data-level="3.1.3" data-path="dplyr.html"><a href="dplyr.html#common-dplyr-functions"><i class="fa fa-check"></i><b>3.1.3</b> Common <code>dplyr</code> functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="dplyr.html"><a href="dplyr.html#selecting-columns-and-filtering-rows"><i class="fa fa-check"></i><b>3.2</b> Selecting Columns and Filtering Rows</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="dplyr.html"><a href="dplyr.html#subset-variables-columns"><i class="fa fa-check"></i><b>3.2.1</b> Subset Variables (Columns)</a></li>
+<li class="chapter" data-level="3.2.2" data-path="dplyr.html"><a href="dplyr.html#subset-observations-rows"><i class="fa fa-check"></i><b>3.2.2</b> Subset Observations (Rows)</a></li>
+<li class="chapter" data-level="3.2.3" data-path="dplyr.html"><a href="dplyr.html#pipes"><i class="fa fa-check"></i><b>3.2.3</b> Pipes</a></li>
+<li class="chapter" data-level="3.2.4" data-path="dplyr.html"><a href="dplyr.html#select-and-order-top-n-entries-by-group-if-grouped-data."><i class="fa fa-check"></i><b>3.2.4</b> Select and order top n entries (by group if grouped data).</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="dplyr.html"><a href="dplyr.html#make-new-variables-mutate"><i class="fa fa-check"></i><b>3.3</b> Make New Variables: Mutate</a></li>
+<li class="chapter" data-level="3.4" data-path="dplyr.html"><a href="dplyr.html#summarize-data"><i class="fa fa-check"></i><b>3.4</b> Summarize Data</a></li>
+<li class="chapter" data-level="3.5" data-path="dplyr.html"><a href="dplyr.html#combine-data-sets"><i class="fa fa-check"></i><b>3.5</b> Combine Data Sets</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="dplyr.html"><a href="dplyr.html#the-join-family"><i class="fa fa-check"></i><b>3.5.1</b> The join family</a></li>
+<li class="chapter" data-level="3.5.2" data-path="dplyr.html"><a href="dplyr.html#toy-examples-with-joins"><i class="fa fa-check"></i><b>3.5.2</b> Toy examples with joins</a></li>
+<li class="chapter" data-level="3.5.3" data-path="dplyr.html"><a href="dplyr.html#practice-with-joins-for-real-data"><i class="fa fa-check"></i><b>3.5.3</b> Practice with joins for real data</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="dplyr.html"><a href="dplyr.html#reshaping-data"><i class="fa fa-check"></i><b>3.6</b> Reshaping Data</a><ul>
+<li class="chapter" data-level="3.6.1" data-path="dplyr.html"><a href="dplyr.html#from-wide-to-long"><i class="fa fa-check"></i><b>3.6.1</b> From wide to long</a></li>
+<li class="chapter" data-level="3.6.2" data-path="dplyr.html"><a href="dplyr.html#from-long-to-wide"><i class="fa fa-check"></i><b>3.6.2</b> From long to wide</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="dplyr.html"><a href="dplyr.html#exercises"><i class="fa fa-check"></i><b>3.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>4</b> Data Visualization with ggplot2</a><ul>
+<li class="chapter" data-level="4.1" data-path="ggplot2.html"><a href="ggplot2.html#introduction"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="ggplot2.html"><a href="ggplot2.html#types-of-variables-and-preparation"><i class="fa fa-check"></i><b>4.2</b> Types of Variables and Preparation</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="ggplot2.html"><a href="ggplot2.html#types-of-variables"><i class="fa fa-check"></i><b>4.2.1</b> Types of Variables</a></li>
+<li class="chapter" data-level="4.2.2" data-path="ggplot2.html"><a href="ggplot2.html#rules-for-graph-designing"><i class="fa fa-check"></i><b>4.2.2</b> Rules for Graph Designing</a></li>
+<li class="chapter" data-level="4.2.3" data-path="ggplot2.html"><a href="ggplot2.html#installing-packages-and-loading-data"><i class="fa fa-check"></i><b>4.2.3</b> Installing packages and loading data</a></li>
+<li class="chapter" data-level="4.2.4" data-path="ggplot2.html"><a href="ggplot2.html#your-first-scatterplot"><i class="fa fa-check"></i><b>4.2.4</b> Your first scatterplot</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="ggplot2.html"><a href="ggplot2.html#position-scales-and-axes"><i class="fa fa-check"></i><b>4.3</b> Position Scales and Axes</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="ggplot2.html"><a href="ggplot2.html#change-the-labels-of-the-axis-using-xlab-and-ylab"><i class="fa fa-check"></i><b>4.3.1</b> Change the labels of the axis using <code>xlab()</code> and <code>ylab()</code></a></li>
+<li class="chapter" data-level="4.3.2" data-path="ggplot2.html"><a href="ggplot2.html#change-the-range-of-the-axis-using-xlim-and-ylim"><i class="fa fa-check"></i><b>4.3.2</b> Change the range of the axis using <code>xlim()</code> and <code>ylim()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="ggplot2.html"><a href="ggplot2.html#color-scales-and-size-of-geom_points"><i class="fa fa-check"></i><b>4.4</b> Color Scales and Size of <code>geom_points()</code></a><ul>
+<li class="chapter" data-level="4.4.1" data-path="ggplot2.html"><a href="ggplot2.html#change-the-color-of-all-points"><i class="fa fa-check"></i><b>4.4.1</b> Change the color of all points</a></li>
+<li class="chapter" data-level="4.4.2" data-path="ggplot2.html"><a href="ggplot2.html#color-the-observations-by-the-value-of-a-feature"><i class="fa fa-check"></i><b>4.4.2</b> Color the observations by the value of a feature</a></li>
+<li class="chapter" data-level="4.4.3" data-path="ggplot2.html"><a href="ggplot2.html#change-the-color-palette"><i class="fa fa-check"></i><b>4.4.3</b> Change the color palette</a></li>
+<li class="chapter" data-level="4.4.4" data-path="ggplot2.html"><a href="ggplot2.html#change-the-size-by-the-value-of-a-feature"><i class="fa fa-check"></i><b>4.4.4</b> Change the size by the value of a feature</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="ggplot2.html"><a href="ggplot2.html#individual-geoms"><i class="fa fa-check"></i><b>4.5</b> Individual geoms</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="ggplot2.html"><a href="ggplot2.html#histogram"><i class="fa fa-check"></i><b>4.5.1</b> Histogram</a></li>
+<li class="chapter" data-level="4.5.2" data-path="ggplot2.html"><a href="ggplot2.html#bar-chart"><i class="fa fa-check"></i><b>4.5.2</b> Bar chart</a></li>
+<li class="chapter" data-level="4.5.3" data-path="ggplot2.html"><a href="ggplot2.html#default-bar-chart"><i class="fa fa-check"></i><b>4.5.3</b> Default bar chart</a></li>
+<li class="chapter" data-level="4.5.4" data-path="ggplot2.html"><a href="ggplot2.html#bar-chart-with-assigned-value"><i class="fa fa-check"></i><b>4.5.4</b> Bar chart with assigned value</a></li>
+<li class="chapter" data-level="4.5.5" data-path="ggplot2.html"><a href="ggplot2.html#legend"><i class="fa fa-check"></i><b>4.5.5</b> Legend</a></li>
+<li class="chapter" data-level="4.5.6" data-path="ggplot2.html"><a href="ggplot2.html#boxplots-jittering-and-violin-plots"><i class="fa fa-check"></i><b>4.5.6</b> Boxplots, jittering and violin plots</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="ggplot2.html"><a href="ggplot2.html#collective-geoms"><i class="fa fa-check"></i><b>4.6</b> Collective geoms</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="ggplot2.html"><a href="ggplot2.html#smoother"><i class="fa fa-check"></i><b>4.6.1</b> Smoother</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="ggplot2.html"><a href="ggplot2.html#time-series"><i class="fa fa-check"></i><b>4.7</b> Time Series</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="ggplot2.html"><a href="ggplot2.html#basic-line-plots"><i class="fa fa-check"></i><b>4.7.1</b> Basic line plots</a></li>
+<li class="chapter" data-level="4.7.2" data-path="ggplot2.html"><a href="ggplot2.html#add-a-second-line"><i class="fa fa-check"></i><b>4.7.2</b> Add a second line</a></li>
+<li class="chapter" data-level="4.7.3" data-path="ggplot2.html"><a href="ggplot2.html#add-ribbons"><i class="fa fa-check"></i><b>4.7.3</b> Add ribbons</a></li>
+<li class="chapter" data-level="4.7.4" data-path="ggplot2.html"><a href="ggplot2.html#adjust-the-scale-of-time-axis"><i class="fa fa-check"></i><b>4.7.4</b> Adjust the scale of time axis</a></li>
+<li class="chapter" data-level="4.7.5" data-path="ggplot2.html"><a href="ggplot2.html#add-annotations"><i class="fa fa-check"></i><b>4.7.5</b> Add annotations</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="ggplot2.html"><a href="ggplot2.html#maps"><i class="fa fa-check"></i><b>4.8</b> Maps</a><ul>
+<li class="chapter" data-level="4.8.1" data-path="ggplot2.html"><a href="ggplot2.html#making-a-base-map"><i class="fa fa-check"></i><b>4.8.1</b> Making a base map</a></li>
+<li class="chapter" data-level="4.8.2" data-path="ggplot2.html"><a href="ggplot2.html#customizing-choropleth-map"><i class="fa fa-check"></i><b>4.8.2</b> Customizing <code>choropleth</code> map</a></li>
+<li class="chapter" data-level="4.8.3" data-path="ggplot2.html"><a href="ggplot2.html#overlay-polygon-maps"><i class="fa fa-check"></i><b>4.8.3</b> Overlay polygon maps</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="ggplot2.html"><a href="ggplot2.html#arranging-plots"><i class="fa fa-check"></i><b>4.9</b> Arranging Plots</a><ul>
+<li class="chapter" data-level="4.9.1" data-path="ggplot2.html"><a href="ggplot2.html#facet"><i class="fa fa-check"></i><b>4.9.1</b> Facet</a></li>
+<li class="chapter" data-level="4.9.2" data-path="ggplot2.html"><a href="ggplot2.html#combining-plots-using-patchwork-package"><i class="fa fa-check"></i><b>4.9.2</b> Combining plots using <code>patchwork</code> package</a></li>
+</ul></li>
+<li class="chapter" data-level="4.10" data-path="ggplot2.html"><a href="ggplot2.html#output"><i class="fa fa-check"></i><b>4.10</b> Output</a><ul>
+<li class="chapter" data-level="4.10.1" data-path="ggplot2.html"><a href="ggplot2.html#save-in-figure-format"><i class="fa fa-check"></i><b>4.10.1</b> Save in figure format</a></li>
+<li class="chapter" data-level="4.10.2" data-path="ggplot2.html"><a href="ggplot2.html#save-in-rds-format"><i class="fa fa-check"></i><b>4.10.2</b> Save in RDS format</a></li>
+</ul></li>
+<li class="chapter" data-level="4.11" data-path="ggplot2.html"><a href="ggplot2.html#exercises-1"><i class="fa fa-check"></i><b>4.11</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="plotly.html"><a href="plotly.html"><i class="fa fa-check"></i><b>5</b> Interactive Visualization</a><ul>
+<li class="chapter" data-level="5.1" data-path="plotly.html"><a href="plotly.html#an-introduction"><i class="fa fa-check"></i><b>5.1</b> An Introduction</a></li>
+<li class="chapter" data-level="5.2" data-path="plotly.html"><a href="plotly.html#creating-plotly-objects"><i class="fa fa-check"></i><b>5.2</b> Creating Plotly Objects</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="plotly.html"><a href="plotly.html#using-plot_ly-to-create-a-plotly-object"><i class="fa fa-check"></i><b>5.2.1</b> Using <code>plot_ly()</code> to create a plotly object</a></li>
+<li class="chapter" data-level="5.2.2" data-path="plotly.html"><a href="plotly.html#use-dplyr-verbs-to-modify-data"><i class="fa fa-check"></i><b>5.2.2</b> Use <code>dplyr</code> verbs to modify data</a></li>
+<li class="chapter" data-level="5.2.3" data-path="plotly.html"><a href="plotly.html#using-ggplotly-to-create-a-plotly-object"><i class="fa fa-check"></i><b>5.2.3</b> Using <code>ggplotly()</code> to create a <code>plotly</code> object</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="plotly.html"><a href="plotly.html#scatterplots-and-line-plots"><i class="fa fa-check"></i><b>5.3</b> Scatterplots and Line Plots</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="plotly.html"><a href="plotly.html#make-a-scatterplot"><i class="fa fa-check"></i><b>5.3.1</b> Make a scatterplot</a></li>
+<li class="chapter" data-level="5.3.2" data-path="plotly.html"><a href="plotly.html#markers"><i class="fa fa-check"></i><b>5.3.2</b> Markers</a></li>
+<li class="chapter" data-level="5.3.3" data-path="plotly.html"><a href="plotly.html#a-single-time-series-plot"><i class="fa fa-check"></i><b>5.3.3</b> A single time series plot</a></li>
+<li class="chapter" data-level="5.3.4" data-path="plotly.html"><a href="plotly.html#hover-text-and-template"><i class="fa fa-check"></i><b>5.3.4</b> Hover text and template</a></li>
+<li class="chapter" data-level="5.3.5" data-path="plotly.html"><a href="plotly.html#multiple-time-series-plots"><i class="fa fa-check"></i><b>5.3.5</b> Multiple time series plots</a></li>
+<li class="chapter" data-level="5.3.6" data-path="plotly.html"><a href="plotly.html#more-features-about-the-lines"><i class="fa fa-check"></i><b>5.3.6</b> More features about the lines</a></li>
+<li class="chapter" data-level="5.3.7" data-path="plotly.html"><a href="plotly.html#add-ribbons-1"><i class="fa fa-check"></i><b>5.3.7</b> Add ribbons</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="plotly.html"><a href="plotly.html#pie-charts"><i class="fa fa-check"></i><b>5.4</b> Pie Charts</a></li>
+<li class="chapter" data-level="5.5" data-path="plotly.html"><a href="plotly.html#animation"><i class="fa fa-check"></i><b>5.5</b> Animation</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="plotly.html"><a href="plotly.html#an-animation-of-the-evolution-of-infected-vs.-death-count"><i class="fa fa-check"></i><b>5.5.1</b> An animation of the evolution of infected vs. death count</a></li>
+<li class="chapter" data-level="5.5.2" data-path="plotly.html"><a href="plotly.html#an-animation-of-the-state-level-time-series-plot-of-infected-count"><i class="fa fa-check"></i><b>5.5.2</b> An animation of the state-level time series plot of infected count</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="plotly.html"><a href="plotly.html#saving-html"><i class="fa fa-check"></i><b>5.6</b> Saving HTML</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="plotly.html"><a href="plotly.html#save-as-a-standalone-html-file"><i class="fa fa-check"></i><b>5.6.1</b> Save as a standalone HTML file</a></li>
+<li class="chapter" data-level="5.6.2" data-path="plotly.html"><a href="plotly.html#save-as-non-selfcontained-html-file"><i class="fa fa-check"></i><b>5.6.2</b> Save as non-selfcontained HTML file</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="plotly.html"><a href="plotly.html#exercises-2"><i class="fa fa-check"></i><b>5.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="shiny.html"><a href="shiny.html"><i class="fa fa-check"></i><b>6</b> R Shiny</a><ul>
+<li class="chapter" data-level="6.1" data-path="shiny.html"><a href="shiny.html#embedding-plotly-in-shiny"><i class="fa fa-check"></i><b>6.1</b> Embedding plotly in Shiny</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="shiny.html"><a href="shiny.html#your-first-shiny-app"><i class="fa fa-check"></i><b>6.1.1</b> Your first shiny app</a></li>
+<li class="chapter" data-level="6.1.2" data-path="shiny.html"><a href="shiny.html#useful-input-widgets"><i class="fa fa-check"></i><b>6.1.2</b> Useful input widgets</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="shiny.html"><a href="shiny.html#rendering-plotly-inside-shiny"><i class="fa fa-check"></i><b>6.2</b> Rendering plotly Inside Shiny</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="map.html"><a href="map.html"><i class="fa fa-check"></i><b>7</b> Interactive Geospatial Visualization</a><ul>
+<li class="chapter" data-level="7.1" data-path="map.html"><a href="map.html#an-introduction-to-leaflet"><i class="fa fa-check"></i><b>7.1</b> An Introduction to Leaflet</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="map.html"><a href="map.html#features-and-installation"><i class="fa fa-check"></i><b>7.1.1</b> Features and installation</a></li>
+<li class="chapter" data-level="7.1.2" data-path="map.html"><a href="map.html#basic-usage"><i class="fa fa-check"></i><b>7.1.2</b> Basic Usage</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="map.html"><a href="map.html#the-data-object"><i class="fa fa-check"></i><b>7.2</b> The Data Object</a></li>
+<li class="chapter" data-level="7.3" data-path="map.html"><a href="map.html#choropleth-map"><i class="fa fa-check"></i><b>7.3</b> Choropleth map</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="map.html"><a href="map.html#create-a-base-map"><i class="fa fa-check"></i><b>7.3.1</b> Create a base map</a></li>
+<li class="chapter" data-level="7.3.2" data-path="map.html"><a href="map.html#color-the-map"><i class="fa fa-check"></i><b>7.3.2</b> Color the map</a></li>
+<li class="chapter" data-level="7.3.3" data-path="map.html"><a href="map.html#interactive-map"><i class="fa fa-check"></i><b>7.3.3</b> Interactive map</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="map.html"><a href="map.html#legend-1"><i class="fa fa-check"></i><b>7.4</b> Legend</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="map.html"><a href="map.html#classification-schemes"><i class="fa fa-check"></i><b>7.4.1</b> Classification schemes</a></li>
+<li class="chapter" data-level="7.4.2" data-path="map.html"><a href="map.html#mapping-variables-to-colors"><i class="fa fa-check"></i><b>7.4.2</b> Mapping variables to colors</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="map.html"><a href="map.html#an-example-of-county-level-map"><i class="fa fa-check"></i><b>7.5</b> An Example of County-level Map</a></li>
+<li class="chapter" data-level="7.6" data-path="map.html"><a href="map.html#spot-maps"><i class="fa fa-check"></i><b>7.6</b> Spot Maps</a></li>
+<li class="chapter" data-level="7.7" data-path="map.html"><a href="map.html#integrating-leaflet-with-r-shiny"><i class="fa fa-check"></i><b>7.7</b> Integrating Leaflet with R Shiny</a></li>
+<li class="chapter" data-level="7.8" data-path="map.html"><a href="map.html#exercises-3"><i class="fa fa-check"></i><b>7.8</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="modeling.html"><a href="modeling.html"><i class="fa fa-check"></i><b>8</b> Epidemic Modeling</a><ul>
+<li class="chapter" data-level="8.1" data-path="modeling.html"><a href="modeling.html#an-introduction-to-epidemic-modeling"><i class="fa fa-check"></i><b>8.1</b> An Introduction to Epidemic Modeling</a></li>
+<li class="chapter" data-level="8.2" data-path="modeling.html"><a href="modeling.html#compartment-models"><i class="fa fa-check"></i><b>8.2</b> Compartment Models</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="modeling.html"><a href="modeling.html#a-simple-sis-model-a-model-for-diseases-with-no-immunity"><i class="fa fa-check"></i><b>8.2.1</b> A Simple SIS Model (A Model for Diseases with No Immunity)</a></li>
+<li class="chapter" data-level="8.2.2" data-path="modeling.html"><a href="modeling.html#an-sir-model"><i class="fa fa-check"></i><b>8.2.2</b> An SIR Model</a></li>
+<li class="chapter" data-level="8.2.3" data-path="modeling.html"><a href="modeling.html#an-sir-model-with-births-and-deaths"><i class="fa fa-check"></i><b>8.2.3</b> An SIR model with births and deaths</a></li>
+<li class="chapter" data-level="8.2.4" data-path="modeling.html"><a href="modeling.html#sir-parameter-estimation"><i class="fa fa-check"></i><b>8.2.4</b> SIR parameter estimation</a></li>
+<li class="chapter" data-level="8.2.5" data-path="modeling.html"><a href="modeling.html#implementation-of-parameter-estimation-in-r"><i class="fa fa-check"></i><b>8.2.5</b> Implementation of parameter estimation in R</a></li>
+<li class="chapter" data-level="8.2.6" data-path="modeling.html"><a href="modeling.html#basic-reproduction-number"><i class="fa fa-check"></i><b>8.2.6</b> Basic Reproduction Number</a></li>
+<li class="chapter" data-level="8.2.7" data-path="modeling.html"><a href="modeling.html#seir-model"><i class="fa fa-check"></i><b>8.2.7</b> SEIR Model</a></li>
+<li class="chapter" data-level="8.2.8" data-path="modeling.html"><a href="modeling.html#herd-immunity"><i class="fa fa-check"></i><b>8.2.8</b> Herd Immunity</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>9</b> Regression Modeling</a><ul>
+<li class="chapter" data-level="9.1" data-path="regression.html"><a href="regression.html#principles-of-regression-modeling"><i class="fa fa-check"></i><b>9.1</b> Principles of Regression Modeling</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="regression.html"><a href="regression.html#linear-regression"><i class="fa fa-check"></i><b>9.1.1</b> Linear regression</a></li>
+<li class="chapter" data-level="9.1.2" data-path="regression.html"><a href="regression.html#poisson-regression"><i class="fa fa-check"></i><b>9.1.2</b> Poisson regression</a></li>
+<li class="chapter" data-level="9.1.3" data-path="regression.html"><a href="regression.html#logistic-regression"><i class="fa fa-check"></i><b>9.1.3</b> Logistic regression</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="regression.html"><a href="regression.html#area-level-data"><i class="fa fa-check"></i><b>9.2</b> Area-level Data</a></li>
+<li class="chapter" data-level="9.3" data-path="regression.html"><a href="regression.html#variable-selection"><i class="fa fa-check"></i><b>9.3</b> Variable Selection</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="timeseries.html"><a href="timeseries.html"><i class="fa fa-check"></i><b>10</b> Time Series Analysis of Infectious Disease Data</a><ul>
+<li class="chapter" data-level="10.1" data-path="timeseries.html"><a href="timeseries.html#datasets-and-r-packages"><i class="fa fa-check"></i><b>10.1</b> Datasets and R Packages</a></li>
+<li class="chapter" data-level="10.2" data-path="timeseries.html"><a href="timeseries.html#time-series-plots"><i class="fa fa-check"></i><b>10.2</b> Time series plots</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="timeseries.html"><a href="timeseries.html#tsibble-objects"><i class="fa fa-check"></i><b>10.2.1</b> “tsibble” objects</a></li>
+<li class="chapter" data-level="10.2.2" data-path="timeseries.html"><a href="timeseries.html#working-with-tsibble-objects"><i class="fa fa-check"></i><b>10.2.2</b> Working with “tsibble” objects</a></li>
+<li class="chapter" data-level="10.2.3" data-path="timeseries.html"><a href="timeseries.html#drawing-time-series-plots"><i class="fa fa-check"></i><b>10.2.3</b> Drawing time series plots</a></li>
+<li class="chapter" data-level="10.2.4" data-path="timeseries.html"><a href="timeseries.html#objectives-of-time-series-analysis"><i class="fa fa-check"></i><b>10.2.4</b> Objectives of Time Series Analysis</a></li>
+<li class="chapter" data-level="10.2.5" data-path="timeseries.html"><a href="timeseries.html#autocorrelation"><i class="fa fa-check"></i><b>10.2.5</b> Autocorrelation</a></li>
+<li class="chapter" data-level="10.2.6" data-path="timeseries.html"><a href="timeseries.html#autocorrelation-1"><i class="fa fa-check"></i><b>10.2.6</b> Autocorrelation</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="timeseries.html"><a href="timeseries.html#time-series-decomposition"><i class="fa fa-check"></i><b>10.3</b> Time Series Decomposition</a></li>
+<li class="chapter" data-level="10.4" data-path="timeseries.html"><a href="timeseries.html#simple-time-series-forecasting-approaches"><i class="fa fa-check"></i><b>10.4</b> Simple Time Series Forecasting Approaches</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="timeseries.html"><a href="timeseries.html#average-method"><i class="fa fa-check"></i><b>10.4.1</b> Average method</a></li>
+<li class="chapter" data-level="10.4.2" data-path="timeseries.html"><a href="timeseries.html#random-walk-forecasts"><i class="fa fa-check"></i><b>10.4.2</b> Random walk forecasts</a></li>
+<li class="chapter" data-level="10.4.3" data-path="timeseries.html"><a href="timeseries.html#seasonal-random-walk-forecasts"><i class="fa fa-check"></i><b>10.4.3</b> Seasonal random walk forecasts</a></li>
+<li class="chapter" data-level="10.4.4" data-path="timeseries.html"><a href="timeseries.html#random-walk-with-drift-method"><i class="fa fa-check"></i><b>10.4.4</b> Random walk with drift method</a></li>
+<li class="chapter" data-level="10.4.5" data-path="timeseries.html"><a href="timeseries.html#combining-the-forecasting-results"><i class="fa fa-check"></i><b>10.4.5</b> Combining the forecasting results</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="timeseries.html"><a href="timeseries.html#methods-for-estimating-the-trend"><i class="fa fa-check"></i><b>10.5</b> Methods for Estimating the Trend</a></li>
+<li class="chapter" data-level="10.6" data-path="timeseries.html"><a href="timeseries.html#arma-models"><i class="fa fa-check"></i><b>10.6</b> ARMA Models</a><ul>
+<li class="chapter" data-level="10.6.1" data-path="timeseries.html"><a href="timeseries.html#simple-examples-of-arma-models"><i class="fa fa-check"></i><b>10.6.1</b> Simple Examples of ARMA Models</a></li>
+<li class="chapter" data-level="10.6.2" data-path="timeseries.html"><a href="timeseries.html#arima"><i class="fa fa-check"></i><b>10.6.2</b> ARIMA</a></li>
+<li class="chapter" data-level="10.6.3" data-path="timeseries.html"><a href="timeseries.html#seasonal-arima-model"><i class="fa fa-check"></i><b>10.6.3</b> Seasonal ARIMA model</a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="timeseries.html"><a href="timeseries.html#model-comparison"><i class="fa fa-check"></i><b>10.7</b> Model Comparison</a></li>
+<li class="chapter" data-level="10.8" data-path="timeseries.html"><a href="timeseries.html#ensuring-forecasts-stay-within-limits"><i class="fa fa-check"></i><b>10.8</b> Ensuring forecasts stay within limits</a><ul>
+<li class="chapter" data-level="10.8.1" data-path="timeseries.html"><a href="timeseries.html#positive-forecasts"><i class="fa fa-check"></i><b>10.8.1</b> Positive forecasts</a></li>
+<li class="chapter" data-level="10.8.2" data-path="timeseries.html"><a href="timeseries.html#forecasts-constrained-to-an-interval"><i class="fa fa-check"></i><b>10.8.2</b> Forecasts constrained to an interval</a></li>
+</ul></li>
+<li class="chapter" data-level="10.9" data-path="timeseries.html"><a href="timeseries.html#prediction-intervals-for-aggregates"><i class="fa fa-check"></i><b>10.9</b> Prediction intervals for aggregates</a></li>
+<li class="chapter" data-level="10.10" data-path="timeseries.html"><a href="timeseries.html#exercises-4"><i class="fa fa-check"></i><b>10.10</b> Exercises</a></li>
+<li class="chapter" data-level="10.11" data-path="timeseries.html"><a href="timeseries.html#references"><i class="fa fa-check"></i><b>10.11</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="NN.html"><a href="NN.html"><i class="fa fa-check"></i><b>11</b> Neural Networks</a><ul>
+<li class="chapter" data-level="11.1" data-path="NN.html"><a href="NN.html#a-single-neuron"><i class="fa fa-check"></i><b>11.1</b> A Single Neuron</a></li>
+<li class="chapter" data-level="11.2" data-path="NN.html"><a href="NN.html#neural-network-structure"><i class="fa fa-check"></i><b>11.2</b> Neural Network Structure</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="NN.html"><a href="NN.html#forward-propagation"><i class="fa fa-check"></i><b>11.2.1</b> Forward propagation</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="NN.html"><a href="NN.html#overfitting"><i class="fa fa-check"></i><b>11.3</b> Overfitting</a></li>
+<li class="chapter" data-level="11.4" data-path="NN.html"><a href="NN.html#neural-network-auto-regressive-nnar-models"><i class="fa fa-check"></i><b>11.4</b> Neural Network Auto-Regressive (NNAR) models</a></li>
+<li class="chapter" data-level="11.5" data-path="NN.html"><a href="NN.html#covid-19-forecasting"><i class="fa fa-check"></i><b>11.5</b> COVID-19 Forecasting</a></li>
+<li class="chapter" data-level="11.6" data-path="NN.html"><a href="NN.html#box-cox-transformations"><i class="fa fa-check"></i><b>11.6</b> Box-Cox transformations</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="ensemble.html"><a href="ensemble.html"><i class="fa fa-check"></i><b>12</b> Hybrid Mdels</a><ul>
+<li class="chapter" data-level="12.1" data-path="ensemble.html"><a href="ensemble.html#ensembling-time-series-models"><i class="fa fa-check"></i><b>12.1</b> Ensembling Time Series Models</a></li>
+<li class="chapter" data-level="12.2" data-path="ensemble.html"><a href="ensemble.html#model-diagnostics"><i class="fa fa-check"></i><b>12.2</b> Model Diagnostics</a></li>
+<li class="chapter" data-level="12.3" data-path="ensemble.html"><a href="ensemble.html#forecasting"><i class="fa fa-check"></i><b>12.3</b> Forecasting</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="ensemble.html"><a href="ensemble.html#perform-cross-validation-on-a-time-series"><i class="fa fa-check"></i><b>12.3.1</b> Perform cross validation on a time series</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="ensemble.html"><a href="ensemble.html#weights-selection-using-cross-validation"><i class="fa fa-check"></i><b>12.4</b> Weights Selection Using Cross Validation</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i>Appendix</a></li>
+<li class="chapter" data-level="13" data-path="appendix-a.html"><a href="appendix-a.html"><i class="fa fa-check"></i><b>13</b> Appendix A</a><ul>
+<li class="chapter" data-level="13.1" data-path="appendix-a.html"><a href="appendix-a.html#r-introduction-and-preliminaries"><i class="fa fa-check"></i><b>13.1</b> R Introduction and Preliminaries</a><ul>
+<li class="chapter" data-level="13.1.1" data-path="appendix-a.html"><a href="appendix-a.html#the-r-environment-and-language"><i class="fa fa-check"></i><b>13.1.1</b> The R Environment and Language</a></li>
+<li class="chapter" data-level="13.1.2" data-path="appendix-a.html"><a href="appendix-a.html#r-and-statistics"><i class="fa fa-check"></i><b>13.1.2</b> R and Statistics</a></li>
+<li class="chapter" data-level="13.1.3" data-path="appendix-a.html"><a href="appendix-a.html#obtaining-r-and-installation"><i class="fa fa-check"></i><b>13.1.3</b> Obtaining R and installation</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="appendix-a.html"><a href="appendix-a.html#starting-r"><i class="fa fa-check"></i><b>13.2</b> Starting R</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="appendix-a.html"><a href="appendix-a.html#description-of-three-panels-in-user-interface"><i class="fa fa-check"></i><b>13.2.1</b> Description of three panels in user interface</a></li>
+<li class="chapter" data-level="13.2.2" data-path="appendix-a.html"><a href="appendix-a.html#r-help"><i class="fa fa-check"></i><b>13.2.2</b> R help</a></li>
+<li class="chapter" data-level="13.2.3" data-path="appendix-a.html"><a href="appendix-a.html#some-mathematical-expressions"><i class="fa fa-check"></i><b>13.2.3</b> Some mathematical expressions</a></li>
+<li class="chapter" data-level="13.2.4" data-path="appendix-a.html"><a href="appendix-a.html#r-packages"><i class="fa fa-check"></i><b>13.2.4</b> R Packages</a></li>
+<li class="chapter" data-level="13.2.5" data-path="appendix-a.html"><a href="appendix-a.html#creating-a-project-and-setting-working-directory"><i class="fa fa-check"></i><b>13.2.5</b> Creating a project and setting working directory</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="appendix-a.html"><a href="appendix-a.html#exportimport-data"><i class="fa fa-check"></i><b>13.3</b> Export/Import Data</a><ul>
+<li class="chapter" data-level="13.3.1" data-path="appendix-a.html"><a href="appendix-a.html#data-export"><i class="fa fa-check"></i><b>13.3.1</b> Data Export</a></li>
+<li class="chapter" data-level="13.3.2" data-path="appendix-a.html"><a href="appendix-a.html#data-import"><i class="fa fa-check"></i><b>13.3.2</b> Data Import</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="appendix-b.html"><a href="appendix-b.html"><i class="fa fa-check"></i><b>14</b> Appendix B</a><ul>
+<li class="chapter" data-level="14.1" data-path="appendix-b.html"><a href="appendix-b.html#epidemic-data"><i class="fa fa-check"></i><b>14.1</b> Epidemic Data</a><ul>
+<li class="chapter" data-level="14.1.1" data-path="appendix-b.html"><a href="appendix-b.html#state-level"><i class="fa fa-check"></i><b>14.1.1</b> State level</a></li>
+<li class="chapter" data-level="14.1.2" data-path="appendix-b.html"><a href="appendix-b.html#county-level"><i class="fa fa-check"></i><b>14.1.2</b> County level</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="appendix-b.html"><a href="appendix-b.html#other-factors"><i class="fa fa-check"></i><b>14.2</b> Other Factors</a><ul>
+<li class="chapter" data-level="14.2.1" data-path="appendix-b.html"><a href="appendix-b.html#policy-data"><i class="fa fa-check"></i><b>14.2.1</b> Policy Data</a></li>
+<li class="chapter" data-level="14.2.2" data-path="appendix-b.html"><a href="appendix-b.html#demographic-characteristics"><i class="fa fa-check"></i><b>14.2.2</b> Demographic Characteristics</a></li>
+<li class="chapter" data-level="14.2.3" data-path="appendix-b.html"><a href="appendix-b.html#healthcare-infrastructure"><i class="fa fa-check"></i><b>14.2.3</b> Healthcare Infrastructure</a></li>
+<li class="chapter" data-level="14.2.4" data-path="appendix-b.html"><a href="appendix-b.html#socioeconomic-status"><i class="fa fa-check"></i><b>14.2.4</b> Socioeconomic Status</a></li>
+<li class="chapter" data-level="14.2.5" data-path="appendix-b.html"><a href="appendix-b.html#environmental-factor"><i class="fa fa-check"></i><b>14.2.5</b> Environmental Factor</a></li>
+<li class="chapter" data-level="14.2.6" data-path="appendix-b.html"><a href="appendix-b.html#mobility"><i class="fa fa-check"></i><b>14.2.6</b> Mobility</a></li>
+<li class="chapter" data-level="14.2.7" data-path="appendix-b.html"><a href="appendix-b.html#geographic-information"><i class="fa fa-check"></i><b>14.2.7</b> Geographic Information</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="appendix-b.html"><a href="appendix-b.html#data-sets"><i class="fa fa-check"></i><b>14.3</b> Data Sets</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="appendix-b.html"><a href="appendix-b.html#chapter-2"><i class="fa fa-check"></i><b>14.3.1</b> Chapter 2</a></li>
+<li class="chapter" data-level="14.3.2" data-path="appendix-b.html"><a href="appendix-b.html#chapter-3"><i class="fa fa-check"></i><b>14.3.2</b> Chapter 3</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Statistical Learning of Infectious Disease Data Analytics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="NN" class="section level1">
+<h1><span class="header-section-number">Chapter 11</span> Neural Networks</h1>
+<p>Artificial Neural Network is computing system inspired by biological neural network that constitute animal brain. Such systems “learn” to perform tasks by considering examples, generally without being programmed with any task-specific rules.</p>
+<div id="a-single-neuron" class="section level2">
+<h2><span class="header-section-number">11.1</span> A Single Neuron</h2>
+<p>The basic unit of computation in a neural network is the neuron, often called a node or unit. It receives input from some other nodes, or from an external source and computes an output. Each input has an associated weight (<span class="math inline">\(w\)</span>), which is assigned on the basis of its relative importance to other inputs. The node applies a function <span class="math inline">\(f\)</span> (defined below) to the weighted sum of its inputs as shown in Figure <a href="NN.html#fig:NN1">11.1</a> below:</p>
+<div class="figure" style="text-align: center"><span id="fig:NN1"></span>
+<img src="figures/NN_1.pdf" alt="An illustration of a single neuron." width="40%" />
+<p class="caption">
+Figure 11.1: An illustration of a single neuron.
+</p>
+</div>
+<p>The above network takes numerical inputs <span class="math inline">\(X_0,X_1,X_2, X_3\)</span> and has weights <span class="math inline">\(w_0,w_1,w_2,w_3\)</span> associated with those inputs. The output <span class="math inline">\(Y\)</span> from the neuron is computed as shown in the Figure <a href="NN.html#fig:NN1">11.1</a>. The function <span class="math inline">\(f\)</span> is non-linear and is called the Activation Function. The purpose of the activation function is to introduce non-linearity into the output of a neuron. This is important because most real world data is non linear and we want neurons to learn these non linear representations.</p>
+<p>Every activation function (or non-linearity) takes a single number and performs a certain fixed mathematical operation on it. There are several activation functions you may encounter in practice:</p>
+<p><strong>Sigmoid:</strong> takes a real-valued input and squashes it to range between 0 and 1</p>
+<p><span class="math display">\[
+  \sigma(x) = 1 / (1 + \exp(-x))
+\]</span></p>
+<p><strong>tanh:</strong> takes a real-valued input and squashes it to the range <span class="math inline">\([-1, 1]\)</span></p>
+<p><span class="math display">\[
+  \tanh(x) = 2\sigma(2x) - 1
+\]</span></p>
+<p><strong>ReLU (Rectified Linear Unit):</strong> it takes a real-valued input and thresholds it at zero (replaces negative values with zero)</p>
+<p><span class="math display">\[
+  f(x) = \max(0, x)
+\]</span></p>
+<p>Figure <a href="NN.html#fig:active">11.2</a> show each of the above activation functions.</p>
+<div class="figure" style="text-align: center"><span id="fig:active"></span>
+<img src="figures/sigmoid.pdf" alt="An illustration of activation functions." width="30%" /><img src="figures/tanh.pdf" alt="An illustration of activation functions." width="30%" /><img src="figures/relu.pdf" alt="An illustration of activation functions." width="30%" />
+<p class="caption">
+Figure 11.2: An illustration of activation functions.
+</p>
+</div>
+<p>As the number of training data for each country is limited, we use a single-layer neural network called the extreme learning machine (ELM) to avoid over-fitting. Due to the non-stationary nature of the time-series, a sliding window approach is used to provide a more accurate prediction.</p>
+</div>
+<div id="neural-network-structure" class="section level2">
+<h2><span class="header-section-number">11.2</span> Neural Network Structure</h2>
+<p>Figure <a href="NN.html#fig:NN2">11.3</a> shows a neural network constructed from 3 type of layers:</p>
+<p><strong>Input Layer:</strong> The Input layer has four nodes. The other two nodes take <span class="math inline">\(X_1\)</span>, <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span> as external inputs (which are numerical values depending upon the input dataset). As discussed above, no computation is performed in the Input layer, so the outputs from nodes in the Input layer are <span class="math inline">\(X_0\)</span>, <span class="math inline">\(X_1\)</span>, <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span> respectively, which are fed into the Hidden Layer.</p>
+<p><strong>Hidden Layer:</strong> The Hidden layer also has four nodes with the bias node <span class="math inline">\(a_0^{(2)}\)</span>. The output of the other two nodes in the Hidden layer depends on the outputs from the Input layer <span class="math inline">\((X_0, X_1, X_2, X_3)\)</span> as well as the weights associated with the connections (edges). Figure 4 shows the output calculation for one of the hidden nodes (highlighted). Similarly, the output from other hidden node can be calculated. Remember that <span class="math inline">\(f\)</span> refers to the activation function. These outputs are then fed to the nodes in the Output layer.</p>
+<p><strong>Output Layer:</strong> The Output layer has one nodes which takes inputs from the Hidden layer and perform similar computations as shown for the highlighted hidden node. The value calculated <span class="math inline">\(a_1^{(3)}\)</span> as a result of these computations act as the output.</p>
+<div class="figure" style="text-align: center"><span id="fig:NN2"></span>
+<img src="figures/NN_2.pdf" alt="a neural network with one hidden layer." width="75%" />
+<p class="caption">
+Figure 11.3: a neural network with one hidden layer.
+</p>
+</div>
+<p>In Figure <a href="NN.html#fig:NN2">11.3</a>,</p>
+<ul>
+<li><span class="math inline">\(a^{(j)}_i\)</span>: activation of unit <span class="math inline">\(i\)</span> in layer <span class="math inline">\(j\)</span>.</li>
+<li><span class="math inline">\(\boldsymbol{\beta}^{(j)}\)</span>: weight matrix stores parameters from layer <span class="math inline">\(j\)</span> to layer <span class="math inline">\(j+1\)</span>.</li>
+<li>If network has <span class="math inline">\(s_j\)</span> units in layer <span class="math inline">\(j\)</span> and <span class="math inline">\(s_{j+1}\)</span> units in layer <span class="math inline">\(j+1\)</span>, then <span class="math inline">\(\boldsymbol{\beta}^{(j)}\)</span> has dimension <span class="math inline">\(s_{j+1} \times (s_j+1)\)</span>.</li>
+</ul>
+<p><span class="math display">\[
+\mathbf{X}= \begin{bmatrix}
+X_0 \\ 
+X_1 \\
+X_2 \\ 
+X_3 \\ 
+\end{bmatrix},
+\mathbf{A}= \begin{bmatrix}
+a_0^{(2)} \\ 
+a_1^{(2)} \\
+a_2^{(2)} \\ 
+a_3^{(2)} \\ 
+\end{bmatrix},
+\]</span></p>
+<p>In the regression, our objective function is <span class="math display">\[
+\ell(\boldsymbol{\beta}^{(1)}, \ldots, \boldsymbol{\beta}^{(L)})= \sum_{i=1}^{N}(Y_i - \widehat{Y}_i)^2
+\]</span></p>
+<p>Gradient Descent:</p>
+<p><span class="math display">\[
+\boldsymbol{\beta}^{(j)} \leftarrow \boldsymbol{\beta}^{(j)} - \alpha \nabla_{\boldsymbol{\beta}^{(j)}} \ell(\boldsymbol{\beta}^{(1)}, \ldots, \boldsymbol{\beta}^{(L)}), 
+\]</span></p>
+<p>for all <span class="math inline">\(j\)</span>.</p>
+<div id="forward-propagation" class="section level3">
+<h3><span class="header-section-number">11.2.1</span> Forward propagation</h3>
+<div class="figure" style="text-align: center"><span id="fig:NN3"></span>
+<img src="figures/NN_3.png" alt="A neural network with one hidden layer." width="60%" />
+<p class="caption">
+Figure 11.4: A neural network with one hidden layer.
+</p>
+</div>
+<p>We start with one single observation point <span class="math inline">\((Y_i, X_i)\)</span>.</p>
+<ul>
+<li><span class="math inline">\(a^{(1)} = X_i\)</span></li>
+<li><span class="math inline">\(z^{(2)} = \boldsymbol{\beta}^{(1)}a^{(1)}\)</span></li>
+<li><span class="math inline">\(a^{(2)} = g(z^{(2)})\)</span>, (add <span class="math inline">\(a^{(2)}_0\)</span>)</li>
+<li><span class="math inline">\(z^{(3)} = \boldsymbol{\beta}^{(2)}a^{(2)}\)</span></li>
+<li><span class="math inline">\(a^{(3)} = g(z^{(3)})\)</span>, (add <span class="math inline">\(a^{(3)}_0\)</span>)</li>
+<li><span class="math inline">\(z^{(4)} = \boldsymbol{\beta}^{(3)}a^{(3)}\)</span></li>
+<li><span class="math inline">\(a^{(4)} = g(z^{(4)})\)</span></li>
+</ul>
+<p><strong>Backpropagation: top layer</strong></p>
+<div class="figure" style="text-align: center"><span id="fig:back1"></span>
+<img src="figures/back_1.pdf" alt="A neural network with one hidden layer." width="50%" />
+<p class="caption">
+Figure 11.5: A neural network with one hidden layer.
+</p>
+</div>
+We want to find <span class="math display">\[
+\frac{\partial \ell}{\partial \beta_{01}^{(2)}}, \ldots, \frac{\partial \ell}{\partial \beta_{31}^{(2)}},
+\]</span>
+<span class="math display">\[\begin{align*}
+\frac{\partial \ell}{\partial \beta_{01}^{(2)}} &amp; = \frac{\partial \ell}{\partial a_1^{(3)}}
+\frac{\partial a_1^{(3)}}{\partial z_1^{(3)}} \frac{\partial z_1^{(3)}}{\partial \beta_{01}^{(2)}}\\
+&amp; = 2(Y-a_1^{(3)})g&#39;_0(z_1^{(3)})a_0^{(2)},
+\end{align*}\]</span>
+<p>where <span class="math inline">\(g&#39;_0\)</span> is the derivative fo the activation function in the output layer.</p>
+<p>Update <span class="math inline">\(\beta_{01}^{(2)}\)</span> by <span class="math display">\[
+\beta_{01}^{(2)} = \beta_{01}^{(2)} - \alpha \frac{\partial \ell}{\partial \beta_{01}^{(2)}}.
+\]</span></p>
+<p><strong>Backpropagation: next layer</strong></p>
+<div class="figure" style="text-align: center"><span id="fig:back2"></span>
+<img src="figures/back_2.pdf" alt="a neural network with one hidden layer." width="50%" />
+<p class="caption">
+Figure 11.6: a neural network with one hidden layer.
+</p>
+</div>
+We want to find <span class="math display">\[
+\frac{\partial \ell}{\partial \beta_{01}^{(1)}}, \cdots, \frac{\partial \ell}{\partial \beta_{03}^{(1)}},
+\]</span>
+<span class="math display">\[\begin{align*}
+\frac{\partial \ell}{\partial \beta_{01}^{(2)}} &amp; = \frac{\partial \ell}{\partial a_1^{(3)}}
+\frac{\partial a_1^{(3)}}{\partial z_1^{(3)}} \frac{\partial z_1^{(3)}}{\partial \partial a_1^{(2)}} \frac{\partial a_1^{(2)}}{\partial z_1^{(2)}} \frac{\partial z_1^{(2)}}{\partial \beta_{01}^{(2)}}\\
+&amp; = 2(Y-a_1^{(3)})g&#39;_0(z_1^{(3)}) \beta^{(2)}_{11} g&#39;_1(z_1^{(2)}) X_0,
+\end{align*}\]</span>
+<p>where <span class="math inline">\(g&#39;_0\)</span> is the derivative fo the activation function in the output layer and <span class="math inline">\(g&#39;_1\)</span> is the derivative fo the activation function in the Layer 2.</p>
+<p>Update <span class="math inline">\(\beta_{01}^{(1)}\)</span> by <span class="math display">\[
+\beta_{01}^{(1)} = \beta_{01}^{(1)} - \alpha \frac{\partial \ell}{\partial \beta_{01}^{(1)}}.
+\]</span></p>
+<p><strong>Back Propagation: Jacobian Matrix</strong></p>
+<ul>
+<li><p>The Jacobian matrix of a vector-valued function in several variables is the matrix of all its first-order partial derivatives.</p></li>
+<li><p>Suppose <span class="math inline">\(\boldsymbol{f}: R^{n} \to R^{m}\)</span>, the Jacobian matrix of function <span class="math inline">\(\boldsymbol{f}\)</span> is <span class="math display">\[
+\boldsymbol{J} = \frac{\partial \boldsymbol{f}}{\partial \boldsymbol{x}}
+ = \begin{bmatrix}
+\frac{\partial f_1}{\partial x_1}  &amp; \ldots  &amp;  \frac{\partial f_1}{\partial x_n} \\
+\vdots  &amp; \ddots &amp; \vdots \\
+\frac{\partial f_m}{\partial x_1}  &amp; \ldots  &amp;  \frac{\partial f_m}{\partial x_n} 
+\end{bmatrix}.
+\]</span></p></li>
+<li><p>Chain rule: <span class="math display">\[
+\frac{\partial \boldsymbol{f}\{{\boldsymbol{g}(\boldsymbol{x})\}}}{\partial \boldsymbol{x}} = \frac{\partial \boldsymbol{f}\{{\boldsymbol{g}(\boldsymbol{x})\}}}{\partial \boldsymbol{g}(\boldsymbol{x})}  \times 
+\frac{\boldsymbol{g}(\boldsymbol{x}) }{\partial \boldsymbol{x}} 
+\]</span></p></li>
+</ul>
+</div>
+</div>
+<div id="overfitting" class="section level2">
+<h2><span class="header-section-number">11.3</span> Overfitting</h2>
+<p>Often neural networks have too many weights and will overfit the data, so we add a penalty to the error function: <span class="math display">\[
+\sum_{j = 1}^{L} \|\boldsymbol{\beta}^{(j)}\|_F,~\|\boldsymbol{\beta}^{(j)}\|_F= \sum_{k=1}^{s_j} \sum_{k=1}^{s_{j+1}}(\beta^{(j)}_{k,k&#39;})^2,
+\]</span> where <span class="math inline">\(\|\boldsymbol{\beta}^{(j)}\|_F\)</span> is the Frobenius norm of matrix <span class="math inline">\(\boldsymbol{\beta}^{(j)}\)</span>.</p>
+<p>We minimize the following objective function <span class="math display">\[
+\ell(\boldsymbol{\beta}^{(1)}, \ldots, \boldsymbol{\beta}^{(L)}) + \lambda \sum_{j = 1}^{L} \|\boldsymbol{\beta}^{(j)}\|_F,
+\]</span> where <span class="math inline">\(\|\cdot\|_F\)</span> denotes the Frobenius norm.</p>
+</div>
+<div id="neural-network-auto-regressive-nnar-models" class="section level2">
+<h2><span class="header-section-number">11.4</span> Neural Network Auto-Regressive (NNAR) models</h2>
+<p>Lagged values of the time series can be used as inputs to a neural network. In this section, we only consider feed-forward networks with one hidden layer, and we use the notation NNAR<span class="math inline">\((p,k)\)</span> to indicate there are <span class="math inline">\(p\)</span> lagged inputs and <span class="math inline">\(k\)</span> nodes in the hidden layer. For example, a NNAR(9,5) model is a neural network with the last nine observations <span class="math inline">\((y_{t-1}, y_{t-2}, \ldots, y_{t-9})\)</span> used as inputs for forecasting the output <span class="math inline">\(y_t\)</span>, and with five neurons in the hidden layer.</p>
+<p>NNAR<span class="math inline">\((p,0)\)</span> model is equivalent to an ARIMA<span class="math inline">\((p,0,0)\)</span> model but without stationarity restrictions, but without the restrictions on the parameters to ensure stationarity.</p>
+<p>For seasonal data, we can consider seasonal NNAR<span class="math inline">\((p,P,k)\)</span>, which use inputs <span class="math inline">\((Y_{t-1},Y_{t-2},\ldots, Y_{t-p}, Y_{t-m}, Y_{t-2m},\ldots, Y_{t-Pm})\)</span> and <span class="math inline">\(k\)</span> neurons in the hidden layer. For example, an NNAR<span class="math inline">\((3,1,2)_{7}\)</span> model has inputs <span class="math inline">\((Y_{t-1},Y_{t-2}, Y_{t-3}, Y_{t-7})\)</span>, and two neurons in the hidden layer. An NNAR<span class="math inline">\((p,P,0)_m\)</span> model is equivalent to an ARIMA<span class="math inline">\((p,0,0)(P,0,0)_m\)</span> model but without stationarity restrictions.</p>
+<p><strong>NNAR models in R</strong></p>
+<p>The <code>nnetar()</code> function fits an NNAR<span class="math inline">\((p,P,k)_m\)</span> model. If <span class="math inline">\(p\)</span> and <span class="math inline">\(P\)</span> are not specified, they are automatically selected. For non-seasonal time series, default <span class="math inline">\(p =\)</span> optimal number of lags (according to the AIC) for a linear AR<span class="math inline">\((p)\)</span> model. For seasonal time series, defaults are <span class="math inline">\(P = 1\)</span> and <span class="math inline">\(P\)</span> is chosen from the optimal linear model fitted to the seasonally adjusted data. Default <span class="math inline">\(k = (p + P + 1)=2\)</span> (rounded to the nearest integer).</p>
+<p>When it comes to forecasting, the network is applied iteratively. For forecasting one step ahead, we simply use the available historical inputs. For forecasting two steps ahead, we use the one-step forecast as an input, along with the historical data. This process proceeds until we have computed all the required forecasts.</p>
+</div>
+<div id="covid-19-forecasting" class="section level2">
+<h2><span class="header-section-number">11.5</span> COVID-19 Forecasting</h2>
+<p>The number of cases, we define <span class="math inline">\(x_n = (y_{n-w+1}, ..., y_{n-1}, y_n)^{\top}\in R^{w}\)</span> and <span class="math inline">\(t_n = y_{n+h}\in R\)</span>. We use cross-validation to find the proper window size <span class="math inline">\(w\)</span>, number of hidden neurons <span class="math inline">\(L\)</span>, and the regularization hyperparameter <span class="math inline">\(\lambda\)</span>.</p>
+<p>The <code>nnetar</code> function in the <code>forecast</code> package for R fits a feed-forward neural networks model with a single hidden layer and lagged inputs for forecasting univariate time series. It uses lagged values of the time series as inputs (and possibly some other exogenous inputs).</p>
+<p>To use the <code>forecast</code> package, it is better to store the time series as a <code>ts</code> object in R. Let us consider the time series of daily new death counts for Florida, and we first turn this into a <code>ts</code> object using the <code>ts</code> function. Since we have observed the 7-day cycle for this data, we can simply add a <code>frequency = 7</code> argument.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(slid)
+<span class="kw">library</span>(dplyr)
+<span class="kw">data</span>(state.ts)
+
+Florida.ts &lt;-<span class="st"> </span>state.ts <span class="op">%&gt;%</span>
+<span class="st">    </span>dplyr<span class="op">::</span><span class="kw">filter</span>(State <span class="op">==</span><span class="st"> &quot;Florida&quot;</span>)  
+
+y &lt;-<span class="st"> </span><span class="kw">ts</span>(Florida.ts<span class="op">$</span>Y.Death, <span class="dt">start =</span> <span class="dv">2020</span><span class="op">-</span><span class="dv">01</span><span class="op">-</span><span class="dv">23</span>, <span class="dt">frequency =</span> <span class="dv">7</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(forecast)
+<span class="kw">set.seed</span>(<span class="dv">2020</span>)
+fit &lt;-<span class="st"> </span><span class="kw">nnetar</span>(y)
+fit</code></pre></div>
+<pre><code>## Series: y 
+## Model:  NNAR(21,1,11)[7] 
+## Call:   nnetar(y = y)
+## 
+## Average of 20 networks, each of which is
+## a 21-11-1 network with 254 weights
+## options were - linear output units 
+## 
+## sigma^2 estimated as 6.598</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">autoplot</span>(<span class="kw">forecast</span>(fit, <span class="dt">h =</span> <span class="dv">14</span>), <span class="dt">xlab =</span> <span class="st">&quot;Days&quot;</span>, 
+         <span class="dt">ylab =</span> <span class="st">&quot;Daily new deaths&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:nnetar1"></span>
+<img src="bookdown-demo_files/figure-html/nnetar1-1.png" alt="Two weeks ahead forecast of the daily new death count for Florida using nnetar." width="672" />
+<p class="caption">
+Figure 11.7: Two weeks ahead forecast of the daily new death count for Florida using nnetar.
+</p>
+</div>
+<ul>
+<li><p>The <code>repeats</code> option of <code>nnetar</code> shows the number of networks (default = 20) to fit with different random starting weights. These networks are then averaged when producing forecasts.</p></li>
+<li><p>The <code>size</code> option provides number of nodes in the hidden layer. Default is half of the number of input nodes (including external regressors, if given) plus 1.</p></li>
+</ul>
+<p>We can consider a Box-Cox transformation for the data. For example, if we want to restrict to positive values, we can consider a Box-Cox transformation parameter <code>lambda</code>.</p>
+<p>If <code>lambda = auto</code>, then a transformation is automatically selected using <code>BoxCox.lambda</code>. The transformation is ignored if <code>NULL</code>. Otherwise, data transformed before model is estimated.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit &lt;-<span class="st"> </span><span class="kw">nnetar</span>(y <span class="op">+</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">lambda =</span> <span class="dv">0</span>, <span class="dt">size =</span> <span class="dv">5</span>)
+<span class="kw">autoplot</span>(<span class="kw">forecast</span>(fit, <span class="dt">h =</span> <span class="dv">14</span>), <span class="dt">xlab =</span> <span class="st">&quot;Days&quot;</span>, 
+         <span class="dt">ylab =</span> <span class="st">&quot;Daily new deaths&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:nnetar2"></span>
+<img src="bookdown-demo_files/figure-html/nnetar2-1.png" alt="Two weeks ahead forecast of the daily new death count for Florida using nnetar with predictions constrained to positive values." width="672" />
+<p class="caption">
+Figure 11.8: Two weeks ahead forecast of the daily new death count for Florida using nnetar with predictions constrained to positive values.
+</p>
+</div>
+<p>Note that the NNAR model is a nonlinear autogressive model, and it is not possible to analytically derive prediction intervals.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fcast &lt;-<span class="st"> </span><span class="kw">forecast</span>(fit, <span class="dt">PI =</span> <span class="ot">TRUE</span>, <span class="dt">h =</span> <span class="dv">14</span>, <span class="dt">npaths =</span> <span class="dv">500</span>)
+<span class="kw">autoplot</span>(fcast, <span class="dt">xlab =</span> <span class="st">&quot;Days&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Daily new deaths&quot;</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:nnetar3"></span>
+<img src="bookdown-demo_files/figure-html/nnetar3-1.png" alt="Two weeks ahead forecast and prediction intervals of the daily new death count for Florida using nnetar with predictions constrained to positive values." width="672" />
+<p class="caption">
+Figure 11.9: Two weeks ahead forecast and prediction intervals of the daily new death count for Florida using nnetar with predictions constrained to positive values.
+</p>
+</div>
+<p>Because it is a little slow, <code>PI = FALSE</code> is the default, so prediction intervals are not computed unless requested. The <code>npaths</code> argument in <code>forecast.nnetar</code> controls how many simulations are done (default 1000). By default, the errors are drawn from a normal distribution. The bootstrap argument allows the errors to be “bootstrapped” (i.e., randomly drawn from the historical errors).</p>
+</div>
+<div id="box-cox-transformations" class="section level2">
+<h2><span class="header-section-number">11.6</span> Box-Cox transformations</h2>
+<p>Each of these transformations is close to a member of the family of Box-Cox transformations: <span class="math display">\[
+w_t =\left\{\begin{array}{ll}
+\log(y_t), &amp; \lambda=0;\\
+(y_t^{\lambda}-1)/\lambda, &amp; \lambda \neq 0.
+\end{array}
+\right.
+\]</span></p>
+<ul>
+<li><span class="math inline">\(\lambda= 1\)</span>: (No substantive transformation);</li>
+<li><span class="math inline">\(\lambda= 1/2\)</span>: (Square root plus linear transformation);</li>
+<li><span class="math inline">\(\lambda= 0\)</span>: (Natural logarithm);</li>
+<li><span class="math inline">\(\lambda= -1\)</span>: (Inverse plus 1);</li>
+<li><span class="math inline">\(y_t^{\lambda}=1\)</span> for <span class="math inline">\(\lambda\)</span> close to zero behaves like logs;</li>
+<li>If some <span class="math inline">\(y_t = 0\)</span>, then must have <span class="math inline">\(\lambda &gt; 0\)</span>;</li>
+<li>If some <span class="math inline">\(y_t &lt; 0\)</span>, no power transformation is possible unless all <span class="math inline">\(y_t\)</span> adjusted by adding a constant to all values;</li>
+<li>Choose a simple value of <span class="math inline">\(\lambda\)</span>. It makes explanation easier;</li>
+<li>Results are relatively insensitive to value of <span class="math inline">\(\lambda\)</span>;</li>
+<li>Often no transformation (<span class="math inline">\(\lambda= 1\)</span>) needed;</li>
+<li>Transformation often makes little difference to forecasts but has large effect on PI;</li>
+<li>Choosing <span class="math inline">\(\lambda = 0\)</span> is a simple way to force forecasts to be positive.</li>
+</ul>
+<p>We must reverse the transformation (or back-transform) to obtain forecasts on the original scale. The reverse Box-Cox transformations are given by <span class="math display">\[
+y_t=\left\{\begin{array}{ll}
+\exp(w_t), &amp; \lambda=0;\\
+(\lambda w_t+1)^{1/\lambda}-1, &amp; \lambda \neq 0.
+\end{array}
+\right.
+\]</span></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="timeseries.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ensemble.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/10-nn.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

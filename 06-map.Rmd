@@ -50,7 +50,7 @@ Step 2. Add features to the map by using layer functions(`addTiles(), addMarkers
 
 Step 3. Print the map widget to display it and save it.
 
-Here is a basic example:
+Here is a base example:
 
 ```{r message=FALSE, warning=FALSE}
 library(leaflet)
@@ -567,18 +567,52 @@ y1 <- c(5, 6, 8, 10, 5)
 y2 <- c(8, 3, 2, 8, 8)
 ```
 
-     (c) Put the two polygons in (a) and (b) on the same map.
+     (c) Draw the two polygons in (a) and (b) on the same map.
      
+2. The Washington Monument is located at longitude -77.0353 and latitude 38.8895.
+
+     (a) Draw base map and set the default view to and set zoom level 15;
      
+     (b) Add a popup “Washington Monument” to your base map;
+     
+     (c) Add a label “Washington Monument” to your base map;
+     
+3. We will use the state level COVID-19 data (`I.state`) available in the `slid` package, and the geospatial information from:
 
-2. In the following set of exercises, we will use geo-spatial data of the `state.long`. The data is readily available in the leaflet package. 
+```{r, eval=F}
+library(geojsonio)
+geojson_read(
+x = "https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json", what = "sp")
+```
+    
+     (a) Calculate the weekly risk of each state and create a `weekly_risk` variable, which contains the number of newly infected cases in the past weeks (December 5, 2020, to December 11, 2020) for each state divided by its population.
+     
+     (b) Draw a choropleth map to display the weekly risk for each state. You can change the opacity and the weight of the borderlines according to your aesthetic preferences. Use `colorBin` to color the states.
+     
+     (c) Generate the highlighted label with the state name and the value of `weekly_risk`, and population, and display the label when the mouse moves over to the state.
+     
+     (d) Save your leaflet map as an HTML file.
 
-Set the default view to longitude -47.4, latitude 39.75 and zoom level 3.
 
-Save your leaflet map as an HTML file.
-Hint: `use htmlwidgets::save()`.
+4. We will use the county level COVID-19 data (`I.county`) available in the `slid` package, and the geospatial information from:
 
-Change the border and the fill colors to the Swiss national flag colors (red and white, respectively.)
-In addition, change the opacity and the weight of the border lines according to your aesthetic preferences.
+```{r, eval=F}
+library(geojsonio)
+geojson_read(
+x = "https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json", what = "sp"
+```
+    
+     (a) Calculate the weekly risk of each county and create a `weekly_risk` variable, which contains the number of newly infected cases in the past weeks (December 5, 2020, to December 11, 2020) for each county divided by its population.
+     
+     (b) Draw a choropleth map to display the weekly risk for each state. You can change the opacity and the weight of the borderlines according to your aesthetic preferences. Use `colorQuantile` to color the counties.
+     
+     (c) Generate the highlighted label with the county, state name and the value of `weekly_risk`, and population, and display the label when the mouse moves over to the state.
+     
+     (d) Draw a spot map and highlight the top 10 counties with the highest weekly risk in the past week (December 5, 2020, to December 11, 2020). 
+     
+     (e) Save each of the above leaflet maps as an HTML file.
+
+
+
 
 

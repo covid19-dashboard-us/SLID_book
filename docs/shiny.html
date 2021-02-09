@@ -24,7 +24,7 @@
 <meta name="author" content="Lily Wang" />
 
 
-<meta name="date" content="2021-02-08" />
+<meta name="date" content="2021-02-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -268,9 +268,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6" data-path="shiny.html"><a href="shiny.html"><i class="fa fa-check"></i><b>6</b> R Shiny</a><ul>
 <li class="chapter" data-level="6.1" data-path="shiny.html"><a href="shiny.html#embedding-plotly-in-shiny"><i class="fa fa-check"></i><b>6.1</b> Embedding plotly in Shiny</a><ul>
 <li class="chapter" data-level="6.1.1" data-path="shiny.html"><a href="shiny.html#your-first-shiny-app"><i class="fa fa-check"></i><b>6.1.1</b> Your first shiny app</a></li>
-<li class="chapter" data-level="6.1.2" data-path="shiny.html"><a href="shiny.html#useful-input-widgets"><i class="fa fa-check"></i><b>6.1.2</b> Useful input widgets</a></li>
+<li class="chapter" data-level="6.1.2" data-path="shiny.html"><a href="shiny.html#create-a-new-shiny-app-in-rstudio"><i class="fa fa-check"></i><b>6.1.2</b> Create a new shiny app in RStudio</a></li>
+<li class="chapter" data-level="6.1.3" data-path="shiny.html"><a href="shiny.html#share-your-app"><i class="fa fa-check"></i><b>6.1.3</b> Share your app</a></li>
 </ul></li>
-<li class="chapter" data-level="6.2" data-path="shiny.html"><a href="shiny.html#rendering-plotly-inside-shiny"><i class="fa fa-check"></i><b>6.2</b> Rendering plotly Inside Shiny</a></li>
+<li class="chapter" data-level="6.2" data-path="shiny.html"><a href="shiny.html#useful-input-widgets"><i class="fa fa-check"></i><b>6.2</b> Useful Input Widgets</a></li>
+<li class="chapter" data-level="6.3" data-path="shiny.html"><a href="shiny.html#displaying-reactive-output"><i class="fa fa-check"></i><b>6.3</b> Displaying Reactive Output</a></li>
+<li class="chapter" data-level="6.4" data-path="shiny.html"><a href="shiny.html#rendering-plotly-inside-shiny"><i class="fa fa-check"></i><b>6.4</b> Rendering Plotly Inside Shiny</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="map.html"><a href="map.html"><i class="fa fa-check"></i><b>7</b> Interactive Geospatial Visualization</a><ul>
 <li class="chapter" data-level="7.1" data-path="map.html"><a href="map.html#an-introduction-to-leaflet"><i class="fa fa-check"></i><b>7.1</b> An Introduction to Leaflet</a><ul>
@@ -376,9 +379,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="shiny" class="section level1">
 <h1><span class="header-section-number">Chapter 6</span> R Shiny</h1>
-<p>In infectious disease data learning, interactive visualization makes complex data digestible and useful for users. Shiny offers the ability to develop a graphical user interface (GUI) that can be run locally or deployed online. It has the potential to greatly simplify users’ access to
-interactive, web-based visualizations. For example, it with multiple views or panels, enabling the users to review their data from different perspectives. In addition, Shiny is also beneficial to show and communicate updated findings to a broad audience.</p>
-<p>In this chapter, we focus on linking plotly graphs with shiny, an open source R package that provides an elegant and powerful web framework for building web applications using R. Shiny helps you turn your analyses into interactive web applications without requiring HTML, CSS, or JavaScript knowledge.</p>
+<p>In infectious disease data learning, interactive visualization makes complex data digestible and useful for users. Shiny offers the ability to develop a graphical user interface (GUI) that can be run locally or deployed online. It has the potential to simplify users’ access to interactive, web-based visualizations greatly. For example, it with multiple views or panels, enabling the users to review their data from different perspectives. Also, Shiny is beneficial to show and communicate updated findings to a broad audience.</p>
+<p>In this chapter, we focus on linking Plotly graphs with shiny, an open-source R package that provides an elegant and powerful web framework for building web applications using R. Shiny helps you turn your analyses into interactive web applications without requiring HTML, CSS, or JavaScript knowledge.</p>
 <p><strong>Installation</strong></p>
 <p>Shiny is available on CRAN, so you can install it in the usual way from your R console:</p>
 <div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="shiny.html#cb163-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;shiny&quot;</span>)</span></code></pre></div>
@@ -386,8 +388,8 @@ interactive, web-based visualizations. For example, it with multiple views or pa
 <h2><span class="header-section-number">6.1</span> Embedding plotly in Shiny</h2>
 <p>A shiny app has two main parts:</p>
 <ol style="list-style-type: decimal">
-<li><p>The user interface, <code>ui</code>, defines how inputs and output widgets are displayed on the page. The <code>fluidPage()</code> function offers a nice and quick way get a grid-based responsive layout, but it’s also worth noting the UI is completely customizable, and packages such as shinydashboard make it easy to leverage more sophisticated layout frameworks.</p></li>
-<li><p>The server function, server, defines a mapping from input values to output widgets. More specifically, the shiny server is an R function between input values on the client and outputs generated on the web server.</p></li>
+<li><p>The user interface, <code>ui</code>, defines how inputs and output widgets are displayed on the page. The UI is customizable, and packages such as “shinydashboard” make it easy to leverage more sophisticated layout frameworks.</p></li>
+<li><p>The server function, server, defines a mapping from input values to output widgets. More specifically, the shiny server is an R function between input values on the client and outputs generated on the webserver.</p></li>
 </ol>
 <div class="figure" style="text-align: center"><span id="fig:shiny1"></span>
 <img src="figures/shiny.png" alt="An illustration of Shiny Structure." width="50%" />
@@ -417,8 +419,8 @@ Figure 6.1: An illustration of Shiny Structure.
 <span id="cb165-6"><a href="shiny.html#cb165-6"></a>})</span></code></pre></div>
 <p>Finally, to execute the shiny app, there are two ways.</p>
 <ol style="list-style-type: decimal">
-<li><p>You can run <code>runApp('appname')</code> in a R file, usually named as <code>apps.R</code>, that shares the same directory with a folder, which is under the name <code>'appname'</code>, and contains <code>UI.R</code> and <code>server.R</code> mentioned above.</p></li>
-<li><p>You can define the server function as <code>server</code> and UI function as <code>ui</code> in the same R file, and run <code>shinyApp(ui, server)</code>, as follows.</p></li>
+<li><p>You can run <code>runApp('appname')</code> in an R file, usually named as <code>apps.R</code>, that shares the same directory with a folder, which is under the name <code>'appname'</code>, and contains <code>UI.R</code> and <code>server.R</code> mentioned above.</p></li>
+<li><p>You can define the server function as <code>server</code> and UI function as <code>ui</code> in the same R file, and run <code>shinyApp(ui, server)</code> as follows.</p></li>
 </ol>
 <div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="shiny.html#cb166-1"></a><span class="kw">library</span>(shiny)</span>
 <span id="cb166-2"><a href="shiny.html#cb166-2"></a></span>
@@ -461,7 +463,7 @@ Figure 6.1: An illustration of Shiny Structure.
 <span id="cb167-20"><a href="shiny.html#cb167-20"></a>    <span class="kw">plotOutput</span>(<span class="st">&quot;distPlot&quot;</span>)</span>
 <span id="cb167-21"><a href="shiny.html#cb167-21"></a>  )</span>
 <span id="cb167-22"><a href="shiny.html#cb167-22"></a>))</span></code></pre></div>
-<p>The server-side of the application is shown below. At one level, it’s very simple–a random distribution with the requested number of observations is generated, and then plotted as a histogram. However, you’ll also notice that the function which returns the plot is wrapped in a call to renderPlot. See the source file named <strong>server.R</strong> below.</p>
+<p>The server-side of the application is shown below. It’s very simple – a random distribution with the requested number of observations is generated, and then plotted as a histogram. However, you may also notice that the function which returns the plot is wrapped in a call to <code>renderPlot</code>. See the source file named <strong>server.R</strong> below.</p>
 <div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="shiny.html#cb168-1"></a><span class="kw">library</span>(shiny)</span>
 <span id="cb168-2"><a href="shiny.html#cb168-2"></a></span>
 <span id="cb168-3"><a href="shiny.html#cb168-3"></a><span class="co"># Define server logic required to generate and plot a random </span></span>
@@ -489,9 +491,35 @@ Figure 6.1: An illustration of Shiny Structure.
 <p class="caption">The Hello Shiny example.</p>
 </div>
 </div>
-<div id="useful-input-widgets" class="section level3">
-<h3><span class="header-section-number">6.1.2</span> Useful input widgets</h3>
-<p>Shiny also comes pre-packaged with a handful of other useful input widgets. Although many shiny apps use them straight “out-of-the-box”, input widgets can easily be stylized with CSS and/or SASS, and even custom input widgets can be integrated.</p>
+<div id="create-a-new-shiny-app-in-rstudio" class="section level3">
+<h3><span class="header-section-number">6.1.2</span> Create a new shiny app in RStudio</h3>
+<p>In RStudio, you can create a new directory and an <code>app.R</code> file containing a basic app in one step by clicking File -&gt; New File -&gt; Shiny Web App, then providing Application Name and select Application Type.</p>
+<div class="figure">
+<img src="figures/ShinyApp.png" alt="" />
+<p class="caption">The RStudio New Shiny Web App Window.</p>
+</div>
+</div>
+<div id="share-your-app" class="section level3">
+<h3><span class="header-section-number">6.1.3</span> Share your app</h3>
+<p>RStudio offers three ways to host your Shiny app as a web page:</p>
+<ol style="list-style-type: decimal">
+<li><p>Create a free or professional account at <a href="http://shinyapps.io" class="uri">http://shinyapps.io</a>, a cloud-based service from RStudio, to host your shiny apps.</p></li>
+<li><p>Click the Publish icon in the RStudio IDE (&gt;=0.99) or run:</p></li>
+</ol>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="shiny.html#cb169-1"></a>rsconnect<span class="op">::</span><span class="kw">deployApp</span>(<span class="st">&quot;&lt;path to directory&gt;&quot;</span>)</span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>Shiny Server is a companion program to Shiny that builds a web server designed to host Shiny apps. It’s free, open-source, and available from GitHub.</li>
+</ol>
+</div>
+</div>
+<div id="useful-input-widgets" class="section level2">
+<h2><span class="header-section-number">6.2</span> Useful Input Widgets</h2>
+<p>Shiny also comes pre-packaged with a handful of other useful input widgets, web elements that your users can interact with. Widgets provide a way for your users to send messages to the Shiny app. Shiny widgets collect a value from your user. When a user changes the widget, the value will change as well.</p>
+<p>Although many shiny apps use them straight “out-of-the-box”, input widgets can easily be stylized with CSS and/or SASS, and even custom input widgets can be integrated. From <a href="https://shiny.rstudio.com/" class="uri">https://shiny.rstudio.com/</a>, we can explore and select the appropriate input widgets for your interactive visualization.</p>
+<div class="figure">
+<img src="figures/Input.png" alt="" />
+<p class="caption">The Basic widgets.</p>
+</div>
 <ul>
 <li><code>selectInput()</code> or <code>selectizeInput()</code> for dropdown menus.</li>
 <li><code>numericInput()</code> for a single number.</li>
@@ -504,61 +532,104 @@ Figure 6.1: An illustration of Shiny Structure.
 </ul>
 <p>Going forward our focus is to link multiple graphs in shiny through direct manipulation, so we focus less on using these input widgets, and more on using plotly and static R graphics as inputs to other output widgets.</p>
 </div>
+<div id="displaying-reactive-output" class="section level2">
+<h2><span class="header-section-number">6.3</span> Displaying Reactive Output</h2>
+<p>You can create reactive output with a two step process.</p>
+<ol style="list-style-type: decimal">
+<li><p>Add an R object to your user interface.</p></li>
+<li><p>Tell Shiny how to build the object in the server function. The object will be reactive if the code that builds it calls a widget value.</p></li>
+</ol>
+<p><strong>Step 1: Add an R object to the UI</strong></p>
+<p>Shiny provides a family of functions that turn R objects into output for your user interface. Each function creates a specific type of output. Output function Creates</p>
+<ul>
+<li><code>dataTableOutput</code>: DataTable</li>
+<li><code>htmlOutput</code>: raw HTML</li>
+<li><code>imageOutput</code>: image</li>
+<li><code>plotOutput</code>: plot</li>
+<li><code>tableOutput</code>: table</li>
+<li><code>textOutput</code>: text</li>
+<li><code>uiOutput</code>: raw HTML</li>
+<li><code>verbatimTextOutput</code>: text</li>
+</ul>
+<p>You can add output to the user interface in the same way that you added HTML elements and widgets. Place the output function inside <code>sidebarPanel</code> or <code>mainPanel</code> in the <code>ui</code>.</p>
+<p><strong>Step 2: Provide R code to build the object.</strong></p>
+<p>Placing a function in <code>ui</code> tells Shiny where to display your object. Next, you need to tell Shiny how to build the object.</p>
+<p>We do this by providing the R code that builds the object in the server function.</p>
+<p>The server function plays a special role in the Shiny process; it builds a list-like object named output that contains all of the code needed to update the R objects in your app. Each R object needs to have its own entry in the list.</p>
+<p>You can create an entry by defining a new element for output within the server function, like below. The element name should match the name of the reactive element that you created in the <code>ui</code>.</p>
+<p>You do not need to explicitly state in the server function to return output in its last line of code. R will automatically update output through reference class semantics.</p>
+<p>Each entry to output should contain the output of one of Shiny’s <code>render*</code> functions. These functions capture an R expression and do some light pre-processing on the expression. You use the <code>render*</code> function that corresponds to the type of reactive object you are making. Specifically, the render function creates:</p>
+<ul>
+<li><code>renderDataTable</code>: DataTable</li>
+<li><code>renderImage</code>: images (saved as a link to a source file)</li>
+<li><code>renderPlot</code>: plots</li>
+<li><code>renderPrint</code>: any printed output</li>
+<li><code>renderTable</code>: data frame, matrix, other table like structures</li>
+<li><code>renderText</code>: character strings</li>
+<li><code>renderUI</code>: a Shiny tag object or HTML</li>
+</ul>
+<p>Each <code>render*</code> function takes a single argument: an R expression surrounded by <code>{}</code>, which can be one simple line of text, or it can involve many lines of code as if it were a complicated function call.</p>
+<p>You can consider this R expression a set of instructions that you give Shiny to store for later. Shiny will run the instructions when you first launch your app, and then Shiny will re-run the instructions every time it needs to update your object.</p>
+<p><a href="https://shiny.rstudio.com/images/shiny-cheatsheet.pdf">The Shiny Cheatsheet</a> provides nice summary of the <code>render*()</code> and <code>*Output()</code> functions.</p>
+<div class="figure">
+<img src="figures/Output.png" alt="" />
+<p class="caption">The Basic widgets.</p>
+</div>
 </div>
 <div id="rendering-plotly-inside-shiny" class="section level2">
-<h2><span class="header-section-number">6.2</span> Rendering plotly Inside Shiny</h2>
+<h2><span class="header-section-number">6.4</span> Rendering Plotly Inside Shiny</h2>
 <p>The <code>renderPlotly()</code> function renders anything that the plotly_build() function understands, including <code>plot_ly()</code>, <code>ggplotly()</code>, and <em>ggplot2</em> objects. It also renders <code>NULL</code> as an empty HTML div, which is handy for certain cases where it doesn’t make sense to render a graph.</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="shiny.html#cb169-1"></a><span class="kw">library</span>(tidyr)</span>
-<span id="cb169-2"><a href="shiny.html#cb169-2"></a><span class="kw">library</span>(wesanderson)</span>
-<span id="cb169-3"><a href="shiny.html#cb169-3"></a><span class="kw">library</span>(shiny)</span>
-<span id="cb169-4"><a href="shiny.html#cb169-4"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb169-5"><a href="shiny.html#cb169-5"></a><span class="kw">library</span>(slid) </span>
-<span id="cb169-6"><a href="shiny.html#cb169-6"></a><span class="co">#library(devtools)</span></span>
-<span id="cb169-7"><a href="shiny.html#cb169-7"></a><span class="co">#install_github(&#39;https://github.com/covid19-dashboard-us/slid&#39;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="shiny.html#cb170-1"></a><span class="kw">library</span>(tidyr)</span>
+<span id="cb170-2"><a href="shiny.html#cb170-2"></a><span class="kw">library</span>(wesanderson)</span>
+<span id="cb170-3"><a href="shiny.html#cb170-3"></a><span class="kw">library</span>(shiny)</span>
+<span id="cb170-4"><a href="shiny.html#cb170-4"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb170-5"><a href="shiny.html#cb170-5"></a><span class="kw">library</span>(slid) </span>
+<span id="cb170-6"><a href="shiny.html#cb170-6"></a><span class="co">#library(devtools)</span></span>
+<span id="cb170-7"><a href="shiny.html#cb170-7"></a><span class="co">#install_github(&#39;https://github.com/covid19-dashboard-us/slid&#39;)</span></span></code></pre></div>
 <p><strong>Example 1.</strong></p>
 <p><strong>ui.R</strong></p>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="shiny.html#cb170-1"></a><span class="kw">shinyUI</span>(<span class="kw">fluidPage</span>(</span>
-<span id="cb170-2"><a href="shiny.html#cb170-2"></a>  <span class="kw">sliderInput</span>(<span class="st">&quot;date.update&quot;</span>,</span>
-<span id="cb170-3"><a href="shiny.html#cb170-3"></a>      <span class="dt">label =</span> <span class="kw">h5</span>(<span class="st">&quot;Select date&quot;</span>),</span>
-<span id="cb170-4"><a href="shiny.html#cb170-4"></a>      <span class="dt">min =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2020-01-23&quot;</span>),</span>
-<span id="cb170-5"><a href="shiny.html#cb170-5"></a>      <span class="dt">max =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2020-12-01&quot;</span>),</span>
-<span id="cb170-6"><a href="shiny.html#cb170-6"></a>      <span class="dt">value =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2020-12-01&quot;</span>),</span>
-<span id="cb170-7"><a href="shiny.html#cb170-7"></a>      <span class="dt">timeFormat =</span> <span class="st">&quot;%d %b&quot;</span>,</span>
-<span id="cb170-8"><a href="shiny.html#cb170-8"></a>      <span class="dt">animate =</span> <span class="kw">animationOptions</span>(<span class="dt">interval =</span> <span class="dv">2000</span>, <span class="dt">loop =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb170-9"><a href="shiny.html#cb170-9"></a>  ),</span>
-<span id="cb170-10"><a href="shiny.html#cb170-10"></a>  </span>
-<span id="cb170-11"><a href="shiny.html#cb170-11"></a>  <span class="co"># Show a plot of the generated distribution</span></span>
-<span id="cb170-12"><a href="shiny.html#cb170-12"></a>  <span class="kw">mainPanel</span>(</span>
-<span id="cb170-13"><a href="shiny.html#cb170-13"></a>   <span class="kw">plotlyOutput</span>(<span class="st">&quot;state_daily_bc&quot;</span>, <span class="dt">height =</span> <span class="st">&quot;100%&quot;</span>, <span class="dt">width =</span> <span class="st">&quot;150%&quot;</span>)</span>
-<span id="cb170-14"><a href="shiny.html#cb170-14"></a>  )</span>
-<span id="cb170-15"><a href="shiny.html#cb170-15"></a>))</span></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="shiny.html#cb171-1"></a><span class="kw">shinyUI</span>(<span class="kw">fluidPage</span>(</span>
+<span id="cb171-2"><a href="shiny.html#cb171-2"></a>  <span class="kw">sliderInput</span>(<span class="st">&quot;date.update&quot;</span>,</span>
+<span id="cb171-3"><a href="shiny.html#cb171-3"></a>      <span class="dt">label =</span> <span class="kw">h5</span>(<span class="st">&quot;Select date&quot;</span>),</span>
+<span id="cb171-4"><a href="shiny.html#cb171-4"></a>      <span class="dt">min =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2020-01-23&quot;</span>),</span>
+<span id="cb171-5"><a href="shiny.html#cb171-5"></a>      <span class="dt">max =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2020-12-01&quot;</span>),</span>
+<span id="cb171-6"><a href="shiny.html#cb171-6"></a>      <span class="dt">value =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2020-12-01&quot;</span>),</span>
+<span id="cb171-7"><a href="shiny.html#cb171-7"></a>      <span class="dt">timeFormat =</span> <span class="st">&quot;%d %b&quot;</span>,</span>
+<span id="cb171-8"><a href="shiny.html#cb171-8"></a>      <span class="dt">animate =</span> <span class="kw">animationOptions</span>(<span class="dt">interval =</span> <span class="dv">2000</span>, <span class="dt">loop =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb171-9"><a href="shiny.html#cb171-9"></a>  ),</span>
+<span id="cb171-10"><a href="shiny.html#cb171-10"></a>  </span>
+<span id="cb171-11"><a href="shiny.html#cb171-11"></a>  <span class="co"># Show a plot of the generated distribution</span></span>
+<span id="cb171-12"><a href="shiny.html#cb171-12"></a>  <span class="kw">mainPanel</span>(</span>
+<span id="cb171-13"><a href="shiny.html#cb171-13"></a>   <span class="kw">plotlyOutput</span>(<span class="st">&quot;state_daily_bc&quot;</span>, <span class="dt">height =</span> <span class="st">&quot;100%&quot;</span>, <span class="dt">width =</span> <span class="st">&quot;150%&quot;</span>)</span>
+<span id="cb171-14"><a href="shiny.html#cb171-14"></a>  )</span>
+<span id="cb171-15"><a href="shiny.html#cb171-15"></a>))</span></code></pre></div>
 <p><strong>server.R</strong></p>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="shiny.html#cb171-1"></a>state.daily.bc &lt;-<span class="st"> </span><span class="cf">function</span>(date.update){</span>
-<span id="cb171-2"><a href="shiny.html#cb171-2"></a>  <span class="co"># load daily new case data for each state</span></span>
-<span id="cb171-3"><a href="shiny.html#cb171-3"></a>  dat.sd =<span class="st"> </span>slid<span class="op">::</span>dat.sd</span>
-<span id="cb171-4"><a href="shiny.html#cb171-4"></a>  <span class="co"># select the top 10 states with highest daily new</span></span>
-<span id="cb171-5"><a href="shiny.html#cb171-5"></a>  df.sd &lt;-<span class="st"> </span>dat.sd[ind.sd[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>],]</span>
-<span id="cb171-6"><a href="shiny.html#cb171-6"></a>  df.sd &lt;-<span class="st"> </span>df.sd <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb171-7"><a href="shiny.html#cb171-7"></a><span class="st">    </span>dplyr<span class="op">::</span><span class="kw">select</span>(State, <span class="kw">format</span>(date.update, <span class="st">&#39;X%Y.%m.%d&#39;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb171-8"><a href="shiny.html#cb171-8"></a><span class="st">    </span><span class="kw">mutate</span>(Date &lt;-<span class="st"> </span><span class="kw">format</span>(date.update, <span class="st">&#39;%m/%d&#39;</span>))</span>
-<span id="cb171-9"><a href="shiny.html#cb171-9"></a>  df.sd<span class="op">$</span>State &lt;-<span class="st"> </span><span class="kw">as.character</span>(df.sd<span class="op">$</span>State)</span>
-<span id="cb171-10"><a href="shiny.html#cb171-10"></a>  <span class="kw">names</span>(df.sd) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;State&#39;</span>, <span class="st">&#39;DailyCases&#39;</span>, <span class="st">&#39;Date&#39;</span>)</span>
-<span id="cb171-11"><a href="shiny.html#cb171-11"></a>  plot.title &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;New Cases on &quot;</span>, <span class="kw">as.character</span>(date.update))</span>
-<span id="cb171-12"><a href="shiny.html#cb171-12"></a>  </span>
-<span id="cb171-13"><a href="shiny.html#cb171-13"></a>  bc.sd &lt;-</span>
-<span id="cb171-14"><a href="shiny.html#cb171-14"></a><span class="st">    </span><span class="kw">ggplot</span>(df.sd, <span class="kw">aes</span>(State, DailyCases)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb171-15"><a href="shiny.html#cb171-15"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> plot.title) <span class="op">+</span></span>
-<span id="cb171-16"><a href="shiny.html#cb171-16"></a><span class="st">    </span><span class="kw">xlab</span>(<span class="st">&#39;&#39;</span>) <span class="op">+</span></span>
-<span id="cb171-17"><a href="shiny.html#cb171-17"></a><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&#39;&#39;</span>) <span class="op">+</span></span>
-<span id="cb171-18"><a href="shiny.html#cb171-18"></a><span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&#39;identity&#39;</span>, <span class="dt">fill =</span> <span class="st">&quot;#C93312&quot;</span>) </span>
-<span id="cb171-19"><a href="shiny.html#cb171-19"></a>  <span class="kw">return</span>(bc.sd)	</span>
-<span id="cb171-20"><a href="shiny.html#cb171-20"></a>}</span>
-<span id="cb171-21"><a href="shiny.html#cb171-21"></a></span>
-<span id="cb171-22"><a href="shiny.html#cb171-22"></a><span class="kw">shinyServer</span>(<span class="cf">function</span>(input, output) {</span>
-<span id="cb171-23"><a href="shiny.html#cb171-23"></a>  output<span class="op">$</span>state_daily_bc &lt;-<span class="st"> </span><span class="kw">renderPlotly</span>({</span>
-<span id="cb171-24"><a href="shiny.html#cb171-24"></a>    ts &lt;-<span class="st"> </span><span class="kw">state.daily.bc</span>(input<span class="op">$</span>date.update)</span>
-<span id="cb171-25"><a href="shiny.html#cb171-25"></a>  })</span>
-<span id="cb171-26"><a href="shiny.html#cb171-26"></a>})</span></code></pre></div>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="shiny.html#cb172-1"></a>state.daily.bc &lt;-<span class="st"> </span><span class="cf">function</span>(date.update){</span>
+<span id="cb172-2"><a href="shiny.html#cb172-2"></a>  <span class="co"># load daily new case data for each state</span></span>
+<span id="cb172-3"><a href="shiny.html#cb172-3"></a>  dat.sd =<span class="st"> </span>slid<span class="op">::</span>dat.sd</span>
+<span id="cb172-4"><a href="shiny.html#cb172-4"></a>  <span class="co"># select the top 10 states with highest daily new</span></span>
+<span id="cb172-5"><a href="shiny.html#cb172-5"></a>  df.sd &lt;-<span class="st"> </span>dat.sd[ind.sd[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>],]</span>
+<span id="cb172-6"><a href="shiny.html#cb172-6"></a>  df.sd &lt;-<span class="st"> </span>df.sd <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb172-7"><a href="shiny.html#cb172-7"></a><span class="st">    </span>dplyr<span class="op">::</span><span class="kw">select</span>(State, <span class="kw">format</span>(date.update, <span class="st">&#39;X%Y.%m.%d&#39;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb172-8"><a href="shiny.html#cb172-8"></a><span class="st">    </span><span class="kw">mutate</span>(Date &lt;-<span class="st"> </span><span class="kw">format</span>(date.update, <span class="st">&#39;%m/%d&#39;</span>))</span>
+<span id="cb172-9"><a href="shiny.html#cb172-9"></a>  df.sd<span class="op">$</span>State &lt;-<span class="st"> </span><span class="kw">as.character</span>(df.sd<span class="op">$</span>State)</span>
+<span id="cb172-10"><a href="shiny.html#cb172-10"></a>  <span class="kw">names</span>(df.sd) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;State&#39;</span>, <span class="st">&#39;DailyCases&#39;</span>, <span class="st">&#39;Date&#39;</span>)</span>
+<span id="cb172-11"><a href="shiny.html#cb172-11"></a>  plot.title &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;New Cases on &quot;</span>, <span class="kw">as.character</span>(date.update))</span>
+<span id="cb172-12"><a href="shiny.html#cb172-12"></a>  </span>
+<span id="cb172-13"><a href="shiny.html#cb172-13"></a>  bc.sd &lt;-</span>
+<span id="cb172-14"><a href="shiny.html#cb172-14"></a><span class="st">    </span><span class="kw">ggplot</span>(df.sd, <span class="kw">aes</span>(State, DailyCases)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb172-15"><a href="shiny.html#cb172-15"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> plot.title) <span class="op">+</span></span>
+<span id="cb172-16"><a href="shiny.html#cb172-16"></a><span class="st">    </span><span class="kw">xlab</span>(<span class="st">&#39;&#39;</span>) <span class="op">+</span></span>
+<span id="cb172-17"><a href="shiny.html#cb172-17"></a><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&#39;&#39;</span>) <span class="op">+</span></span>
+<span id="cb172-18"><a href="shiny.html#cb172-18"></a><span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&#39;identity&#39;</span>, <span class="dt">fill =</span> <span class="st">&quot;#C93312&quot;</span>) </span>
+<span id="cb172-19"><a href="shiny.html#cb172-19"></a>  <span class="kw">return</span>(bc.sd)	</span>
+<span id="cb172-20"><a href="shiny.html#cb172-20"></a>}</span>
+<span id="cb172-21"><a href="shiny.html#cb172-21"></a></span>
+<span id="cb172-22"><a href="shiny.html#cb172-22"></a><span class="kw">shinyServer</span>(<span class="cf">function</span>(input, output) {</span>
+<span id="cb172-23"><a href="shiny.html#cb172-23"></a>  output<span class="op">$</span>state_daily_bc &lt;-<span class="st"> </span><span class="kw">renderPlotly</span>({</span>
+<span id="cb172-24"><a href="shiny.html#cb172-24"></a>    ts &lt;-<span class="st"> </span><span class="kw">state.daily.bc</span>(input<span class="op">$</span>date.update)</span>
+<span id="cb172-25"><a href="shiny.html#cb172-25"></a>  })</span>
+<span id="cb172-26"><a href="shiny.html#cb172-26"></a>})</span></code></pre></div>
 <p>If everything is working correctly you’ll see the application appear in your browser looking something like this:</p>
 <div class="figure">
 <img src="figures/statenewbar.png" alt="" />
@@ -566,66 +637,66 @@ Figure 6.1: An illustration of Shiny Structure.
 </div>
 <p><strong>Example 2.</strong></p>
 <p><strong>ui.R</strong></p>
-<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="shiny.html#cb172-1"></a><span class="kw">shinyUI</span>(<span class="kw">fluidPage</span>(</span>
-<span id="cb172-2"><a href="shiny.html#cb172-2"></a>	<span class="kw">div</span>(<span class="dt">class =</span> <span class="st">&quot;outer&quot;</span>,</span>
-<span id="cb172-3"><a href="shiny.html#cb172-3"></a>	tags<span class="op">$</span><span class="kw">head</span>(<span class="kw">includeCSS</span>(<span class="st">&quot;styles.css&quot;</span>)),</span>
-<span id="cb172-4"><a href="shiny.html#cb172-4"></a>	<span class="kw">plotlyOutput</span>(<span class="st">&quot;us_case_ts&quot;</span>, <span class="dt">height =</span> <span class="st">&quot;100%&quot;</span>, <span class="dt">width =</span> <span class="st">&quot;100%&quot;</span>),</span>
-<span id="cb172-5"><a href="shiny.html#cb172-5"></a>	<span class="kw">absolutePanel</span>(<span class="dt">id =</span> <span class="st">&quot;control&quot;</span>, <span class="dt">class =</span> <span class="st">&quot;panel panel-default&quot;</span>,</span>
-<span id="cb172-6"><a href="shiny.html#cb172-6"></a>                <span class="dt">top =</span> <span class="dv">60</span>, <span class="dt">left =</span> <span class="dv">70</span>, <span class="dt">width =</span> <span class="dv">255</span>, <span class="dt">fixed=</span><span class="ot">TRUE</span>,</span>
-<span id="cb172-7"><a href="shiny.html#cb172-7"></a>                <span class="dt">draggable =</span> <span class="ot">TRUE</span>, <span class="dt">height =</span> <span class="st">&quot;auto&quot;</span>, </span>
-<span id="cb172-8"><a href="shiny.html#cb172-8"></a>	              <span class="dt">style =</span> <span class="st">&quot;opacity: 0.8&quot;</span>,</span>
-<span id="cb172-9"><a href="shiny.html#cb172-9"></a>    <span class="kw">selectInput</span>(<span class="st">&quot;plot_type&quot;</span>,</span>
-<span id="cb172-10"><a href="shiny.html#cb172-10"></a>      <span class="dt">label =</span> <span class="kw">h5</span>(<span class="st">&quot;Select type&quot;</span>),</span>
-<span id="cb172-11"><a href="shiny.html#cb172-11"></a>      <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">&quot;Original Counts&quot;</span> =<span class="st"> &quot;counts&quot;</span>, </span>
-<span id="cb172-12"><a href="shiny.html#cb172-12"></a>                  <span class="st">&quot;Log Counts&quot;</span> =<span class="st"> &quot;logcounts&quot;</span>)</span>
-<span id="cb172-13"><a href="shiny.html#cb172-13"></a>    )<span class="co"># end of selectInput1</span></span>
-<span id="cb172-14"><a href="shiny.html#cb172-14"></a>  )</span>
-<span id="cb172-15"><a href="shiny.html#cb172-15"></a>  ) <span class="co"># end of div</span></span>
-<span id="cb172-16"><a href="shiny.html#cb172-16"></a>) <span class="co"># end of tab</span></span>
-<span id="cb172-17"><a href="shiny.html#cb172-17"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="shiny.html#cb173-1"></a><span class="kw">shinyUI</span>(<span class="kw">fluidPage</span>(</span>
+<span id="cb173-2"><a href="shiny.html#cb173-2"></a>	<span class="kw">div</span>(<span class="dt">class =</span> <span class="st">&quot;outer&quot;</span>,</span>
+<span id="cb173-3"><a href="shiny.html#cb173-3"></a>	tags<span class="op">$</span><span class="kw">head</span>(<span class="kw">includeCSS</span>(<span class="st">&quot;styles.css&quot;</span>)),</span>
+<span id="cb173-4"><a href="shiny.html#cb173-4"></a>	<span class="kw">plotlyOutput</span>(<span class="st">&quot;us_case_ts&quot;</span>, <span class="dt">height =</span> <span class="st">&quot;100%&quot;</span>, <span class="dt">width =</span> <span class="st">&quot;100%&quot;</span>),</span>
+<span id="cb173-5"><a href="shiny.html#cb173-5"></a>	<span class="kw">absolutePanel</span>(<span class="dt">id =</span> <span class="st">&quot;control&quot;</span>, <span class="dt">class =</span> <span class="st">&quot;panel panel-default&quot;</span>,</span>
+<span id="cb173-6"><a href="shiny.html#cb173-6"></a>                <span class="dt">top =</span> <span class="dv">60</span>, <span class="dt">left =</span> <span class="dv">70</span>, <span class="dt">width =</span> <span class="dv">255</span>, <span class="dt">fixed=</span><span class="ot">TRUE</span>,</span>
+<span id="cb173-7"><a href="shiny.html#cb173-7"></a>                <span class="dt">draggable =</span> <span class="ot">TRUE</span>, <span class="dt">height =</span> <span class="st">&quot;auto&quot;</span>, </span>
+<span id="cb173-8"><a href="shiny.html#cb173-8"></a>	              <span class="dt">style =</span> <span class="st">&quot;opacity: 0.8&quot;</span>,</span>
+<span id="cb173-9"><a href="shiny.html#cb173-9"></a>    <span class="kw">selectInput</span>(<span class="st">&quot;plot_type&quot;</span>,</span>
+<span id="cb173-10"><a href="shiny.html#cb173-10"></a>      <span class="dt">label =</span> <span class="kw">h5</span>(<span class="st">&quot;Select type&quot;</span>),</span>
+<span id="cb173-11"><a href="shiny.html#cb173-11"></a>      <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">&quot;Original Counts&quot;</span> =<span class="st"> &quot;counts&quot;</span>, </span>
+<span id="cb173-12"><a href="shiny.html#cb173-12"></a>                  <span class="st">&quot;Log Counts&quot;</span> =<span class="st"> &quot;logcounts&quot;</span>)</span>
+<span id="cb173-13"><a href="shiny.html#cb173-13"></a>    )<span class="co"># end of selectInput1</span></span>
+<span id="cb173-14"><a href="shiny.html#cb173-14"></a>  )</span>
+<span id="cb173-15"><a href="shiny.html#cb173-15"></a>  ) <span class="co"># end of div</span></span>
+<span id="cb173-16"><a href="shiny.html#cb173-16"></a>) <span class="co"># end of tab</span></span>
+<span id="cb173-17"><a href="shiny.html#cb173-17"></a>)</span></code></pre></div>
 <p><strong>server.R</strong></p>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="shiny.html#cb173-1"></a>cols &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;#045a8d&quot;</span>, <span class="st">&quot;#cc4c02&quot;</span>)</span>
-<span id="cb173-2"><a href="shiny.html#cb173-2"></a>us.case.ts &lt;-<span class="st"> </span><span class="cf">function</span>(date.update, plot.type) {</span>
-<span id="cb173-3"><a href="shiny.html#cb173-3"></a>  <span class="co"># Cum infected cases in Iowa: Observation and Prediction</span></span>
-<span id="cb173-4"><a href="shiny.html#cb173-4"></a>  dfplot =<span class="st"> </span>slid<span class="op">::</span>dfplot</span>
-<span id="cb173-5"><a href="shiny.html#cb173-5"></a>  </span>
-<span id="cb173-6"><a href="shiny.html#cb173-6"></a>  <span class="cf">if</span> (plot.type <span class="op">==</span><span class="st"> &#39;counts&#39;</span>){</span>
-<span id="cb173-7"><a href="shiny.html#cb173-7"></a>   ts &lt;-</span>
-<span id="cb173-8"><a href="shiny.html#cb173-8"></a><span class="st">     </span><span class="kw">ggplot</span>(dfplot, <span class="kw">aes</span>(Date, DailyCases, <span class="dt">colour =</span> Group)) <span class="op">+</span></span>
-<span id="cb173-9"><a href="shiny.html#cb173-9"></a><span class="st">     </span><span class="co">## Plot observed</span></span>
-<span id="cb173-10"><a href="shiny.html#cb173-10"></a><span class="st">     </span><span class="kw">geom_line</span>(<span class="dt">colour =</span> <span class="st">&#39;darkgray&#39;</span>)  <span class="op">+</span></span>
-<span id="cb173-11"><a href="shiny.html#cb173-11"></a><span class="st">     </span><span class="kw">geom_point</span>()  <span class="op">+</span></span>
-<span id="cb173-12"><a href="shiny.html#cb173-12"></a><span class="st">     </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;Observation&quot;</span> =<span class="st"> </span>cols[<span class="dv">1</span>], </span>
-<span id="cb173-13"><a href="shiny.html#cb173-13"></a>                                   <span class="st">&quot;Prediction&quot;</span> =<span class="st"> </span>cols[<span class="dv">2</span>])) <span class="op">+</span></span>
-<span id="cb173-14"><a href="shiny.html#cb173-14"></a><span class="st">     </span><span class="co">## Change labs</span></span>
-<span id="cb173-15"><a href="shiny.html#cb173-15"></a><span class="st">     </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&#39;Daily new infected cases and prediction&#39;</span>)  <span class="op">+</span><span class="st">  </span></span>
-<span id="cb173-16"><a href="shiny.html#cb173-16"></a><span class="st">     </span><span class="kw">xlab</span>(<span class="st">&#39;Date&#39;</span>) <span class="op">+</span></span>
-<span id="cb173-17"><a href="shiny.html#cb173-17"></a><span class="st">     </span><span class="kw">ylab</span>(<span class="st">&#39;Daily new cases&#39;</span>)</span>
-<span id="cb173-18"><a href="shiny.html#cb173-18"></a>   </span>
-<span id="cb173-19"><a href="shiny.html#cb173-19"></a>  } <span class="cf">else</span> <span class="cf">if</span> (plot.type <span class="op">==</span><span class="st"> &#39;logcounts&#39;</span>){</span>
-<span id="cb173-20"><a href="shiny.html#cb173-20"></a>    ts &lt;-</span>
-<span id="cb173-21"><a href="shiny.html#cb173-21"></a><span class="st">      </span><span class="kw">ggplot</span>(dfplot, <span class="kw">aes</span>(Date, logDailyCases, <span class="dt">colour =</span> Group) ) <span class="op">+</span></span>
-<span id="cb173-22"><a href="shiny.html#cb173-22"></a><span class="st">      </span><span class="co">## Plot observed</span></span>
-<span id="cb173-23"><a href="shiny.html#cb173-23"></a><span class="st">      </span><span class="kw">geom_line</span>(<span class="dt">colour =</span> <span class="st">&#39;darkgray&#39;</span>)  <span class="op">+</span></span>
-<span id="cb173-24"><a href="shiny.html#cb173-24"></a><span class="st">      </span><span class="kw">geom_point</span>()  <span class="op">+</span></span>
-<span id="cb173-25"><a href="shiny.html#cb173-25"></a><span class="st">      </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;Observation&quot;</span> =<span class="st"> </span>cols[<span class="dv">1</span>], </span>
-<span id="cb173-26"><a href="shiny.html#cb173-26"></a>                                    <span class="st">&quot;Prediction&quot;</span> =<span class="st"> </span>cols[<span class="dv">2</span>])) <span class="op">+</span></span>
-<span id="cb173-27"><a href="shiny.html#cb173-27"></a><span class="st">      </span><span class="co">## Change labs</span></span>
-<span id="cb173-28"><a href="shiny.html#cb173-28"></a><span class="st">      </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&#39;Logarithm of daily new infected count </span></span>
-<span id="cb173-29"><a href="shiny.html#cb173-29"></a><span class="st">           and prediction&#39;</span>) <span class="op">+</span><span class="st">  </span></span>
-<span id="cb173-30"><a href="shiny.html#cb173-30"></a><span class="st">      </span><span class="kw">xlab</span>(<span class="st">&#39;Date&#39;</span>) <span class="op">+</span></span>
-<span id="cb173-31"><a href="shiny.html#cb173-31"></a><span class="st">      </span><span class="kw">ylab</span>(<span class="st">&#39;Log (Daily new cases)&#39;</span>)</span>
-<span id="cb173-32"><a href="shiny.html#cb173-32"></a>    </span>
-<span id="cb173-33"><a href="shiny.html#cb173-33"></a>  }</span>
-<span id="cb173-34"><a href="shiny.html#cb173-34"></a>  <span class="kw">return</span>(ts)	</span>
-<span id="cb173-35"><a href="shiny.html#cb173-35"></a>}</span>
-<span id="cb173-36"><a href="shiny.html#cb173-36"></a></span>
-<span id="cb173-37"><a href="shiny.html#cb173-37"></a><span class="kw">shinyServer</span>(<span class="cf">function</span>(input, output) {</span>
-<span id="cb173-38"><a href="shiny.html#cb173-38"></a>  output<span class="op">$</span>us_case_ts &lt;-<span class="st"> </span><span class="kw">renderPlotly</span>({</span>
-<span id="cb173-39"><a href="shiny.html#cb173-39"></a>    ts &lt;-<span class="st"> </span><span class="kw">us.case.ts</span>(<span class="dt">date.update =</span> date.update, </span>
-<span id="cb173-40"><a href="shiny.html#cb173-40"></a>                     <span class="dt">plot.type =</span> input<span class="op">$</span>plot_type)</span>
-<span id="cb173-41"><a href="shiny.html#cb173-41"></a>  })</span>
-<span id="cb173-42"><a href="shiny.html#cb173-42"></a>})</span></code></pre></div>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="shiny.html#cb174-1"></a>cols &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;#045a8d&quot;</span>, <span class="st">&quot;#cc4c02&quot;</span>)</span>
+<span id="cb174-2"><a href="shiny.html#cb174-2"></a>us.case.ts &lt;-<span class="st"> </span><span class="cf">function</span>(date.update, plot.type) {</span>
+<span id="cb174-3"><a href="shiny.html#cb174-3"></a>  <span class="co"># Cum infected cases in Iowa: Observation and Prediction</span></span>
+<span id="cb174-4"><a href="shiny.html#cb174-4"></a>  dfplot =<span class="st"> </span>slid<span class="op">::</span>dfplot</span>
+<span id="cb174-5"><a href="shiny.html#cb174-5"></a>  </span>
+<span id="cb174-6"><a href="shiny.html#cb174-6"></a>  <span class="cf">if</span> (plot.type <span class="op">==</span><span class="st"> &#39;counts&#39;</span>){</span>
+<span id="cb174-7"><a href="shiny.html#cb174-7"></a>   ts &lt;-</span>
+<span id="cb174-8"><a href="shiny.html#cb174-8"></a><span class="st">     </span><span class="kw">ggplot</span>(dfplot, <span class="kw">aes</span>(Date, DailyCases, <span class="dt">colour =</span> Group)) <span class="op">+</span></span>
+<span id="cb174-9"><a href="shiny.html#cb174-9"></a><span class="st">     </span><span class="co">## Plot observed</span></span>
+<span id="cb174-10"><a href="shiny.html#cb174-10"></a><span class="st">     </span><span class="kw">geom_line</span>(<span class="dt">colour =</span> <span class="st">&#39;darkgray&#39;</span>)  <span class="op">+</span></span>
+<span id="cb174-11"><a href="shiny.html#cb174-11"></a><span class="st">     </span><span class="kw">geom_point</span>()  <span class="op">+</span></span>
+<span id="cb174-12"><a href="shiny.html#cb174-12"></a><span class="st">     </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;Observation&quot;</span> =<span class="st"> </span>cols[<span class="dv">1</span>], </span>
+<span id="cb174-13"><a href="shiny.html#cb174-13"></a>                                   <span class="st">&quot;Prediction&quot;</span> =<span class="st"> </span>cols[<span class="dv">2</span>])) <span class="op">+</span></span>
+<span id="cb174-14"><a href="shiny.html#cb174-14"></a><span class="st">     </span><span class="co">## Change labs</span></span>
+<span id="cb174-15"><a href="shiny.html#cb174-15"></a><span class="st">     </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&#39;Daily new infected cases and prediction&#39;</span>)  <span class="op">+</span><span class="st">  </span></span>
+<span id="cb174-16"><a href="shiny.html#cb174-16"></a><span class="st">     </span><span class="kw">xlab</span>(<span class="st">&#39;Date&#39;</span>) <span class="op">+</span></span>
+<span id="cb174-17"><a href="shiny.html#cb174-17"></a><span class="st">     </span><span class="kw">ylab</span>(<span class="st">&#39;Daily new cases&#39;</span>)</span>
+<span id="cb174-18"><a href="shiny.html#cb174-18"></a>   </span>
+<span id="cb174-19"><a href="shiny.html#cb174-19"></a>  } <span class="cf">else</span> <span class="cf">if</span> (plot.type <span class="op">==</span><span class="st"> &#39;logcounts&#39;</span>){</span>
+<span id="cb174-20"><a href="shiny.html#cb174-20"></a>    ts &lt;-</span>
+<span id="cb174-21"><a href="shiny.html#cb174-21"></a><span class="st">      </span><span class="kw">ggplot</span>(dfplot, <span class="kw">aes</span>(Date, logDailyCases, <span class="dt">colour =</span> Group) ) <span class="op">+</span></span>
+<span id="cb174-22"><a href="shiny.html#cb174-22"></a><span class="st">      </span><span class="co">## Plot observed</span></span>
+<span id="cb174-23"><a href="shiny.html#cb174-23"></a><span class="st">      </span><span class="kw">geom_line</span>(<span class="dt">colour =</span> <span class="st">&#39;darkgray&#39;</span>)  <span class="op">+</span></span>
+<span id="cb174-24"><a href="shiny.html#cb174-24"></a><span class="st">      </span><span class="kw">geom_point</span>()  <span class="op">+</span></span>
+<span id="cb174-25"><a href="shiny.html#cb174-25"></a><span class="st">      </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;Observation&quot;</span> =<span class="st"> </span>cols[<span class="dv">1</span>], </span>
+<span id="cb174-26"><a href="shiny.html#cb174-26"></a>                                    <span class="st">&quot;Prediction&quot;</span> =<span class="st"> </span>cols[<span class="dv">2</span>])) <span class="op">+</span></span>
+<span id="cb174-27"><a href="shiny.html#cb174-27"></a><span class="st">      </span><span class="co">## Change labs</span></span>
+<span id="cb174-28"><a href="shiny.html#cb174-28"></a><span class="st">      </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&#39;Logarithm of daily new infected count </span></span>
+<span id="cb174-29"><a href="shiny.html#cb174-29"></a><span class="st">           and prediction&#39;</span>) <span class="op">+</span><span class="st">  </span></span>
+<span id="cb174-30"><a href="shiny.html#cb174-30"></a><span class="st">      </span><span class="kw">xlab</span>(<span class="st">&#39;Date&#39;</span>) <span class="op">+</span></span>
+<span id="cb174-31"><a href="shiny.html#cb174-31"></a><span class="st">      </span><span class="kw">ylab</span>(<span class="st">&#39;Log (Daily new cases)&#39;</span>)</span>
+<span id="cb174-32"><a href="shiny.html#cb174-32"></a>    </span>
+<span id="cb174-33"><a href="shiny.html#cb174-33"></a>  }</span>
+<span id="cb174-34"><a href="shiny.html#cb174-34"></a>  <span class="kw">return</span>(ts)	</span>
+<span id="cb174-35"><a href="shiny.html#cb174-35"></a>}</span>
+<span id="cb174-36"><a href="shiny.html#cb174-36"></a></span>
+<span id="cb174-37"><a href="shiny.html#cb174-37"></a><span class="kw">shinyServer</span>(<span class="cf">function</span>(input, output) {</span>
+<span id="cb174-38"><a href="shiny.html#cb174-38"></a>  output<span class="op">$</span>us_case_ts &lt;-<span class="st"> </span><span class="kw">renderPlotly</span>({</span>
+<span id="cb174-39"><a href="shiny.html#cb174-39"></a>    ts &lt;-<span class="st"> </span><span class="kw">us.case.ts</span>(<span class="dt">date.update =</span> date.update, </span>
+<span id="cb174-40"><a href="shiny.html#cb174-40"></a>                     <span class="dt">plot.type =</span> input<span class="op">$</span>plot_type)</span>
+<span id="cb174-41"><a href="shiny.html#cb174-41"></a>  })</span>
+<span id="cb174-42"><a href="shiny.html#cb174-42"></a>})</span></code></pre></div>
 <p>If everything is working correctly you’ll see the application appear in your browser looking something like this:</p>
 <div class="figure">
 <img src="figures/dailynew.png" alt="" />
@@ -634,154 +705,154 @@ Figure 6.1: An illustration of Shiny Structure.
 <p>Remark: There are currently four different modes for mouse click+drag behavior (i.e., <code>dragmode</code>) in plotly.js: zoom, pan, rectangular selection, and lasso selection.</p>
 <p><strong>Example 3.</strong></p>
 <p><strong>ui.R</strong></p>
-<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="shiny.html#cb174-1"></a><span class="kw">shinyUI</span>(<span class="kw">fluidPage</span>(</span>
-<span id="cb174-2"><a href="shiny.html#cb174-2"></a>	<span class="kw">div</span>(<span class="dt">class=</span><span class="st">&quot;outer&quot;</span>,</span>
-<span id="cb174-3"><a href="shiny.html#cb174-3"></a>	tags<span class="op">$</span><span class="kw">head</span>(<span class="kw">includeCSS</span>(<span class="st">&quot;styles.css&quot;</span>)),</span>
-<span id="cb174-4"><a href="shiny.html#cb174-4"></a>	<span class="kw">plotlyOutput</span>(<span class="st">&quot;county_risk_ts&quot;</span>, <span class="dt">height=</span><span class="st">&quot;100%&quot;</span>, <span class="dt">width=</span><span class="st">&quot;100%&quot;</span>),</span>
-<span id="cb174-5"><a href="shiny.html#cb174-5"></a>	<span class="kw">absolutePanel</span>(<span class="dt">id =</span> <span class="st">&quot;control&quot;</span>, <span class="dt">class =</span> <span class="st">&quot;panel panel-default&quot;</span>,</span>
-<span id="cb174-6"><a href="shiny.html#cb174-6"></a>	  <span class="dt">top =</span> <span class="dv">60</span>, <span class="dt">left =</span> <span class="dv">70</span>, <span class="dt">width =</span> <span class="dv">255</span>, <span class="dt">fixed=</span><span class="ot">TRUE</span>,</span>
-<span id="cb174-7"><a href="shiny.html#cb174-7"></a>	  <span class="dt">draggable =</span> <span class="ot">TRUE</span>, <span class="dt">height =</span> <span class="st">&quot;auto&quot;</span>, <span class="dt">style =</span> <span class="st">&quot;opacity: 0.8&quot;</span>,</span>
-<span id="cb174-8"><a href="shiny.html#cb174-8"></a>	  <span class="kw">selectInput</span>(<span class="st">&quot;plot_type&quot;</span>,</span>
-<span id="cb174-9"><a href="shiny.html#cb174-9"></a>	    <span class="dt">label =</span> <span class="kw">h5</span>(<span class="st">&quot;Select type&quot;</span>),</span>
-<span id="cb174-10"><a href="shiny.html#cb174-10"></a>	    <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">&quot;WLR&quot;</span> =<span class="st"> &quot;wlr&quot;</span>, <span class="st">&quot;IR&quot;</span> =<span class="st"> &quot;localrisk&quot;</span>, </span>
-<span id="cb174-11"><a href="shiny.html#cb174-11"></a>	                <span class="st">&quot;SIR&quot;</span> =<span class="st"> &quot;smr&quot;</span>)</span>
-<span id="cb174-12"><a href="shiny.html#cb174-12"></a>	  ) <span class="co"># end of selectInput</span></span>
-<span id="cb174-13"><a href="shiny.html#cb174-13"></a>	) <span class="co"># end of absolutePanel</span></span>
-<span id="cb174-14"><a href="shiny.html#cb174-14"></a>	) <span class="co"># end of div</span></span>
-<span id="cb174-15"><a href="shiny.html#cb174-15"></a>))</span></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="shiny.html#cb175-1"></a><span class="kw">shinyUI</span>(<span class="kw">fluidPage</span>(</span>
+<span id="cb175-2"><a href="shiny.html#cb175-2"></a>	<span class="kw">div</span>(<span class="dt">class=</span><span class="st">&quot;outer&quot;</span>,</span>
+<span id="cb175-3"><a href="shiny.html#cb175-3"></a>	tags<span class="op">$</span><span class="kw">head</span>(<span class="kw">includeCSS</span>(<span class="st">&quot;styles.css&quot;</span>)),</span>
+<span id="cb175-4"><a href="shiny.html#cb175-4"></a>	<span class="kw">plotlyOutput</span>(<span class="st">&quot;county_risk_ts&quot;</span>, <span class="dt">height=</span><span class="st">&quot;100%&quot;</span>, <span class="dt">width=</span><span class="st">&quot;100%&quot;</span>),</span>
+<span id="cb175-5"><a href="shiny.html#cb175-5"></a>	<span class="kw">absolutePanel</span>(<span class="dt">id =</span> <span class="st">&quot;control&quot;</span>, <span class="dt">class =</span> <span class="st">&quot;panel panel-default&quot;</span>,</span>
+<span id="cb175-6"><a href="shiny.html#cb175-6"></a>	  <span class="dt">top =</span> <span class="dv">60</span>, <span class="dt">left =</span> <span class="dv">70</span>, <span class="dt">width =</span> <span class="dv">255</span>, <span class="dt">fixed=</span><span class="ot">TRUE</span>,</span>
+<span id="cb175-7"><a href="shiny.html#cb175-7"></a>	  <span class="dt">draggable =</span> <span class="ot">TRUE</span>, <span class="dt">height =</span> <span class="st">&quot;auto&quot;</span>, <span class="dt">style =</span> <span class="st">&quot;opacity: 0.8&quot;</span>,</span>
+<span id="cb175-8"><a href="shiny.html#cb175-8"></a>	  <span class="kw">selectInput</span>(<span class="st">&quot;plot_type&quot;</span>,</span>
+<span id="cb175-9"><a href="shiny.html#cb175-9"></a>	    <span class="dt">label =</span> <span class="kw">h5</span>(<span class="st">&quot;Select type&quot;</span>),</span>
+<span id="cb175-10"><a href="shiny.html#cb175-10"></a>	    <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">&quot;WLR&quot;</span> =<span class="st"> &quot;wlr&quot;</span>, <span class="st">&quot;IR&quot;</span> =<span class="st"> &quot;localrisk&quot;</span>, </span>
+<span id="cb175-11"><a href="shiny.html#cb175-11"></a>	                <span class="st">&quot;SIR&quot;</span> =<span class="st"> &quot;smr&quot;</span>)</span>
+<span id="cb175-12"><a href="shiny.html#cb175-12"></a>	  ) <span class="co"># end of selectInput</span></span>
+<span id="cb175-13"><a href="shiny.html#cb175-13"></a>	) <span class="co"># end of absolutePanel</span></span>
+<span id="cb175-14"><a href="shiny.html#cb175-14"></a>	) <span class="co"># end of div</span></span>
+<span id="cb175-15"><a href="shiny.html#cb175-15"></a>))</span></code></pre></div>
 <p>** server.R **</p>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="shiny.html#cb175-1"></a>date.update &lt;-<span class="st"> </span><span class="kw">as.Date</span>(<span class="st">&#39;2020-12-12&#39;</span>)</span>
-<span id="cb175-2"><a href="shiny.html#cb175-2"></a>mycol &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;#5B1A18&quot;</span>, <span class="st">&quot;#F21A00&quot;</span>, <span class="st">&quot;#D67236&quot;</span>, <span class="st">&quot;#F1BB7B&quot;</span>, </span>
-<span id="cb175-3"><a href="shiny.html#cb175-3"></a>           <span class="st">&quot;#D8B70A&quot;</span>, <span class="st">&quot;#A2A475&quot;</span>, <span class="st">&quot;#81A88D&quot;</span>, <span class="st">&quot;#78B7C5&quot;</span>, </span>
-<span id="cb175-4"><a href="shiny.html#cb175-4"></a>           <span class="st">&quot;#3B9AB2&quot;</span>, <span class="st">&quot;#7294D4&quot;</span>, <span class="st">&quot;#C6CDF7&quot;</span>, <span class="st">&quot;#E6A0C4&quot;</span>)</span>
-<span id="cb175-5"><a href="shiny.html#cb175-5"></a>ts.plotly =<span class="st"> </span><span class="cf">function</span>(df, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, <span class="dt">mode =</span> <span class="st">&#39;lines+markers&#39;</span>, </span>
-<span id="cb175-6"><a href="shiny.html#cb175-6"></a>	<span class="dt">group =</span> group, mycol, <span class="dt">showlegend =</span> <span class="ot">TRUE</span>, <span class="dt">visible =</span> T, </span>
-<span id="cb175-7"><a href="shiny.html#cb175-7"></a>	<span class="dt">xaxis =</span> xaxis, <span class="dt">yaxis =</span> yaxis, <span class="dt">legend =</span> legend) {</span>
-<span id="cb175-8"><a href="shiny.html#cb175-8"></a>		</span>
-<span id="cb175-9"><a href="shiny.html#cb175-9"></a>	ts &lt;-<span class="st"> </span><span class="kw">plot_ly</span>(df) <span class="op">%&gt;%</span></span>
-<span id="cb175-10"><a href="shiny.html#cb175-10"></a>		<span class="kw">add_trace</span>(<span class="dt">x =</span> <span class="op">~</span>x, <span class="dt">y =</span> <span class="op">~</span>y, <span class="dt">type =</span> type, <span class="dt">mode =</span> mode, </span>
-<span id="cb175-11"><a href="shiny.html#cb175-11"></a>			<span class="dt">color =</span> <span class="op">~</span>group, <span class="dt">colors =</span> mycol, </span>
-<span id="cb175-12"><a href="shiny.html#cb175-12"></a>			<span class="dt">showlegend =</span> showlegend, </span>
-<span id="cb175-13"><a href="shiny.html#cb175-13"></a>			<span class="dt">visible =</span> visible) <span class="op">%&gt;%</span></span>
-<span id="cb175-14"><a href="shiny.html#cb175-14"></a>		<span class="kw">layout</span>(<span class="dt">xaxis =</span> xaxis, <span class="dt">yaxis =</span> yaxis, </span>
-<span id="cb175-15"><a href="shiny.html#cb175-15"></a>		       <span class="dt">legend =</span> legend)</span>
-<span id="cb175-16"><a href="shiny.html#cb175-16"></a>  <span class="kw">return</span>(ts)</span>
-<span id="cb175-17"><a href="shiny.html#cb175-17"></a>}</span>
-<span id="cb175-18"><a href="shiny.html#cb175-18"></a></span>
-<span id="cb175-19"><a href="shiny.html#cb175-19"></a>county.risk.ts =<span class="st"> </span><span class="cf">function</span>(date.update, <span class="dt">type =</span> <span class="st">&#39;localrisk&#39;</span>){</span>
-<span id="cb175-20"><a href="shiny.html#cb175-20"></a>  date.all =<span class="st"> </span>date.update <span class="op">-</span><span class="st"> </span>(<span class="dv">1</span><span class="op">:</span><span class="dv">30</span>)</span>
-<span id="cb175-21"><a href="shiny.html#cb175-21"></a>  date.lag =<span class="st"> </span>date.all <span class="op">-</span><span class="st"> </span><span class="dv">7</span></span>
-<span id="cb175-22"><a href="shiny.html#cb175-22"></a>  County.pop0 &lt;-<span class="st"> </span>slid<span class="op">::</span>pop.county</span>
-<span id="cb175-23"><a href="shiny.html#cb175-23"></a>  County.pop &lt;-<span class="st"> </span>County.pop0 <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb175-24"><a href="shiny.html#cb175-24"></a><span class="st">    </span><span class="kw">filter</span>((<span class="op">!</span>(State <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Alaska&quot;</span>,<span class="st">&quot;Hawaii&quot;</span>))))</span>
-<span id="cb175-25"><a href="shiny.html#cb175-25"></a>  County.pop &lt;-<span class="st"> </span>County.pop <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb175-26"><a href="shiny.html#cb175-26"></a><span class="st">    </span><span class="kw">filter</span>((<span class="op">!</span>(ID <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">36005</span>, <span class="dv">36047</span>, <span class="dv">36081</span>, <span class="dv">36085</span>))))</span>
-<span id="cb175-27"><a href="shiny.html#cb175-27"></a>  County.pop<span class="op">$</span>ID[County.pop<span class="op">$</span>ID <span class="op">==</span><span class="st"> </span><span class="dv">46102</span>] =<span class="st"> </span><span class="dv">46113</span></span>
-<span id="cb175-28"><a href="shiny.html#cb175-28"></a>  dat &lt;-<span class="st"> </span>slid<span class="op">::</span>I.county</span>
-<span id="cb175-29"><a href="shiny.html#cb175-29"></a>  dat &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb175-30"><a href="shiny.html#cb175-30"></a><span class="st">    </span><span class="kw">filter</span>((<span class="op">!</span>(State <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Alaska&quot;</span>, <span class="st">&quot;Hawaii&quot;</span>))))</span>
-<span id="cb175-31"><a href="shiny.html#cb175-31"></a>  var.names &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;X&quot;</span>, <span class="kw">as.character</span>(date.all), <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</span>
-<span id="cb175-32"><a href="shiny.html#cb175-32"></a>  var.names &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;</span><span class="ch">\\</span><span class="st">-&quot;</span>, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.&quot;</span>, var.names)</span>
-<span id="cb175-33"><a href="shiny.html#cb175-33"></a>  var.lag &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;X&quot;</span>, <span class="kw">as.character</span>(date.lag), <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</span>
-<span id="cb175-34"><a href="shiny.html#cb175-34"></a>  var.lag &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;</span><span class="ch">\\</span><span class="st">-&quot;</span>, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.&quot;</span>, var.lag)</span>
-<span id="cb175-35"><a href="shiny.html#cb175-35"></a>  tmp &lt;-<span class="st"> </span><span class="kw">as.matrix</span>((dat[, var.names] <span class="op">-</span><span class="st"> </span>dat[, var.lag])<span class="op">/</span><span class="dv">7</span>)</span>
-<span id="cb175-36"><a href="shiny.html#cb175-36"></a>  dat &lt;-<span class="st"> </span>dat[, <span class="kw">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;County&quot;</span>, <span class="st">&quot;State&quot;</span>, var.names)]</span>
-<span id="cb175-37"><a href="shiny.html#cb175-37"></a>  smr.c &lt;-<span class="st"> </span><span class="kw">sum</span>(County.pop<span class="op">$</span>population)<span class="op">/</span><span class="kw">as.matrix</span>(<span class="kw">colSums</span>(dat[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]))</span>
-<span id="cb175-38"><a href="shiny.html#cb175-38"></a></span>
-<span id="cb175-39"><a href="shiny.html#cb175-39"></a></span>
-<span id="cb175-40"><a href="shiny.html#cb175-40"></a>  I0 &lt;-<span class="st"> </span>LogI0 &lt;-<span class="st"> </span>LocRisk0 &lt;-<span class="st"> </span>SMR0 &lt;-<span class="st"> </span>dat</span>
-<span id="cb175-41"><a href="shiny.html#cb175-41"></a>  <span class="co"># I0[,-(1:3)] &lt;- as.matrix(dat[,-(1:3)])</span></span>
-<span id="cb175-42"><a href="shiny.html#cb175-42"></a>  LogI0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)] &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">log</span>(dat[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]<span class="op">+</span><span class="dv">1</span>))</span>
-<span id="cb175-43"><a href="shiny.html#cb175-43"></a>  LocRisk0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)] &lt;-<span class="st"> </span><span class="kw">sweep</span>(<span class="kw">as.matrix</span>(dat[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]), <span class="dv">1</span>, </span>
-<span id="cb175-44"><a href="shiny.html#cb175-44"></a>          County.pop<span class="op">$</span>population[<span class="kw">match</span>(dat<span class="op">$</span>ID, County.pop<span class="op">$</span>ID)], </span>
-<span id="cb175-45"><a href="shiny.html#cb175-45"></a>          <span class="st">&quot;/&quot;</span>) <span class="op">*</span><span class="st"> </span><span class="dv">1000</span></span>
-<span id="cb175-46"><a href="shiny.html#cb175-46"></a>  SMR0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)] &lt;-<span class="st"> </span><span class="kw">sweep</span>(LocRisk0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)],<span class="dv">2</span>,smr.c<span class="op">/</span><span class="dv">10</span>,<span class="st">&quot;*&quot;</span>)</span>
-<span id="cb175-47"><a href="shiny.html#cb175-47"></a>  WLR0 &lt;-<span class="st"> </span><span class="kw">sweep</span>(tmp, <span class="dv">1</span>, </span>
-<span id="cb175-48"><a href="shiny.html#cb175-48"></a>       County.pop<span class="op">$</span>population[<span class="kw">match</span>(dat<span class="op">$</span>ID, County.pop<span class="op">$</span>ID)], </span>
-<span id="cb175-49"><a href="shiny.html#cb175-49"></a>       <span class="st">&quot;/&quot;</span>) <span class="op">*</span><span class="st"> </span><span class="fl">1e5</span></span>
-<span id="cb175-50"><a href="shiny.html#cb175-50"></a></span>
-<span id="cb175-51"><a href="shiny.html#cb175-51"></a>  county.dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Date =</span> date.all)</span>
-<span id="cb175-52"><a href="shiny.html#cb175-52"></a>  CountyState &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="kw">as.character</span>(dat<span class="op">$</span>County), </span>
-<span id="cb175-53"><a href="shiny.html#cb175-53"></a>                       <span class="kw">as.character</span>(dat<span class="op">$</span>State), <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
-<span id="cb175-54"><a href="shiny.html#cb175-54"></a></span>
-<span id="cb175-55"><a href="shiny.html#cb175-55"></a>  LogI &lt;-<span class="st"> </span><span class="kw">cbind</span>(county.dat,<span class="kw">round</span>(<span class="kw">t</span>(LogI0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]),<span class="dv">2</span>))</span>
-<span id="cb175-56"><a href="shiny.html#cb175-56"></a>  <span class="kw">names</span>(LogI) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Date&quot;</span>, CountyState)</span>
-<span id="cb175-57"><a href="shiny.html#cb175-57"></a></span>
-<span id="cb175-58"><a href="shiny.html#cb175-58"></a>  LocRisk &lt;-<span class="st"> </span><span class="kw">cbind</span>(county.dat,<span class="kw">round</span>(<span class="kw">t</span>(LocRisk0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]),<span class="dv">2</span>))</span>
-<span id="cb175-59"><a href="shiny.html#cb175-59"></a>  <span class="kw">names</span>(LocRisk) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Date&quot;</span>, CountyState)</span>
-<span id="cb175-60"><a href="shiny.html#cb175-60"></a></span>
-<span id="cb175-61"><a href="shiny.html#cb175-61"></a>  SMR &lt;-<span class="st"> </span><span class="kw">cbind</span>(county.dat,<span class="kw">t</span>(SMR0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]))</span>
-<span id="cb175-62"><a href="shiny.html#cb175-62"></a>  <span class="kw">names</span>(SMR) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Date&quot;</span>, CountyState)</span>
-<span id="cb175-63"><a href="shiny.html#cb175-63"></a></span>
-<span id="cb175-64"><a href="shiny.html#cb175-64"></a>  WLR &lt;-<span class="st"> </span><span class="kw">cbind</span>(county.dat, <span class="kw">round</span>(<span class="kw">t</span>(WLR0), <span class="dv">2</span>))</span>
-<span id="cb175-65"><a href="shiny.html#cb175-65"></a>  <span class="kw">names</span>(WLR) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Date&quot;</span>, CountyState)</span>
-<span id="cb175-66"><a href="shiny.html#cb175-66"></a></span>
-<span id="cb175-67"><a href="shiny.html#cb175-67"></a>  xaxis.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;&quot;</span>, <span class="dt">showline =</span> <span class="ot">FALSE</span>, </span>
-<span id="cb175-68"><a href="shiny.html#cb175-68"></a>                   <span class="dt">showticklabels =</span> <span class="ot">TRUE</span>, <span class="dt">showgrid =</span> <span class="ot">TRUE</span>, </span>
-<span id="cb175-69"><a href="shiny.html#cb175-69"></a>                   <span class="dt">type =</span> <span class="st">&#39;date&#39;</span>, <span class="dt">tickformat =</span> <span class="st">&#39;%m/%d&#39;</span>)</span>
-<span id="cb175-70"><a href="shiny.html#cb175-70"></a>  legend.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">orientation =</span> <span class="st">&#39;h&#39;</span>, <span class="dt">x =</span> <span class="dv">0</span>, <span class="dt">y =</span> <span class="fl">-0.05</span>, </span>
-<span id="cb175-71"><a href="shiny.html#cb175-71"></a>                    <span class="dt">autosize =</span> F, <span class="dt">width =</span> <span class="dv">250</span>, <span class="dt">height =</span> <span class="dv">200</span>)</span>
-<span id="cb175-72"><a href="shiny.html#cb175-72"></a></span>
-<span id="cb175-73"><a href="shiny.html#cb175-73"></a>  <span class="cf">if</span> (type <span class="op">==</span><span class="st"> &#39;localrisk&#39;</span>){</span>
-<span id="cb175-74"><a href="shiny.html#cb175-74"></a>    ind.county =<span class="st"> </span><span class="kw">order</span>(LocRisk0[,var.names[<span class="dv">1</span>]], <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb175-75"><a href="shiny.html#cb175-75"></a>    df.fr &lt;-<span class="st"> </span>LocRisk <span class="op">%&gt;%</span></span>
-<span id="cb175-76"><a href="shiny.html#cb175-76"></a><span class="st">      </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span> <span class="op">+</span><span class="st"> </span>ind.county[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])) <span class="op">%&gt;%</span></span>
-<span id="cb175-77"><a href="shiny.html#cb175-77"></a><span class="st">      </span><span class="kw">gather</span>(<span class="dt">key =</span> <span class="st">&quot;County.State&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;LogI&quot;</span>, <span class="op">-</span>Date)</span>
-<span id="cb175-78"><a href="shiny.html#cb175-78"></a>    <span class="kw">names</span>(df.fr) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;group&quot;</span>,<span class="st">&quot;y&quot;</span>)</span>
-<span id="cb175-79"><a href="shiny.html#cb175-79"></a>    yaxis.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;Local Risk (Cases per Thousand)&quot;</span>)</span>
-<span id="cb175-80"><a href="shiny.html#cb175-80"></a>    ts.fr &lt;-<span class="st"> </span><span class="kw">ts.plotly</span>(df.fr, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, </span>
-<span id="cb175-81"><a href="shiny.html#cb175-81"></a>                       <span class="dt">mode =</span> <span class="st">&#39;lines+markers&#39;</span>,</span>
-<span id="cb175-82"><a href="shiny.html#cb175-82"></a>                       <span class="dt">group =</span> group, mycol, </span>
-<span id="cb175-83"><a href="shiny.html#cb175-83"></a>                       <span class="dt">showlegend =</span> <span class="ot">TRUE</span>, <span class="dt">visible =</span> T,</span>
-<span id="cb175-84"><a href="shiny.html#cb175-84"></a>                       <span class="dt">xaxis =</span> xaxis.fr, <span class="dt">yaxis =</span> yaxis.fr, </span>
-<span id="cb175-85"><a href="shiny.html#cb175-85"></a>                       <span class="dt">legend =</span> legend.fr)</span>
-<span id="cb175-86"><a href="shiny.html#cb175-86"></a>  }<span class="cf">else</span> <span class="cf">if</span> (type <span class="op">==</span><span class="st"> &#39;smr&#39;</span>){</span>
-<span id="cb175-87"><a href="shiny.html#cb175-87"></a>    ind.county =<span class="st"> </span><span class="kw">order</span>(SMR0[,var.names[<span class="dv">1</span>]], <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb175-88"><a href="shiny.html#cb175-88"></a>    df.fr &lt;-<span class="st"> </span>SMR <span class="op">%&gt;%</span></span>
-<span id="cb175-89"><a href="shiny.html#cb175-89"></a><span class="st">      </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span> <span class="op">+</span><span class="st"> </span>ind.county[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])) <span class="op">%&gt;%</span></span>
-<span id="cb175-90"><a href="shiny.html#cb175-90"></a><span class="st">      </span><span class="kw">gather</span>(<span class="dt">key =</span> <span class="st">&quot;County.State&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;LogI&quot;</span>, <span class="op">-</span>Date)</span>
-<span id="cb175-91"><a href="shiny.html#cb175-91"></a>    <span class="kw">names</span>(df.fr) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;group&quot;</span>,<span class="st">&quot;y&quot;</span>)</span>
-<span id="cb175-92"><a href="shiny.html#cb175-92"></a>    yaxis.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;SMR (%)&quot;</span>)</span>
-<span id="cb175-93"><a href="shiny.html#cb175-93"></a>    ts.fr &lt;-<span class="st"> </span><span class="kw">ts.plotly</span>(df.fr, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, </span>
-<span id="cb175-94"><a href="shiny.html#cb175-94"></a>                       <span class="dt">mode =</span> <span class="st">&#39;lines+markers&#39;</span>,</span>
-<span id="cb175-95"><a href="shiny.html#cb175-95"></a>                       <span class="dt">group =</span> group, mycol, <span class="dt">showlegend =</span> <span class="ot">TRUE</span>, </span>
-<span id="cb175-96"><a href="shiny.html#cb175-96"></a>                       <span class="dt">visible =</span> T, <span class="dt">xaxis =</span> xaxis.fr, </span>
-<span id="cb175-97"><a href="shiny.html#cb175-97"></a>                       <span class="dt">yaxis =</span> yaxis.fr, <span class="dt">legend =</span> legend.fr)</span>
-<span id="cb175-98"><a href="shiny.html#cb175-98"></a>  }<span class="cf">else</span> <span class="cf">if</span> (type <span class="op">==</span><span class="st"> &#39;logcount&#39;</span>){</span>
-<span id="cb175-99"><a href="shiny.html#cb175-99"></a>    ind.county =<span class="st"> </span><span class="kw">order</span>(dat[,var.names[<span class="dv">1</span>]], <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb175-100"><a href="shiny.html#cb175-100"></a>    df.fr &lt;-<span class="st"> </span>LogI <span class="op">%&gt;%</span></span>
-<span id="cb175-101"><a href="shiny.html#cb175-101"></a><span class="st">      </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span><span class="op">+</span>ind.county[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])) <span class="op">%&gt;%</span></span>
-<span id="cb175-102"><a href="shiny.html#cb175-102"></a><span class="st">      </span><span class="kw">gather</span>(<span class="dt">key =</span> <span class="st">&quot;County.State&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;LogI&quot;</span>, <span class="op">-</span>Date)</span>
-<span id="cb175-103"><a href="shiny.html#cb175-103"></a>    <span class="kw">names</span>(df.fr) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;group&quot;</span>,<span class="st">&quot;y&quot;</span>)</span>
-<span id="cb175-104"><a href="shiny.html#cb175-104"></a>    yaxis.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;Log Counts&quot;</span>)</span>
-<span id="cb175-105"><a href="shiny.html#cb175-105"></a>    ts.fr &lt;-<span class="st"> </span><span class="kw">ts.plotly</span>(df.fr, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, </span>
-<span id="cb175-106"><a href="shiny.html#cb175-106"></a>                       <span class="dt">mode =</span> <span class="st">&#39;lines+markers&#39;</span>,</span>
-<span id="cb175-107"><a href="shiny.html#cb175-107"></a>                       <span class="dt">group =</span> group, mycol, </span>
-<span id="cb175-108"><a href="shiny.html#cb175-108"></a>                       <span class="dt">showlegend =</span> <span class="ot">TRUE</span>, <span class="dt">visible =</span> T,</span>
-<span id="cb175-109"><a href="shiny.html#cb175-109"></a>                       <span class="dt">xaxis =</span> xaxis.fr, <span class="dt">yaxis =</span> yaxis.fr, </span>
-<span id="cb175-110"><a href="shiny.html#cb175-110"></a>                       <span class="dt">legend =</span> legend.fr)</span>
-<span id="cb175-111"><a href="shiny.html#cb175-111"></a>  }<span class="cf">else</span> <span class="cf">if</span> (type <span class="op">==</span><span class="st"> &#39;wlr&#39;</span>){</span>
-<span id="cb175-112"><a href="shiny.html#cb175-112"></a>    ind.county &lt;-<span class="st"> </span><span class="kw">order</span>(WLR0[, var.names[<span class="dv">1</span>]], <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb175-113"><a href="shiny.html#cb175-113"></a>    df.fr &lt;-<span class="st"> </span>WLR <span class="op">%&gt;%</span></span>
-<span id="cb175-114"><a href="shiny.html#cb175-114"></a><span class="st">      </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span> <span class="op">+</span><span class="st"> </span>ind.county[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])) <span class="op">%&gt;%</span></span>
-<span id="cb175-115"><a href="shiny.html#cb175-115"></a><span class="st">      </span><span class="kw">gather</span>(<span class="dt">key =</span> <span class="st">&quot;CountyState&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;WLR&quot;</span>, <span class="op">-</span>Date)</span>
-<span id="cb175-116"><a href="shiny.html#cb175-116"></a>    <span class="kw">names</span>(df.fr) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;group&quot;</span>, <span class="st">&quot;y&quot;</span>)</span>
-<span id="cb175-117"><a href="shiny.html#cb175-117"></a>    yaxis.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;WLR (New Cases Per 100K)&quot;</span>)</span>
-<span id="cb175-118"><a href="shiny.html#cb175-118"></a>    ts.fr &lt;-<span class="st"> </span><span class="kw">ts.plotly</span>(df.fr, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, </span>
-<span id="cb175-119"><a href="shiny.html#cb175-119"></a>                       <span class="dt">mode =</span> <span class="st">&#39;lines+markers&#39;</span>,</span>
-<span id="cb175-120"><a href="shiny.html#cb175-120"></a>                       <span class="dt">group =</span> group, mycol, </span>
-<span id="cb175-121"><a href="shiny.html#cb175-121"></a>                       <span class="dt">showlegend =</span> <span class="ot">TRUE</span>, <span class="dt">visible =</span> T,</span>
-<span id="cb175-122"><a href="shiny.html#cb175-122"></a>                       <span class="dt">xaxis =</span> xaxis.fr, <span class="dt">yaxis =</span> yaxis.fr, </span>
-<span id="cb175-123"><a href="shiny.html#cb175-123"></a>                       <span class="dt">legend =</span> legend.fr)</span>
-<span id="cb175-124"><a href="shiny.html#cb175-124"></a>  }</span>
-<span id="cb175-125"><a href="shiny.html#cb175-125"></a>  <span class="kw">return</span>(ts.fr)</span>
-<span id="cb175-126"><a href="shiny.html#cb175-126"></a>}</span>
-<span id="cb175-127"><a href="shiny.html#cb175-127"></a></span>
-<span id="cb175-128"><a href="shiny.html#cb175-128"></a><span class="kw">shinyServer</span>(<span class="cf">function</span>(input, output) {</span>
-<span id="cb175-129"><a href="shiny.html#cb175-129"></a>  output<span class="op">$</span>county_risk_ts &lt;-<span class="st"> </span><span class="kw">renderPlotly</span>({</span>
-<span id="cb175-130"><a href="shiny.html#cb175-130"></a>    ts &lt;-<span class="st"> </span><span class="kw">county.risk.ts</span>(date.update, <span class="dt">type =</span> input<span class="op">$</span>plot_type)</span>
-<span id="cb175-131"><a href="shiny.html#cb175-131"></a>  })</span>
-<span id="cb175-132"><a href="shiny.html#cb175-132"></a>})</span></code></pre></div>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="shiny.html#cb176-1"></a>date.update &lt;-<span class="st"> </span><span class="kw">as.Date</span>(<span class="st">&#39;2020-12-12&#39;</span>)</span>
+<span id="cb176-2"><a href="shiny.html#cb176-2"></a>mycol &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;#5B1A18&quot;</span>, <span class="st">&quot;#F21A00&quot;</span>, <span class="st">&quot;#D67236&quot;</span>, <span class="st">&quot;#F1BB7B&quot;</span>, </span>
+<span id="cb176-3"><a href="shiny.html#cb176-3"></a>           <span class="st">&quot;#D8B70A&quot;</span>, <span class="st">&quot;#A2A475&quot;</span>, <span class="st">&quot;#81A88D&quot;</span>, <span class="st">&quot;#78B7C5&quot;</span>, </span>
+<span id="cb176-4"><a href="shiny.html#cb176-4"></a>           <span class="st">&quot;#3B9AB2&quot;</span>, <span class="st">&quot;#7294D4&quot;</span>, <span class="st">&quot;#C6CDF7&quot;</span>, <span class="st">&quot;#E6A0C4&quot;</span>)</span>
+<span id="cb176-5"><a href="shiny.html#cb176-5"></a>ts.plotly =<span class="st"> </span><span class="cf">function</span>(df, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, <span class="dt">mode =</span> <span class="st">&#39;lines+markers&#39;</span>, </span>
+<span id="cb176-6"><a href="shiny.html#cb176-6"></a>	<span class="dt">group =</span> group, mycol, <span class="dt">showlegend =</span> <span class="ot">TRUE</span>, <span class="dt">visible =</span> T, </span>
+<span id="cb176-7"><a href="shiny.html#cb176-7"></a>	<span class="dt">xaxis =</span> xaxis, <span class="dt">yaxis =</span> yaxis, <span class="dt">legend =</span> legend) {</span>
+<span id="cb176-8"><a href="shiny.html#cb176-8"></a>		</span>
+<span id="cb176-9"><a href="shiny.html#cb176-9"></a>	ts &lt;-<span class="st"> </span><span class="kw">plot_ly</span>(df) <span class="op">%&gt;%</span></span>
+<span id="cb176-10"><a href="shiny.html#cb176-10"></a>		<span class="kw">add_trace</span>(<span class="dt">x =</span> <span class="op">~</span>x, <span class="dt">y =</span> <span class="op">~</span>y, <span class="dt">type =</span> type, <span class="dt">mode =</span> mode, </span>
+<span id="cb176-11"><a href="shiny.html#cb176-11"></a>			<span class="dt">color =</span> <span class="op">~</span>group, <span class="dt">colors =</span> mycol, </span>
+<span id="cb176-12"><a href="shiny.html#cb176-12"></a>			<span class="dt">showlegend =</span> showlegend, </span>
+<span id="cb176-13"><a href="shiny.html#cb176-13"></a>			<span class="dt">visible =</span> visible) <span class="op">%&gt;%</span></span>
+<span id="cb176-14"><a href="shiny.html#cb176-14"></a>		<span class="kw">layout</span>(<span class="dt">xaxis =</span> xaxis, <span class="dt">yaxis =</span> yaxis, </span>
+<span id="cb176-15"><a href="shiny.html#cb176-15"></a>		       <span class="dt">legend =</span> legend)</span>
+<span id="cb176-16"><a href="shiny.html#cb176-16"></a>  <span class="kw">return</span>(ts)</span>
+<span id="cb176-17"><a href="shiny.html#cb176-17"></a>}</span>
+<span id="cb176-18"><a href="shiny.html#cb176-18"></a></span>
+<span id="cb176-19"><a href="shiny.html#cb176-19"></a>county.risk.ts =<span class="st"> </span><span class="cf">function</span>(date.update, <span class="dt">type =</span> <span class="st">&#39;localrisk&#39;</span>){</span>
+<span id="cb176-20"><a href="shiny.html#cb176-20"></a>  date.all =<span class="st"> </span>date.update <span class="op">-</span><span class="st"> </span>(<span class="dv">1</span><span class="op">:</span><span class="dv">30</span>)</span>
+<span id="cb176-21"><a href="shiny.html#cb176-21"></a>  date.lag =<span class="st"> </span>date.all <span class="op">-</span><span class="st"> </span><span class="dv">7</span></span>
+<span id="cb176-22"><a href="shiny.html#cb176-22"></a>  County.pop0 &lt;-<span class="st"> </span>slid<span class="op">::</span>pop.county</span>
+<span id="cb176-23"><a href="shiny.html#cb176-23"></a>  County.pop &lt;-<span class="st"> </span>County.pop0 <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb176-24"><a href="shiny.html#cb176-24"></a><span class="st">    </span><span class="kw">filter</span>((<span class="op">!</span>(State <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Alaska&quot;</span>,<span class="st">&quot;Hawaii&quot;</span>))))</span>
+<span id="cb176-25"><a href="shiny.html#cb176-25"></a>  County.pop &lt;-<span class="st"> </span>County.pop <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb176-26"><a href="shiny.html#cb176-26"></a><span class="st">    </span><span class="kw">filter</span>((<span class="op">!</span>(ID <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">36005</span>, <span class="dv">36047</span>, <span class="dv">36081</span>, <span class="dv">36085</span>))))</span>
+<span id="cb176-27"><a href="shiny.html#cb176-27"></a>  County.pop<span class="op">$</span>ID[County.pop<span class="op">$</span>ID <span class="op">==</span><span class="st"> </span><span class="dv">46102</span>] =<span class="st"> </span><span class="dv">46113</span></span>
+<span id="cb176-28"><a href="shiny.html#cb176-28"></a>  dat &lt;-<span class="st"> </span>slid<span class="op">::</span>I.county</span>
+<span id="cb176-29"><a href="shiny.html#cb176-29"></a>  dat &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb176-30"><a href="shiny.html#cb176-30"></a><span class="st">    </span><span class="kw">filter</span>((<span class="op">!</span>(State <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Alaska&quot;</span>, <span class="st">&quot;Hawaii&quot;</span>))))</span>
+<span id="cb176-31"><a href="shiny.html#cb176-31"></a>  var.names &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;X&quot;</span>, <span class="kw">as.character</span>(date.all), <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb176-32"><a href="shiny.html#cb176-32"></a>  var.names &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;</span><span class="ch">\\</span><span class="st">-&quot;</span>, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.&quot;</span>, var.names)</span>
+<span id="cb176-33"><a href="shiny.html#cb176-33"></a>  var.lag &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;X&quot;</span>, <span class="kw">as.character</span>(date.lag), <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb176-34"><a href="shiny.html#cb176-34"></a>  var.lag &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;</span><span class="ch">\\</span><span class="st">-&quot;</span>, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.&quot;</span>, var.lag)</span>
+<span id="cb176-35"><a href="shiny.html#cb176-35"></a>  tmp &lt;-<span class="st"> </span><span class="kw">as.matrix</span>((dat[, var.names] <span class="op">-</span><span class="st"> </span>dat[, var.lag])<span class="op">/</span><span class="dv">7</span>)</span>
+<span id="cb176-36"><a href="shiny.html#cb176-36"></a>  dat &lt;-<span class="st"> </span>dat[, <span class="kw">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;County&quot;</span>, <span class="st">&quot;State&quot;</span>, var.names)]</span>
+<span id="cb176-37"><a href="shiny.html#cb176-37"></a>  smr.c &lt;-<span class="st"> </span><span class="kw">sum</span>(County.pop<span class="op">$</span>population)<span class="op">/</span><span class="kw">as.matrix</span>(<span class="kw">colSums</span>(dat[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]))</span>
+<span id="cb176-38"><a href="shiny.html#cb176-38"></a></span>
+<span id="cb176-39"><a href="shiny.html#cb176-39"></a></span>
+<span id="cb176-40"><a href="shiny.html#cb176-40"></a>  I0 &lt;-<span class="st"> </span>LogI0 &lt;-<span class="st"> </span>LocRisk0 &lt;-<span class="st"> </span>SMR0 &lt;-<span class="st"> </span>dat</span>
+<span id="cb176-41"><a href="shiny.html#cb176-41"></a>  <span class="co"># I0[,-(1:3)] &lt;- as.matrix(dat[,-(1:3)])</span></span>
+<span id="cb176-42"><a href="shiny.html#cb176-42"></a>  LogI0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)] &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">log</span>(dat[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]<span class="op">+</span><span class="dv">1</span>))</span>
+<span id="cb176-43"><a href="shiny.html#cb176-43"></a>  LocRisk0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)] &lt;-<span class="st"> </span><span class="kw">sweep</span>(<span class="kw">as.matrix</span>(dat[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]), <span class="dv">1</span>, </span>
+<span id="cb176-44"><a href="shiny.html#cb176-44"></a>          County.pop<span class="op">$</span>population[<span class="kw">match</span>(dat<span class="op">$</span>ID, County.pop<span class="op">$</span>ID)], </span>
+<span id="cb176-45"><a href="shiny.html#cb176-45"></a>          <span class="st">&quot;/&quot;</span>) <span class="op">*</span><span class="st"> </span><span class="dv">1000</span></span>
+<span id="cb176-46"><a href="shiny.html#cb176-46"></a>  SMR0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)] &lt;-<span class="st"> </span><span class="kw">sweep</span>(LocRisk0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)],<span class="dv">2</span>,smr.c<span class="op">/</span><span class="dv">10</span>,<span class="st">&quot;*&quot;</span>)</span>
+<span id="cb176-47"><a href="shiny.html#cb176-47"></a>  WLR0 &lt;-<span class="st"> </span><span class="kw">sweep</span>(tmp, <span class="dv">1</span>, </span>
+<span id="cb176-48"><a href="shiny.html#cb176-48"></a>       County.pop<span class="op">$</span>population[<span class="kw">match</span>(dat<span class="op">$</span>ID, County.pop<span class="op">$</span>ID)], </span>
+<span id="cb176-49"><a href="shiny.html#cb176-49"></a>       <span class="st">&quot;/&quot;</span>) <span class="op">*</span><span class="st"> </span><span class="fl">1e5</span></span>
+<span id="cb176-50"><a href="shiny.html#cb176-50"></a></span>
+<span id="cb176-51"><a href="shiny.html#cb176-51"></a>  county.dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Date =</span> date.all)</span>
+<span id="cb176-52"><a href="shiny.html#cb176-52"></a>  CountyState &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="kw">as.character</span>(dat<span class="op">$</span>County), </span>
+<span id="cb176-53"><a href="shiny.html#cb176-53"></a>                       <span class="kw">as.character</span>(dat<span class="op">$</span>State), <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb176-54"><a href="shiny.html#cb176-54"></a></span>
+<span id="cb176-55"><a href="shiny.html#cb176-55"></a>  LogI &lt;-<span class="st"> </span><span class="kw">cbind</span>(county.dat,<span class="kw">round</span>(<span class="kw">t</span>(LogI0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]),<span class="dv">2</span>))</span>
+<span id="cb176-56"><a href="shiny.html#cb176-56"></a>  <span class="kw">names</span>(LogI) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Date&quot;</span>, CountyState)</span>
+<span id="cb176-57"><a href="shiny.html#cb176-57"></a></span>
+<span id="cb176-58"><a href="shiny.html#cb176-58"></a>  LocRisk &lt;-<span class="st"> </span><span class="kw">cbind</span>(county.dat,<span class="kw">round</span>(<span class="kw">t</span>(LocRisk0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]),<span class="dv">2</span>))</span>
+<span id="cb176-59"><a href="shiny.html#cb176-59"></a>  <span class="kw">names</span>(LocRisk) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Date&quot;</span>, CountyState)</span>
+<span id="cb176-60"><a href="shiny.html#cb176-60"></a></span>
+<span id="cb176-61"><a href="shiny.html#cb176-61"></a>  SMR &lt;-<span class="st"> </span><span class="kw">cbind</span>(county.dat,<span class="kw">t</span>(SMR0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]))</span>
+<span id="cb176-62"><a href="shiny.html#cb176-62"></a>  <span class="kw">names</span>(SMR) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Date&quot;</span>, CountyState)</span>
+<span id="cb176-63"><a href="shiny.html#cb176-63"></a></span>
+<span id="cb176-64"><a href="shiny.html#cb176-64"></a>  WLR &lt;-<span class="st"> </span><span class="kw">cbind</span>(county.dat, <span class="kw">round</span>(<span class="kw">t</span>(WLR0), <span class="dv">2</span>))</span>
+<span id="cb176-65"><a href="shiny.html#cb176-65"></a>  <span class="kw">names</span>(WLR) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Date&quot;</span>, CountyState)</span>
+<span id="cb176-66"><a href="shiny.html#cb176-66"></a></span>
+<span id="cb176-67"><a href="shiny.html#cb176-67"></a>  xaxis.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;&quot;</span>, <span class="dt">showline =</span> <span class="ot">FALSE</span>, </span>
+<span id="cb176-68"><a href="shiny.html#cb176-68"></a>                   <span class="dt">showticklabels =</span> <span class="ot">TRUE</span>, <span class="dt">showgrid =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb176-69"><a href="shiny.html#cb176-69"></a>                   <span class="dt">type =</span> <span class="st">&#39;date&#39;</span>, <span class="dt">tickformat =</span> <span class="st">&#39;%m/%d&#39;</span>)</span>
+<span id="cb176-70"><a href="shiny.html#cb176-70"></a>  legend.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">orientation =</span> <span class="st">&#39;h&#39;</span>, <span class="dt">x =</span> <span class="dv">0</span>, <span class="dt">y =</span> <span class="fl">-0.05</span>, </span>
+<span id="cb176-71"><a href="shiny.html#cb176-71"></a>                    <span class="dt">autosize =</span> F, <span class="dt">width =</span> <span class="dv">250</span>, <span class="dt">height =</span> <span class="dv">200</span>)</span>
+<span id="cb176-72"><a href="shiny.html#cb176-72"></a></span>
+<span id="cb176-73"><a href="shiny.html#cb176-73"></a>  <span class="cf">if</span> (type <span class="op">==</span><span class="st"> &#39;localrisk&#39;</span>){</span>
+<span id="cb176-74"><a href="shiny.html#cb176-74"></a>    ind.county =<span class="st"> </span><span class="kw">order</span>(LocRisk0[,var.names[<span class="dv">1</span>]], <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb176-75"><a href="shiny.html#cb176-75"></a>    df.fr &lt;-<span class="st"> </span>LocRisk <span class="op">%&gt;%</span></span>
+<span id="cb176-76"><a href="shiny.html#cb176-76"></a><span class="st">      </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span> <span class="op">+</span><span class="st"> </span>ind.county[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])) <span class="op">%&gt;%</span></span>
+<span id="cb176-77"><a href="shiny.html#cb176-77"></a><span class="st">      </span><span class="kw">gather</span>(<span class="dt">key =</span> <span class="st">&quot;County.State&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;LogI&quot;</span>, <span class="op">-</span>Date)</span>
+<span id="cb176-78"><a href="shiny.html#cb176-78"></a>    <span class="kw">names</span>(df.fr) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;group&quot;</span>,<span class="st">&quot;y&quot;</span>)</span>
+<span id="cb176-79"><a href="shiny.html#cb176-79"></a>    yaxis.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;Local Risk (Cases per Thousand)&quot;</span>)</span>
+<span id="cb176-80"><a href="shiny.html#cb176-80"></a>    ts.fr &lt;-<span class="st"> </span><span class="kw">ts.plotly</span>(df.fr, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, </span>
+<span id="cb176-81"><a href="shiny.html#cb176-81"></a>                       <span class="dt">mode =</span> <span class="st">&#39;lines+markers&#39;</span>,</span>
+<span id="cb176-82"><a href="shiny.html#cb176-82"></a>                       <span class="dt">group =</span> group, mycol, </span>
+<span id="cb176-83"><a href="shiny.html#cb176-83"></a>                       <span class="dt">showlegend =</span> <span class="ot">TRUE</span>, <span class="dt">visible =</span> T,</span>
+<span id="cb176-84"><a href="shiny.html#cb176-84"></a>                       <span class="dt">xaxis =</span> xaxis.fr, <span class="dt">yaxis =</span> yaxis.fr, </span>
+<span id="cb176-85"><a href="shiny.html#cb176-85"></a>                       <span class="dt">legend =</span> legend.fr)</span>
+<span id="cb176-86"><a href="shiny.html#cb176-86"></a>  }<span class="cf">else</span> <span class="cf">if</span> (type <span class="op">==</span><span class="st"> &#39;smr&#39;</span>){</span>
+<span id="cb176-87"><a href="shiny.html#cb176-87"></a>    ind.county =<span class="st"> </span><span class="kw">order</span>(SMR0[,var.names[<span class="dv">1</span>]], <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb176-88"><a href="shiny.html#cb176-88"></a>    df.fr &lt;-<span class="st"> </span>SMR <span class="op">%&gt;%</span></span>
+<span id="cb176-89"><a href="shiny.html#cb176-89"></a><span class="st">      </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span> <span class="op">+</span><span class="st"> </span>ind.county[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])) <span class="op">%&gt;%</span></span>
+<span id="cb176-90"><a href="shiny.html#cb176-90"></a><span class="st">      </span><span class="kw">gather</span>(<span class="dt">key =</span> <span class="st">&quot;County.State&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;LogI&quot;</span>, <span class="op">-</span>Date)</span>
+<span id="cb176-91"><a href="shiny.html#cb176-91"></a>    <span class="kw">names</span>(df.fr) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;group&quot;</span>,<span class="st">&quot;y&quot;</span>)</span>
+<span id="cb176-92"><a href="shiny.html#cb176-92"></a>    yaxis.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;SMR (%)&quot;</span>)</span>
+<span id="cb176-93"><a href="shiny.html#cb176-93"></a>    ts.fr &lt;-<span class="st"> </span><span class="kw">ts.plotly</span>(df.fr, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, </span>
+<span id="cb176-94"><a href="shiny.html#cb176-94"></a>                       <span class="dt">mode =</span> <span class="st">&#39;lines+markers&#39;</span>,</span>
+<span id="cb176-95"><a href="shiny.html#cb176-95"></a>                       <span class="dt">group =</span> group, mycol, <span class="dt">showlegend =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb176-96"><a href="shiny.html#cb176-96"></a>                       <span class="dt">visible =</span> T, <span class="dt">xaxis =</span> xaxis.fr, </span>
+<span id="cb176-97"><a href="shiny.html#cb176-97"></a>                       <span class="dt">yaxis =</span> yaxis.fr, <span class="dt">legend =</span> legend.fr)</span>
+<span id="cb176-98"><a href="shiny.html#cb176-98"></a>  }<span class="cf">else</span> <span class="cf">if</span> (type <span class="op">==</span><span class="st"> &#39;logcount&#39;</span>){</span>
+<span id="cb176-99"><a href="shiny.html#cb176-99"></a>    ind.county =<span class="st"> </span><span class="kw">order</span>(dat[,var.names[<span class="dv">1</span>]], <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb176-100"><a href="shiny.html#cb176-100"></a>    df.fr &lt;-<span class="st"> </span>LogI <span class="op">%&gt;%</span></span>
+<span id="cb176-101"><a href="shiny.html#cb176-101"></a><span class="st">      </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span><span class="op">+</span>ind.county[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])) <span class="op">%&gt;%</span></span>
+<span id="cb176-102"><a href="shiny.html#cb176-102"></a><span class="st">      </span><span class="kw">gather</span>(<span class="dt">key =</span> <span class="st">&quot;County.State&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;LogI&quot;</span>, <span class="op">-</span>Date)</span>
+<span id="cb176-103"><a href="shiny.html#cb176-103"></a>    <span class="kw">names</span>(df.fr) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;group&quot;</span>,<span class="st">&quot;y&quot;</span>)</span>
+<span id="cb176-104"><a href="shiny.html#cb176-104"></a>    yaxis.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;Log Counts&quot;</span>)</span>
+<span id="cb176-105"><a href="shiny.html#cb176-105"></a>    ts.fr &lt;-<span class="st"> </span><span class="kw">ts.plotly</span>(df.fr, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, </span>
+<span id="cb176-106"><a href="shiny.html#cb176-106"></a>                       <span class="dt">mode =</span> <span class="st">&#39;lines+markers&#39;</span>,</span>
+<span id="cb176-107"><a href="shiny.html#cb176-107"></a>                       <span class="dt">group =</span> group, mycol, </span>
+<span id="cb176-108"><a href="shiny.html#cb176-108"></a>                       <span class="dt">showlegend =</span> <span class="ot">TRUE</span>, <span class="dt">visible =</span> T,</span>
+<span id="cb176-109"><a href="shiny.html#cb176-109"></a>                       <span class="dt">xaxis =</span> xaxis.fr, <span class="dt">yaxis =</span> yaxis.fr, </span>
+<span id="cb176-110"><a href="shiny.html#cb176-110"></a>                       <span class="dt">legend =</span> legend.fr)</span>
+<span id="cb176-111"><a href="shiny.html#cb176-111"></a>  }<span class="cf">else</span> <span class="cf">if</span> (type <span class="op">==</span><span class="st"> &#39;wlr&#39;</span>){</span>
+<span id="cb176-112"><a href="shiny.html#cb176-112"></a>    ind.county &lt;-<span class="st"> </span><span class="kw">order</span>(WLR0[, var.names[<span class="dv">1</span>]], <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb176-113"><a href="shiny.html#cb176-113"></a>    df.fr &lt;-<span class="st"> </span>WLR <span class="op">%&gt;%</span></span>
+<span id="cb176-114"><a href="shiny.html#cb176-114"></a><span class="st">      </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span> <span class="op">+</span><span class="st"> </span>ind.county[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])) <span class="op">%&gt;%</span></span>
+<span id="cb176-115"><a href="shiny.html#cb176-115"></a><span class="st">      </span><span class="kw">gather</span>(<span class="dt">key =</span> <span class="st">&quot;CountyState&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;WLR&quot;</span>, <span class="op">-</span>Date)</span>
+<span id="cb176-116"><a href="shiny.html#cb176-116"></a>    <span class="kw">names</span>(df.fr) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;group&quot;</span>, <span class="st">&quot;y&quot;</span>)</span>
+<span id="cb176-117"><a href="shiny.html#cb176-117"></a>    yaxis.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;WLR (New Cases Per 100K)&quot;</span>)</span>
+<span id="cb176-118"><a href="shiny.html#cb176-118"></a>    ts.fr &lt;-<span class="st"> </span><span class="kw">ts.plotly</span>(df.fr, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, </span>
+<span id="cb176-119"><a href="shiny.html#cb176-119"></a>                       <span class="dt">mode =</span> <span class="st">&#39;lines+markers&#39;</span>,</span>
+<span id="cb176-120"><a href="shiny.html#cb176-120"></a>                       <span class="dt">group =</span> group, mycol, </span>
+<span id="cb176-121"><a href="shiny.html#cb176-121"></a>                       <span class="dt">showlegend =</span> <span class="ot">TRUE</span>, <span class="dt">visible =</span> T,</span>
+<span id="cb176-122"><a href="shiny.html#cb176-122"></a>                       <span class="dt">xaxis =</span> xaxis.fr, <span class="dt">yaxis =</span> yaxis.fr, </span>
+<span id="cb176-123"><a href="shiny.html#cb176-123"></a>                       <span class="dt">legend =</span> legend.fr)</span>
+<span id="cb176-124"><a href="shiny.html#cb176-124"></a>  }</span>
+<span id="cb176-125"><a href="shiny.html#cb176-125"></a>  <span class="kw">return</span>(ts.fr)</span>
+<span id="cb176-126"><a href="shiny.html#cb176-126"></a>}</span>
+<span id="cb176-127"><a href="shiny.html#cb176-127"></a></span>
+<span id="cb176-128"><a href="shiny.html#cb176-128"></a><span class="kw">shinyServer</span>(<span class="cf">function</span>(input, output) {</span>
+<span id="cb176-129"><a href="shiny.html#cb176-129"></a>  output<span class="op">$</span>county_risk_ts &lt;-<span class="st"> </span><span class="kw">renderPlotly</span>({</span>
+<span id="cb176-130"><a href="shiny.html#cb176-130"></a>    ts &lt;-<span class="st"> </span><span class="kw">county.risk.ts</span>(date.update, <span class="dt">type =</span> input<span class="op">$</span>plot_type)</span>
+<span id="cb176-131"><a href="shiny.html#cb176-131"></a>  })</span>
+<span id="cb176-132"><a href="shiny.html#cb176-132"></a>})</span></code></pre></div>
 <p>If everything is working correctly you’ll see the application appear in your browser looking something like this:</p>
 <div class="figure">
 <img src="figures/county_risk_ts.png" alt="" />
