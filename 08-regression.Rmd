@@ -1,0 +1,10 @@
+# Regression Modeling {#regression}
+
+
+## Principles of Regression Modeling
+
+
+## Area-level Data
+
+
+## Variable Selection

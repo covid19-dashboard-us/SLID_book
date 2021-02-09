@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 R Shiny | Statistical Learning of Infectious Disease Data Analytics</title>
+  <meta name="description" content="The use of statistical models to understand infectious disease dynamics has a very rich history in epidemiology. This book introduces modern statistical models and state-of-the-art learning methods to analyze infectious disease data. Many of the key approaches, examples and case studies will be presented. The primary emphasis will be interpretation, inference and hands-on data analyses. This course also provides practical concepts and R computing skills to perform infectious disease data analysis and visualization." />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 R Shiny | Statistical Learning of Infectious Disease Data Analytics" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="The use of statistical models to understand infectious disease dynamics has a very rich history in epidemiology. This book introduces modern statistical models and state-of-the-art learning methods to analyze infectious disease data. Many of the key approaches, examples and case studies will be presented. The primary emphasis will be interpretation, inference and hands-on data analyses. This course also provides practical concepts and R computing skills to perform infectious disease data analysis and visualization." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 R Shiny | Statistical Learning of Infectious Disease Data Analytics" />
+  
+  <meta name="twitter:description" content="The use of statistical models to understand infectious disease dynamics has a very rich history in epidemiology. This book introduces modern statistical models and state-of-the-art learning methods to analyze infectious disease data. Many of the key approaches, examples and case studies will be presented. The primary emphasis will be interpretation, inference and hands-on data analyses. This course also provides practical concepts and R computing skills to perform infectious disease data analysis and visualization." />
+  
+
+<meta name="author" content="Lily Wang" />
+
+
+<meta name="date" content="2021-02-08" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="plotly.html"/>
+<link rel="next" href="map.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.9.2.1/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#data-sets-used-in-labs-and-exercises"><i class="fa fa-check"></i><b>1.1</b> Data Sets Used in Labs and Exercises</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.2</b> Acknowledgements</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#about-the-author"><i class="fa fa-check"></i><b>1.3</b> About the Author</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a><ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#aims-and-scope-of-this-book"><i class="fa fa-check"></i><b>2.1</b> Aims and Scope of This Book</a></li>
+<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#the-structure-of-this-book"><i class="fa fa-check"></i><b>2.2</b> The Structure of This Book</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="intro.html"><a href="intro.html#infectious-disease-data"><i class="fa fa-check"></i><b>2.2.1</b> Infectious disease data</a></li>
+<li class="chapter" data-level="2.2.2" data-path="intro.html"><a href="intro.html#basic-characteristics-of-the-infection-process"><i class="fa fa-check"></i><b>2.2.2</b> Basic characteristics of the infection process</a></li>
+<li class="chapter" data-level="2.2.3" data-path="intro.html"><a href="intro.html#data-visualization"><i class="fa fa-check"></i><b>2.2.3</b> Data visualization</a></li>
+<li class="chapter" data-level="2.2.4" data-path="intro.html"><a href="intro.html#modeling-and-forecasting"><i class="fa fa-check"></i><b>2.2.4</b> Modeling and Forecasting</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>3</b> Data Wrangling with <code>dplyr</code> and <code>tidyr</code></a><ul>
+<li class="chapter" data-level="3.1" data-path="dplyr.html"><a href="dplyr.html#learning-dplyr"><i class="fa fa-check"></i><b>3.1</b> Learning <code>dplyr</code></a><ul>
+<li class="chapter" data-level="3.1.1" data-path="dplyr.html"><a href="dplyr.html#tibbles"><i class="fa fa-check"></i><b>3.1.1</b> Tibbles</a></li>
+<li class="chapter" data-level="3.1.2" data-path="dplyr.html"><a href="dplyr.html#import-data"><i class="fa fa-check"></i><b>3.1.2</b> Import data</a></li>
+<li class="chapter" data-level="3.1.3" data-path="dplyr.html"><a href="dplyr.html#common-dplyr-functions"><i class="fa fa-check"></i><b>3.1.3</b> Common <code>dplyr</code> functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="dplyr.html"><a href="dplyr.html#selecting-columns-and-filtering-rows"><i class="fa fa-check"></i><b>3.2</b> Selecting Columns and Filtering Rows</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="dplyr.html"><a href="dplyr.html#subset-variables-columns"><i class="fa fa-check"></i><b>3.2.1</b> Subset Variables (Columns)</a></li>
+<li class="chapter" data-level="3.2.2" data-path="dplyr.html"><a href="dplyr.html#subset-observations-rows"><i class="fa fa-check"></i><b>3.2.2</b> Subset Observations (Rows)</a></li>
+<li class="chapter" data-level="3.2.3" data-path="dplyr.html"><a href="dplyr.html#pipes"><i class="fa fa-check"></i><b>3.2.3</b> Pipes</a></li>
+<li class="chapter" data-level="3.2.4" data-path="dplyr.html"><a href="dplyr.html#select-and-order-top-n-entries-by-group-if-grouped-data."><i class="fa fa-check"></i><b>3.2.4</b> Select and order top n entries (by group if grouped data).</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="dplyr.html"><a href="dplyr.html#make-new-variables-mutate"><i class="fa fa-check"></i><b>3.3</b> Make New Variables: Mutate</a></li>
+<li class="chapter" data-level="3.4" data-path="dplyr.html"><a href="dplyr.html#summarize-data"><i class="fa fa-check"></i><b>3.4</b> Summarize Data</a></li>
+<li class="chapter" data-level="3.5" data-path="dplyr.html"><a href="dplyr.html#combine-data-sets"><i class="fa fa-check"></i><b>3.5</b> Combine Data Sets</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="dplyr.html"><a href="dplyr.html#the-join-family"><i class="fa fa-check"></i><b>3.5.1</b> The join family</a></li>
+<li class="chapter" data-level="3.5.2" data-path="dplyr.html"><a href="dplyr.html#toy-examples-with-joins"><i class="fa fa-check"></i><b>3.5.2</b> Toy examples with joins</a></li>
+<li class="chapter" data-level="3.5.3" data-path="dplyr.html"><a href="dplyr.html#practice-with-joins-for-real-data"><i class="fa fa-check"></i><b>3.5.3</b> Practice with joins for real data</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="dplyr.html"><a href="dplyr.html#reshaping-data"><i class="fa fa-check"></i><b>3.6</b> Reshaping Data</a><ul>
+<li class="chapter" data-level="3.6.1" data-path="dplyr.html"><a href="dplyr.html#from-wide-to-long"><i class="fa fa-check"></i><b>3.6.1</b> From wide to long</a></li>
+<li class="chapter" data-level="3.6.2" data-path="dplyr.html"><a href="dplyr.html#from-long-to-wide"><i class="fa fa-check"></i><b>3.6.2</b> From long to wide</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="dplyr.html"><a href="dplyr.html#exercises"><i class="fa fa-check"></i><b>3.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>4</b> Data Visualization with ggplot2</a><ul>
+<li class="chapter" data-level="4.1" data-path="ggplot2.html"><a href="ggplot2.html#introduction"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="ggplot2.html"><a href="ggplot2.html#types-of-variables-and-preparation"><i class="fa fa-check"></i><b>4.2</b> Types of Variables and Preparation</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="ggplot2.html"><a href="ggplot2.html#types-of-variables"><i class="fa fa-check"></i><b>4.2.1</b> Types of Variables</a></li>
+<li class="chapter" data-level="4.2.2" data-path="ggplot2.html"><a href="ggplot2.html#rules-for-graph-designing"><i class="fa fa-check"></i><b>4.2.2</b> Rules for Graph Designing</a></li>
+<li class="chapter" data-level="4.2.3" data-path="ggplot2.html"><a href="ggplot2.html#installing-packages-and-loading-data"><i class="fa fa-check"></i><b>4.2.3</b> Installing packages and loading data</a></li>
+<li class="chapter" data-level="4.2.4" data-path="ggplot2.html"><a href="ggplot2.html#your-first-scatterplot"><i class="fa fa-check"></i><b>4.2.4</b> Your first scatterplot</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="ggplot2.html"><a href="ggplot2.html#position-scales-and-axes"><i class="fa fa-check"></i><b>4.3</b> Position Scales and Axes</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="ggplot2.html"><a href="ggplot2.html#change-the-labels-of-the-axis-using-xlab-and-ylab"><i class="fa fa-check"></i><b>4.3.1</b> Change the labels of the axis using <code>xlab()</code> and <code>ylab()</code></a></li>
+<li class="chapter" data-level="4.3.2" data-path="ggplot2.html"><a href="ggplot2.html#change-the-range-of-the-axis-using-xlim-and-ylim"><i class="fa fa-check"></i><b>4.3.2</b> Change the range of the axis using <code>xlim()</code> and <code>ylim()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="ggplot2.html"><a href="ggplot2.html#color-scales-and-size-of-geom_points"><i class="fa fa-check"></i><b>4.4</b> Color Scales and Size of <code>geom_points()</code></a><ul>
+<li class="chapter" data-level="4.4.1" data-path="ggplot2.html"><a href="ggplot2.html#change-the-color-of-all-points"><i class="fa fa-check"></i><b>4.4.1</b> Change the color of all points</a></li>
+<li class="chapter" data-level="4.4.2" data-path="ggplot2.html"><a href="ggplot2.html#color-the-observations-by-the-value-of-a-feature"><i class="fa fa-check"></i><b>4.4.2</b> Color the observations by the value of a feature</a></li>
+<li class="chapter" data-level="4.4.3" data-path="ggplot2.html"><a href="ggplot2.html#change-the-color-palette"><i class="fa fa-check"></i><b>4.4.3</b> Change the color palette</a></li>
+<li class="chapter" data-level="4.4.4" data-path="ggplot2.html"><a href="ggplot2.html#change-the-size-by-the-value-of-a-feature"><i class="fa fa-check"></i><b>4.4.4</b> Change the size by the value of a feature</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="ggplot2.html"><a href="ggplot2.html#individual-geoms"><i class="fa fa-check"></i><b>4.5</b> Individual geoms</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="ggplot2.html"><a href="ggplot2.html#histogram"><i class="fa fa-check"></i><b>4.5.1</b> Histogram</a></li>
+<li class="chapter" data-level="4.5.2" data-path="ggplot2.html"><a href="ggplot2.html#bar-chart"><i class="fa fa-check"></i><b>4.5.2</b> Bar chart</a></li>
+<li class="chapter" data-level="4.5.3" data-path="ggplot2.html"><a href="ggplot2.html#default-bar-chart"><i class="fa fa-check"></i><b>4.5.3</b> Default bar chart</a></li>
+<li class="chapter" data-level="4.5.4" data-path="ggplot2.html"><a href="ggplot2.html#bar-chart-with-assigned-value"><i class="fa fa-check"></i><b>4.5.4</b> Bar chart with assigned value</a></li>
+<li class="chapter" data-level="4.5.5" data-path="ggplot2.html"><a href="ggplot2.html#legend"><i class="fa fa-check"></i><b>4.5.5</b> Legend</a></li>
+<li class="chapter" data-level="4.5.6" data-path="ggplot2.html"><a href="ggplot2.html#boxplots-jittering-and-violin-plots"><i class="fa fa-check"></i><b>4.5.6</b> Boxplots, jittering and violin plots</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="ggplot2.html"><a href="ggplot2.html#collective-geoms"><i class="fa fa-check"></i><b>4.6</b> Collective geoms</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="ggplot2.html"><a href="ggplot2.html#smoother"><i class="fa fa-check"></i><b>4.6.1</b> Smoother</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="ggplot2.html"><a href="ggplot2.html#time-series"><i class="fa fa-check"></i><b>4.7</b> Time Series</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="ggplot2.html"><a href="ggplot2.html#basic-line-plots"><i class="fa fa-check"></i><b>4.7.1</b> Basic line plots</a></li>
+<li class="chapter" data-level="4.7.2" data-path="ggplot2.html"><a href="ggplot2.html#add-a-second-line"><i class="fa fa-check"></i><b>4.7.2</b> Add a second line</a></li>
+<li class="chapter" data-level="4.7.3" data-path="ggplot2.html"><a href="ggplot2.html#add-ribbons"><i class="fa fa-check"></i><b>4.7.3</b> Add ribbons</a></li>
+<li class="chapter" data-level="4.7.4" data-path="ggplot2.html"><a href="ggplot2.html#adjust-the-scale-of-time-axis"><i class="fa fa-check"></i><b>4.7.4</b> Adjust the scale of time axis</a></li>
+<li class="chapter" data-level="4.7.5" data-path="ggplot2.html"><a href="ggplot2.html#add-annotations"><i class="fa fa-check"></i><b>4.7.5</b> Add annotations</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="ggplot2.html"><a href="ggplot2.html#maps"><i class="fa fa-check"></i><b>4.8</b> Maps</a><ul>
+<li class="chapter" data-level="4.8.1" data-path="ggplot2.html"><a href="ggplot2.html#making-a-base-map"><i class="fa fa-check"></i><b>4.8.1</b> Making a base map</a></li>
+<li class="chapter" data-level="4.8.2" data-path="ggplot2.html"><a href="ggplot2.html#customizing-choropleth-map"><i class="fa fa-check"></i><b>4.8.2</b> Customizing <code>choropleth</code> map</a></li>
+<li class="chapter" data-level="4.8.3" data-path="ggplot2.html"><a href="ggplot2.html#overlay-polygon-maps"><i class="fa fa-check"></i><b>4.8.3</b> Overlay polygon maps</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="ggplot2.html"><a href="ggplot2.html#arranging-plots"><i class="fa fa-check"></i><b>4.9</b> Arranging Plots</a><ul>
+<li class="chapter" data-level="4.9.1" data-path="ggplot2.html"><a href="ggplot2.html#facet"><i class="fa fa-check"></i><b>4.9.1</b> Facet</a></li>
+<li class="chapter" data-level="4.9.2" data-path="ggplot2.html"><a href="ggplot2.html#combining-plots-using-patchwork-package"><i class="fa fa-check"></i><b>4.9.2</b> Combining plots using <code>patchwork</code> package</a></li>
+</ul></li>
+<li class="chapter" data-level="4.10" data-path="ggplot2.html"><a href="ggplot2.html#output"><i class="fa fa-check"></i><b>4.10</b> Output</a><ul>
+<li class="chapter" data-level="4.10.1" data-path="ggplot2.html"><a href="ggplot2.html#save-in-figure-format"><i class="fa fa-check"></i><b>4.10.1</b> Save in figure format</a></li>
+<li class="chapter" data-level="4.10.2" data-path="ggplot2.html"><a href="ggplot2.html#save-in-rds-format"><i class="fa fa-check"></i><b>4.10.2</b> Save in RDS format</a></li>
+</ul></li>
+<li class="chapter" data-level="4.11" data-path="dplyr.html"><a href="dplyr.html#exercises"><i class="fa fa-check"></i><b>4.11</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="plotly.html"><a href="plotly.html"><i class="fa fa-check"></i><b>5</b> Interactive Visualization</a><ul>
+<li class="chapter" data-level="5.1" data-path="plotly.html"><a href="plotly.html#an-introduction"><i class="fa fa-check"></i><b>5.1</b> An Introduction</a></li>
+<li class="chapter" data-level="5.2" data-path="plotly.html"><a href="plotly.html#creating-plotly-objects"><i class="fa fa-check"></i><b>5.2</b> Creating Plotly Objects</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="plotly.html"><a href="plotly.html#using-plot_ly-to-create-a-plotly-object"><i class="fa fa-check"></i><b>5.2.1</b> Using <code>plot_ly()</code> to create a plotly object</a></li>
+<li class="chapter" data-level="5.2.2" data-path="plotly.html"><a href="plotly.html#use-dplyr-verbs-to-modify-data"><i class="fa fa-check"></i><b>5.2.2</b> Use <code>dplyr</code> verbs to modify data</a></li>
+<li class="chapter" data-level="5.2.3" data-path="plotly.html"><a href="plotly.html#using-ggplotly-to-create-a-plotly-object"><i class="fa fa-check"></i><b>5.2.3</b> Using <code>ggplotly()</code> to create a <code>plotly</code> object</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="plotly.html"><a href="plotly.html#scatterplots-and-line-plots"><i class="fa fa-check"></i><b>5.3</b> Scatterplots and Line Plots</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="plotly.html"><a href="plotly.html#make-a-scatterplot"><i class="fa fa-check"></i><b>5.3.1</b> Make a scatterplot</a></li>
+<li class="chapter" data-level="5.3.2" data-path="plotly.html"><a href="plotly.html#markers"><i class="fa fa-check"></i><b>5.3.2</b> Markers</a></li>
+<li class="chapter" data-level="5.3.3" data-path="plotly.html"><a href="plotly.html#a-single-time-series-plot"><i class="fa fa-check"></i><b>5.3.3</b> A single time series plot</a></li>
+<li class="chapter" data-level="5.3.4" data-path="plotly.html"><a href="plotly.html#hover-text-and-template"><i class="fa fa-check"></i><b>5.3.4</b> Hover text and template</a></li>
+<li class="chapter" data-level="5.3.5" data-path="plotly.html"><a href="plotly.html#multiple-time-series-plots"><i class="fa fa-check"></i><b>5.3.5</b> Multiple time series plots</a></li>
+<li class="chapter" data-level="5.3.6" data-path="plotly.html"><a href="plotly.html#more-features-about-the-lines"><i class="fa fa-check"></i><b>5.3.6</b> More features about the lines</a></li>
+<li class="chapter" data-level="5.3.7" data-path="ggplot2.html"><a href="ggplot2.html#add-ribbons"><i class="fa fa-check"></i><b>5.3.7</b> Add ribbons</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="plotly.html"><a href="plotly.html#pie-charts"><i class="fa fa-check"></i><b>5.4</b> Pie Charts</a></li>
+<li class="chapter" data-level="5.5" data-path="plotly.html"><a href="plotly.html#animation"><i class="fa fa-check"></i><b>5.5</b> Animation</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="plotly.html"><a href="plotly.html#an-animation-of-the-evolution-of-infected-vs.-death-count"><i class="fa fa-check"></i><b>5.5.1</b> An animation of the evolution of infected vs. death count</a></li>
+<li class="chapter" data-level="5.5.2" data-path="plotly.html"><a href="plotly.html#an-animation-of-the-state-level-time-series-plot-of-infected-count"><i class="fa fa-check"></i><b>5.5.2</b> An animation of the state-level time series plot of infected count</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="plotly.html"><a href="plotly.html#saving-html"><i class="fa fa-check"></i><b>5.6</b> Saving HTML</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="plotly.html"><a href="plotly.html#save-as-a-standalone-html-file"><i class="fa fa-check"></i><b>5.6.1</b> Save as a standalone HTML file</a></li>
+<li class="chapter" data-level="5.6.2" data-path="plotly.html"><a href="plotly.html#save-as-non-selfcontained-html-file"><i class="fa fa-check"></i><b>5.6.2</b> Save as non-selfcontained HTML file</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="dplyr.html"><a href="dplyr.html#exercises"><i class="fa fa-check"></i><b>5.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="shiny.html"><a href="shiny.html"><i class="fa fa-check"></i><b>6</b> R Shiny</a><ul>
+<li class="chapter" data-level="6.1" data-path="shiny.html"><a href="shiny.html#embedding-plotly-in-shiny"><i class="fa fa-check"></i><b>6.1</b> Embedding plotly in Shiny</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="shiny.html"><a href="shiny.html#your-first-shiny-app"><i class="fa fa-check"></i><b>6.1.1</b> Your first shiny app</a></li>
+<li class="chapter" data-level="6.1.2" data-path="shiny.html"><a href="shiny.html#useful-input-widgets"><i class="fa fa-check"></i><b>6.1.2</b> Useful input widgets</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="shiny.html"><a href="shiny.html#rendering-plotly-inside-shiny"><i class="fa fa-check"></i><b>6.2</b> Rendering plotly Inside Shiny</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="map.html"><a href="map.html"><i class="fa fa-check"></i><b>7</b> Interactive Geospatial Visualization</a><ul>
+<li class="chapter" data-level="7.1" data-path="map.html"><a href="map.html#an-introduction-to-leaflet"><i class="fa fa-check"></i><b>7.1</b> An Introduction to Leaflet</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="map.html"><a href="map.html#features-and-installation"><i class="fa fa-check"></i><b>7.1.1</b> Features and installation</a></li>
+<li class="chapter" data-level="7.1.2" data-path="map.html"><a href="map.html#basic-usage"><i class="fa fa-check"></i><b>7.1.2</b> Basic Usage</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="map.html"><a href="map.html#the-data-object"><i class="fa fa-check"></i><b>7.2</b> The Data Object</a></li>
+<li class="chapter" data-level="7.3" data-path="map.html"><a href="map.html#choropleth-map"><i class="fa fa-check"></i><b>7.3</b> Choropleth map</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="map.html"><a href="map.html#create-a-base-map"><i class="fa fa-check"></i><b>7.3.1</b> Create a base map</a></li>
+<li class="chapter" data-level="7.3.2" data-path="map.html"><a href="map.html#color-the-map"><i class="fa fa-check"></i><b>7.3.2</b> Color the map</a></li>
+<li class="chapter" data-level="7.3.3" data-path="map.html"><a href="map.html#interactive-map"><i class="fa fa-check"></i><b>7.3.3</b> Interactive map</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="ggplot2.html"><a href="ggplot2.html#legend"><i class="fa fa-check"></i><b>7.4</b> Legend</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="map.html"><a href="map.html#classification-schemes"><i class="fa fa-check"></i><b>7.4.1</b> Classification schemes</a></li>
+<li class="chapter" data-level="7.4.2" data-path="map.html"><a href="map.html#mapping-variables-to-colors"><i class="fa fa-check"></i><b>7.4.2</b> Mapping variables to colors</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="map.html"><a href="map.html#an-example-of-county-level-map"><i class="fa fa-check"></i><b>7.5</b> An Example of County-level Map</a></li>
+<li class="chapter" data-level="7.6" data-path="map.html"><a href="map.html#spot-maps"><i class="fa fa-check"></i><b>7.6</b> Spot Maps</a></li>
+<li class="chapter" data-level="7.7" data-path="map.html"><a href="map.html#integrating-leaflet-with-r-shiny"><i class="fa fa-check"></i><b>7.7</b> Integrating Leaflet with R Shiny</a></li>
+<li class="chapter" data-level="7.8" data-path="dplyr.html"><a href="dplyr.html#exercises"><i class="fa fa-check"></i><b>7.8</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="modeling.html"><a href="modeling.html"><i class="fa fa-check"></i><b>8</b> Epidemic Modeling</a><ul>
+<li class="chapter" data-level="8.1" data-path="modeling.html"><a href="modeling.html#an-introduction-to-epidemic-modeling"><i class="fa fa-check"></i><b>8.1</b> An Introduction to Epidemic Modeling</a></li>
+<li class="chapter" data-level="8.2" data-path="modeling.html"><a href="modeling.html#compartment-models"><i class="fa fa-check"></i><b>8.2</b> Compartment Models</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>9</b> Regression Modeling</a><ul>
+<li class="chapter" data-level="9.1" data-path="regression.html"><a href="regression.html#principles-of-regression-modeling"><i class="fa fa-check"></i><b>9.1</b> Principles of Regression Modeling</a></li>
+<li class="chapter" data-level="9.2" data-path="regression.html"><a href="regression.html#area-level-data"><i class="fa fa-check"></i><b>9.2</b> Area-level Data</a></li>
+<li class="chapter" data-level="9.3" data-path="regression.html"><a href="regression.html#variable-selection"><i class="fa fa-check"></i><b>9.3</b> Variable Selection</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="timeseries.html"><a href="timeseries.html"><i class="fa fa-check"></i><b>10</b> Time Series Analysis of Infectious Disease Data</a><ul>
+<li class="chapter" data-level="10.1" data-path="timeseries.html"><a href="timeseries.html#datasets-and-r-packages"><i class="fa fa-check"></i><b>10.1</b> Datasets and R Packages</a></li>
+<li class="chapter" data-level="10.2" data-path="timeseries.html"><a href="timeseries.html#time-series-plots"><i class="fa fa-check"></i><b>10.2</b> Time series plots</a></li>
+<li class="chapter" data-level="10.3" data-path="timeseries.html"><a href="timeseries.html#time-series-decomposition"><i class="fa fa-check"></i><b>10.3</b> Time Series Decomposition</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="NN.html"><a href="NN.html"><i class="fa fa-check"></i><b>11</b> Neural Networks</a><ul>
+<li class="chapter" data-level="11.1" data-path="NN.html"><a href="NN.html#a-single-neuron"><i class="fa fa-check"></i><b>11.1</b> A Single Neuron</a></li>
+<li class="chapter" data-level="11.2" data-path="NN.html"><a href="NN.html#neural-network-structure"><i class="fa fa-check"></i><b>11.2</b> Neural Network Structure</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="ensemble.html"><a href="ensemble.html"><i class="fa fa-check"></i><b>12</b> Hybrid Mdels</a><ul>
+<li class="chapter" data-level="12.1" data-path="ensemble.html"><a href="ensemble.html#ensembling-time-series-models"><i class="fa fa-check"></i><b>12.1</b> Ensembling Time Series Models</a></li>
+<li class="chapter" data-level="12.2" data-path="ensemble.html"><a href="ensemble.html#model-diagnostics"><i class="fa fa-check"></i><b>12.2</b> Model Diagnostics</a></li>
+<li class="chapter" data-level="12.3" data-path="ensemble.html"><a href="ensemble.html#weights-selection-using-cross-validation"><i class="fa fa-check"></i><b>12.3</b> Weights Selection Using Cross Validation</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i>Appendix</a></li>
+<li class="chapter" data-level="13" data-path="appendix-a.html"><a href="appendix-a.html"><i class="fa fa-check"></i><b>13</b> Appendix A</a><ul>
+<li class="chapter" data-level="13.1" data-path="appendix-a.html"><a href="appendix-a.html#r-introduction-and-preliminaries"><i class="fa fa-check"></i><b>13.1</b> R Introduction and Preliminaries</a><ul>
+<li class="chapter" data-level="13.1.1" data-path="appendix-a.html"><a href="appendix-a.html#the-r-environment-and-language"><i class="fa fa-check"></i><b>13.1.1</b> The R Environment and Language</a></li>
+<li class="chapter" data-level="13.1.2" data-path="appendix-a.html"><a href="appendix-a.html#r-and-statistics"><i class="fa fa-check"></i><b>13.1.2</b> R and Statistics</a></li>
+<li class="chapter" data-level="13.1.3" data-path="appendix-a.html"><a href="appendix-a.html#obtaining-r-and-installation"><i class="fa fa-check"></i><b>13.1.3</b> Obtaining R and installation</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="appendix-a.html"><a href="appendix-a.html#starting-r"><i class="fa fa-check"></i><b>13.2</b> Starting R</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="appendix-a.html"><a href="appendix-a.html#description-of-three-panels-in-user-interface"><i class="fa fa-check"></i><b>13.2.1</b> Description of three panels in user interface</a></li>
+<li class="chapter" data-level="13.2.2" data-path="appendix-a.html"><a href="appendix-a.html#r-help"><i class="fa fa-check"></i><b>13.2.2</b> R help</a></li>
+<li class="chapter" data-level="13.2.3" data-path="appendix-a.html"><a href="appendix-a.html#some-mathematical-expressions"><i class="fa fa-check"></i><b>13.2.3</b> Some mathematical expressions</a></li>
+<li class="chapter" data-level="13.2.4" data-path="appendix-a.html"><a href="appendix-a.html#r-packages"><i class="fa fa-check"></i><b>13.2.4</b> R Packages</a></li>
+<li class="chapter" data-level="13.2.5" data-path="appendix-a.html"><a href="appendix-a.html#creating-a-project-and-setting-working-directory"><i class="fa fa-check"></i><b>13.2.5</b> Creating a project and setting working directory</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="appendix-a.html"><a href="appendix-a.html#exportimport-data"><i class="fa fa-check"></i><b>13.3</b> Export/Import Data</a><ul>
+<li class="chapter" data-level="13.3.1" data-path="appendix-a.html"><a href="appendix-a.html#data-export"><i class="fa fa-check"></i><b>13.3.1</b> Data Export</a></li>
+<li class="chapter" data-level="13.3.2" data-path="appendix-a.html"><a href="appendix-a.html#data-import"><i class="fa fa-check"></i><b>13.3.2</b> Data Import</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="appendix-b.html"><a href="appendix-b.html"><i class="fa fa-check"></i><b>14</b> Appendix B</a><ul>
+<li class="chapter" data-level="14.1" data-path="appendix-b.html"><a href="appendix-b.html#epidemic-data"><i class="fa fa-check"></i><b>14.1</b> Epidemic Data</a><ul>
+<li class="chapter" data-level="14.1.1" data-path="appendix-b.html"><a href="appendix-b.html#state-level"><i class="fa fa-check"></i><b>14.1.1</b> State level</a></li>
+<li class="chapter" data-level="14.1.2" data-path="appendix-b.html"><a href="appendix-b.html#county-level"><i class="fa fa-check"></i><b>14.1.2</b> County level</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="appendix-b.html"><a href="appendix-b.html#other-factors"><i class="fa fa-check"></i><b>14.2</b> Other Factors</a><ul>
+<li class="chapter" data-level="14.2.1" data-path="appendix-b.html"><a href="appendix-b.html#policy-data"><i class="fa fa-check"></i><b>14.2.1</b> Policy Data</a></li>
+<li class="chapter" data-level="14.2.2" data-path="appendix-b.html"><a href="appendix-b.html#demographic-characteristics"><i class="fa fa-check"></i><b>14.2.2</b> Demographic Characteristics</a></li>
+<li class="chapter" data-level="14.2.3" data-path="appendix-b.html"><a href="appendix-b.html#healthcare-infrastructure"><i class="fa fa-check"></i><b>14.2.3</b> Healthcare Infrastructure</a></li>
+<li class="chapter" data-level="14.2.4" data-path="appendix-b.html"><a href="appendix-b.html#socioeconomic-status"><i class="fa fa-check"></i><b>14.2.4</b> Socioeconomic Status</a></li>
+<li class="chapter" data-level="14.2.5" data-path="appendix-b.html"><a href="appendix-b.html#environmental-factor"><i class="fa fa-check"></i><b>14.2.5</b> Environmental Factor</a></li>
+<li class="chapter" data-level="14.2.6" data-path="appendix-b.html"><a href="appendix-b.html#mobility"><i class="fa fa-check"></i><b>14.2.6</b> Mobility</a></li>
+<li class="chapter" data-level="14.2.7" data-path="appendix-b.html"><a href="appendix-b.html#geographic-information"><i class="fa fa-check"></i><b>14.2.7</b> Geographic Information</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="appendix-b.html"><a href="appendix-b.html#data-sets"><i class="fa fa-check"></i><b>14.3</b> Data Sets</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="appendix-b.html"><a href="appendix-b.html#chapter-2"><i class="fa fa-check"></i><b>14.3.1</b> Chapter 2</a></li>
+<li class="chapter" data-level="14.3.2" data-path="appendix-b.html"><a href="appendix-b.html#chapter-3"><i class="fa fa-check"></i><b>14.3.2</b> Chapter 3</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Statistical Learning of Infectious Disease Data Analytics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="shiny" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> R Shiny</h1>
+<p>In infectious disease data learning, interactive visualization makes complex data digestible and useful for users. Shiny offers the ability to develop a graphical user interface (GUI) that can be run locally or deployed online. It has the potential to greatly simplify users’ access to
+interactive, web-based visualizations. For example, it with multiple views or panels, enabling the users to review their data from different perspectives. In addition, Shiny is also beneficial to show and communicate updated findings to a broad audience.</p>
+<p>In this chapter, we focus on linking plotly graphs with shiny, an open source R package that provides an elegant and powerful web framework for building web applications using R. Shiny helps you turn your analyses into interactive web applications without requiring HTML, CSS, or JavaScript knowledge.</p>
+<p><strong>Installation</strong></p>
+<p>Shiny is available on CRAN, so you can install it in the usual way from your R console:</p>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="shiny.html#cb163-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;shiny&quot;</span>)</span></code></pre></div>
+<div id="embedding-plotly-in-shiny" class="section level2">
+<h2><span class="header-section-number">6.1</span> Embedding plotly in Shiny</h2>
+<p>A shiny app has two main parts:</p>
+<ol style="list-style-type: decimal">
+<li><p>The user interface, <code>ui</code>, defines how inputs and output widgets are displayed on the page. The <code>fluidPage()</code> function offers a nice and quick way get a grid-based responsive layout, but it’s also worth noting the UI is completely customizable, and packages such as shinydashboard make it easy to leverage more sophisticated layout frameworks.</p></li>
+<li><p>The server function, server, defines a mapping from input values to output widgets. More specifically, the shiny server is an R function between input values on the client and outputs generated on the web server.</p></li>
+</ol>
+<div class="figure" style="text-align: center"><span id="fig:shiny1"></span>
+<img src="figures/shiny.png" alt="An illustration of Shiny Structure." width="50%" />
+<p class="caption">
+Figure 6.1: An illustration of Shiny Structure.
+</p>
+</div>
+<p><strong>ui.R</strong></p>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="shiny.html#cb164-1"></a><span class="kw">library</span>(shiny)</span>
+<span id="cb164-2"><a href="shiny.html#cb164-2"></a></span>
+<span id="cb164-3"><a href="shiny.html#cb164-3"></a><span class="co"># Define UI for miles per gallon application</span></span>
+<span id="cb164-4"><a href="shiny.html#cb164-4"></a><span class="kw">shinyUI</span>(<span class="kw">pageWithSidebar</span>(</span>
+<span id="cb164-5"><a href="shiny.html#cb164-5"></a></span>
+<span id="cb164-6"><a href="shiny.html#cb164-6"></a>  <span class="co"># Application title</span></span>
+<span id="cb164-7"><a href="shiny.html#cb164-7"></a>  <span class="kw">headerPanel</span>(<span class="st">&quot;Hello Shiny!&quot;</span>),</span>
+<span id="cb164-8"><a href="shiny.html#cb164-8"></a></span>
+<span id="cb164-9"><a href="shiny.html#cb164-9"></a>  <span class="kw">sidebarPanel</span>(),</span>
+<span id="cb164-10"><a href="shiny.html#cb164-10"></a></span>
+<span id="cb164-11"><a href="shiny.html#cb164-11"></a>  <span class="kw">mainPanel</span>()</span>
+<span id="cb164-12"><a href="shiny.html#cb164-12"></a>))</span></code></pre></div>
+<p><strong>server.R</strong></p>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="shiny.html#cb165-1"></a><span class="kw">library</span>(shiny)</span>
+<span id="cb165-2"><a href="shiny.html#cb165-2"></a></span>
+<span id="cb165-3"><a href="shiny.html#cb165-3"></a><span class="co"># Define server logic required to plot variables against mpg</span></span>
+<span id="cb165-4"><a href="shiny.html#cb165-4"></a><span class="kw">shinyServer</span>(<span class="cf">function</span>(input, output) {</span>
+<span id="cb165-5"><a href="shiny.html#cb165-5"></a></span>
+<span id="cb165-6"><a href="shiny.html#cb165-6"></a>})</span></code></pre></div>
+<p>Finally, to execute the shiny app, there are two ways.</p>
+<ol style="list-style-type: decimal">
+<li><p>You can run <code>runApp('appname')</code> in a R file, usually named as <code>apps.R</code>, that shares the same directory with a folder, which is under the name <code>'appname'</code>, and contains <code>UI.R</code> and <code>server.R</code> mentioned above.</p></li>
+<li><p>You can define the server function as <code>server</code> and UI function as <code>ui</code> in the same R file, and run <code>shinyApp(ui, server)</code>, as follows.</p></li>
+</ol>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="shiny.html#cb166-1"></a><span class="kw">library</span>(shiny)</span>
+<span id="cb166-2"><a href="shiny.html#cb166-2"></a></span>
+<span id="cb166-3"><a href="shiny.html#cb166-3"></a><span class="co"># Define UI </span></span>
+<span id="cb166-4"><a href="shiny.html#cb166-4"></a>ui &lt;-<span class="st"> </span><span class="kw">shinyUI</span>(<span class="kw">pageWithSidebar</span>(</span>
+<span id="cb166-5"><a href="shiny.html#cb166-5"></a>      <span class="co"># ... Program here</span></span>
+<span id="cb166-6"><a href="shiny.html#cb166-6"></a>  ))</span>
+<span id="cb166-7"><a href="shiny.html#cb166-7"></a></span>
+<span id="cb166-8"><a href="shiny.html#cb166-8"></a><span class="co"># Define server logic</span></span>
+<span id="cb166-9"><a href="shiny.html#cb166-9"></a>server &lt;-<span class="st"> </span><span class="kw">shinyServer</span>(<span class="cf">function</span>(input, output) {</span>
+<span id="cb166-10"><a href="shiny.html#cb166-10"></a>     <span class="co"># ... Program here</span></span>
+<span id="cb166-11"><a href="shiny.html#cb166-11"></a>})</span>
+<span id="cb166-12"><a href="shiny.html#cb166-12"></a></span>
+<span id="cb166-13"><a href="shiny.html#cb166-13"></a><span class="kw">shinyApp</span>(<span class="dt">ui =</span> ui , <span class="dt">server =</span> server)</span></code></pre></div>
+<p>In practice, we prefer the first method over the second to manage multiple shiny apps.</p>
+<div id="your-first-shiny-app" class="section level3">
+<h3><span class="header-section-number">6.1.1</span> Your first shiny app</h3>
+<p>A Shiny application is simply a directory containing a user-interface definition, a server script, and any additional data, scripts, or other resources required to support the application.</p>
+<p>To get started building the application, create a new empty directory wherever you’d like, then create empty <code>ui.R</code> and <code>server.R</code> files within in.</p>
+<p>The user interface is defined in a source file named <strong>ui.R</strong>:</p>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="shiny.html#cb167-1"></a><span class="kw">library</span>(shiny)</span>
+<span id="cb167-2"><a href="shiny.html#cb167-2"></a></span>
+<span id="cb167-3"><a href="shiny.html#cb167-3"></a><span class="co"># Define UI for application that plots random distributions </span></span>
+<span id="cb167-4"><a href="shiny.html#cb167-4"></a><span class="kw">shinyUI</span>(<span class="kw">pageWithSidebar</span>(</span>
+<span id="cb167-5"><a href="shiny.html#cb167-5"></a></span>
+<span id="cb167-6"><a href="shiny.html#cb167-6"></a>  <span class="co"># Application title</span></span>
+<span id="cb167-7"><a href="shiny.html#cb167-7"></a>  <span class="kw">headerPanel</span>(<span class="st">&quot;Hello Shiny!&quot;</span>),</span>
+<span id="cb167-8"><a href="shiny.html#cb167-8"></a></span>
+<span id="cb167-9"><a href="shiny.html#cb167-9"></a>  <span class="co"># Sidebar with a slider input for number of observations</span></span>
+<span id="cb167-10"><a href="shiny.html#cb167-10"></a>  <span class="kw">sidebarPanel</span>(</span>
+<span id="cb167-11"><a href="shiny.html#cb167-11"></a>    <span class="kw">sliderInput</span>(<span class="st">&quot;obs&quot;</span>, </span>
+<span id="cb167-12"><a href="shiny.html#cb167-12"></a>                <span class="st">&quot;Number of observations:&quot;</span>, </span>
+<span id="cb167-13"><a href="shiny.html#cb167-13"></a>                <span class="dt">min =</span> <span class="dv">1</span>,</span>
+<span id="cb167-14"><a href="shiny.html#cb167-14"></a>                <span class="dt">max =</span> <span class="dv">1000</span>, </span>
+<span id="cb167-15"><a href="shiny.html#cb167-15"></a>                <span class="dt">value =</span> <span class="dv">500</span>)</span>
+<span id="cb167-16"><a href="shiny.html#cb167-16"></a>  ),</span>
+<span id="cb167-17"><a href="shiny.html#cb167-17"></a></span>
+<span id="cb167-18"><a href="shiny.html#cb167-18"></a>  <span class="co"># Show a plot of the generated distribution</span></span>
+<span id="cb167-19"><a href="shiny.html#cb167-19"></a>  <span class="kw">mainPanel</span>(</span>
+<span id="cb167-20"><a href="shiny.html#cb167-20"></a>    <span class="kw">plotOutput</span>(<span class="st">&quot;distPlot&quot;</span>)</span>
+<span id="cb167-21"><a href="shiny.html#cb167-21"></a>  )</span>
+<span id="cb167-22"><a href="shiny.html#cb167-22"></a>))</span></code></pre></div>
+<p>The server-side of the application is shown below. At one level, it’s very simple–a random distribution with the requested number of observations is generated, and then plotted as a histogram. However, you’ll also notice that the function which returns the plot is wrapped in a call to renderPlot. See the source file named <strong>server.R</strong> below.</p>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="shiny.html#cb168-1"></a><span class="kw">library</span>(shiny)</span>
+<span id="cb168-2"><a href="shiny.html#cb168-2"></a></span>
+<span id="cb168-3"><a href="shiny.html#cb168-3"></a><span class="co"># Define server logic required to generate and plot a random </span></span>
+<span id="cb168-4"><a href="shiny.html#cb168-4"></a><span class="co"># distribution</span></span>
+<span id="cb168-5"><a href="shiny.html#cb168-5"></a><span class="kw">shinyServer</span>(<span class="cf">function</span>(input, output) {</span>
+<span id="cb168-6"><a href="shiny.html#cb168-6"></a></span>
+<span id="cb168-7"><a href="shiny.html#cb168-7"></a>  <span class="co"># Expression that generates a plot of the distribution. </span></span>
+<span id="cb168-8"><a href="shiny.html#cb168-8"></a>  <span class="co"># The expression is wrapped in a call to renderPlot</span></span>
+<span id="cb168-9"><a href="shiny.html#cb168-9"></a>  <span class="co"># to indicate that:</span></span>
+<span id="cb168-10"><a href="shiny.html#cb168-10"></a>  <span class="co">#</span></span>
+<span id="cb168-11"><a href="shiny.html#cb168-11"></a>  <span class="co">#  1) It is &quot;reactive&quot; and therefore should be automatically </span></span>
+<span id="cb168-12"><a href="shiny.html#cb168-12"></a>  <span class="co">#     re-executed when inputs change</span></span>
+<span id="cb168-13"><a href="shiny.html#cb168-13"></a>  <span class="co">#  2) Its output type is a plot </span></span>
+<span id="cb168-14"><a href="shiny.html#cb168-14"></a>  <span class="co">#</span></span>
+<span id="cb168-15"><a href="shiny.html#cb168-15"></a>  output<span class="op">$</span>distPlot &lt;-<span class="st"> </span><span class="kw">renderPlot</span>({</span>
+<span id="cb168-16"><a href="shiny.html#cb168-16"></a></span>
+<span id="cb168-17"><a href="shiny.html#cb168-17"></a>    <span class="co"># generate an rnorm distribution and plot it</span></span>
+<span id="cb168-18"><a href="shiny.html#cb168-18"></a>    dist &lt;-<span class="st"> </span><span class="kw">rnorm</span>(input<span class="op">$</span>obs)</span>
+<span id="cb168-19"><a href="shiny.html#cb168-19"></a>    <span class="kw">hist</span>(dist)</span>
+<span id="cb168-20"><a href="shiny.html#cb168-20"></a>  })</span>
+<span id="cb168-21"><a href="shiny.html#cb168-21"></a>})</span></code></pre></div>
+<p>If everything is working correctly you’ll see the application appear in your browser looking something like this:</p>
+<div class="figure">
+<img src="figures/hist.png" alt="" />
+<p class="caption">The Hello Shiny example.</p>
+</div>
+</div>
+<div id="useful-input-widgets" class="section level3">
+<h3><span class="header-section-number">6.1.2</span> Useful input widgets</h3>
+<p>Shiny also comes pre-packaged with a handful of other useful input widgets. Although many shiny apps use them straight “out-of-the-box”, input widgets can easily be stylized with CSS and/or SASS, and even custom input widgets can be integrated.</p>
+<ul>
+<li><code>selectInput()</code> or <code>selectizeInput()</code> for dropdown menus.</li>
+<li><code>numericInput()</code> for a single number.</li>
+<li><code>sliderInput()</code> for a numeric range.</li>
+<li><code>textInput()</code> for a character string.</li>
+<li><code>dateInput()</code> for a single date.</li>
+<li><code>dateRangeInput()</code> for a range of dates.</li>
+<li><code>fileInput()</code> for uploading files.</li>
+<li><code>checkboxInput()</code>, or <code>checkboxGroupInput()</code> or <code>radioButtons()</code> for choosing a list of options.</li>
+</ul>
+<p>Going forward our focus is to link multiple graphs in shiny through direct manipulation, so we focus less on using these input widgets, and more on using plotly and static R graphics as inputs to other output widgets.</p>
+</div>
+</div>
+<div id="rendering-plotly-inside-shiny" class="section level2">
+<h2><span class="header-section-number">6.2</span> Rendering plotly Inside Shiny</h2>
+<p>The <code>renderPlotly()</code> function renders anything that the plotly_build() function understands, including <code>plot_ly()</code>, <code>ggplotly()</code>, and <em>ggplot2</em> objects. It also renders <code>NULL</code> as an empty HTML div, which is handy for certain cases where it doesn’t make sense to render a graph.</p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="shiny.html#cb169-1"></a><span class="kw">library</span>(tidyr)</span>
+<span id="cb169-2"><a href="shiny.html#cb169-2"></a><span class="kw">library</span>(wesanderson)</span>
+<span id="cb169-3"><a href="shiny.html#cb169-3"></a><span class="kw">library</span>(shiny)</span>
+<span id="cb169-4"><a href="shiny.html#cb169-4"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb169-5"><a href="shiny.html#cb169-5"></a><span class="kw">library</span>(slid) </span>
+<span id="cb169-6"><a href="shiny.html#cb169-6"></a><span class="co">#library(devtools)</span></span>
+<span id="cb169-7"><a href="shiny.html#cb169-7"></a><span class="co">#install_github(&#39;https://github.com/covid19-dashboard-us/slid&#39;)</span></span></code></pre></div>
+<p><strong>Example 1.</strong></p>
+<p><strong>ui.R</strong></p>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="shiny.html#cb170-1"></a><span class="kw">shinyUI</span>(<span class="kw">fluidPage</span>(</span>
+<span id="cb170-2"><a href="shiny.html#cb170-2"></a>  <span class="kw">sliderInput</span>(<span class="st">&quot;date.update&quot;</span>,</span>
+<span id="cb170-3"><a href="shiny.html#cb170-3"></a>      <span class="dt">label =</span> <span class="kw">h5</span>(<span class="st">&quot;Select date&quot;</span>),</span>
+<span id="cb170-4"><a href="shiny.html#cb170-4"></a>      <span class="dt">min =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2020-01-23&quot;</span>),</span>
+<span id="cb170-5"><a href="shiny.html#cb170-5"></a>      <span class="dt">max =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2020-12-01&quot;</span>),</span>
+<span id="cb170-6"><a href="shiny.html#cb170-6"></a>      <span class="dt">value =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2020-12-01&quot;</span>),</span>
+<span id="cb170-7"><a href="shiny.html#cb170-7"></a>      <span class="dt">timeFormat =</span> <span class="st">&quot;%d %b&quot;</span>,</span>
+<span id="cb170-8"><a href="shiny.html#cb170-8"></a>      <span class="dt">animate =</span> <span class="kw">animationOptions</span>(<span class="dt">interval =</span> <span class="dv">2000</span>, <span class="dt">loop =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb170-9"><a href="shiny.html#cb170-9"></a>  ),</span>
+<span id="cb170-10"><a href="shiny.html#cb170-10"></a>  </span>
+<span id="cb170-11"><a href="shiny.html#cb170-11"></a>  <span class="co"># Show a plot of the generated distribution</span></span>
+<span id="cb170-12"><a href="shiny.html#cb170-12"></a>  <span class="kw">mainPanel</span>(</span>
+<span id="cb170-13"><a href="shiny.html#cb170-13"></a>   <span class="kw">plotlyOutput</span>(<span class="st">&quot;state_daily_bc&quot;</span>, <span class="dt">height =</span> <span class="st">&quot;100%&quot;</span>, <span class="dt">width =</span> <span class="st">&quot;150%&quot;</span>)</span>
+<span id="cb170-14"><a href="shiny.html#cb170-14"></a>  )</span>
+<span id="cb170-15"><a href="shiny.html#cb170-15"></a>))</span></code></pre></div>
+<p><strong>server.R</strong></p>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="shiny.html#cb171-1"></a>state.daily.bc &lt;-<span class="st"> </span><span class="cf">function</span>(date.update){</span>
+<span id="cb171-2"><a href="shiny.html#cb171-2"></a>  <span class="co"># load daily new case data for each state</span></span>
+<span id="cb171-3"><a href="shiny.html#cb171-3"></a>  dat.sd =<span class="st"> </span>slid<span class="op">::</span>dat.sd</span>
+<span id="cb171-4"><a href="shiny.html#cb171-4"></a>  <span class="co"># select the top 10 states with highest daily new</span></span>
+<span id="cb171-5"><a href="shiny.html#cb171-5"></a>  df.sd &lt;-<span class="st"> </span>dat.sd[ind.sd[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>],]</span>
+<span id="cb171-6"><a href="shiny.html#cb171-6"></a>  df.sd &lt;-<span class="st"> </span>df.sd <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb171-7"><a href="shiny.html#cb171-7"></a><span class="st">    </span>dplyr<span class="op">::</span><span class="kw">select</span>(State, <span class="kw">format</span>(date.update, <span class="st">&#39;X%Y.%m.%d&#39;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb171-8"><a href="shiny.html#cb171-8"></a><span class="st">    </span><span class="kw">mutate</span>(Date &lt;-<span class="st"> </span><span class="kw">format</span>(date.update, <span class="st">&#39;%m/%d&#39;</span>))</span>
+<span id="cb171-9"><a href="shiny.html#cb171-9"></a>  df.sd<span class="op">$</span>State &lt;-<span class="st"> </span><span class="kw">as.character</span>(df.sd<span class="op">$</span>State)</span>
+<span id="cb171-10"><a href="shiny.html#cb171-10"></a>  <span class="kw">names</span>(df.sd) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;State&#39;</span>, <span class="st">&#39;DailyCases&#39;</span>, <span class="st">&#39;Date&#39;</span>)</span>
+<span id="cb171-11"><a href="shiny.html#cb171-11"></a>  plot.title &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;New Cases on &quot;</span>, <span class="kw">as.character</span>(date.update))</span>
+<span id="cb171-12"><a href="shiny.html#cb171-12"></a>  </span>
+<span id="cb171-13"><a href="shiny.html#cb171-13"></a>  bc.sd &lt;-</span>
+<span id="cb171-14"><a href="shiny.html#cb171-14"></a><span class="st">    </span><span class="kw">ggplot</span>(df.sd, <span class="kw">aes</span>(State, DailyCases)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb171-15"><a href="shiny.html#cb171-15"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> plot.title) <span class="op">+</span></span>
+<span id="cb171-16"><a href="shiny.html#cb171-16"></a><span class="st">    </span><span class="kw">xlab</span>(<span class="st">&#39;&#39;</span>) <span class="op">+</span></span>
+<span id="cb171-17"><a href="shiny.html#cb171-17"></a><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&#39;&#39;</span>) <span class="op">+</span></span>
+<span id="cb171-18"><a href="shiny.html#cb171-18"></a><span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&#39;identity&#39;</span>, <span class="dt">fill =</span> <span class="st">&quot;#C93312&quot;</span>) </span>
+<span id="cb171-19"><a href="shiny.html#cb171-19"></a>  <span class="kw">return</span>(bc.sd)	</span>
+<span id="cb171-20"><a href="shiny.html#cb171-20"></a>}</span>
+<span id="cb171-21"><a href="shiny.html#cb171-21"></a></span>
+<span id="cb171-22"><a href="shiny.html#cb171-22"></a><span class="kw">shinyServer</span>(<span class="cf">function</span>(input, output) {</span>
+<span id="cb171-23"><a href="shiny.html#cb171-23"></a>  output<span class="op">$</span>state_daily_bc &lt;-<span class="st"> </span><span class="kw">renderPlotly</span>({</span>
+<span id="cb171-24"><a href="shiny.html#cb171-24"></a>    ts &lt;-<span class="st"> </span><span class="kw">state.daily.bc</span>(input<span class="op">$</span>date.update)</span>
+<span id="cb171-25"><a href="shiny.html#cb171-25"></a>  })</span>
+<span id="cb171-26"><a href="shiny.html#cb171-26"></a>})</span></code></pre></div>
+<p>If everything is working correctly you’ll see the application appear in your browser looking something like this:</p>
+<div class="figure">
+<img src="figures/statenewbar.png" alt="" />
+<p class="caption">The top ten states with the highest daily new infected count.</p>
+</div>
+<p><strong>Example 2.</strong></p>
+<p><strong>ui.R</strong></p>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="shiny.html#cb172-1"></a><span class="kw">shinyUI</span>(<span class="kw">fluidPage</span>(</span>
+<span id="cb172-2"><a href="shiny.html#cb172-2"></a>	<span class="kw">div</span>(<span class="dt">class =</span> <span class="st">&quot;outer&quot;</span>,</span>
+<span id="cb172-3"><a href="shiny.html#cb172-3"></a>	tags<span class="op">$</span><span class="kw">head</span>(<span class="kw">includeCSS</span>(<span class="st">&quot;styles.css&quot;</span>)),</span>
+<span id="cb172-4"><a href="shiny.html#cb172-4"></a>	<span class="kw">plotlyOutput</span>(<span class="st">&quot;us_case_ts&quot;</span>, <span class="dt">height =</span> <span class="st">&quot;100%&quot;</span>, <span class="dt">width =</span> <span class="st">&quot;100%&quot;</span>),</span>
+<span id="cb172-5"><a href="shiny.html#cb172-5"></a>	<span class="kw">absolutePanel</span>(<span class="dt">id =</span> <span class="st">&quot;control&quot;</span>, <span class="dt">class =</span> <span class="st">&quot;panel panel-default&quot;</span>,</span>
+<span id="cb172-6"><a href="shiny.html#cb172-6"></a>                <span class="dt">top =</span> <span class="dv">60</span>, <span class="dt">left =</span> <span class="dv">70</span>, <span class="dt">width =</span> <span class="dv">255</span>, <span class="dt">fixed=</span><span class="ot">TRUE</span>,</span>
+<span id="cb172-7"><a href="shiny.html#cb172-7"></a>                <span class="dt">draggable =</span> <span class="ot">TRUE</span>, <span class="dt">height =</span> <span class="st">&quot;auto&quot;</span>, </span>
+<span id="cb172-8"><a href="shiny.html#cb172-8"></a>	              <span class="dt">style =</span> <span class="st">&quot;opacity: 0.8&quot;</span>,</span>
+<span id="cb172-9"><a href="shiny.html#cb172-9"></a>    <span class="kw">selectInput</span>(<span class="st">&quot;plot_type&quot;</span>,</span>
+<span id="cb172-10"><a href="shiny.html#cb172-10"></a>      <span class="dt">label =</span> <span class="kw">h5</span>(<span class="st">&quot;Select type&quot;</span>),</span>
+<span id="cb172-11"><a href="shiny.html#cb172-11"></a>      <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">&quot;Original Counts&quot;</span> =<span class="st"> &quot;counts&quot;</span>, </span>
+<span id="cb172-12"><a href="shiny.html#cb172-12"></a>                  <span class="st">&quot;Log Counts&quot;</span> =<span class="st"> &quot;logcounts&quot;</span>)</span>
+<span id="cb172-13"><a href="shiny.html#cb172-13"></a>    )<span class="co"># end of selectInput1</span></span>
+<span id="cb172-14"><a href="shiny.html#cb172-14"></a>  )</span>
+<span id="cb172-15"><a href="shiny.html#cb172-15"></a>  ) <span class="co"># end of div</span></span>
+<span id="cb172-16"><a href="shiny.html#cb172-16"></a>) <span class="co"># end of tab</span></span>
+<span id="cb172-17"><a href="shiny.html#cb172-17"></a>)</span></code></pre></div>
+<p><strong>server.R</strong></p>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="shiny.html#cb173-1"></a>cols &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;#045a8d&quot;</span>, <span class="st">&quot;#cc4c02&quot;</span>)</span>
+<span id="cb173-2"><a href="shiny.html#cb173-2"></a>us.case.ts &lt;-<span class="st"> </span><span class="cf">function</span>(date.update, plot.type) {</span>
+<span id="cb173-3"><a href="shiny.html#cb173-3"></a>  <span class="co"># Cum infected cases in Iowa: Observation and Prediction</span></span>
+<span id="cb173-4"><a href="shiny.html#cb173-4"></a>  dfplot =<span class="st"> </span>slid<span class="op">::</span>dfplot</span>
+<span id="cb173-5"><a href="shiny.html#cb173-5"></a>  </span>
+<span id="cb173-6"><a href="shiny.html#cb173-6"></a>  <span class="cf">if</span> (plot.type <span class="op">==</span><span class="st"> &#39;counts&#39;</span>){</span>
+<span id="cb173-7"><a href="shiny.html#cb173-7"></a>   ts &lt;-</span>
+<span id="cb173-8"><a href="shiny.html#cb173-8"></a><span class="st">     </span><span class="kw">ggplot</span>(dfplot, <span class="kw">aes</span>(Date, DailyCases, <span class="dt">colour =</span> Group)) <span class="op">+</span></span>
+<span id="cb173-9"><a href="shiny.html#cb173-9"></a><span class="st">     </span><span class="co">## Plot observed</span></span>
+<span id="cb173-10"><a href="shiny.html#cb173-10"></a><span class="st">     </span><span class="kw">geom_line</span>(<span class="dt">colour =</span> <span class="st">&#39;darkgray&#39;</span>)  <span class="op">+</span></span>
+<span id="cb173-11"><a href="shiny.html#cb173-11"></a><span class="st">     </span><span class="kw">geom_point</span>()  <span class="op">+</span></span>
+<span id="cb173-12"><a href="shiny.html#cb173-12"></a><span class="st">     </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;Observation&quot;</span> =<span class="st"> </span>cols[<span class="dv">1</span>], </span>
+<span id="cb173-13"><a href="shiny.html#cb173-13"></a>                                   <span class="st">&quot;Prediction&quot;</span> =<span class="st"> </span>cols[<span class="dv">2</span>])) <span class="op">+</span></span>
+<span id="cb173-14"><a href="shiny.html#cb173-14"></a><span class="st">     </span><span class="co">## Change labs</span></span>
+<span id="cb173-15"><a href="shiny.html#cb173-15"></a><span class="st">     </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&#39;Daily new infected cases and prediction&#39;</span>)  <span class="op">+</span><span class="st">  </span></span>
+<span id="cb173-16"><a href="shiny.html#cb173-16"></a><span class="st">     </span><span class="kw">xlab</span>(<span class="st">&#39;Date&#39;</span>) <span class="op">+</span></span>
+<span id="cb173-17"><a href="shiny.html#cb173-17"></a><span class="st">     </span><span class="kw">ylab</span>(<span class="st">&#39;Daily new cases&#39;</span>)</span>
+<span id="cb173-18"><a href="shiny.html#cb173-18"></a>   </span>
+<span id="cb173-19"><a href="shiny.html#cb173-19"></a>  } <span class="cf">else</span> <span class="cf">if</span> (plot.type <span class="op">==</span><span class="st"> &#39;logcounts&#39;</span>){</span>
+<span id="cb173-20"><a href="shiny.html#cb173-20"></a>    ts &lt;-</span>
+<span id="cb173-21"><a href="shiny.html#cb173-21"></a><span class="st">      </span><span class="kw">ggplot</span>(dfplot, <span class="kw">aes</span>(Date, logDailyCases, <span class="dt">colour =</span> Group) ) <span class="op">+</span></span>
+<span id="cb173-22"><a href="shiny.html#cb173-22"></a><span class="st">      </span><span class="co">## Plot observed</span></span>
+<span id="cb173-23"><a href="shiny.html#cb173-23"></a><span class="st">      </span><span class="kw">geom_line</span>(<span class="dt">colour =</span> <span class="st">&#39;darkgray&#39;</span>)  <span class="op">+</span></span>
+<span id="cb173-24"><a href="shiny.html#cb173-24"></a><span class="st">      </span><span class="kw">geom_point</span>()  <span class="op">+</span></span>
+<span id="cb173-25"><a href="shiny.html#cb173-25"></a><span class="st">      </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;Observation&quot;</span> =<span class="st"> </span>cols[<span class="dv">1</span>], </span>
+<span id="cb173-26"><a href="shiny.html#cb173-26"></a>                                    <span class="st">&quot;Prediction&quot;</span> =<span class="st"> </span>cols[<span class="dv">2</span>])) <span class="op">+</span></span>
+<span id="cb173-27"><a href="shiny.html#cb173-27"></a><span class="st">      </span><span class="co">## Change labs</span></span>
+<span id="cb173-28"><a href="shiny.html#cb173-28"></a><span class="st">      </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&#39;Logarithm of daily new infected count </span></span>
+<span id="cb173-29"><a href="shiny.html#cb173-29"></a><span class="st">           and prediction&#39;</span>) <span class="op">+</span><span class="st">  </span></span>
+<span id="cb173-30"><a href="shiny.html#cb173-30"></a><span class="st">      </span><span class="kw">xlab</span>(<span class="st">&#39;Date&#39;</span>) <span class="op">+</span></span>
+<span id="cb173-31"><a href="shiny.html#cb173-31"></a><span class="st">      </span><span class="kw">ylab</span>(<span class="st">&#39;Log (Daily new cases)&#39;</span>)</span>
+<span id="cb173-32"><a href="shiny.html#cb173-32"></a>    </span>
+<span id="cb173-33"><a href="shiny.html#cb173-33"></a>  }</span>
+<span id="cb173-34"><a href="shiny.html#cb173-34"></a>  <span class="kw">return</span>(ts)	</span>
+<span id="cb173-35"><a href="shiny.html#cb173-35"></a>}</span>
+<span id="cb173-36"><a href="shiny.html#cb173-36"></a></span>
+<span id="cb173-37"><a href="shiny.html#cb173-37"></a><span class="kw">shinyServer</span>(<span class="cf">function</span>(input, output) {</span>
+<span id="cb173-38"><a href="shiny.html#cb173-38"></a>  output<span class="op">$</span>us_case_ts &lt;-<span class="st"> </span><span class="kw">renderPlotly</span>({</span>
+<span id="cb173-39"><a href="shiny.html#cb173-39"></a>    ts &lt;-<span class="st"> </span><span class="kw">us.case.ts</span>(<span class="dt">date.update =</span> date.update, </span>
+<span id="cb173-40"><a href="shiny.html#cb173-40"></a>                     <span class="dt">plot.type =</span> input<span class="op">$</span>plot_type)</span>
+<span id="cb173-41"><a href="shiny.html#cb173-41"></a>  })</span>
+<span id="cb173-42"><a href="shiny.html#cb173-42"></a>})</span></code></pre></div>
+<p>If everything is working correctly you’ll see the application appear in your browser looking something like this:</p>
+<div class="figure">
+<img src="figures/dailynew.png" alt="" />
+<p class="caption">The time series plot of daily new infected count of Iowa.</p>
+</div>
+<p>Remark: There are currently four different modes for mouse click+drag behavior (i.e., <code>dragmode</code>) in plotly.js: zoom, pan, rectangular selection, and lasso selection.</p>
+<p><strong>Example 3.</strong></p>
+<p><strong>ui.R</strong></p>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="shiny.html#cb174-1"></a><span class="kw">shinyUI</span>(<span class="kw">fluidPage</span>(</span>
+<span id="cb174-2"><a href="shiny.html#cb174-2"></a>	<span class="kw">div</span>(<span class="dt">class=</span><span class="st">&quot;outer&quot;</span>,</span>
+<span id="cb174-3"><a href="shiny.html#cb174-3"></a>	tags<span class="op">$</span><span class="kw">head</span>(<span class="kw">includeCSS</span>(<span class="st">&quot;styles.css&quot;</span>)),</span>
+<span id="cb174-4"><a href="shiny.html#cb174-4"></a>	<span class="kw">plotlyOutput</span>(<span class="st">&quot;county_risk_ts&quot;</span>, <span class="dt">height=</span><span class="st">&quot;100%&quot;</span>, <span class="dt">width=</span><span class="st">&quot;100%&quot;</span>),</span>
+<span id="cb174-5"><a href="shiny.html#cb174-5"></a>	<span class="kw">absolutePanel</span>(<span class="dt">id =</span> <span class="st">&quot;control&quot;</span>, <span class="dt">class =</span> <span class="st">&quot;panel panel-default&quot;</span>,</span>
+<span id="cb174-6"><a href="shiny.html#cb174-6"></a>	  <span class="dt">top =</span> <span class="dv">60</span>, <span class="dt">left =</span> <span class="dv">70</span>, <span class="dt">width =</span> <span class="dv">255</span>, <span class="dt">fixed=</span><span class="ot">TRUE</span>,</span>
+<span id="cb174-7"><a href="shiny.html#cb174-7"></a>	  <span class="dt">draggable =</span> <span class="ot">TRUE</span>, <span class="dt">height =</span> <span class="st">&quot;auto&quot;</span>, <span class="dt">style =</span> <span class="st">&quot;opacity: 0.8&quot;</span>,</span>
+<span id="cb174-8"><a href="shiny.html#cb174-8"></a>	  <span class="kw">selectInput</span>(<span class="st">&quot;plot_type&quot;</span>,</span>
+<span id="cb174-9"><a href="shiny.html#cb174-9"></a>	    <span class="dt">label =</span> <span class="kw">h5</span>(<span class="st">&quot;Select type&quot;</span>),</span>
+<span id="cb174-10"><a href="shiny.html#cb174-10"></a>	    <span class="dt">choices =</span> <span class="kw">c</span>(<span class="st">&quot;WLR&quot;</span> =<span class="st"> &quot;wlr&quot;</span>, <span class="st">&quot;IR&quot;</span> =<span class="st"> &quot;localrisk&quot;</span>, </span>
+<span id="cb174-11"><a href="shiny.html#cb174-11"></a>	                <span class="st">&quot;SIR&quot;</span> =<span class="st"> &quot;smr&quot;</span>)</span>
+<span id="cb174-12"><a href="shiny.html#cb174-12"></a>	  ) <span class="co"># end of selectInput</span></span>
+<span id="cb174-13"><a href="shiny.html#cb174-13"></a>	) <span class="co"># end of absolutePanel</span></span>
+<span id="cb174-14"><a href="shiny.html#cb174-14"></a>	) <span class="co"># end of div</span></span>
+<span id="cb174-15"><a href="shiny.html#cb174-15"></a>))</span></code></pre></div>
+<p>** server.R **</p>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="shiny.html#cb175-1"></a>date.update &lt;-<span class="st"> </span><span class="kw">as.Date</span>(<span class="st">&#39;2020-12-12&#39;</span>)</span>
+<span id="cb175-2"><a href="shiny.html#cb175-2"></a>mycol &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;#5B1A18&quot;</span>, <span class="st">&quot;#F21A00&quot;</span>, <span class="st">&quot;#D67236&quot;</span>, <span class="st">&quot;#F1BB7B&quot;</span>, </span>
+<span id="cb175-3"><a href="shiny.html#cb175-3"></a>           <span class="st">&quot;#D8B70A&quot;</span>, <span class="st">&quot;#A2A475&quot;</span>, <span class="st">&quot;#81A88D&quot;</span>, <span class="st">&quot;#78B7C5&quot;</span>, </span>
+<span id="cb175-4"><a href="shiny.html#cb175-4"></a>           <span class="st">&quot;#3B9AB2&quot;</span>, <span class="st">&quot;#7294D4&quot;</span>, <span class="st">&quot;#C6CDF7&quot;</span>, <span class="st">&quot;#E6A0C4&quot;</span>)</span>
+<span id="cb175-5"><a href="shiny.html#cb175-5"></a>ts.plotly =<span class="st"> </span><span class="cf">function</span>(df, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, <span class="dt">mode =</span> <span class="st">&#39;lines+markers&#39;</span>, </span>
+<span id="cb175-6"><a href="shiny.html#cb175-6"></a>	<span class="dt">group =</span> group, mycol, <span class="dt">showlegend =</span> <span class="ot">TRUE</span>, <span class="dt">visible =</span> T, </span>
+<span id="cb175-7"><a href="shiny.html#cb175-7"></a>	<span class="dt">xaxis =</span> xaxis, <span class="dt">yaxis =</span> yaxis, <span class="dt">legend =</span> legend) {</span>
+<span id="cb175-8"><a href="shiny.html#cb175-8"></a>		</span>
+<span id="cb175-9"><a href="shiny.html#cb175-9"></a>	ts &lt;-<span class="st"> </span><span class="kw">plot_ly</span>(df) <span class="op">%&gt;%</span></span>
+<span id="cb175-10"><a href="shiny.html#cb175-10"></a>		<span class="kw">add_trace</span>(<span class="dt">x =</span> <span class="op">~</span>x, <span class="dt">y =</span> <span class="op">~</span>y, <span class="dt">type =</span> type, <span class="dt">mode =</span> mode, </span>
+<span id="cb175-11"><a href="shiny.html#cb175-11"></a>			<span class="dt">color =</span> <span class="op">~</span>group, <span class="dt">colors =</span> mycol, </span>
+<span id="cb175-12"><a href="shiny.html#cb175-12"></a>			<span class="dt">showlegend =</span> showlegend, </span>
+<span id="cb175-13"><a href="shiny.html#cb175-13"></a>			<span class="dt">visible =</span> visible) <span class="op">%&gt;%</span></span>
+<span id="cb175-14"><a href="shiny.html#cb175-14"></a>		<span class="kw">layout</span>(<span class="dt">xaxis =</span> xaxis, <span class="dt">yaxis =</span> yaxis, </span>
+<span id="cb175-15"><a href="shiny.html#cb175-15"></a>		       <span class="dt">legend =</span> legend)</span>
+<span id="cb175-16"><a href="shiny.html#cb175-16"></a>  <span class="kw">return</span>(ts)</span>
+<span id="cb175-17"><a href="shiny.html#cb175-17"></a>}</span>
+<span id="cb175-18"><a href="shiny.html#cb175-18"></a></span>
+<span id="cb175-19"><a href="shiny.html#cb175-19"></a>county.risk.ts =<span class="st"> </span><span class="cf">function</span>(date.update, <span class="dt">type =</span> <span class="st">&#39;localrisk&#39;</span>){</span>
+<span id="cb175-20"><a href="shiny.html#cb175-20"></a>  date.all =<span class="st"> </span>date.update <span class="op">-</span><span class="st"> </span>(<span class="dv">1</span><span class="op">:</span><span class="dv">30</span>)</span>
+<span id="cb175-21"><a href="shiny.html#cb175-21"></a>  date.lag =<span class="st"> </span>date.all <span class="op">-</span><span class="st"> </span><span class="dv">7</span></span>
+<span id="cb175-22"><a href="shiny.html#cb175-22"></a>  County.pop0 &lt;-<span class="st"> </span>slid<span class="op">::</span>pop.county</span>
+<span id="cb175-23"><a href="shiny.html#cb175-23"></a>  County.pop &lt;-<span class="st"> </span>County.pop0 <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb175-24"><a href="shiny.html#cb175-24"></a><span class="st">    </span><span class="kw">filter</span>((<span class="op">!</span>(State <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Alaska&quot;</span>,<span class="st">&quot;Hawaii&quot;</span>))))</span>
+<span id="cb175-25"><a href="shiny.html#cb175-25"></a>  County.pop &lt;-<span class="st"> </span>County.pop <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb175-26"><a href="shiny.html#cb175-26"></a><span class="st">    </span><span class="kw">filter</span>((<span class="op">!</span>(ID <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">36005</span>, <span class="dv">36047</span>, <span class="dv">36081</span>, <span class="dv">36085</span>))))</span>
+<span id="cb175-27"><a href="shiny.html#cb175-27"></a>  County.pop<span class="op">$</span>ID[County.pop<span class="op">$</span>ID <span class="op">==</span><span class="st"> </span><span class="dv">46102</span>] =<span class="st"> </span><span class="dv">46113</span></span>
+<span id="cb175-28"><a href="shiny.html#cb175-28"></a>  dat &lt;-<span class="st"> </span>slid<span class="op">::</span>I.county</span>
+<span id="cb175-29"><a href="shiny.html#cb175-29"></a>  dat &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb175-30"><a href="shiny.html#cb175-30"></a><span class="st">    </span><span class="kw">filter</span>((<span class="op">!</span>(State <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Alaska&quot;</span>, <span class="st">&quot;Hawaii&quot;</span>))))</span>
+<span id="cb175-31"><a href="shiny.html#cb175-31"></a>  var.names &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;X&quot;</span>, <span class="kw">as.character</span>(date.all), <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb175-32"><a href="shiny.html#cb175-32"></a>  var.names &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;</span><span class="ch">\\</span><span class="st">-&quot;</span>, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.&quot;</span>, var.names)</span>
+<span id="cb175-33"><a href="shiny.html#cb175-33"></a>  var.lag &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;X&quot;</span>, <span class="kw">as.character</span>(date.lag), <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb175-34"><a href="shiny.html#cb175-34"></a>  var.lag &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;</span><span class="ch">\\</span><span class="st">-&quot;</span>, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.&quot;</span>, var.lag)</span>
+<span id="cb175-35"><a href="shiny.html#cb175-35"></a>  tmp &lt;-<span class="st"> </span><span class="kw">as.matrix</span>((dat[, var.names] <span class="op">-</span><span class="st"> </span>dat[, var.lag])<span class="op">/</span><span class="dv">7</span>)</span>
+<span id="cb175-36"><a href="shiny.html#cb175-36"></a>  dat &lt;-<span class="st"> </span>dat[, <span class="kw">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;County&quot;</span>, <span class="st">&quot;State&quot;</span>, var.names)]</span>
+<span id="cb175-37"><a href="shiny.html#cb175-37"></a>  smr.c &lt;-<span class="st"> </span><span class="kw">sum</span>(County.pop<span class="op">$</span>population)<span class="op">/</span><span class="kw">as.matrix</span>(<span class="kw">colSums</span>(dat[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]))</span>
+<span id="cb175-38"><a href="shiny.html#cb175-38"></a></span>
+<span id="cb175-39"><a href="shiny.html#cb175-39"></a></span>
+<span id="cb175-40"><a href="shiny.html#cb175-40"></a>  I0 &lt;-<span class="st"> </span>LogI0 &lt;-<span class="st"> </span>LocRisk0 &lt;-<span class="st"> </span>SMR0 &lt;-<span class="st"> </span>dat</span>
+<span id="cb175-41"><a href="shiny.html#cb175-41"></a>  <span class="co"># I0[,-(1:3)] &lt;- as.matrix(dat[,-(1:3)])</span></span>
+<span id="cb175-42"><a href="shiny.html#cb175-42"></a>  LogI0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)] &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">log</span>(dat[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]<span class="op">+</span><span class="dv">1</span>))</span>
+<span id="cb175-43"><a href="shiny.html#cb175-43"></a>  LocRisk0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)] &lt;-<span class="st"> </span><span class="kw">sweep</span>(<span class="kw">as.matrix</span>(dat[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]), <span class="dv">1</span>, </span>
+<span id="cb175-44"><a href="shiny.html#cb175-44"></a>          County.pop<span class="op">$</span>population[<span class="kw">match</span>(dat<span class="op">$</span>ID, County.pop<span class="op">$</span>ID)], </span>
+<span id="cb175-45"><a href="shiny.html#cb175-45"></a>          <span class="st">&quot;/&quot;</span>) <span class="op">*</span><span class="st"> </span><span class="dv">1000</span></span>
+<span id="cb175-46"><a href="shiny.html#cb175-46"></a>  SMR0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)] &lt;-<span class="st"> </span><span class="kw">sweep</span>(LocRisk0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)],<span class="dv">2</span>,smr.c<span class="op">/</span><span class="dv">10</span>,<span class="st">&quot;*&quot;</span>)</span>
+<span id="cb175-47"><a href="shiny.html#cb175-47"></a>  WLR0 &lt;-<span class="st"> </span><span class="kw">sweep</span>(tmp, <span class="dv">1</span>, </span>
+<span id="cb175-48"><a href="shiny.html#cb175-48"></a>       County.pop<span class="op">$</span>population[<span class="kw">match</span>(dat<span class="op">$</span>ID, County.pop<span class="op">$</span>ID)], </span>
+<span id="cb175-49"><a href="shiny.html#cb175-49"></a>       <span class="st">&quot;/&quot;</span>) <span class="op">*</span><span class="st"> </span><span class="fl">1e5</span></span>
+<span id="cb175-50"><a href="shiny.html#cb175-50"></a></span>
+<span id="cb175-51"><a href="shiny.html#cb175-51"></a>  county.dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Date =</span> date.all)</span>
+<span id="cb175-52"><a href="shiny.html#cb175-52"></a>  CountyState &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="kw">as.character</span>(dat<span class="op">$</span>County), </span>
+<span id="cb175-53"><a href="shiny.html#cb175-53"></a>                       <span class="kw">as.character</span>(dat<span class="op">$</span>State), <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb175-54"><a href="shiny.html#cb175-54"></a></span>
+<span id="cb175-55"><a href="shiny.html#cb175-55"></a>  LogI &lt;-<span class="st"> </span><span class="kw">cbind</span>(county.dat,<span class="kw">round</span>(<span class="kw">t</span>(LogI0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]),<span class="dv">2</span>))</span>
+<span id="cb175-56"><a href="shiny.html#cb175-56"></a>  <span class="kw">names</span>(LogI) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Date&quot;</span>, CountyState)</span>
+<span id="cb175-57"><a href="shiny.html#cb175-57"></a></span>
+<span id="cb175-58"><a href="shiny.html#cb175-58"></a>  LocRisk &lt;-<span class="st"> </span><span class="kw">cbind</span>(county.dat,<span class="kw">round</span>(<span class="kw">t</span>(LocRisk0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]),<span class="dv">2</span>))</span>
+<span id="cb175-59"><a href="shiny.html#cb175-59"></a>  <span class="kw">names</span>(LocRisk) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Date&quot;</span>, CountyState)</span>
+<span id="cb175-60"><a href="shiny.html#cb175-60"></a></span>
+<span id="cb175-61"><a href="shiny.html#cb175-61"></a>  SMR &lt;-<span class="st"> </span><span class="kw">cbind</span>(county.dat,<span class="kw">t</span>(SMR0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]))</span>
+<span id="cb175-62"><a href="shiny.html#cb175-62"></a>  <span class="kw">names</span>(SMR) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Date&quot;</span>, CountyState)</span>
+<span id="cb175-63"><a href="shiny.html#cb175-63"></a></span>
+<span id="cb175-64"><a href="shiny.html#cb175-64"></a>  WLR &lt;-<span class="st"> </span><span class="kw">cbind</span>(county.dat, <span class="kw">round</span>(<span class="kw">t</span>(WLR0), <span class="dv">2</span>))</span>
+<span id="cb175-65"><a href="shiny.html#cb175-65"></a>  <span class="kw">names</span>(WLR) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Date&quot;</span>, CountyState)</span>
+<span id="cb175-66"><a href="shiny.html#cb175-66"></a></span>
+<span id="cb175-67"><a href="shiny.html#cb175-67"></a>  xaxis.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;&quot;</span>, <span class="dt">showline =</span> <span class="ot">FALSE</span>, </span>
+<span id="cb175-68"><a href="shiny.html#cb175-68"></a>                   <span class="dt">showticklabels =</span> <span class="ot">TRUE</span>, <span class="dt">showgrid =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb175-69"><a href="shiny.html#cb175-69"></a>                   <span class="dt">type =</span> <span class="st">&#39;date&#39;</span>, <span class="dt">tickformat =</span> <span class="st">&#39;%m/%d&#39;</span>)</span>
+<span id="cb175-70"><a href="shiny.html#cb175-70"></a>  legend.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">orientation =</span> <span class="st">&#39;h&#39;</span>, <span class="dt">x =</span> <span class="dv">0</span>, <span class="dt">y =</span> <span class="fl">-0.05</span>, </span>
+<span id="cb175-71"><a href="shiny.html#cb175-71"></a>                    <span class="dt">autosize =</span> F, <span class="dt">width =</span> <span class="dv">250</span>, <span class="dt">height =</span> <span class="dv">200</span>)</span>
+<span id="cb175-72"><a href="shiny.html#cb175-72"></a></span>
+<span id="cb175-73"><a href="shiny.html#cb175-73"></a>  <span class="cf">if</span> (type <span class="op">==</span><span class="st"> &#39;localrisk&#39;</span>){</span>
+<span id="cb175-74"><a href="shiny.html#cb175-74"></a>    ind.county =<span class="st"> </span><span class="kw">order</span>(LocRisk0[,var.names[<span class="dv">1</span>]], <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb175-75"><a href="shiny.html#cb175-75"></a>    df.fr &lt;-<span class="st"> </span>LocRisk <span class="op">%&gt;%</span></span>
+<span id="cb175-76"><a href="shiny.html#cb175-76"></a><span class="st">      </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span> <span class="op">+</span><span class="st"> </span>ind.county[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])) <span class="op">%&gt;%</span></span>
+<span id="cb175-77"><a href="shiny.html#cb175-77"></a><span class="st">      </span><span class="kw">gather</span>(<span class="dt">key =</span> <span class="st">&quot;County.State&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;LogI&quot;</span>, <span class="op">-</span>Date)</span>
+<span id="cb175-78"><a href="shiny.html#cb175-78"></a>    <span class="kw">names</span>(df.fr) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;group&quot;</span>,<span class="st">&quot;y&quot;</span>)</span>
+<span id="cb175-79"><a href="shiny.html#cb175-79"></a>    yaxis.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;Local Risk (Cases per Thousand)&quot;</span>)</span>
+<span id="cb175-80"><a href="shiny.html#cb175-80"></a>    ts.fr &lt;-<span class="st"> </span><span class="kw">ts.plotly</span>(df.fr, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, </span>
+<span id="cb175-81"><a href="shiny.html#cb175-81"></a>                       <span class="dt">mode =</span> <span class="st">&#39;lines+markers&#39;</span>,</span>
+<span id="cb175-82"><a href="shiny.html#cb175-82"></a>                       <span class="dt">group =</span> group, mycol, </span>
+<span id="cb175-83"><a href="shiny.html#cb175-83"></a>                       <span class="dt">showlegend =</span> <span class="ot">TRUE</span>, <span class="dt">visible =</span> T,</span>
+<span id="cb175-84"><a href="shiny.html#cb175-84"></a>                       <span class="dt">xaxis =</span> xaxis.fr, <span class="dt">yaxis =</span> yaxis.fr, </span>
+<span id="cb175-85"><a href="shiny.html#cb175-85"></a>                       <span class="dt">legend =</span> legend.fr)</span>
+<span id="cb175-86"><a href="shiny.html#cb175-86"></a>  }<span class="cf">else</span> <span class="cf">if</span> (type <span class="op">==</span><span class="st"> &#39;smr&#39;</span>){</span>
+<span id="cb175-87"><a href="shiny.html#cb175-87"></a>    ind.county =<span class="st"> </span><span class="kw">order</span>(SMR0[,var.names[<span class="dv">1</span>]], <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb175-88"><a href="shiny.html#cb175-88"></a>    df.fr &lt;-<span class="st"> </span>SMR <span class="op">%&gt;%</span></span>
+<span id="cb175-89"><a href="shiny.html#cb175-89"></a><span class="st">      </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span> <span class="op">+</span><span class="st"> </span>ind.county[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])) <span class="op">%&gt;%</span></span>
+<span id="cb175-90"><a href="shiny.html#cb175-90"></a><span class="st">      </span><span class="kw">gather</span>(<span class="dt">key =</span> <span class="st">&quot;County.State&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;LogI&quot;</span>, <span class="op">-</span>Date)</span>
+<span id="cb175-91"><a href="shiny.html#cb175-91"></a>    <span class="kw">names</span>(df.fr) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;group&quot;</span>,<span class="st">&quot;y&quot;</span>)</span>
+<span id="cb175-92"><a href="shiny.html#cb175-92"></a>    yaxis.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;SMR (%)&quot;</span>)</span>
+<span id="cb175-93"><a href="shiny.html#cb175-93"></a>    ts.fr &lt;-<span class="st"> </span><span class="kw">ts.plotly</span>(df.fr, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, </span>
+<span id="cb175-94"><a href="shiny.html#cb175-94"></a>                       <span class="dt">mode =</span> <span class="st">&#39;lines+markers&#39;</span>,</span>
+<span id="cb175-95"><a href="shiny.html#cb175-95"></a>                       <span class="dt">group =</span> group, mycol, <span class="dt">showlegend =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb175-96"><a href="shiny.html#cb175-96"></a>                       <span class="dt">visible =</span> T, <span class="dt">xaxis =</span> xaxis.fr, </span>
+<span id="cb175-97"><a href="shiny.html#cb175-97"></a>                       <span class="dt">yaxis =</span> yaxis.fr, <span class="dt">legend =</span> legend.fr)</span>
+<span id="cb175-98"><a href="shiny.html#cb175-98"></a>  }<span class="cf">else</span> <span class="cf">if</span> (type <span class="op">==</span><span class="st"> &#39;logcount&#39;</span>){</span>
+<span id="cb175-99"><a href="shiny.html#cb175-99"></a>    ind.county =<span class="st"> </span><span class="kw">order</span>(dat[,var.names[<span class="dv">1</span>]], <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb175-100"><a href="shiny.html#cb175-100"></a>    df.fr &lt;-<span class="st"> </span>LogI <span class="op">%&gt;%</span></span>
+<span id="cb175-101"><a href="shiny.html#cb175-101"></a><span class="st">      </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span><span class="op">+</span>ind.county[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])) <span class="op">%&gt;%</span></span>
+<span id="cb175-102"><a href="shiny.html#cb175-102"></a><span class="st">      </span><span class="kw">gather</span>(<span class="dt">key =</span> <span class="st">&quot;County.State&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;LogI&quot;</span>, <span class="op">-</span>Date)</span>
+<span id="cb175-103"><a href="shiny.html#cb175-103"></a>    <span class="kw">names</span>(df.fr) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;group&quot;</span>,<span class="st">&quot;y&quot;</span>)</span>
+<span id="cb175-104"><a href="shiny.html#cb175-104"></a>    yaxis.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;Log Counts&quot;</span>)</span>
+<span id="cb175-105"><a href="shiny.html#cb175-105"></a>    ts.fr &lt;-<span class="st"> </span><span class="kw">ts.plotly</span>(df.fr, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, </span>
+<span id="cb175-106"><a href="shiny.html#cb175-106"></a>                       <span class="dt">mode =</span> <span class="st">&#39;lines+markers&#39;</span>,</span>
+<span id="cb175-107"><a href="shiny.html#cb175-107"></a>                       <span class="dt">group =</span> group, mycol, </span>
+<span id="cb175-108"><a href="shiny.html#cb175-108"></a>                       <span class="dt">showlegend =</span> <span class="ot">TRUE</span>, <span class="dt">visible =</span> T,</span>
+<span id="cb175-109"><a href="shiny.html#cb175-109"></a>                       <span class="dt">xaxis =</span> xaxis.fr, <span class="dt">yaxis =</span> yaxis.fr, </span>
+<span id="cb175-110"><a href="shiny.html#cb175-110"></a>                       <span class="dt">legend =</span> legend.fr)</span>
+<span id="cb175-111"><a href="shiny.html#cb175-111"></a>  }<span class="cf">else</span> <span class="cf">if</span> (type <span class="op">==</span><span class="st"> &#39;wlr&#39;</span>){</span>
+<span id="cb175-112"><a href="shiny.html#cb175-112"></a>    ind.county &lt;-<span class="st"> </span><span class="kw">order</span>(WLR0[, var.names[<span class="dv">1</span>]], <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb175-113"><a href="shiny.html#cb175-113"></a>    df.fr &lt;-<span class="st"> </span>WLR <span class="op">%&gt;%</span></span>
+<span id="cb175-114"><a href="shiny.html#cb175-114"></a><span class="st">      </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span> <span class="op">+</span><span class="st"> </span>ind.county[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])) <span class="op">%&gt;%</span></span>
+<span id="cb175-115"><a href="shiny.html#cb175-115"></a><span class="st">      </span><span class="kw">gather</span>(<span class="dt">key =</span> <span class="st">&quot;CountyState&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;WLR&quot;</span>, <span class="op">-</span>Date)</span>
+<span id="cb175-116"><a href="shiny.html#cb175-116"></a>    <span class="kw">names</span>(df.fr) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;group&quot;</span>, <span class="st">&quot;y&quot;</span>)</span>
+<span id="cb175-117"><a href="shiny.html#cb175-117"></a>    yaxis.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;WLR (New Cases Per 100K)&quot;</span>)</span>
+<span id="cb175-118"><a href="shiny.html#cb175-118"></a>    ts.fr &lt;-<span class="st"> </span><span class="kw">ts.plotly</span>(df.fr, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, </span>
+<span id="cb175-119"><a href="shiny.html#cb175-119"></a>                       <span class="dt">mode =</span> <span class="st">&#39;lines+markers&#39;</span>,</span>
+<span id="cb175-120"><a href="shiny.html#cb175-120"></a>                       <span class="dt">group =</span> group, mycol, </span>
+<span id="cb175-121"><a href="shiny.html#cb175-121"></a>                       <span class="dt">showlegend =</span> <span class="ot">TRUE</span>, <span class="dt">visible =</span> T,</span>
+<span id="cb175-122"><a href="shiny.html#cb175-122"></a>                       <span class="dt">xaxis =</span> xaxis.fr, <span class="dt">yaxis =</span> yaxis.fr, </span>
+<span id="cb175-123"><a href="shiny.html#cb175-123"></a>                       <span class="dt">legend =</span> legend.fr)</span>
+<span id="cb175-124"><a href="shiny.html#cb175-124"></a>  }</span>
+<span id="cb175-125"><a href="shiny.html#cb175-125"></a>  <span class="kw">return</span>(ts.fr)</span>
+<span id="cb175-126"><a href="shiny.html#cb175-126"></a>}</span>
+<span id="cb175-127"><a href="shiny.html#cb175-127"></a></span>
+<span id="cb175-128"><a href="shiny.html#cb175-128"></a><span class="kw">shinyServer</span>(<span class="cf">function</span>(input, output) {</span>
+<span id="cb175-129"><a href="shiny.html#cb175-129"></a>  output<span class="op">$</span>county_risk_ts &lt;-<span class="st"> </span><span class="kw">renderPlotly</span>({</span>
+<span id="cb175-130"><a href="shiny.html#cb175-130"></a>    ts &lt;-<span class="st"> </span><span class="kw">county.risk.ts</span>(date.update, <span class="dt">type =</span> input<span class="op">$</span>plot_type)</span>
+<span id="cb175-131"><a href="shiny.html#cb175-131"></a>  })</span>
+<span id="cb175-132"><a href="shiny.html#cb175-132"></a>})</span></code></pre></div>
+<p>If everything is working correctly you’ll see the application appear in your browser looking something like this:</p>
+<div class="figure">
+<img src="figures/county_risk_ts.png" alt="" />
+<p class="caption">The time series plot of daily new infected count of Iowa.</p>
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="plotly.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="map.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["SLID_book.pdf", "SLID_book.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

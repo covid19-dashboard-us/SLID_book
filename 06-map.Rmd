@@ -1,0 +1,584 @@
+# Interactive Geospatial Visualization {#map}
+
+Many spatial and spatiotemporal methods have been developed for early outbreak detection, cluster detection, risk areas, and factors identification,  and disease transmission pattern evaluation in the past two decades, thus boosted the investigation of *spatial epidemiology*. By definition, the focus of *spatial epidemiology* is the study of the geographical or spatial distribution of health outcomes. It is sometimes interchangeably known as disease mapping. Usually, it has the incidence of disease or prevalence of disease as its main focus. It is a commonplace to consider a geographic dimension included within a research design in infectious disease studies. This may involve initial visualization of the distribution and some simple summary measures. The application of *spatial epidemiology* methods is fortunately facilitated by the growing development of the open-source community, among which the most widespread and popular is certainly R, a programming language and free software environment for statistical computing and graphics.
+
+Disease maps play a key role in descriptive spatial epidemiology. In this chapter, we focus on the interactive geospatial visualization of the data. We consider space-time analysis of surveillance count data. Such data are ubiquitous, and many approaches have been proposed for their analysis.
+
+## An Introduction to Leaflet
+
+The “leaflet” is one of the most popular open-source JavaScript libraries for interactive maps. It’s used by websites ranging from the New York Times and the Washington Post to GitHub and Flickr, as well as GIS specialists like OpenStreetMap, Mapbox, and CartoDB. This R package makes it easy to integrate and control Leaflet maps in R.
+
+### Features and installation
+
+Unlike static visualization packages such as “ggplot2” or “ggmap”,  “leaflet” maps are fully interactive and can include features, such as interactive panning or zooming pop-up tooltips and labels, highlighting or selecting regions.
+
+**Features**
+
+* Create and customize interactive maps using the “Leaflet” JavaScript library and the “htmlwidgets” package. 
+
+* Compose maps using arbitrary combinations of:
+    + Map tiles
+    + Markers
+    + Polygons
+    + Lines
+    + Popups
+    + GeoJSON
+* The created maps can be used directly from the R console, from “RStudio”, in Shiny applications and R Markdown documents.
+* Easily render spatial objects from the `sp` or `sf` packages, or data frames with latitude/longitude columns.
+* Use map bounds and mouse events to drive “Shiny” logic.
+* Augment map features using chosen plugins from the “leaflet” plugins repository.
+
+**Installation**
+
+To install this R package, run this command at your R prompt:
+
+```{r, eval=F}
+install.packages("leaflet")
+# to install the development version from Github, run
+devtools::install_github("rstudio/leaflet")
+```
+
+Once installed, you can use this package at the R console, within R Markdown documents, and Shiny applications.
+
+### Basic Usage
+
+Similar to “ggplot2”, leaflet maps are built using layers. We can create a Leaflet map with these basic steps:
+
+Step 1. Create a base map widget by calling `leaflet()`;
+
+Step 2. Add features to the map by using layer functions(`addTiles(), addMarkers()` etc.) to customize the map widget;
+
+Step 3. Print the map widget to display it and save it.
+
+Here is a basic example:
+
+```{r message=FALSE, warning=FALSE}
+library(leaflet)
+
+m <- leaflet() %>%
+  addTiles() %>%  # Add default OpenStreetMap map tiles
+  addMarkers(lng=2.2945, lat=48.8584, popup="The Eiffel Tower")
+m  # Print the map
+```
+
+## The Data Object
+
+Both `leaflet()` and the map layer functions have an optional `data` parameter that is designed to receive spatial data in one of several forms from:
+
+* the base R
+    + lng-lat matrix
+    + data frame with lng-lat matrix
+
+* the `sp` package:
+    + SpatialPoints[DataFrame]
+    + SpatialLines[DataFrame]
+    + SpatialPolygons[DataFrame]
+
+* the `map` package
+     + the data frame returned from `map()`
+     
+The `data` argument is used to derive spatial data for functions that need it; for example, if `data` is a `SpatialPolygonsDataFrame` object, then calling `addPolygons` on that map widget will know to add the polygons from the `SpatialPolygonsDataFrame`.
+
+We can always explicitly identify latitude/longitude columns by providing `lng`` and `lat` arguments to the layer function.
+
+Alternatively, for example, we need not specify the values for the arguments `lat` and `lng` in `addCircles()` below, but the columns `Lat` and `Long` in the data frame `df` will be automatically used:
+
+```{r}
+# add some circles to a map
+df = data.frame(Lat = rexp(10) + 23, Long = rnorm(10) + 88)
+leaflet(df) %>% 
+  addTiles() %>%
+  addCircles(data = df, lat = ~Lat, lng = ~Long)
+```
+
+
+* The `sp` package
+
+The first general R package to provide classes and methods for spatial data is called `sp`, which provides classes and methods to create points, lines, polygons, and grids and to operate on them. For example, we can generate the polygons objects using the function `Polygon()`, and we can also generate `SpatialPolygons` objects using lists of `Polygon`.
+
+```{r message=FALSE, warning=FALSE}
+library(sp)
+library(rgeos)
+x1 <- c(3, 3, 6, 12, 3)
+x2 <- c(6, 3, 2, 6, 6)
+y1 <- c(6, 3, 2, 6)
+y2 <- c(2, 3, 2, 2)
+Poly1 <- Polygon(cbind(x1, x2))
+Poly2 <- Polygon(cbind(y1, y2))
+Polys1 <- Polygons(list(Poly1), "s1")
+Polys2 <- Polygons(list(Poly2), "s2")
+SPolys <- SpatialPolygons(list(Polys1, Polys2), 1:2)
+```
+
+To draw this in leaflet, we use `addPolygons()`:
+
+```{r message=FALSE, warning=FALSE}
+leaflet(height = "300px") %>% addPolygons(data = SPolys)
+```
+
+
+* `maps` package
+
+The R `maps` package contains many outlines of continents, countries, states, and counties. For example, 
+
+* World: world, world.cities, lakes
+* USA: states, county, state, usa
+
+and check `help(package='maps')` for a whole list. The code below shows how to obtain and plot the geospatial object of the states in the US.
+
+```{r message=FALSE, warning=FALSE}
+library(maps)
+mapStates = map("state", fill = TRUE, plot = FALSE)
+leaflet(data = mapStates) %>% 
+addTiles() %>%
+addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE)
+```
+
+
+## Choropleth map
+
+A **choropleth map** is a map in which a set of pre-defined areas is colored or patterned in proportion to a statistical variable representing an aggregate summary of a geographic characteristic within each area, such as population, different numbers, or rates of disease.
+
+To draw a choropleth map, let us start by loading the data into `sp` objects from JSON using the `geojsonio` package. This will allow us to easily manipulate the geographic features, and their properties, in R.
+
+```{r, message = FALSE, warning = FALSE}
+library(geojsonio)
+# states0 <- geojson_read(
+# x = "https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json"
+#, what = "sp"
+#)
+#class(states0)
+```
+
+In Chapter \@ref(dplyr), we have seen an example of merging the `states0` data with `state.long` in the `slid` R package, and the combined data is saved as `states1` in the `slid` package. In the following, we will work with `states1` directly. Now, let's load the required R packages and data to our working directory. 
+
+```{r, message = FALSE, warning = FALSE}
+library(geojsonio)
+library(leaflet)
+library(dplyr)
+library(slid)
+data(state.long)
+data(states1)
+# Remove the following regions due to lack of data
+states1 <- states1 %>% 
+  subset(!name %in% c('Alaska', 'Hawaii', 'Puerto Rico'))
+```
+
+### Create a base map
+
+First, we will create a basic states map. The easiest way to add tiles is by calling `addTiles()` with no arguments:
+
+```{r, eval=T}
+dmap <- leaflet(states1) %>%
+      setView(-96, 37.8, 4, zoom = 4) %>%
+      addTiles()
+```      
+
+Here, the `setView` function set the view of the map (center and zoom level) with the following arguments:
+
+* `lng`: the longitude of the map center;
+* `lat`: the latitude of the map center;
+* `zoom`: the zoom level.
+      
+Next, if we use the function `addPolygons` with no additional arguments, then we will obtain the uniform polygons with default styling without any customization.
+
+```{r, eval=T}     
+dmap %>% addPolygons()
+```
+
+### Color the map
+
+Next, we design the color palette for the map. The function `colorFactor()` maps data values (numeric or factor/character) to colors according to a given palette, which can be provided in a variety of formats. Two often-used arguments are
+
+*`palette`:	the colors or color function that values will be mapped to;
+*`domain`:	the possible values that can be mapped.
+
+```{r, eval=T}
+pal.state.factor <- colorFactor(
+  palette = "YlOrRd",
+  domain = states1$Division
+)
+```
+
+Now, let us color the states according to the division that they belong to. In this case, you can map the value of the division to colors using `fillColor = ~pal.state.factor(Division)`. We can also customize the map, change the color, line type of the state boundary, and other tyle properties.
+
+```{r, eval=T}     
+dmap %>% addPolygons(
+        fillColor = ~pal.state.factor(Division),
+        weight = 1, opacity = 1,
+        color = "white", dashArray = "3",
+        fillOpacity = 0.9, layerId = ~name_ns)
+```
+
+### Interactive map
+
+On the interactive choropleth map, it is possible to zoom and hover a state to get more details about it. The next thing we’ll want is to make the polygons highlight as the mouse passes over them. The `addPolygon()` function has a highlight argument that makes this simple. 
+
+We will generate the highlight labels using the `sprintf()` to obtain a character vector containing a formatted combination of text and variable values. 
+
+```{r, eval=T}
+labels_cases <- sprintf(
+        "<strong>%s</strong><br/>Population: %g M<br>
+        Cumulative Cases: %g<br>Death: %g<br>
+        Infected Cases per Thousand: %g",
+        states1$name, round(states1$pop / (1e6), 2), 
+        states1$Infected, 
+        states1$Death, states1$Infect_risk * 1000) %>% 
+  lapply(htmltools::HTML)
+
+labels_cases[[1]]
+```
+
+Now let’s display the state names and values to the user.
+
+```{r, eval=T}     
+dmap <- dmap %>% addPolygons(
+        fillColor = ~pal.state.factor(Division),
+        weight = 1, opacity = 1,
+        color = "white", dashArray = "3",
+        fillOpacity = 0.9, layerId = ~name_ns,
+        # Options to highlight a shape on hover
+        highlight = highlightOptions(
+          weight = 5, color = "#666",
+          dashArray = "", fillOpacity = 0.9,
+          bringToFront = TRUE), label = labels_cases,
+        labelOptions = labelOptions(
+          style = list("font-weight" = "normal", padding = "3px 8px"),
+          textsize = "15px", direction = "auto"))
+dmap
+```
+
+Finally, let us add the legend using the function `addLegend()`.
+
+```{r, eval=T}    
+dmap <- dmap %>% addLegend(pal = pal.state.factor, values = ~Division, 
+                opacity = 0.7, title = NULL,
+                position = "bottomright")
+dmap
+```
+
+## Legend
+
+### Classification schemes
+
+We can use the map legend to list the features used on the map and what they depict. Symbols should appear in the legend precisely as they appear in the body of the map. Spatial attribute data can be classified as:
+
+* Nominal: attributes are nominal if they are given names or titles in order to distinguish one entity from another, for example, the name of a place, urban or rural.
+
+* Ordinal: attributes are ordinal if their values take on natural order; for instance, the risk level of a disease may be classified with Level 1 representing the lowest risk, level 2 second-lowest, and so on).
+
+* Numeric: examples of numeric data include temperature, population density, male-to-female ratio, the number of infected cases. Numeric values may vary on a discrete (e.g., integer) or continuous scale.
+
+According to @pfeiffer2008spatial, the continuous attribute data can be divided into six basic classification schemes:
+
+1. Natural breaks: Classes are defined according to apparently natural groupings of data values. The breaks may be defined by breakpoints that are known to be relevant to a particular application, such as fractions and multiples of mobility levels or risk thresholds.
+
+2. Quantile breaks: The data are divided into a pre-determined number of classes that contain an equal number of observations. For example, quintile (five categories) classifications are well suited to displaying linearly distributed data.
+
+3. Equal-interval breaks: The range of the attribute value is calculated and divided into evenly spaced intervals. This method is useful for mapping attribute data that follow a uniform distribution, or if the data ranges are familiar to the user of the map (e.g., herd sizes or temperature bands).
+
+4. Standard deviation classifications: This method takes the distance of the observation from the mean in terms of the number of standard deviations above and below the mean. It is most useful for attribute data that follow a normal distribution.
+
+5. Arithmetic progressions: The widths of category intervals are increased in size at an arithmetic (additive) rate. For example, if the first category is one unit wide and it is decided to increment the width by one unit, the second category would be two units wide, the third three units wide, and so on (1, 3, 6, ...). This method is beneficial for skewed distributions.
+
+6. Geometric progressions: The widths of the category intervals are increased in size at a geometric (that is, multiplicative) rate. For example, if the interval width for the first category is two units, the second category would be $2 \times 2 = 4$ units wide, the third category would be $2 \times 2 \times 2 = 8$ units wide, and so on. This method is also very useful for skewed distributions.
+
+
+### Mapping variables to colors
+
+Below, we demonstrate how to apply the above classification schemes to map values to colors. For simplicity, we wrap the above code into a function and run it with different palettes, data, labels, variables mapped to fill color, etc.
+
+```{r}
+map.state <- function(dat, fill.var, labels, pal, ID = 'name_ns'){
+  dmap <- leaflet(dat) %>%
+    setView(-96, 37.8, 4, zoom = 4) %>%
+    addTiles() %>%
+    addPolygons(
+      fillColor = ~pal(dat@data %>% pull(fill.var)),
+      weight = 1, opacity = 1, color = "white",
+      dashArray = "3", fillOpacity = 0.9,
+      layerId = ~dat@data %>% pull(ID),
+      highlight = highlightOptions(
+        weight = 5, color = "#666", dashArray = "",
+        fillOpacity = 0.9, bringToFront = TRUE),
+      label = labels,
+      labelOptions = labelOptions(
+        style = list("font-weight" = "normal", padding = "3px 8px"),
+        textsize = "15px", direction = "auto")) %>%
+    addLegend(pal = pal, values = ~dat@data %>% 
+                pull(fill.var), opacity = 0.7, title = NULL,
+              position = "bottomright")
+  dmap
+}
+```
+
+The family of `color*()` can be used to generate palette functions easily. There are currently three color functions for dealing with continuous input: `colorNumeric`, `colorBin`, and `colorQuantile`; and one for categorical input, `colorFactor`. Each function has two required arguments:
+
+* `palette`: specifies the colors to map the data to;
+* `domain`: specifies the range of input values.
+
+1. `colorNumeric`
+
+```{r}
+pal.state.numeric <- colorNumeric(
+  palette = "YlOrRd",
+  domain = states1$Infected
+)
+
+map.state(dat = states1, fill.var = 'Infected', labels = labels_cases, 
+          pal = pal.state.numeric, ID = 'name_ns')
+```
+
+2. `colorQuantile`
+
+```{r}
+pal.state.quantile <- colorQuantile(
+  palette = "YlOrRd", domain = states1$Infected, n = 8)
+map.state(dat = states1, fill.var = 'Infected', labels = labels_cases, 
+          pal = pal.state.quantile, ID = 'name_ns')
+
+```
+
+3. `colorBin`
+
+```{r}
+bins.state<- c(0, 1e4, 5e4, 1e5, 5e5, 1e6, 5e6)
+pal.state.bins <- colorBin("YlOrRd", domain = states1$Infected, 
+                           bins = bins.state)
+
+map.state(dat = states1, fill.var = 'Infected', 
+          labels = labels_cases, 
+          pal = pal.state.bins, ID = 'name_ns')
+```
+
+4. `colorFactor`
+
+```{r}
+pal.state.factor <- colorFactor("YlOrRd", domain = states1$Region)
+
+map.state(dat = states1, fill.var = 'Region', 
+          labels = labels_cases, 
+          pal = pal.state.factor, ID = 'name_ns')
+```
+
+## An Example of County-level Map
+
+We are interested in the infection rate at the county level, and would like to draw a county-level choropleth map to illustrate the spatial variation from county to county. 
+
+First, let us prepare the data. 
+
+```{r, eval = FALSE}
+counties0 <- geojson_read(
+x = "https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json"
+, what = "sp"
+)
+```
+
+Next, we combine the county-level data with the state-level data.
+
+```{r, eval = FALSE}
+counties1 <- counties0
+counties1@data <- left_join(counties1@data, states1@data %>% 
+select(id, name, density, name_ns, Region, Division, pop, DATE), 
+by = c('STATE' = 'id'))
+
+names(counties1)[8] <- 'state_name'
+names(counties1)[10] <- 'state_name_ns'
+counties1$id <- as.integer(counties1$id)
+counties1@data <- left_join(counties1@data, pop.county %>% 
+select(ID, population), by = c("id" = "ID"))
+counties1@data <- left_join(counties1@data, I.county %>% 
+select(ID, X2020.12.11), by = c("id" = "ID"))
+counties1@data <- left_join(counties1@data, D.county %>% 
+select(ID, X2020.12.11), by = c("id" = "ID"))
+names(counties1@data)[16:17] <- c('Infected', 'Death')
+names(counties1@data)[13] <- 'pop_state'
+counties1@data <- counties1@data %>% 
+mutate(Infect_risk = Infected/population)
+counties1[counties1$id == 46113, 'population'] <- 14309 
+```
+
+The final dataset `counties1` can also be downloaded from the `slid` package directly. Next, we will draw the county-level map.
+
+
+```{r, eval= TRUE}
+data(counties1)
+data(states1)
+counties1 <- counties1 %>% 
+  subset(!state_name %in% c('Alaska', 'Hawaii', 'Puerto Rico'))
+states1 <- states1 %>% 
+  subset(!name %in% c('Alaska', 'Hawaii', 'Puerto Rico'))
+
+col2 <- colorRampPalette(c("#053061", "#2166AC", "#4393C3", 
+                           "#92C5DE","#D1E5F0", "#FFFFFF", 
+                           "#FDDBC7", "#F4A582", "#D6604D", 
+                           "#B2182B", "#67001F"))
+
+pal.county.quantile <- colorQuantile(
+  palette = col2(200), domain = counties1$Infect_risk, n = 8)
+
+labels_cases.county <- sprintf(
+  "<strong>%s</strong>, <strong>%s</strong>
+  <br/>Infection Rate: %g <br>
+  Population: %g K <br>
+  Infected Cases on 2020-12-11: %g<br>
+  Death Cases on 2020-12-11: %g",
+  counties1$NAME, counties1$state_name, 
+  round(counties1$Infect_risk, 3), 
+  counties1$population / 1000,
+  counties1$Infected, counties1$Death
+) %>% lapply(htmltools::HTML)
+
+dmap2 <- leaflet() %>%
+  setView(-96, 37.8, zoom = 4) %>%
+  addTiles() %>%
+  addMapPane("polygons", zIndex = 410) %>%
+  addMapPane("borders", zIndex = 420) %>%
+  addPolygons(
+    data = states1, fill = FALSE, weight = 1,
+    color = "gray", fillOpacity = 0,
+    options = pathOptions(pane = "borders")
+  ) %>%
+  addPolygons(
+    data = counties1,
+    fillColor = ~pal.county.quantile(Infect_risk),
+    weight = 1, opacity = 1, color = "white",
+    dashArray = "3", fillOpacity = 0.9,
+    highlight = highlightOptions(
+      weight = 5, color = "#666",
+      dashArray = "", fillOpacity = 0.9,
+      bringToFront = TRUE),
+    label = labels_cases.county,
+    layerId = ~id,
+    labelOptions = labelOptions(
+      style = list("font-weight" = "normal", padding = "3px 8px"),
+      textsize = "15px", direction = "auto"),
+    options = pathOptions(pane = "polygons")) %>%
+  addLegend(data = counties1, pal = pal.county.quantile, 
+            values = ~Infect_risk, opacity = 0.7, title = NULL,
+            position = "bottomright")
+
+dmap2
+```
+
+## Spot Maps
+
+A **spot map** is a map showing the geographic location of people with a specific attribute, such as the number of cases of an infectious disease. Spot maps generally are used for clusters or outbreaks with a limited number of cases.
+
+Next, we draw a spot map and highlight the top 10 counties with the largest cumulative infected count on December 11, 2020. 
+
+First, let us prepare the data required. 
+
+```{r, eval=T, message=FALSE}
+data(features.county)
+names(features.county)
+data(county.top10.long)
+names(county.top10.long)
+
+# Combine the datasets with useful variables
+location.county <- features.county %>% 
+  dplyr:: select(ID, Longitude, Latitude) 
+county.top10.today <- county.top10.long %>% 
+  select(ID, County, State, Date, Count) %>%
+  filter(Date == "2020-12-11")
+
+df <- left_join(county.top10.today, location.county, key = "ID")
+df
+```
+
+We start to draw a base map.
+
+```{r, eval=T}
+dmap3 <- leaflet() %>%
+  setView(-96, 37.8, zoom = 4) %>%
+  addTiles() 
+dmap3
+```
+
+**Add circles**
+
+We can add circles to the map to highlight the top ten counties in the data using `addCircles()`. Circles are similar to circle markers; the only difference is that circles have their radii specified in meters, while circle markers are specified in pixels. As a result, circles are scaled with the map as the user zooms in and out, while circle markers remain a constant size on the screen regardless of zoom level.
+
+```{r, eval=T}
+dmap3 <- dmap3 %>%
+  addCircles(data = df, lng = ~Longitude, lat = ~Latitude, weight = 1,
+             radius = ~sqrt(Count)*200, popup = ~County
+             )
+dmap3
+```
+
+Each point can have text added to it using either a popup (appears only on click) or a label (appears either on hover or statically). We will describe the details below. 
+**Add popups**
+
+**Popups** are small boxes containing some HTML outputs that may include texts or hyperlinks, and it points to a specific point or place on the map.
+
+A common use for popups is to have them appear when markers or shapes are clicked. Marker and shape functions in the Leaflet package take a popup argument, where we can pass in HTML commands to attach a simple popup easily.
+
+For instance, we can label each county with the name of the county and state, and the reported cumulative infected cases.
+
+```{r, eval=T}
+labels_cases.county <- sprintf(
+  "<strong>%s</strong>, <strong>%s</strong>
+  <br/> Cum. Infected Cases on 2020-12-11: %g <br>",
+  df$County, df$State, 
+  df$Count
+) %>% lapply(htmltools::HTML)
+
+```
+
+If we only want the information to appear when we click on the point, we should instead use `popup = ~labels_cases.county` like the following:
+
+```{r, eval=T}
+dmap3 %>% 
+  addMarkers(data = df, lng = ~Longitude, lat = ~Latitude, 
+             popup = ~labels_cases.county)
+```
+
+
+**Add labels**
+
+A **label** is textual or HTML content attached to markers and shapes to be always displayed or displayed on mouseover. You don’t need to click a marker/polygon for the label to be shown, unlike popups.
+
+```{r, eval=T}
+dmap3 %>% 
+  addMarkers(data = df, lng = ~Longitude, lat = ~Latitude, 
+             label = ~labels_cases.county)
+```
+
+
+## Integrating Leaflet with R Shiny 
+
+The Leaflet package includes powerful and convenient features for integrating with Shiny applications.
+
+Most Shiny output widgets are incorporated into an app by including an output (e.g. plotOutput) for the widget in the UI definition, and using a render function (e.g. renderPlot) in the server function. Leaflet maps are no different; in the UI you call leafletOutput, and on the server side you assign a renderLeaflet call to the output. Inside the renderLeaflet expression, you return a Leaflet map object.
+
+## Exercises
+
+1. Create polygons based on the given coordinates:
+     (a)
+```
+x1 <- c(6, 8, 8, 6, 6)
+x2 <- c(6, 6, 4, 4, 6)
+```
+
+     (b)
+```
+y1 <- c(5, 6, 8, 10, 5)
+y2 <- c(8, 3, 2, 8, 8)
+```
+
+     (c) Put the two polygons in (a) and (b) on the same map.
+     
+     
+
+2. In the following set of exercises, we will use geo-spatial data of the `state.long`. The data is readily available in the leaflet package. 
+
+Set the default view to longitude -47.4, latitude 39.75 and zoom level 3.
+
+Save your leaflet map as an HTML file.
+Hint: `use htmlwidgets::save()`.
+
+Change the border and the fill colors to the Swiss national flag colors (red and white, respectively.)
+In addition, change the opacity and the weight of the border lines according to your aesthetic preferences.
+
+

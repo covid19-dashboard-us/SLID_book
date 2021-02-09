@@ -1,0 +1,15 @@
+# Time Series Analysis of Infectious Disease Data {#timeseries}
+
+
+
+## Datasets and R Packages
+
+
+
+## Time series plots
+
+
+
+## Time Series Decomposition
+
+
