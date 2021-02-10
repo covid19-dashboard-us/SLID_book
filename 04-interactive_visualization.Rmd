@@ -112,7 +112,7 @@ plot_ly(data = county.top10) %>%
             name = 'Infection')
 ```
 
-Here are a few things that you can try in the interactive plots:
+After running the code, you will see a modebar showing in the top right-hand side of your plotly graph on mouse hover. There are sevel buttons appearing in the modebar. Here are a few things that you can try in the interactive plots:
 
 * Hovering your mouse over the plot to view associated attributes;
 * Selecting a particular region on the plot using your mouse to zoom;
@@ -400,9 +400,41 @@ plot_ly(data = county.top10.long %>%
 
 ## Pie Charts
 
-We can also make pie charts in R using `plotly` using the function `add_pie`.  To draw the pie chart, we upload the `features.state` from the `slid` R package, and the dataset contains four variables: State, Region, Division and pop. We are interested in the composition of the population in each region. 
+We then demonstrate how to make static and interactive pie charts in R. To draw the pie chart, we download the `features.state` from the `slid` R package, and the dataset contains four variables: State, Region, Division and pop. We are interested in the composition of the population in each region. 
 
-```{r pie1, out.width = "50%", echo=FALSE, fig.align = "center", fig.cap="A simple pie chart for population in different regions."}
+### Draw static pie charts using ggplot2
+
+In the following, we will try ggplot2 to draw the pie chart. Before you start to draw the plot, you will need to prepare the data first.
+
+```{r}
+# Prepare the data
+features.region <- features.state %>% 
+  group_by(Region) %>% 
+  summarize(tpop = sum(pop))
+df <- features.region %>%
+  arrange(desc(Region)) %>%
+  mutate(prop = round(tpop / sum(features.region$tpop), 4) *100) %>%
+  mutate(lab.pos = cumsum(prop)- 0.5*prop )
+```
+
+Next, we will apply the `geom_bar` and `coord_polar` functions together with `ggplot` to display the pie chart; see Figure\@(fig:pie0).  
+
+```{r pie0, out.width = "50%", echo=FALSE, fig.align = "center", fig.cap="A simple ggplot pie chart for population in different regions."}
+# Draw the pie chart using ggplot
+mycols <- c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF")
+ggplot(df, aes(x = "", y = prop, fill = Region)) +
+  geom_bar(width = 1, stat = "identity", color = "white") +
+  coord_polar("y", start = 0)+
+  geom_text(aes(y = lab.pos, label = paste(prop, "%", sep = "")), color = "white")+
+  scale_fill_manual(values = mycols) +
+  theme_void()
+```
+
+### Draw interactive pie charts
+
+Now, we will try to use the plotly to make the pie chart, and you will see that the function `add_pie()` can be implemented easily without data preparition. 
+
+```{r pie1, out.width = "50%", echo=FALSE, fig.align = "center", fig.cap="An interactive pie chart for population in different regions."}
 library(slid)
 data(features.state)
 fig1 <- plot_ly(features.state) %>% 
@@ -566,7 +598,7 @@ data(state.long)
    
    e. Save the above plots as an HTML file, and save all the dependency files externally into a single directory using `htmlwidgets::saveWidget()` with `selfcontained = FALSE`.
   
-2. Redraw the above plots for the death count using the `ggplotly()` function. 
+2. Redraw the above plots in (b), (c) and (d) for the death count using the `ggplotly()` function. Save the above plots as an HTML file, and save all the dependency files externally into a single directory using `htmlwidgets::saveWidget()` with `selfcontained = FALSE`.
   
 3. During the COVID-19 pandemic, we are interested in how many tests are coming back positive. The `state.long` data set comprises state-level cumulative tests. We want to create an animation to demonstrate the weekly test positivity rate for each state based on a 7-day moving average. It is calculated by dividing the state's new positive counts in the past seven days by the state's new tests in the past seven days. The `PosTest.state.rda` and `Test.state.rda` are the daily reported positive test and daily total test data collected from COVIDTracking Project, and it can be downloaded from the Github `slid` R package.
 

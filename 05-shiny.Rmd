@@ -13,7 +13,7 @@ install.packages("shiny")
 ```
 
 
-## Embedding plotly in Shiny
+## An Introduction to Shiny
 
 A shiny app has two main parts:
 
