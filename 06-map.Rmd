@@ -1,8 +1,8 @@
 # Interactive Geospatial Visualization {#map}
 
-Many spatial and spatiotemporal methods have been developed for early outbreak detection, cluster detection, risk areas, and factors identification,  and disease transmission pattern evaluation in the past two decades, thus boosted the investigation of *spatial epidemiology*. By definition, the focus of *spatial epidemiology* is the study of the geographical or spatial distribution of health outcomes. It is sometimes interchangeably known as disease mapping. Usually, it has the incidence of disease or prevalence of disease as its main focus. It is a commonplace to consider a geographic dimension included within a research design in infectious disease studies. This may involve initial visualization of the distribution and some simple summary measures. The application of *spatial epidemiology* methods is fortunately facilitated by the growing development of the open-source community, among which the most widespread and popular is certainly R, a programming language and free software environment for statistical computing and graphics.
+Many spatial and spatiotemporal methods have been developed for early outbreak detection, cluster detection, risk areas, and factors identification, and disease transmission pattern evaluation in the past two decades, thus boosted the investigation of *spatial epidemiology*. By definition, the focus of *spatial epidemiology* is the study of the geographical or spatial distribution of health outcomes. It is sometimes interchangeably known as disease mapping. Usually, it has the incidence of disease or prevalence of disease as its main focus. It is a commonplace to consider a geographic dimension included within a research design in infectious disease studies. This may involve initial visualization of the distribution and some simple summary measures. The application of *spatial epidemiology* methods is fortunately facilitated by the growing development of the open-source community, among which the most widespread and popular is certainly R, a programming language and free software environment for statistical computing and graphics.
 
-Disease maps play a key role in descriptive spatial epidemiology. In this chapter, we focus on the interactive geospatial visualization of the data. We consider space-time analysis of surveillance count data. Such data are ubiquitous, and many approaches have been proposed for their analysis.
+Disease maps play a key role in descriptive spatial epidemiology. In this chapter, we focus on the interactive geospatial visualization of the data. 
 
 ## An Introduction to Leaflet
 
@@ -46,7 +46,7 @@ Similar to “ggplot2”, leaflet maps are built using layers. We can create a L
 
 Step 1. Create a base map widget by calling `leaflet()`;
 
-Step 2. Add features to the map by using layer functions(`addTiles(), addMarkers()` etc.) to customize the map widget;
+Step 2. Add features to the map by using layer functions (`addTiles()`, `addMarkers()` etc.) to customize the map widget;
 
 Step 3. Print the map widget to display it and save it.
 
@@ -57,7 +57,7 @@ library(leaflet)
 
 m <- leaflet() %>%
   addTiles() %>%  # Add default OpenStreetMap map tiles
-  addMarkers(lng=2.2945, lat=48.8584, popup="The Eiffel Tower")
+  addMarkers(lng = 2.2945, lat = 48.8584, popup = "The Eiffel Tower")
 m  # Print the map
 ```
 
@@ -91,7 +91,6 @@ leaflet(df) %>%
   addCircles(data = df, lat = ~Lat, lng = ~Long)
 ```
 
-
 * The `sp` package
 
 The first general R package to provide classes and methods for spatial data is called `sp`, which provides classes and methods to create points, lines, polygons, and grids and to operate on them. For example, we can generate the polygons objects using the function `Polygon()`, and we can also generate `SpatialPolygons` objects using lists of `Polygon`.
@@ -117,7 +116,7 @@ leaflet(height = "300px") %>% addPolygons(data = SPolys)
 ```
 
 
-* `maps` package
+* The `maps` package
 
 The R `maps` package contains many outlines of continents, countries, states, and counties. For example, 
 
@@ -128,7 +127,7 @@ and check `help(package='maps')` for a whole list. The code below shows how to o
 
 ```{r message=FALSE, warning=FALSE}
 library(maps)
-mapStates = map("state", fill = TRUE, plot = FALSE)
+mapStates <- map("state", fill = TRUE, plot = FALSE)
 leaflet(data = mapStates) %>% 
 addTiles() %>%
 addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE)
@@ -141,13 +140,13 @@ A **choropleth map** is a map in which a set of pre-defined areas is colored or 
 
 To draw a choropleth map, let us start by loading the data into `sp` objects from JSON using the `geojsonio` package. This will allow us to easily manipulate the geographic features, and their properties, in R.
 
-```{r, message = FALSE, warning = FALSE}
+```{r eval=FALSE, message=FALSE, warning=FALSE}
 library(geojsonio)
-# states0 <- geojson_read(
-# x = "https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json"
-#, what = "sp"
-#)
-#class(states0)
+states0 <- geojson_read(
+x = "https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json"
+, what = "sp"
+)
+class(states0)
 ```
 
 In Chapter \@ref(dplyr), we have seen an example of merging the `states0` data with `state.long` in the `slid` R package, and the combined data is saved as `states1` in the `slid` package. In the following, we will work with `states1` directly. Now, let's load the required R packages and data to our working directory. 
@@ -190,8 +189,8 @@ dmap %>% addPolygons()
 
 Next, we design the color palette for the map. The function `colorFactor()` maps data values (numeric or factor/character) to colors according to a given palette, which can be provided in a variety of formats. Two often-used arguments are
 
-*`palette`:	the colors or color function that values will be mapped to;
-*`domain`:	the possible values that can be mapped.
+* `palette`:	the colors or color function that values will be mapped to;
+* `domain`:	the possible values that can be mapped.
 
 ```{r, eval=T}
 pal.state.factor <- colorFactor(
@@ -200,7 +199,7 @@ pal.state.factor <- colorFactor(
 )
 ```
 
-Now, let us color the states according to the division that they belong to. In this case, you can map the value of the division to colors using `fillColor = ~pal.state.factor(Division)`. We can also customize the map, change the color, line type of the state boundary, and other tyle properties.
+Now, let us color the states according to the division that they belong to. In this case, you can map the value of the division to colors using `fillColor = ~pal.state.factor(Division)`. We can also customize the map, change the color, line type of the state boundary, and other style properties.
 
 ```{r, eval=T}     
 dmap %>% addPolygons(
@@ -399,7 +398,6 @@ counties1[counties1$id == 46113, 'population'] <- 14309
 ```
 
 The final dataset `counties1` can also be downloaded from the `slid` package directly. Next, we will draw the county-level map.
-
 
 ```{r, eval= TRUE}
 data(counties1)

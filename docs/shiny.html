@@ -24,7 +24,7 @@
 <meta name="author" content="Lily Wang" />
 
 
-<meta name="date" content="2021-02-13" />
+<meta name="date" content="2021-02-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -589,14 +589,14 @@ Figure 6.1: An illustration of Shiny Structure.
 <span id="cb173-5"><a href="shiny.html#cb173-5"></a><span class="kw">library</span>(slid) </span>
 <span id="cb173-6"><a href="shiny.html#cb173-6"></a><span class="co">#library(devtools)</span></span>
 <span id="cb173-7"><a href="shiny.html#cb173-7"></a><span class="co">#install_github(&#39;https://github.com/covid19-dashboard-us/slid&#39;)</span></span></code></pre></div>
-<p><strong>Example 1.</strong></p>
+<p><strong>Example 1. Top 10 states with the highest daily new infected count</strong></p>
 <p><strong>ui.R</strong></p>
 <div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="shiny.html#cb174-1"></a><span class="kw">shinyUI</span>(<span class="kw">fluidPage</span>(</span>
 <span id="cb174-2"><a href="shiny.html#cb174-2"></a>  <span class="kw">sliderInput</span>(<span class="st">&quot;date.update&quot;</span>,</span>
 <span id="cb174-3"><a href="shiny.html#cb174-3"></a>      <span class="dt">label =</span> <span class="kw">h5</span>(<span class="st">&quot;Select date&quot;</span>),</span>
-<span id="cb174-4"><a href="shiny.html#cb174-4"></a>      <span class="dt">min =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2020-01-23&quot;</span>),</span>
-<span id="cb174-5"><a href="shiny.html#cb174-5"></a>      <span class="dt">max =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2020-12-01&quot;</span>),</span>
-<span id="cb174-6"><a href="shiny.html#cb174-6"></a>      <span class="dt">value =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2020-12-01&quot;</span>),</span>
+<span id="cb174-4"><a href="shiny.html#cb174-4"></a>      <span class="dt">min =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2020-11-12&quot;</span>),</span>
+<span id="cb174-5"><a href="shiny.html#cb174-5"></a>      <span class="dt">max =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2020-12-11&quot;</span>),</span>
+<span id="cb174-6"><a href="shiny.html#cb174-6"></a>      <span class="dt">value =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2020-12-11&quot;</span>),</span>
 <span id="cb174-7"><a href="shiny.html#cb174-7"></a>      <span class="dt">timeFormat =</span> <span class="st">&quot;%d %b&quot;</span>,</span>
 <span id="cb174-8"><a href="shiny.html#cb174-8"></a>      <span class="dt">animate =</span> <span class="kw">animationOptions</span>(<span class="dt">interval =</span> <span class="dv">2000</span>, <span class="dt">loop =</span> <span class="ot">FALSE</span>)</span>
 <span id="cb174-9"><a href="shiny.html#cb174-9"></a>  ),</span>
@@ -702,8 +702,8 @@ Figure 6.1: An illustration of Shiny Structure.
 <span id="cb177-42"><a href="shiny.html#cb177-42"></a>})</span></code></pre></div>
 <p>If everything is working correctly you’ll see the application appear in your browser looking something like this:</p>
 <div class="figure">
-<img src="figures/dailynew.png" alt="" />
-<p class="caption">The time series plot of daily new infected count of Iowa.</p>
+<img src="figures/dailynew_IA.png" alt="" />
+<p class="caption">The time series plot of the daily new infected cases of Iowa.</p>
 </div>
 <p>Remark: There are currently four different modes for mouse click+drag behavior (i.e., <code>dragmode</code>) in plotly.js: zoom, pan, rectangular selection, and lasso selection.</p>
 <p><strong>Example 3.</strong></p>
@@ -762,104 +762,103 @@ Figure 6.1: An illustration of Shiny Structure.
 <span id="cb179-36"><a href="shiny.html#cb179-36"></a>  dat &lt;-<span class="st"> </span>dat[, <span class="kw">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;County&quot;</span>, <span class="st">&quot;State&quot;</span>, var.names)]</span>
 <span id="cb179-37"><a href="shiny.html#cb179-37"></a>  smr.c &lt;-<span class="st"> </span><span class="kw">sum</span>(County.pop<span class="op">$</span>population)<span class="op">/</span><span class="kw">as.matrix</span>(<span class="kw">colSums</span>(dat[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]))</span>
 <span id="cb179-38"><a href="shiny.html#cb179-38"></a></span>
-<span id="cb179-39"><a href="shiny.html#cb179-39"></a></span>
-<span id="cb179-40"><a href="shiny.html#cb179-40"></a>  I0 &lt;-<span class="st"> </span>LogI0 &lt;-<span class="st"> </span>LocRisk0 &lt;-<span class="st"> </span>SMR0 &lt;-<span class="st"> </span>dat</span>
-<span id="cb179-41"><a href="shiny.html#cb179-41"></a>  <span class="co"># I0[,-(1:3)] &lt;- as.matrix(dat[,-(1:3)])</span></span>
-<span id="cb179-42"><a href="shiny.html#cb179-42"></a>  LogI0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)] &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">log</span>(dat[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]<span class="op">+</span><span class="dv">1</span>))</span>
-<span id="cb179-43"><a href="shiny.html#cb179-43"></a>  LocRisk0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)] &lt;-<span class="st"> </span><span class="kw">sweep</span>(<span class="kw">as.matrix</span>(dat[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]), <span class="dv">1</span>, </span>
-<span id="cb179-44"><a href="shiny.html#cb179-44"></a>          County.pop<span class="op">$</span>population[<span class="kw">match</span>(dat<span class="op">$</span>ID, County.pop<span class="op">$</span>ID)], </span>
-<span id="cb179-45"><a href="shiny.html#cb179-45"></a>          <span class="st">&quot;/&quot;</span>) <span class="op">*</span><span class="st"> </span><span class="dv">1000</span></span>
-<span id="cb179-46"><a href="shiny.html#cb179-46"></a>  SMR0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)] &lt;-<span class="st"> </span><span class="kw">sweep</span>(LocRisk0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)],<span class="dv">2</span>,smr.c<span class="op">/</span><span class="dv">10</span>,<span class="st">&quot;*&quot;</span>)</span>
-<span id="cb179-47"><a href="shiny.html#cb179-47"></a>  WLR0 &lt;-<span class="st"> </span><span class="kw">sweep</span>(tmp, <span class="dv">1</span>, </span>
-<span id="cb179-48"><a href="shiny.html#cb179-48"></a>       County.pop<span class="op">$</span>population[<span class="kw">match</span>(dat<span class="op">$</span>ID, County.pop<span class="op">$</span>ID)], </span>
-<span id="cb179-49"><a href="shiny.html#cb179-49"></a>       <span class="st">&quot;/&quot;</span>) <span class="op">*</span><span class="st"> </span><span class="fl">1e5</span></span>
-<span id="cb179-50"><a href="shiny.html#cb179-50"></a></span>
-<span id="cb179-51"><a href="shiny.html#cb179-51"></a>  county.dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Date =</span> date.all)</span>
-<span id="cb179-52"><a href="shiny.html#cb179-52"></a>  CountyState &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="kw">as.character</span>(dat<span class="op">$</span>County), </span>
-<span id="cb179-53"><a href="shiny.html#cb179-53"></a>                       <span class="kw">as.character</span>(dat<span class="op">$</span>State), <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
-<span id="cb179-54"><a href="shiny.html#cb179-54"></a></span>
-<span id="cb179-55"><a href="shiny.html#cb179-55"></a>  LogI &lt;-<span class="st"> </span><span class="kw">cbind</span>(county.dat,<span class="kw">round</span>(<span class="kw">t</span>(LogI0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]),<span class="dv">2</span>))</span>
-<span id="cb179-56"><a href="shiny.html#cb179-56"></a>  <span class="kw">names</span>(LogI) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Date&quot;</span>, CountyState)</span>
-<span id="cb179-57"><a href="shiny.html#cb179-57"></a></span>
-<span id="cb179-58"><a href="shiny.html#cb179-58"></a>  LocRisk &lt;-<span class="st"> </span><span class="kw">cbind</span>(county.dat,<span class="kw">round</span>(<span class="kw">t</span>(LocRisk0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]),<span class="dv">2</span>))</span>
-<span id="cb179-59"><a href="shiny.html#cb179-59"></a>  <span class="kw">names</span>(LocRisk) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Date&quot;</span>, CountyState)</span>
-<span id="cb179-60"><a href="shiny.html#cb179-60"></a></span>
-<span id="cb179-61"><a href="shiny.html#cb179-61"></a>  SMR &lt;-<span class="st"> </span><span class="kw">cbind</span>(county.dat,<span class="kw">t</span>(SMR0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]))</span>
-<span id="cb179-62"><a href="shiny.html#cb179-62"></a>  <span class="kw">names</span>(SMR) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Date&quot;</span>, CountyState)</span>
-<span id="cb179-63"><a href="shiny.html#cb179-63"></a></span>
-<span id="cb179-64"><a href="shiny.html#cb179-64"></a>  WLR &lt;-<span class="st"> </span><span class="kw">cbind</span>(county.dat, <span class="kw">round</span>(<span class="kw">t</span>(WLR0), <span class="dv">2</span>))</span>
-<span id="cb179-65"><a href="shiny.html#cb179-65"></a>  <span class="kw">names</span>(WLR) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Date&quot;</span>, CountyState)</span>
-<span id="cb179-66"><a href="shiny.html#cb179-66"></a></span>
-<span id="cb179-67"><a href="shiny.html#cb179-67"></a>  xaxis.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;&quot;</span>, <span class="dt">showline =</span> <span class="ot">FALSE</span>, </span>
-<span id="cb179-68"><a href="shiny.html#cb179-68"></a>                   <span class="dt">showticklabels =</span> <span class="ot">TRUE</span>, <span class="dt">showgrid =</span> <span class="ot">TRUE</span>, </span>
-<span id="cb179-69"><a href="shiny.html#cb179-69"></a>                   <span class="dt">type =</span> <span class="st">&#39;date&#39;</span>, <span class="dt">tickformat =</span> <span class="st">&#39;%m/%d&#39;</span>)</span>
-<span id="cb179-70"><a href="shiny.html#cb179-70"></a>  legend.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">orientation =</span> <span class="st">&#39;h&#39;</span>, <span class="dt">x =</span> <span class="dv">0</span>, <span class="dt">y =</span> <span class="fl">-0.05</span>, </span>
-<span id="cb179-71"><a href="shiny.html#cb179-71"></a>                    <span class="dt">autosize =</span> F, <span class="dt">width =</span> <span class="dv">250</span>, <span class="dt">height =</span> <span class="dv">200</span>)</span>
-<span id="cb179-72"><a href="shiny.html#cb179-72"></a></span>
-<span id="cb179-73"><a href="shiny.html#cb179-73"></a>  <span class="cf">if</span> (type <span class="op">==</span><span class="st"> &#39;localrisk&#39;</span>){</span>
-<span id="cb179-74"><a href="shiny.html#cb179-74"></a>    ind.county =<span class="st"> </span><span class="kw">order</span>(LocRisk0[,var.names[<span class="dv">1</span>]], <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb179-75"><a href="shiny.html#cb179-75"></a>    df.fr &lt;-<span class="st"> </span>LocRisk <span class="op">%&gt;%</span></span>
-<span id="cb179-76"><a href="shiny.html#cb179-76"></a><span class="st">      </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span> <span class="op">+</span><span class="st"> </span>ind.county[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])) <span class="op">%&gt;%</span></span>
-<span id="cb179-77"><a href="shiny.html#cb179-77"></a><span class="st">      </span><span class="kw">gather</span>(<span class="dt">key =</span> <span class="st">&quot;County.State&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;LogI&quot;</span>, <span class="op">-</span>Date)</span>
-<span id="cb179-78"><a href="shiny.html#cb179-78"></a>    <span class="kw">names</span>(df.fr) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;group&quot;</span>,<span class="st">&quot;y&quot;</span>)</span>
-<span id="cb179-79"><a href="shiny.html#cb179-79"></a>    yaxis.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;Local Risk (Cases per Thousand)&quot;</span>)</span>
-<span id="cb179-80"><a href="shiny.html#cb179-80"></a>    ts.fr &lt;-<span class="st"> </span><span class="kw">ts.plotly</span>(df.fr, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, </span>
-<span id="cb179-81"><a href="shiny.html#cb179-81"></a>                       <span class="dt">mode =</span> <span class="st">&#39;lines+markers&#39;</span>,</span>
-<span id="cb179-82"><a href="shiny.html#cb179-82"></a>                       <span class="dt">group =</span> group, mycol, </span>
-<span id="cb179-83"><a href="shiny.html#cb179-83"></a>                       <span class="dt">showlegend =</span> <span class="ot">TRUE</span>, <span class="dt">visible =</span> T,</span>
-<span id="cb179-84"><a href="shiny.html#cb179-84"></a>                       <span class="dt">xaxis =</span> xaxis.fr, <span class="dt">yaxis =</span> yaxis.fr, </span>
-<span id="cb179-85"><a href="shiny.html#cb179-85"></a>                       <span class="dt">legend =</span> legend.fr)</span>
-<span id="cb179-86"><a href="shiny.html#cb179-86"></a>  }<span class="cf">else</span> <span class="cf">if</span> (type <span class="op">==</span><span class="st"> &#39;smr&#39;</span>){</span>
-<span id="cb179-87"><a href="shiny.html#cb179-87"></a>    ind.county =<span class="st"> </span><span class="kw">order</span>(SMR0[,var.names[<span class="dv">1</span>]], <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb179-88"><a href="shiny.html#cb179-88"></a>    df.fr &lt;-<span class="st"> </span>SMR <span class="op">%&gt;%</span></span>
-<span id="cb179-89"><a href="shiny.html#cb179-89"></a><span class="st">      </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span> <span class="op">+</span><span class="st"> </span>ind.county[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])) <span class="op">%&gt;%</span></span>
-<span id="cb179-90"><a href="shiny.html#cb179-90"></a><span class="st">      </span><span class="kw">gather</span>(<span class="dt">key =</span> <span class="st">&quot;County.State&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;LogI&quot;</span>, <span class="op">-</span>Date)</span>
-<span id="cb179-91"><a href="shiny.html#cb179-91"></a>    <span class="kw">names</span>(df.fr) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;group&quot;</span>,<span class="st">&quot;y&quot;</span>)</span>
-<span id="cb179-92"><a href="shiny.html#cb179-92"></a>    yaxis.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;SMR (%)&quot;</span>)</span>
-<span id="cb179-93"><a href="shiny.html#cb179-93"></a>    ts.fr &lt;-<span class="st"> </span><span class="kw">ts.plotly</span>(df.fr, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, </span>
-<span id="cb179-94"><a href="shiny.html#cb179-94"></a>                       <span class="dt">mode =</span> <span class="st">&#39;lines+markers&#39;</span>,</span>
-<span id="cb179-95"><a href="shiny.html#cb179-95"></a>                       <span class="dt">group =</span> group, mycol, <span class="dt">showlegend =</span> <span class="ot">TRUE</span>, </span>
-<span id="cb179-96"><a href="shiny.html#cb179-96"></a>                       <span class="dt">visible =</span> T, <span class="dt">xaxis =</span> xaxis.fr, </span>
-<span id="cb179-97"><a href="shiny.html#cb179-97"></a>                       <span class="dt">yaxis =</span> yaxis.fr, <span class="dt">legend =</span> legend.fr)</span>
-<span id="cb179-98"><a href="shiny.html#cb179-98"></a>  }<span class="cf">else</span> <span class="cf">if</span> (type <span class="op">==</span><span class="st"> &#39;logcount&#39;</span>){</span>
-<span id="cb179-99"><a href="shiny.html#cb179-99"></a>    ind.county =<span class="st"> </span><span class="kw">order</span>(dat[,var.names[<span class="dv">1</span>]], <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb179-100"><a href="shiny.html#cb179-100"></a>    df.fr &lt;-<span class="st"> </span>LogI <span class="op">%&gt;%</span></span>
-<span id="cb179-101"><a href="shiny.html#cb179-101"></a><span class="st">      </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span><span class="op">+</span>ind.county[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])) <span class="op">%&gt;%</span></span>
-<span id="cb179-102"><a href="shiny.html#cb179-102"></a><span class="st">      </span><span class="kw">gather</span>(<span class="dt">key =</span> <span class="st">&quot;County.State&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;LogI&quot;</span>, <span class="op">-</span>Date)</span>
-<span id="cb179-103"><a href="shiny.html#cb179-103"></a>    <span class="kw">names</span>(df.fr) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;group&quot;</span>,<span class="st">&quot;y&quot;</span>)</span>
-<span id="cb179-104"><a href="shiny.html#cb179-104"></a>    yaxis.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;Log Counts&quot;</span>)</span>
-<span id="cb179-105"><a href="shiny.html#cb179-105"></a>    ts.fr &lt;-<span class="st"> </span><span class="kw">ts.plotly</span>(df.fr, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, </span>
-<span id="cb179-106"><a href="shiny.html#cb179-106"></a>                       <span class="dt">mode =</span> <span class="st">&#39;lines+markers&#39;</span>,</span>
-<span id="cb179-107"><a href="shiny.html#cb179-107"></a>                       <span class="dt">group =</span> group, mycol, </span>
-<span id="cb179-108"><a href="shiny.html#cb179-108"></a>                       <span class="dt">showlegend =</span> <span class="ot">TRUE</span>, <span class="dt">visible =</span> T,</span>
-<span id="cb179-109"><a href="shiny.html#cb179-109"></a>                       <span class="dt">xaxis =</span> xaxis.fr, <span class="dt">yaxis =</span> yaxis.fr, </span>
-<span id="cb179-110"><a href="shiny.html#cb179-110"></a>                       <span class="dt">legend =</span> legend.fr)</span>
-<span id="cb179-111"><a href="shiny.html#cb179-111"></a>  }<span class="cf">else</span> <span class="cf">if</span> (type <span class="op">==</span><span class="st"> &#39;wlr&#39;</span>){</span>
-<span id="cb179-112"><a href="shiny.html#cb179-112"></a>    ind.county &lt;-<span class="st"> </span><span class="kw">order</span>(WLR0[, var.names[<span class="dv">1</span>]], <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb179-113"><a href="shiny.html#cb179-113"></a>    df.fr &lt;-<span class="st"> </span>WLR <span class="op">%&gt;%</span></span>
-<span id="cb179-114"><a href="shiny.html#cb179-114"></a><span class="st">      </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span> <span class="op">+</span><span class="st"> </span>ind.county[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])) <span class="op">%&gt;%</span></span>
-<span id="cb179-115"><a href="shiny.html#cb179-115"></a><span class="st">      </span><span class="kw">gather</span>(<span class="dt">key =</span> <span class="st">&quot;CountyState&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;WLR&quot;</span>, <span class="op">-</span>Date)</span>
-<span id="cb179-116"><a href="shiny.html#cb179-116"></a>    <span class="kw">names</span>(df.fr) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;group&quot;</span>, <span class="st">&quot;y&quot;</span>)</span>
-<span id="cb179-117"><a href="shiny.html#cb179-117"></a>    yaxis.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;WLR (New Cases Per 100K)&quot;</span>)</span>
-<span id="cb179-118"><a href="shiny.html#cb179-118"></a>    ts.fr &lt;-<span class="st"> </span><span class="kw">ts.plotly</span>(df.fr, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, </span>
-<span id="cb179-119"><a href="shiny.html#cb179-119"></a>                       <span class="dt">mode =</span> <span class="st">&#39;lines+markers&#39;</span>,</span>
-<span id="cb179-120"><a href="shiny.html#cb179-120"></a>                       <span class="dt">group =</span> group, mycol, </span>
-<span id="cb179-121"><a href="shiny.html#cb179-121"></a>                       <span class="dt">showlegend =</span> <span class="ot">TRUE</span>, <span class="dt">visible =</span> T,</span>
-<span id="cb179-122"><a href="shiny.html#cb179-122"></a>                       <span class="dt">xaxis =</span> xaxis.fr, <span class="dt">yaxis =</span> yaxis.fr, </span>
-<span id="cb179-123"><a href="shiny.html#cb179-123"></a>                       <span class="dt">legend =</span> legend.fr)</span>
-<span id="cb179-124"><a href="shiny.html#cb179-124"></a>  }</span>
-<span id="cb179-125"><a href="shiny.html#cb179-125"></a>  <span class="kw">return</span>(ts.fr)</span>
-<span id="cb179-126"><a href="shiny.html#cb179-126"></a>}</span>
-<span id="cb179-127"><a href="shiny.html#cb179-127"></a></span>
-<span id="cb179-128"><a href="shiny.html#cb179-128"></a><span class="kw">shinyServer</span>(<span class="cf">function</span>(input, output) {</span>
-<span id="cb179-129"><a href="shiny.html#cb179-129"></a>  output<span class="op">$</span>county_risk_ts &lt;-<span class="st"> </span><span class="kw">renderPlotly</span>({</span>
-<span id="cb179-130"><a href="shiny.html#cb179-130"></a>    ts &lt;-<span class="st"> </span><span class="kw">county.risk.ts</span>(date.update, <span class="dt">type =</span> input<span class="op">$</span>plot_type)</span>
-<span id="cb179-131"><a href="shiny.html#cb179-131"></a>  })</span>
-<span id="cb179-132"><a href="shiny.html#cb179-132"></a>})</span></code></pre></div>
+<span id="cb179-39"><a href="shiny.html#cb179-39"></a>  I0 &lt;-<span class="st"> </span>LogI0 &lt;-<span class="st"> </span>LocRisk0 &lt;-<span class="st"> </span>SMR0 &lt;-<span class="st"> </span>dat</span>
+<span id="cb179-40"><a href="shiny.html#cb179-40"></a>  <span class="co"># I0[,-(1:3)] &lt;- as.matrix(dat[,-(1:3)])</span></span>
+<span id="cb179-41"><a href="shiny.html#cb179-41"></a>  LogI0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)] &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">log</span>(dat[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]<span class="op">+</span><span class="dv">1</span>))</span>
+<span id="cb179-42"><a href="shiny.html#cb179-42"></a>  LocRisk0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)] &lt;-<span class="st"> </span><span class="kw">sweep</span>(<span class="kw">as.matrix</span>(dat[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]), <span class="dv">1</span>, </span>
+<span id="cb179-43"><a href="shiny.html#cb179-43"></a>          County.pop<span class="op">$</span>population[<span class="kw">match</span>(dat<span class="op">$</span>ID, County.pop<span class="op">$</span>ID)], </span>
+<span id="cb179-44"><a href="shiny.html#cb179-44"></a>          <span class="st">&quot;/&quot;</span>) <span class="op">*</span><span class="st"> </span><span class="dv">1000</span></span>
+<span id="cb179-45"><a href="shiny.html#cb179-45"></a>  SMR0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)] &lt;-<span class="st"> </span><span class="kw">sweep</span>(LocRisk0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)],<span class="dv">2</span>,smr.c<span class="op">/</span><span class="dv">10</span>,<span class="st">&quot;*&quot;</span>)</span>
+<span id="cb179-46"><a href="shiny.html#cb179-46"></a>  WLR0 &lt;-<span class="st"> </span><span class="kw">sweep</span>(tmp, <span class="dv">1</span>, </span>
+<span id="cb179-47"><a href="shiny.html#cb179-47"></a>       County.pop<span class="op">$</span>population[<span class="kw">match</span>(dat<span class="op">$</span>ID, County.pop<span class="op">$</span>ID)], </span>
+<span id="cb179-48"><a href="shiny.html#cb179-48"></a>       <span class="st">&quot;/&quot;</span>) <span class="op">*</span><span class="st"> </span><span class="fl">1e5</span></span>
+<span id="cb179-49"><a href="shiny.html#cb179-49"></a></span>
+<span id="cb179-50"><a href="shiny.html#cb179-50"></a>  county.dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Date =</span> date.all)</span>
+<span id="cb179-51"><a href="shiny.html#cb179-51"></a>  CountyState &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="kw">as.character</span>(dat<span class="op">$</span>County), </span>
+<span id="cb179-52"><a href="shiny.html#cb179-52"></a>                       <span class="kw">as.character</span>(dat<span class="op">$</span>State), <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb179-53"><a href="shiny.html#cb179-53"></a></span>
+<span id="cb179-54"><a href="shiny.html#cb179-54"></a>  LogI &lt;-<span class="st"> </span><span class="kw">cbind</span>(county.dat,<span class="kw">round</span>(<span class="kw">t</span>(LogI0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]),<span class="dv">2</span>))</span>
+<span id="cb179-55"><a href="shiny.html#cb179-55"></a>  <span class="kw">names</span>(LogI) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Date&quot;</span>, CountyState)</span>
+<span id="cb179-56"><a href="shiny.html#cb179-56"></a></span>
+<span id="cb179-57"><a href="shiny.html#cb179-57"></a>  LocRisk &lt;-<span class="st"> </span><span class="kw">cbind</span>(county.dat,<span class="kw">round</span>(<span class="kw">t</span>(LocRisk0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]),<span class="dv">2</span>))</span>
+<span id="cb179-58"><a href="shiny.html#cb179-58"></a>  <span class="kw">names</span>(LocRisk) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Date&quot;</span>, CountyState)</span>
+<span id="cb179-59"><a href="shiny.html#cb179-59"></a></span>
+<span id="cb179-60"><a href="shiny.html#cb179-60"></a>  SMR &lt;-<span class="st"> </span><span class="kw">cbind</span>(county.dat,<span class="kw">t</span>(SMR0[,<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]))</span>
+<span id="cb179-61"><a href="shiny.html#cb179-61"></a>  <span class="kw">names</span>(SMR) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Date&quot;</span>, CountyState)</span>
+<span id="cb179-62"><a href="shiny.html#cb179-62"></a></span>
+<span id="cb179-63"><a href="shiny.html#cb179-63"></a>  WLR &lt;-<span class="st"> </span><span class="kw">cbind</span>(county.dat, <span class="kw">round</span>(<span class="kw">t</span>(WLR0), <span class="dv">2</span>))</span>
+<span id="cb179-64"><a href="shiny.html#cb179-64"></a>  <span class="kw">names</span>(WLR) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Date&quot;</span>, CountyState)</span>
+<span id="cb179-65"><a href="shiny.html#cb179-65"></a></span>
+<span id="cb179-66"><a href="shiny.html#cb179-66"></a>  xaxis.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;&quot;</span>, <span class="dt">showline =</span> <span class="ot">FALSE</span>, </span>
+<span id="cb179-67"><a href="shiny.html#cb179-67"></a>                   <span class="dt">showticklabels =</span> <span class="ot">TRUE</span>, <span class="dt">showgrid =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb179-68"><a href="shiny.html#cb179-68"></a>                   <span class="dt">type =</span> <span class="st">&#39;date&#39;</span>, <span class="dt">tickformat =</span> <span class="st">&#39;%m/%d&#39;</span>)</span>
+<span id="cb179-69"><a href="shiny.html#cb179-69"></a>  legend.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">orientation =</span> <span class="st">&#39;h&#39;</span>, <span class="dt">x =</span> <span class="dv">0</span>, <span class="dt">y =</span> <span class="fl">-0.05</span>, </span>
+<span id="cb179-70"><a href="shiny.html#cb179-70"></a>                    <span class="dt">autosize =</span> F, <span class="dt">width =</span> <span class="dv">250</span>, <span class="dt">height =</span> <span class="dv">200</span>)</span>
+<span id="cb179-71"><a href="shiny.html#cb179-71"></a></span>
+<span id="cb179-72"><a href="shiny.html#cb179-72"></a>  <span class="cf">if</span> (type <span class="op">==</span><span class="st"> &#39;localrisk&#39;</span>){</span>
+<span id="cb179-73"><a href="shiny.html#cb179-73"></a>    ind.county =<span class="st"> </span><span class="kw">order</span>(LocRisk0[,var.names[<span class="dv">1</span>]], <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb179-74"><a href="shiny.html#cb179-74"></a>    df.fr &lt;-<span class="st"> </span>LocRisk <span class="op">%&gt;%</span></span>
+<span id="cb179-75"><a href="shiny.html#cb179-75"></a><span class="st">      </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span> <span class="op">+</span><span class="st"> </span>ind.county[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])) <span class="op">%&gt;%</span></span>
+<span id="cb179-76"><a href="shiny.html#cb179-76"></a><span class="st">      </span><span class="kw">gather</span>(<span class="dt">key =</span> <span class="st">&quot;County.State&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;LogI&quot;</span>, <span class="op">-</span>Date)</span>
+<span id="cb179-77"><a href="shiny.html#cb179-77"></a>    <span class="kw">names</span>(df.fr) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;group&quot;</span>,<span class="st">&quot;y&quot;</span>)</span>
+<span id="cb179-78"><a href="shiny.html#cb179-78"></a>    yaxis.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;Local Risk (Cases per Thousand)&quot;</span>)</span>
+<span id="cb179-79"><a href="shiny.html#cb179-79"></a>    ts.fr &lt;-<span class="st"> </span><span class="kw">ts.plotly</span>(df.fr, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, </span>
+<span id="cb179-80"><a href="shiny.html#cb179-80"></a>                       <span class="dt">mode =</span> <span class="st">&#39;lines+markers&#39;</span>,</span>
+<span id="cb179-81"><a href="shiny.html#cb179-81"></a>                       <span class="dt">group =</span> group, mycol, </span>
+<span id="cb179-82"><a href="shiny.html#cb179-82"></a>                       <span class="dt">showlegend =</span> <span class="ot">TRUE</span>, <span class="dt">visible =</span> T,</span>
+<span id="cb179-83"><a href="shiny.html#cb179-83"></a>                       <span class="dt">xaxis =</span> xaxis.fr, <span class="dt">yaxis =</span> yaxis.fr, </span>
+<span id="cb179-84"><a href="shiny.html#cb179-84"></a>                       <span class="dt">legend =</span> legend.fr)</span>
+<span id="cb179-85"><a href="shiny.html#cb179-85"></a>  }<span class="cf">else</span> <span class="cf">if</span> (type <span class="op">==</span><span class="st"> &#39;smr&#39;</span>){</span>
+<span id="cb179-86"><a href="shiny.html#cb179-86"></a>    ind.county =<span class="st"> </span><span class="kw">order</span>(SMR0[,var.names[<span class="dv">1</span>]], <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb179-87"><a href="shiny.html#cb179-87"></a>    df.fr &lt;-<span class="st"> </span>SMR <span class="op">%&gt;%</span></span>
+<span id="cb179-88"><a href="shiny.html#cb179-88"></a><span class="st">      </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span> <span class="op">+</span><span class="st"> </span>ind.county[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])) <span class="op">%&gt;%</span></span>
+<span id="cb179-89"><a href="shiny.html#cb179-89"></a><span class="st">      </span><span class="kw">gather</span>(<span class="dt">key =</span> <span class="st">&quot;County.State&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;LogI&quot;</span>, <span class="op">-</span>Date)</span>
+<span id="cb179-90"><a href="shiny.html#cb179-90"></a>    <span class="kw">names</span>(df.fr) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;group&quot;</span>,<span class="st">&quot;y&quot;</span>)</span>
+<span id="cb179-91"><a href="shiny.html#cb179-91"></a>    yaxis.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;SMR (%)&quot;</span>)</span>
+<span id="cb179-92"><a href="shiny.html#cb179-92"></a>    ts.fr &lt;-<span class="st"> </span><span class="kw">ts.plotly</span>(df.fr, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, </span>
+<span id="cb179-93"><a href="shiny.html#cb179-93"></a>                       <span class="dt">mode =</span> <span class="st">&#39;lines+markers&#39;</span>,</span>
+<span id="cb179-94"><a href="shiny.html#cb179-94"></a>                       <span class="dt">group =</span> group, mycol, <span class="dt">showlegend =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb179-95"><a href="shiny.html#cb179-95"></a>                       <span class="dt">visible =</span> T, <span class="dt">xaxis =</span> xaxis.fr, </span>
+<span id="cb179-96"><a href="shiny.html#cb179-96"></a>                       <span class="dt">yaxis =</span> yaxis.fr, <span class="dt">legend =</span> legend.fr)</span>
+<span id="cb179-97"><a href="shiny.html#cb179-97"></a>  }<span class="cf">else</span> <span class="cf">if</span> (type <span class="op">==</span><span class="st"> &#39;logcount&#39;</span>){</span>
+<span id="cb179-98"><a href="shiny.html#cb179-98"></a>    ind.county =<span class="st"> </span><span class="kw">order</span>(dat[,var.names[<span class="dv">1</span>]], <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb179-99"><a href="shiny.html#cb179-99"></a>    df.fr &lt;-<span class="st"> </span>LogI <span class="op">%&gt;%</span></span>
+<span id="cb179-100"><a href="shiny.html#cb179-100"></a><span class="st">      </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span> <span class="op">+</span><span class="st"> </span>ind.county[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])) <span class="op">%&gt;%</span></span>
+<span id="cb179-101"><a href="shiny.html#cb179-101"></a><span class="st">      </span><span class="kw">gather</span>(<span class="dt">key =</span> <span class="st">&quot;County.State&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;LogI&quot;</span>, <span class="op">-</span>Date)</span>
+<span id="cb179-102"><a href="shiny.html#cb179-102"></a>    <span class="kw">names</span>(df.fr) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;group&quot;</span>, <span class="st">&quot;y&quot;</span>)</span>
+<span id="cb179-103"><a href="shiny.html#cb179-103"></a>    yaxis.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;Log Counts&quot;</span>)</span>
+<span id="cb179-104"><a href="shiny.html#cb179-104"></a>    ts.fr &lt;-<span class="st"> </span><span class="kw">ts.plotly</span>(df.fr, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, </span>
+<span id="cb179-105"><a href="shiny.html#cb179-105"></a>                       <span class="dt">mode =</span> <span class="st">&#39;lines+markers&#39;</span>,</span>
+<span id="cb179-106"><a href="shiny.html#cb179-106"></a>                       <span class="dt">group =</span> group, mycol, </span>
+<span id="cb179-107"><a href="shiny.html#cb179-107"></a>                       <span class="dt">showlegend =</span> <span class="ot">TRUE</span>, <span class="dt">visible =</span> T,</span>
+<span id="cb179-108"><a href="shiny.html#cb179-108"></a>                       <span class="dt">xaxis =</span> xaxis.fr, <span class="dt">yaxis =</span> yaxis.fr, </span>
+<span id="cb179-109"><a href="shiny.html#cb179-109"></a>                       <span class="dt">legend =</span> legend.fr)</span>
+<span id="cb179-110"><a href="shiny.html#cb179-110"></a>  }<span class="cf">else</span> <span class="cf">if</span> (type <span class="op">==</span><span class="st"> &#39;wlr&#39;</span>){</span>
+<span id="cb179-111"><a href="shiny.html#cb179-111"></a>    ind.county &lt;-<span class="st"> </span><span class="kw">order</span>(WLR0[, var.names[<span class="dv">1</span>]], <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb179-112"><a href="shiny.html#cb179-112"></a>    df.fr &lt;-<span class="st"> </span>WLR <span class="op">%&gt;%</span></span>
+<span id="cb179-113"><a href="shiny.html#cb179-113"></a><span class="st">      </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span> <span class="op">+</span><span class="st"> </span>ind.county[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])) <span class="op">%&gt;%</span></span>
+<span id="cb179-114"><a href="shiny.html#cb179-114"></a><span class="st">      </span><span class="kw">gather</span>(<span class="dt">key =</span> <span class="st">&quot;CountyState&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;WLR&quot;</span>, <span class="op">-</span>Date)</span>
+<span id="cb179-115"><a href="shiny.html#cb179-115"></a>    <span class="kw">names</span>(df.fr) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;group&quot;</span>, <span class="st">&quot;y&quot;</span>)</span>
+<span id="cb179-116"><a href="shiny.html#cb179-116"></a>    yaxis.fr &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;WLR (New Cases Per 100K)&quot;</span>)</span>
+<span id="cb179-117"><a href="shiny.html#cb179-117"></a>    ts.fr &lt;-<span class="st"> </span><span class="kw">ts.plotly</span>(df.fr, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, </span>
+<span id="cb179-118"><a href="shiny.html#cb179-118"></a>                       <span class="dt">mode =</span> <span class="st">&#39;lines+markers&#39;</span>,</span>
+<span id="cb179-119"><a href="shiny.html#cb179-119"></a>                       <span class="dt">group =</span> group, mycol, </span>
+<span id="cb179-120"><a href="shiny.html#cb179-120"></a>                       <span class="dt">showlegend =</span> <span class="ot">TRUE</span>, <span class="dt">visible =</span> T,</span>
+<span id="cb179-121"><a href="shiny.html#cb179-121"></a>                       <span class="dt">xaxis =</span> xaxis.fr, <span class="dt">yaxis =</span> yaxis.fr, </span>
+<span id="cb179-122"><a href="shiny.html#cb179-122"></a>                       <span class="dt">legend =</span> legend.fr)</span>
+<span id="cb179-123"><a href="shiny.html#cb179-123"></a>  }</span>
+<span id="cb179-124"><a href="shiny.html#cb179-124"></a>  <span class="kw">return</span>(ts.fr)</span>
+<span id="cb179-125"><a href="shiny.html#cb179-125"></a>}</span>
+<span id="cb179-126"><a href="shiny.html#cb179-126"></a></span>
+<span id="cb179-127"><a href="shiny.html#cb179-127"></a><span class="kw">shinyServer</span>(<span class="cf">function</span>(input, output) {</span>
+<span id="cb179-128"><a href="shiny.html#cb179-128"></a>  output<span class="op">$</span>county_risk_ts &lt;-<span class="st"> </span><span class="kw">renderPlotly</span>({</span>
+<span id="cb179-129"><a href="shiny.html#cb179-129"></a>    ts &lt;-<span class="st"> </span><span class="kw">county.risk.ts</span>(date.update, <span class="dt">type =</span> input<span class="op">$</span>plot_type)</span>
+<span id="cb179-130"><a href="shiny.html#cb179-130"></a>  })</span>
+<span id="cb179-131"><a href="shiny.html#cb179-131"></a>})</span></code></pre></div>
 <p>If everything is working correctly you’ll see the application appear in your browser looking something like this:</p>
 <div class="figure">
 <img src="figures/county_risk_ts.png" alt="" />
-<p class="caption">The time series plot of daily new infected count of Iowa.</p>
+<p class="caption">The time series plot of risk or log(count) of the top ten counties (based on the corresponding measurement on 12/11/2011).</p>
 </div>
 
 </div>

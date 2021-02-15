@@ -252,7 +252,7 @@ library(slid)
 #install_github('https://github.com/covid19-dashboard-us/slid')
 ```
 
-**Example 1.**
+**Example 1. Top 10 states with the highest daily new infected count**
 
 **ui.R**
 ```{r, eval=F}
@@ -260,9 +260,9 @@ library(slid)
 shinyUI(fluidPage(
   sliderInput("date.update",
       label = h5("Select date"),
-      min = as.Date("2020-01-23"),
-      max = as.Date("2020-12-01"),
-      value = as.Date("2020-12-01"),
+      min = as.Date("2020-11-12"),
+      max = as.Date("2020-12-11"),
+      value = as.Date("2020-12-11"),
       timeFormat = "%d %b",
       animate = animationOptions(interval = 2000, loop = FALSE)
   ),
@@ -277,7 +277,6 @@ shinyUI(fluidPage(
 **server.R**
 
 ```{r, eval=F}
-
 state.daily.bc <- function(date.update){
   # load daily new case data for each state
   dat.sd = slid::dat.sd
@@ -385,7 +384,7 @@ shinyServer(function(input, output) {
 
 If everything is working correctly you’ll see the application appear in your browser looking something like this:
 
-![The time series plot of daily new infected count of Iowa.](figures/dailynew.png)
+![The time series plot of the daily new infected cases of Iowa.](figures/dailynew_IA.png)
 
 Remark: There are currently four different modes for mouse click+drag behavior (i.e., `dragmode`) in plotly.js: zoom, pan, rectangular selection, and lasso selection. 
 
@@ -452,7 +451,6 @@ county.risk.ts = function(date.update, type = 'localrisk'){
   dat <- dat[, c("ID", "County", "State", var.names)]
   smr.c <- sum(County.pop$population)/as.matrix(colSums(dat[,-(1:3)]))
 
-
   I0 <- LogI0 <- LocRisk0 <- SMR0 <- dat
   # I0[,-(1:3)] <- as.matrix(dat[,-(1:3)])
   LogI0[,-(1:3)] <- as.matrix(log(dat[,-(1:3)]+1))
@@ -514,9 +512,9 @@ county.risk.ts = function(date.update, type = 'localrisk'){
   }else if (type == 'logcount'){
     ind.county = order(dat[,var.names[1]], decreasing = TRUE)
     df.fr <- LogI %>%
-      select(c(1,1+ind.county[1:10])) %>%
+      select(c(1, 1 + ind.county[1:10])) %>%
       gather(key = "County.State", value = "LogI", -Date)
-    names(df.fr) = c("x","group","y")
+    names(df.fr) = c("x", "group", "y")
     yaxis.fr <- list(title = "Log Counts")
     ts.fr <- ts.plotly(df.fr, type = 'scatter', 
                        mode = 'lines+markers',
@@ -551,6 +549,6 @@ shinyServer(function(input, output) {
 
 If everything is working correctly you’ll see the application appear in your browser looking something like this:
 
-![The time series plot of daily new infected count of Iowa.](figures/county_risk_ts.png)
+![The time series plot of risk or log(count) of the top ten counties (based on the corresponding measurement on  12/11/2011).](figures/county_risk_ts.png)
 
 

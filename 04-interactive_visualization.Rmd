@@ -470,11 +470,11 @@ fig2
 
 ## Animation
 
-Animated plots are a great way to display the dynamics of the underlying data. Both `plot_ly()` and `ggplotly()` support keyframe animations through the frame argument/aesthetic. They also support an ids argument/aesthetic to ensure smooth transitions between objects with the same id. This chapter provides a walk-through for creating an animated time series using the plotly R package.
+Animated plots are a great way to display the dynamics of the underlying data. Both `plot_ly()` and `ggplotly()` support keyframe animations through the frame argument/aesthetic. They also support an ids argument/aesthetic to ensure smooth transitions between objects with the same id. This section provides a walk-through for creating an animated plots using the plotly R package.
 
 ### An animation of the evolution of infected vs. death count
 
-Figure \@ref(fig:animate1) creates an animation of the evolution in the relationship between the state-level logarithm of cumulative infected count and the logarithm of cumulative death count evolved over time in December of 2020. The data `state.long` from `slid` package is recorded on a daily basis. Below, we first prepare the data:  
+Figure \@ref(fig:animate1) creates an animation of the evolution in the relationship between the state-level logarithm of cumulative infected count and the logarithm of cumulative death count evolved over time. For simple illustration purpose, we only show the evoluation in December of 2020. The data `state.long` from `slid` package provides a daily time series for 48 mainland states and the District of Columbia in the US. Below, we first prepare the data:  
 
 ```{r, message=FALSE, warning=FALSE}
 #install_github('covid19-dashboard-us/slid')
@@ -494,7 +494,7 @@ library(ggplot2)
 library(plotly)
 ```
 
-Animations can be created by either using the frame argument in `plot_ly()` or the frame `ggplot2` aesthetic in `ggplotly()`. Animated plots can be generated with the `frame = ` and `ids = ` arguments in the `geom_point()` function. In this case, the data `state.long` is recorded on a daily basis, so we will assign the `DATE` variable to `frame`; each point in the scatterplot represents a state, so we will assign the `State` variable to `ids`, which ensures a smooth transition from date to date for the 48 mainland states and District of Columbia in the US:
+Animations can be created by either using the frame argument in `plot_ly()` or the frame `ggplot2` aesthetic in `ggplotly()`. Animated plots can be generated with the `frame = ` and `ids = ` arguments in the `geom_point()` function when using `ggplot` and `ggplotly()`. In this case, the data `state.long` is recorded on a daily basis, so we will assign the `DATE` variable to `frame`; each point in the scatterplot represents a state, so we will assign the `State` variable to `ids`, which ensures a smooth transition from date to date for the lower 48 states and the District of Columbia in the US:
 
 ```{r animate1, fig.show='animate', message=FALSE, warning=FALSE, fig.cap="Your first animated plot between logarithms of the death count and infected count."}
 gg <- ggplot(state.long.DEC, aes(log.Infected, log.Death, color = Region)) +
@@ -516,7 +516,7 @@ You can control the play button and slider component transition between frames a
 
 The detailed options in the above arguments can be found from [here](https://github.com/plotly/plotly.js/blob/master/src/plots/animation_attributes.js).
 
-Figure \@ref(fig:animate2) illustrates the same plots as Figure \@ref(fig:animate1), but doubles the amount of time between frames, uses linear transition easing, places the animation buttons closer to the slider, and modifies the default `currentvalue.prefix` settings for the slider.
+Figure \@ref(fig:animate2) illustrates a similar plot as in Figure \@ref(fig:animate1) with a slightly different aesthetic style, and it also doubles the amount of time between frames, uses elastic transition easing, places the animation buttons closer to the slider.
 
 ```{r animate2, fig.show='animate', message=FALSE, warning=FALSE, fig.cap="Modified animation with frame = 1000 and elastic easing."}
 base <- state.long.DEC %>%
@@ -567,7 +567,7 @@ anim3
 
 ## Saving HTML
 
-After polishing the figure, we need to save the figure and animation for later use. We can save any widget made from any `htmlwidgets` package (e.g., plotly, leaflet, DT, etc) as a standalone HTML file via the `saveWidget()` function. By default, it produces a completely self-contained HTML file, and all the necessary JavaScript and CSS dependency files are bundled inside the HTML file. 
+After polishing the figure, we need to save the figure and animation for later use. We can save any widget made from any `htmlwidgets` package (e.g., plotly, leaflet, etc) as a standalone HTML file via the `saveWidget()` function. By default, it produces a completely self-contained HTML file, and all the necessary JavaScript and CSS dependency files are bundled inside the HTML file. 
 
 ### Save as a standalone HTML file
 
