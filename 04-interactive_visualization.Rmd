@@ -608,7 +608,7 @@ data(state.long)
    
    e. Save the above plots as an HTML file, and save all the dependency files externally into a single directory using `htmlwidgets::saveWidget()` with `selfcontained = FALSE`.
   
-2. Redraw the above plots in (a), (b) and (c) for the death count using the `ggplotly()` function. Save the above plots as an HTML file, and save all the dependency files externally into a single directory using `htmlwidgets::saveWidget()` with `selfcontained = FALSE`.
+2. Redraw the above plots in (a), (b) and (c) for the death count using the `ggplotly()` function. Save the above plots each as an HTML file, and save all the dependency files externally into a single directory using `htmlwidgets::saveWidget()` with `selfcontained = FALSE`.
   
 3. During the COVID-19 pandemic, we are interested in how many tests are coming back positive. The `state.long` data set comprises state-level cumulative tests. We want to create an animation to demonstrate the weekly test positivity rate for each state based on a 7-day moving average. It is calculated by dividing the state's new positive counts in the past seven days by the state's new tests in the past seven days. The `PosTest.state.rda` and `Test.state.rda` are the daily reported positive test and daily total test data collected from COVIDTracking Project, and it can be downloaded from the Github `slid` R package.
 
