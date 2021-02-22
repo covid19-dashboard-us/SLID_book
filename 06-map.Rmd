@@ -2,11 +2,11 @@
 
 Many spatial and spatiotemporal methods have been developed for early outbreak detection, cluster detection, risk areas, and factors identification, and disease transmission pattern evaluation in the past two decades, thus boosted the investigation of *spatial epidemiology*. By definition, the focus of *spatial epidemiology* is the study of the geographical or spatial distribution of health outcomes. It is sometimes interchangeably known as disease mapping. Usually, it has the incidence of disease or prevalence of disease as its main focus. It is a commonplace to consider a geographic dimension included within a research design in infectious disease studies. This may involve initial visualization of the distribution and some simple summary measures. The application of *spatial epidemiology* methods is fortunately facilitated by the growing development of the open-source community, among which the most widespread and popular is certainly R, a programming language and free software environment for statistical computing and graphics.
 
-Disease maps play a key role in descriptive spatial epidemiology. In this chapter, we focus on the interactive geospatial visualization of the data. 
+For the display of COVID-19 data, interactive geospatial visualization is used by websites ranging from the New York Times and the Washington Post to GitHub and Flickr. In this chapter, we focus on the interactive geospatial visualization of the data. 
 
 ## An Introduction to Leaflet
 
-The “leaflet” is one of the most popular open-source JavaScript libraries for interactive maps. It’s used by websites ranging from the New York Times and the Washington Post to GitHub and Flickr, as well as GIS specialists like OpenStreetMap, Mapbox, and CartoDB. This R package makes it easy to integrate and control Leaflet maps in R.
+The “leaflet” is one of the most popular open-source JavaScript libraries for interactive maps. It is commonly used by GIS specialists like OpenStreetMap, Mapbox, and CartoDB. This R package makes it easy to integrate and control map objects in R.
 
 ### Features and installation
 
@@ -50,7 +50,7 @@ Step 2. Add features to the map by using layer functions (`addTiles()`, `addMark
 
 Step 3. Print the map widget to display it and save it.
 
-Here is a base example:
+Here is a base example. Suppose we would like to show the Eiffel Tower on a street map, we can run the following: 
 
 ```{r message=FALSE, warning=FALSE}
 library(leaflet)
@@ -70,28 +70,29 @@ Both `leaflet()` and the map layer functions have an optional `data` parameter t
     + data frame with lng-lat matrix
 
 * the `sp` package:
-    + SpatialPoints[DataFrame]
-    + SpatialLines[DataFrame]
-    + SpatialPolygons[DataFrame]
+    + `SpatialPolygons`, `SpatialPolygonsDataFrame`, `Polygons`, and `Polygon` objects;
+    + SpatialLines, SpatialLinesDataFrame, Lines, and Line objects;
 
 * the `map` package
      + the data frame returned from `map()`
      
-The `data` argument is used to derive spatial data for functions that need it; for example, if `data` is a `SpatialPolygonsDataFrame` object, then calling `addPolygons` on that map widget will know to add the polygons from the `SpatialPolygonsDataFrame`.
+The `data` argument is used to pass spatial data to functions that need it; for example, if `data` is a `SpatialPolygonsDataFrame` object, then calling `addPolygons` on that map widget will add the polygons from the `SpatialPolygonsDataFrame`.
 
-We can always explicitly identify latitude/longitude columns by providing `lng`` and `lat` arguments to the layer function.
+* Specifying latitude/longitude in the base R
 
-Alternatively, for example, we need not specify the values for the arguments `lat` and `lng` in `addCircles()` below, but the columns `Lat` and `Long` in the data frame `df` will be automatically used:
+We can always explicitly identify latitude/longitude columns by providing `lng` and `lat` arguments to the layer function.
+
+Alternatively, we can provide a data frame that consists of the latitude/longitude information. For example, in the `addCircles()` below, we directly pass a data frame, `df`, with variables `Lat` and `Long` in the data frame:
 
 ```{r}
 # add some circles to a map
-df = data.frame(Lat = rexp(10) + 23, Long = rnorm(10) + 88)
+df <- data.frame(Lat = rexp(10) + 40, Long = rnorm(10) - 92)
 leaflet(df) %>% 
   addTiles() %>%
   addCircles(data = df, lat = ~Lat, lng = ~Long)
 ```
 
-* The `sp` package
+* The `sp` Package
 
 The first general R package to provide classes and methods for spatial data is called `sp`, which provides classes and methods to create points, lines, polygons, and grids and to operate on them. For example, we can generate the polygons objects using the function `Polygon()`, and we can also generate `SpatialPolygons` objects using lists of `Polygon`.
 
@@ -109,28 +110,28 @@ Polys2 <- Polygons(list(Poly2), "s2")
 SPolys <- SpatialPolygons(list(Polys1, Polys2), 1:2)
 ```
 
-To draw this in leaflet, we use `addPolygons()`:
+To draw this in leaflet, we can use `addPolygons()`:
 
 ```{r message=FALSE, warning=FALSE}
 leaflet(height = "300px") %>% addPolygons(data = SPolys)
 ```
 
 
-* The `maps` package
+* The `maps` Package
 
 The R `maps` package contains many outlines of continents, countries, states, and counties. For example, 
 
 * World: world, world.cities, lakes
 * USA: states, county, state, usa
 
-and check `help(package='maps')` for a whole list. The code below shows how to obtain and plot the geospatial object of the states in the US.
+and you can check `help(package='maps')` for a whole list. We can specify `map(fill = TRUE)` for polygons, `FALSE` for polylines. The code below shows how to obtain and plot the geospatial object of the states in the US.
 
 ```{r message=FALSE, warning=FALSE}
 library(maps)
 mapStates <- map("state", fill = TRUE, plot = FALSE)
 leaflet(data = mapStates) %>% 
 addTiles() %>%
-addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE)
+addPolygons(fillColor = topo.colors(10), opacity = 0.5, stroke = FALSE)
 ```
 
 
@@ -178,7 +179,13 @@ Here, the `setView` function set the view of the map (center and zoom level) wit
 * `lng`: the longitude of the map center;
 * `lat`: the latitude of the map center;
 * `zoom`: the zoom level.
-      
+
+Besides the `setView()` function, there are other methods to manipulate the map widget, for example:
+
+* `fitBounds(map, lng1, lat1, lng2, lat2)`: sets the bounds of a map
+* `setMaxBounds(map, lng1, lat1, lng2, lat2)`: restricts the map view to the given bounds
+* `clearBounds(map)`: clears the bounds of a map, and the bounds will be automatically determined from latitudes and longitudes of the map elements if available (otherwise the full world view is used)
+
 Next, if we use the function `addPolygons` with no additional arguments, then we will obtain the uniform polygons with default styling without any customization.
 
 ```{r, eval=T}     
@@ -213,7 +220,7 @@ dmap %>% addPolygons(
 
 On the interactive choropleth map, it is possible to zoom and hover a state to get more details about it. The next thing we’ll want is to make the polygons highlight as the mouse passes over them. The `addPolygon()` function has a highlight argument that makes this simple. 
 
-We will generate the highlight labels using the `sprintf()` to obtain a character vector containing a formatted combination of text and variable values. 
+We will generate the highlight labels using the `sprintf()` function, a wrapper for the C library function with the same name. `sprintf()` returns a character vector containing a formatted combination of text and variable values. 
 
 ```{r, eval=T}
 labels_cases <- sprintf(
@@ -228,7 +235,9 @@ labels_cases <- sprintf(
 labels_cases[[1]]
 ```
 
-Now let’s display the state names and values to the user.
+In the above `sprintf()` function, each `%` is referred to as a slot, which is basically a placeholder for a variable that will be formatted. The letter `s` indicates that the formatted variable is specified as a string. `%g` indicates the formatted variable uses compact decimal or scientific notation. 
+
+You can customize marker labels using the labelOptions argument of the `addPolygons` function. We will use the `highlightOptions` function to emphasize the currently moused-over polygon. The `labelOptions` argument can be populated using the `labelOptions()` function. Now let’s display the state names and values to the user. 
 
 ```{r, eval=T}     
 dmap <- dmap %>% addPolygons(
@@ -246,6 +255,7 @@ dmap <- dmap %>% addPolygons(
           textsize = "15px", direction = "auto"))
 dmap
 ```
+When you hover the mouse over a state, the label is displayed. The `bringToFront = TRUE` in the `highlightOptions` function is used to prevent the thicker, white border of the active polygon from being hidden behind the borders of other polygons that happen to be higher in the z-order.
 
 Finally, let us add the legend using the function `addLegend()`.
 
