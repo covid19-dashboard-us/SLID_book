@@ -444,10 +444,11 @@ library(geojsonio)
 library(slid)
 data(state.long)
 # get the geospatial information from PublicaMundi
-states0 <- geojson_read(
-  x = "https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json"
-  , what = "sp"
-)
+urlRemote  <- "https://raw.githubusercontent.com/"
+pathGithub <- "PublicaMundi/MappingAPI/master/data/geojson/"
+fileName   <- "us-states.json"
+states0 <- geojson_read(x = paste0(urlRemote, pathGithub, fileName), 
+                        what = "sp")
 head(states0@data)
 
 states1 <- states0

@@ -8,6 +8,20 @@ For the display of COVID-19 data, interactive geospatial visualization is used b
 
 The “leaflet” is one of the most popular open-source JavaScript libraries for interactive maps. It is commonly used by GIS specialists like OpenStreetMap, Mapbox, and CartoDB. This R package makes it easy to integrate and control map objects in R.
 
+### More References
+
+* Recommended Reading: 
+
+1. [Leaflet for R](https://rstudio.github.io/leaflet/)
+2. [Making maps with R](https://geocompr.robinlovelace.net/adv-map.html)
+3. [Data Visualization Series IV: Create Interactive Map in R](https://rstudio-pubs-static.s3.amazonaws.com/307862_b8c8460272dc4a2a9023d033d5f3ec34.html)
+
+* Use the [Leaflet Cheat Sheet](https://ugoproto.github.io/ugo_r_doc/pdf/leaflet-cheat-sheet.pdf) for inspiration.
+
+* More Examples of Shiny with Leaflet:
+1. [Using Leaflet with Shiny](https://rstudio.github.io/leaflet/shiny.html)
+2. [COVID-19 US Dashboard](https://covid19.stat.iastate.edu/index.html)
+
 ### Features and installation
 
 Unlike static visualization packages such as “ggplot2” or “ggmap”,  “leaflet” maps are fully interactive and can include features, such as interactive panning or zooming pop-up tooltips and labels, highlighting or selecting regions.
@@ -27,6 +41,7 @@ Unlike static visualization packages such as “ggplot2” or “ggmap”,  “l
 * Easily render spatial objects from the `sp` or `sf` packages, or data frames with latitude/longitude columns.
 * Use map bounds and mouse events to drive “Shiny” logic.
 * Augment map features using chosen plugins from the “leaflet” plugins repository.
+
 
 **Installation**
 
@@ -143,10 +158,11 @@ To draw a choropleth map, let us start by loading the data into `sp` objects fro
 
 ```{r eval=FALSE, message=FALSE, warning=FALSE}
 library(geojsonio)
-states0 <- geojson_read(
-x = "https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json"
-, what = "sp"
-)
+urlRemote  <- "https://raw.githubusercontent.com/"
+pathGithub <- "PublicaMundi/MappingAPI/master/data/geojson/"
+fileName   <- "us-states.json"
+states0 <- geojson_read(x = paste0(urlRemote, pathGithub, fileName), 
+                        what = "sp")
 class(states0)
 ```
 
@@ -255,6 +271,7 @@ dmap <- dmap %>% addPolygons(
           textsize = "15px", direction = "auto"))
 dmap
 ```
+
 When you hover the mouse over a state, the label is displayed. The `bringToFront = TRUE` in the `highlightOptions` function is used to prevent the thicker, white border of the active polygon from being hidden behind the borders of other polygons that happen to be higher in the z-order.
 
 Finally, let us add the legend using the function `addLegend()`.
@@ -284,18 +301,20 @@ According to @pfeiffer2008spatial, the continuous attribute data can be divided 
 
 2. Quantile breaks: The data are divided into a pre-determined number of classes that contain an equal number of observations. For example, quintile (five categories) classifications are well suited to displaying linearly distributed data.
 
-3. Equal-interval breaks: The range of the attribute value is calculated and divided into evenly spaced intervals. This method is useful for mapping attribute data that follow a uniform distribution, or if the data ranges are familiar to the user of the map (e.g., herd sizes or temperature bands).
+3. Equal-interval breaks: The range of the attribute value is calculated and divided into evenly spaced intervals. This method is useful for mapping uniformly distributed data, or if the data ranges are familiar to the user of the map (e.g., herd sizes or temperature bands).
 
-4. Standard deviation classifications: This method takes the distance of the observation from the mean in terms of the number of standard deviations above and below the mean. It is most useful for attribute data that follow a normal distribution.
+4. Standard deviation classifications: This method takes the distance of the observation from the mean in terms of the number of standard deviations above and below the mean. It is most useful for normally distributed data.
 
-5. Arithmetic progressions: The widths of category intervals are increased in size at an arithmetic (additive) rate. For example, if the first category is one unit wide and it is decided to increment the width by one unit, the second category would be two units wide, the third three units wide, and so on (1, 3, 6, ...). This method is beneficial for skewed distributions.
+5. Arithmetic progressions: The widths of category intervals are increased in size at an arithmetic (additive) rate. For example, if the first category is one unit wide and it is decided to increment the width by one unit, the second category would be two units wide, the third three units wide, and so on (1, 3, 6, ...). This method is beneficial for data from **skewed** distributions.
 
-6. Geometric progressions: The widths of the category intervals are increased in size at a geometric (that is, multiplicative) rate. For example, if the interval width for the first category is two units, the second category would be $2 \times 2 = 4$ units wide, the third category would be $2 \times 2 \times 2 = 8$ units wide, and so on. This method is also very useful for skewed distributions.
+6. Geometric progressions: The widths of the category intervals are increased in size at a geometric (that is, multiplicative) rate. For example, if the interval width for the first category is two units, the second category would be $2 \times 2 = 4$ units wide, the third category would be $2 \times 2 \times 2 = 8$ units wide, and so on. This method is also very useful for data from **skewed** distributions.
 
 
 ### Mapping variables to colors
 
-Below, we demonstrate how to apply the above classification schemes to map values to colors. For simplicity, we wrap the above code into a function and run it with different palettes, data, labels, variables mapped to fill color, etc.
+We demonstrate how to apply the above classification schemes to map values to colors. 
+
+For simplicity, we wrap the above code into a function and run it with different palettes, data, labels, variables mapped to fill color, etc.
 
 ```{r}
 map.state <- function(dat, fill.var, labels, pal, ID = 'name_ns'){
@@ -377,10 +396,11 @@ We are interested in the infection rate at the county level, and would like to d
 First, let us prepare the data. 
 
 ```{r, eval = FALSE}
-counties0 <- geojson_read(
-x = "https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json"
-, what = "sp"
-)
+urlRemote  <- "https://raw.githubusercontent.com/"
+pathGithub <- "plotly/datasets/master/"
+fileName   <- "geojson-counties-fips.json"
+counties0 <- geojson_read(x = paste0(urlRemote, pathGithub, fileName), 
+                          what = "sp")
 ```
 
 Next, we combine the county-level data with the state-level data.
@@ -505,7 +525,7 @@ dmap3
 
 **Add circles**
 
-We can add circles to the map to highlight the top ten counties in the data using `addCircles()`. Circles are similar to circle markers; the only difference is that circles have their radii specified in meters, while circle markers are specified in pixels. As a result, circles are scaled with the map as the user zooms in and out, while circle markers remain a constant size on the screen regardless of zoom level.
+We can add circles to the map to highlight the top ten counties in the data using `addCircles()`. Circles are similar to circle markers; the only difference is that circles have their radii specified in meters, while circle markers are specified in pixels. As a result, the size of circles will change as the user zooms in and out, while circle markers remain a constant size on the screen regardless of zoom level. 
 
 ```{r, eval=T}
 dmap3 <- dmap3 %>%
@@ -516,6 +536,7 @@ dmap3
 ```
 
 Each point can have text added to it using either a popup (appears only on click) or a label (appears either on hover or statically). We will describe the details below. 
+
 **Add popups**
 
 **Popups** are small boxes containing some HTML outputs that may include texts or hyperlinks, and it points to a specific point or place on the map.
@@ -528,11 +549,11 @@ For instance, we can label each county with the name of the county and state, an
 labels_cases.county <- sprintf(
   "<strong>%s</strong>, <strong>%s</strong>
   <br/> Cum. Infected Cases on 2020-12-11: %g <br>",
-  df$County, df$State, 
-  df$Count
-) %>% lapply(htmltools::HTML)
-
+  df$County, df$State, df$Count) %>% 
+  lapply(htmltools::HTML)
 ```
+
+Using `lapply(htmltools::HTML)`, one can pass the information to Leaflet, so it knows to treat each label as HTML instead of as plain text.
 
 If we only want the information to appear when we click on the point, we should instead use `popup = ~labels_cases.county` like the following:
 
@@ -558,67 +579,130 @@ dmap3 %>%
 
 The Leaflet package includes powerful and convenient features for integrating with Shiny applications.
 
-Most Shiny output widgets are incorporated into an app by including an output (e.g. plotOutput) for the widget in the UI definition, and using a render function (e.g. renderPlot) in the server function. Leaflet maps are no different; in the UI you call leafletOutput, and on the server side you assign a renderLeaflet call to the output. Inside the renderLeaflet expression, you return a Leaflet map object.
+Most Shiny output widgets are incorporated into an app by including an output for the widget in the UI definition, and using a render function in the server function. For Leaflet maps, you call `leafletOutput` in the UI side, and you assign a `renderLeaflet` call to the output on the server side, and return a Leaflet map object.
+
+```{r, eval=F}
+shinyServer(function (input, output) {
+  output$map <- renderLeaflet({})
+})
+```
+
+**server.R**
+```{r, eval=F}
+shinyServer(function (input, output) {
+  location.county <- slid::features.county %>% 
+    dplyr:: select(ID, Longitude, Latitude) 
+  county.top10.today <- slid::county.top10.long %>% 
+    select(ID, County, State, Date, Count) %>%
+    filter(Date == "2020-12-11")
+  df <- left_join(county.top10.today, location.county, key = "ID")
+  labels_cases.county <- sprintf(
+    "<strong>%s</strong>, <strong>%s</strong>
+    <br/> Cum. Infected Cases on 2020-12-11: %g <br>",
+    df$County, df$State, 
+    df$Count
+  ) %>% lapply(htmltools::HTML)
+  output$map <- renderLeaflet({
+    leaflet() %>%
+      setView(-96, 37.8, zoom = 4) %>%
+      addTiles() %>%
+      addCircles(data = df, lng = ~Longitude, lat = ~Latitude, weight = 1,
+                 radius = ~sqrt(Count)*200, popup = ~County) %>% 
+      addMarkers(data = df, lng = ~Longitude, lat = ~Latitude, 
+                 popup = ~labels_cases.county)
+  })
+})
+```
+
+**ui.R**
+```{r, eval=F}
+library(shiny)
+library(dplyr)
+library(leaflet)
+shinyUI(
+  # Use a fluid Bootstrap layout
+  fluidPage(
+    # Give the page a title
+    titlePanel(
+      HTML(
+        paste("Top 10 counties with the largest cumulative", '<br/>', 
+              "infected count on December 11, 2020")
+      )),
+    mainPanel(leafletOutput("map"))
+))
+```
+
+If everything is working correctly, you will see the application appear in your browser looking something like this:
+![The top ten counties with with the largest cumulative infected count.](figures/shiny-map.png)
+
 
 ## Exercises
 
 1. Create polygons based on the given coordinates:
-     (a)
-```
+
+  a. Let
+     
+```{r}
 x1 <- c(6, 8, 8, 6, 6)
 x2 <- c(6, 6, 4, 4, 6)
 ```
 
-     (b)
-```
+  b. Let
+     
+```{r}
 y1 <- c(5, 6, 8, 10, 5)
 y2 <- c(8, 3, 2, 8, 8)
 ```
 
-     (c) Draw the two polygons in (a) and (b) on the same map.
+  c.  Draw the two polygons in (a) and (b) on the same map.
      
 2. The Washington Monument is located at longitude -77.0353 and latitude 38.8895.
 
-     (a) Draw base map and set the default view to and set zoom level 15;
+  a. Draw base map and set the default view to and set zoom level 15;
      
-     (b) Add a popup “Washington Monument” to your base map;
+  b. Add a popup “Washington Monument” to your base map;
      
-     (c) Add a label “Washington Monument” to your base map;
+  c. Add a label “Washington Monument” to your base map;
      
 3. We will use the state level COVID-19 data (`I.state`) available in the `slid` package, and the geospatial information from:
 
-```{r, eval=F}
+```{r eval=F}
 library(geojsonio)
-geojson_read(
-x = "https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json", what = "sp")
+urlRemote  <- "https://raw.githubusercontent.com/"
+pathGithub <- "PublicaMundi/MappingAPI/master/data/geojson/"
+fileName   <- "us-states.json"
+geojson_read(x = paste0(urlRemote, pathGithub, fileName), 
+                        what = "sp")
 ```
     
-     (a) Calculate the weekly risk of each state and create a `weekly_risk` variable, which contains the number of newly infected cases in the past weeks (December 5, 2020, to December 11, 2020) for each state divided by its population.
+  a. Calculate the weekly risk of each state and create a `weekly_risk` variable, which contains the number of newly infected cases in the past weeks (December 5, 2020, to December 11, 2020) for each state divided by its population.
      
-     (b) Draw a choropleth map to display the weekly risk for each state. You can change the opacity and the weight of the borderlines according to your aesthetic preferences. Use `colorBin` to color the states.
+  b. Draw a choropleth map to display the weekly risk for each state. You can change the opacity and the weight of the borderlines according to your aesthetic preferences. Use `colorBin` to color the states.
      
-     (c) Generate the highlighted label with the state name and the value of `weekly_risk`, and population, and display the label when the mouse moves over to the state.
+  c. Generate the highlighted label with the state name and the value of `weekly_risk`, and population, and display the label when the mouse moves over to the state.
      
-     (d) Save your leaflet map as an HTML file.
+  d. Save your leaflet map as an HTML file.
 
 
 4. We will use the county level COVID-19 data (`I.county`) available in the `slid` package, and the geospatial information from:
 
-```{r, eval=F}
-library(geojsonio)
-geojson_read(
-x = "https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json", what = "sp"
+```{r eval=F}
+urlRemote  <- "https://raw.githubusercontent.com/"
+pathGithub <- "plotly/datasets/master/"
+fileName   <- "geojson-counties-fips.json"
+geojson_read(x = paste0(urlRemote, pathGithub, fileName), 
+                          what = "sp")
 ```
     
-     (a) Calculate the weekly risk of each county and create a `weekly_risk` variable, which contains the number of newly infected cases in the past weeks (December 5, 2020, to December 11, 2020) for each county divided by its population.
+  a. Calculate the weekly risk of each county and create a `weekly_risk` variable, which contains the number of newly infected cases in the past weeks (December 5, 2020, to December 11, 2020) for each county divided by its population.
      
-     (b) Draw a choropleth map to display the weekly risk for each state. You can change the opacity and the weight of the borderlines according to your aesthetic preferences. Use `colorQuantile` to color the counties.
+  b. Draw a choropleth map to display the weekly risk for each state. You can change the opacity and the weight of the borderlines according to your aesthetic preferences. Use `colorQuantile` to color the counties.
      
-     (c) Generate the highlighted label with the county, state name and the value of `weekly_risk`, and population, and display the label when the mouse moves over to the state.
+  c. Generate the highlighted label with the county, state name and the value of `weekly_risk`, and population, and display the label when the mouse moves over to the state.
      
-     (d) Draw a spot map and highlight the top 10 counties with the highest weekly risk in the past week (December 5, 2020, to December 11, 2020). 
+  d. Draw a spot map and highlight the top 10 counties with the highest weekly risk in the past week (December 5, 2020, to December 11, 2020). 
      
-     (e) Save each of the above leaflet maps as an HTML file.
+  e. Save each of the above leaflet maps as an HTML file.
 
 
 
