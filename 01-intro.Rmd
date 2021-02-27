@@ -77,7 +77,7 @@ The concepts and techniques discussed in Chapters \@ref(dplyr)--\@ref(shiny) hav
 
 Starting in December 2019 in China, the outbreak of COVID-19 has spread globally within weeks. To efficiently combat COVID-19, it is crucial to have a better understanding of how far the virus will spread, and how many lives it will claim. Scientific modeling is an essential tool to answer these questions and ultimately assist in disease prevention, policymaking, and resource allocation. 
 
-Chapter \@ref(modeling) presents a few classic epidemic modeling approaches, and takes the reader through steps required for fundamental infectious data analysis and presentation of data typically encountered in epidemiology using COVID-19 data set. Chapter \@ref(regression) introduces the analytical techniques of regression and discrimination as a means of quantifying the effect of a set of explanatory variables on the spatial distribution of a particular outcome.
+Chapter \@ref(modeling) presents a few classic epidemic modeling approaches, and takes the reader through steps required for fundamental infectious data analysis and presentation of data typically encountered in epidemiology using COVID-19 data set. Chapter \@ref(compartment) introduces the compartment models. Chapter \@ref(regression) provides the analytical techniques of regression and discrimination as a means of quantifying the effect of a set of explanatory variables on the spatial distribution of a particular outcome.
 
 Chapter \@ref(timeseries) takes the reader through time series modeling and forecasting. Chapter \@ref(NN) introduces some neural network models for forecasting. Chapter \@ref(ensemble) describes the ensemble methods using multiple forecasting algorithms to improve the predictive performance.
 

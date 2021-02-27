@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 14 Appendix B | Statistical Learning of Infectious Disease Data Analytics</title>
+  <title>Chapter 15 Appendix B | Statistical Learning of Infectious Disease Data Analytics</title>
   <meta name="description" content="The use of statistical models to understand infectious disease dynamics has a very rich history in epidemiology. This book introduces modern statistical models and state-of-the-art learning methods to analyze infectious disease data. Many of the key approaches, examples and case studies will be presented. The primary emphasis will be interpretation, inference and hands-on data analyses. This course also provides practical concepts and R computing skills to perform infectious disease data analysis and visualization." />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 14 Appendix B | Statistical Learning of Infectious Disease Data Analytics" />
+  <meta property="og:title" content="Chapter 15 Appendix B | Statistical Learning of Infectious Disease Data Analytics" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 14 Appendix B | Statistical Learning of Infectious Disease Data Analytics" />
+  <meta name="twitter:title" content="Chapter 15 Appendix B | Statistical Learning of Infectious Disease Data Analytics" />
   
   <meta name="twitter:description" content="The use of statistical models to understand infectious disease dynamics has a very rich history in epidemiology. This book introduces modern statistical models and state-of-the-art learning methods to analyze infectious disease data. Many of the key approaches, examples and case studies will be presented. The primary emphasis will be interpretation, inference and hands-on data analyses. This course also provides practical concepts and R computing skills to perform infectious disease data analysis and visualization." />
   
@@ -24,7 +24,7 @@
 <meta name="author" content="Lily Wang" />
 
 
-<meta name="date" content="2021-02-24" />
+<meta name="date" content="2021-02-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -295,70 +295,97 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.4.2" data-path="map.html"><a href="map.html#mapping-variables-to-colors"><i class="fa fa-check"></i><b>7.4.2</b> Mapping variables to colors</a></li>
 </ul></li>
 <li class="chapter" data-level="7.5" data-path="map.html"><a href="map.html#an-example-of-county-level-map"><i class="fa fa-check"></i><b>7.5</b> An Example of County-level Map</a></li>
-<li class="chapter" data-level="7.6" data-path="map.html"><a href="map.html#spot-maps"><i class="fa fa-check"></i><b>7.6</b> Spot Maps</a></li>
+<li class="chapter" data-level="7.6" data-path="map.html"><a href="map.html#spot-maps"><i class="fa fa-check"></i><b>7.6</b> Spot Maps</a><ul>
+<li class="chapter" data-level="7.6.1" data-path="map.html"><a href="map.html#adding-circles"><i class="fa fa-check"></i><b>7.6.1</b> Adding circles</a></li>
+<li class="chapter" data-level="7.6.2" data-path="map.html"><a href="map.html#add-popups"><i class="fa fa-check"></i><b>7.6.2</b> Add popups</a></li>
+<li class="chapter" data-level="7.6.3" data-path="map.html"><a href="map.html#add-labels"><i class="fa fa-check"></i><b>7.6.3</b> Add labels</a></li>
+</ul></li>
 <li class="chapter" data-level="7.7" data-path="map.html"><a href="map.html#integrating-leaflet-with-r-shiny"><i class="fa fa-check"></i><b>7.7</b> Integrating Leaflet with R Shiny</a></li>
 <li class="chapter" data-level="7.8" data-path="dplyr.html"><a href="dplyr.html#exercises"><i class="fa fa-check"></i><b>7.8</b> Exercises</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="modeling.html"><a href="modeling.html"><i class="fa fa-check"></i><b>8</b> Epidemic Modeling</a><ul>
 <li class="chapter" data-level="8.1" data-path="modeling.html"><a href="modeling.html#an-introduction-to-epidemic-modeling"><i class="fa fa-check"></i><b>8.1</b> An Introduction to Epidemic Modeling</a></li>
-<li class="chapter" data-level="8.2" data-path="modeling.html"><a href="modeling.html#compartment-models"><i class="fa fa-check"></i><b>8.2</b> Compartment Models</a></li>
+<li class="chapter" data-level="8.2" data-path="modeling.html"><a href="modeling.html#mechanistic-models"><i class="fa fa-check"></i><b>8.2</b> Mechanistic Models</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="modeling.html"><a href="modeling.html#compartment-modeling"><i class="fa fa-check"></i><b>8.2.1</b> Compartment Modeling</a></li>
+<li class="chapter" data-level="8.2.2" data-path="modeling.html"><a href="modeling.html#agent-based-methods"><i class="fa fa-check"></i><b>8.2.2</b> Agent-based Methods</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>9</b> Regression Modeling</a><ul>
-<li class="chapter" data-level="9.1" data-path="regression.html"><a href="regression.html#principles-of-regression-modeling"><i class="fa fa-check"></i><b>9.1</b> Principles of Regression Modeling</a></li>
-<li class="chapter" data-level="9.2" data-path="regression.html"><a href="regression.html#area-level-data"><i class="fa fa-check"></i><b>9.2</b> Area-level Data</a></li>
-<li class="chapter" data-level="9.3" data-path="regression.html"><a href="regression.html#variable-selection"><i class="fa fa-check"></i><b>9.3</b> Variable Selection</a></li>
+<li class="chapter" data-level="8.3" data-path="modeling.html"><a href="modeling.html#phenomenological-models"><i class="fa fa-check"></i><b>8.3</b> Phenomenological Models</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="modeling.html"><a href="modeling.html#time-series-analysis"><i class="fa fa-check"></i><b>8.3.1</b> Time Series Analysis</a></li>
+<li class="chapter" data-level="8.3.2" data-path="modeling.html"><a href="modeling.html#machine-learning-methods"><i class="fa fa-check"></i><b>8.3.2</b> Machine learning methods</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="modeling.html"><a href="modeling.html#epidemic-modeling-mathematical-and-statistical-perspectives"><i class="fa fa-check"></i><b>8.4</b> Epidemic Modeling: Mathematical and Statistical Perspectives</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="compartment.html"><a href="compartment.html"><i class="fa fa-check"></i><b>9</b> Compartment Models</a><ul>
+<li class="chapter" data-level="9.1" data-path="compartment.html"><a href="compartment.html#a-simple-sis-model-a-model-for-diseases-with-no-immunity"><i class="fa fa-check"></i><b>9.1</b> A Simple SIS Model (A Model for Diseases with No Immunity)</a></li>
+<li class="chapter" data-level="9.2" data-path="compartment.html"><a href="compartment.html#an-sir-model"><i class="fa fa-check"></i><b>9.2</b> An SIR Model</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="compartment.html"><a href="compartment.html#an-sir-model-with-births-and-deaths"><i class="fa fa-check"></i><b>9.2.1</b> An SIR model with births and deaths</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="compartment.html"><a href="compartment.html#sir-parameter-estimation"><i class="fa fa-check"></i><b>9.3</b> SIR parameter estimation</a></li>
+<li class="chapter" data-level="9.4" data-path="compartment.html"><a href="compartment.html#implementation-of-parameter-estimation-in-r"><i class="fa fa-check"></i><b>9.4</b> Implementation of parameter estimation in R</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="compartment.html"><a href="compartment.html#example-1.-outbreak-of-measles-in-niamey"><i class="fa fa-check"></i><b>9.4.1</b> Example 1. Outbreak of measles in Niamey</a></li>
+<li class="chapter" data-level="9.4.2" data-path="compartment.html"><a href="compartment.html#example-2.-covid-19"><i class="fa fa-check"></i><b>9.4.2</b> Example 2. COVID-19</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="compartment.html"><a href="compartment.html#basic-reproduction-number"><i class="fa fa-check"></i><b>9.5</b> Basic Reproduction Number</a><ul>
+<li class="chapter" data-level="9.5.1" data-path="compartment.html"><a href="compartment.html#seir-model"><i class="fa fa-check"></i><b>9.5.1</b> SEIR Model</a></li>
+</ul></li>
+<li class="chapter" data-level="9.6" data-path="compartment.html"><a href="compartment.html#herd-immunity"><i class="fa fa-check"></i><b>9.6</b> Herd Immunity</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="timeseries.html"><a href="timeseries.html"><i class="fa fa-check"></i><b>10</b> Time Series Analysis of Infectious Disease Data</a><ul>
 <li class="chapter" data-level="10.1" data-path="timeseries.html"><a href="timeseries.html#datasets-and-r-packages"><i class="fa fa-check"></i><b>10.1</b> Datasets and R Packages</a></li>
 <li class="chapter" data-level="10.2" data-path="timeseries.html"><a href="timeseries.html#time-series-plots"><i class="fa fa-check"></i><b>10.2</b> Time series plots</a></li>
 <li class="chapter" data-level="10.3" data-path="timeseries.html"><a href="timeseries.html#time-series-decomposition"><i class="fa fa-check"></i><b>10.3</b> Time Series Decomposition</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="NN.html"><a href="NN.html"><i class="fa fa-check"></i><b>11</b> Neural Networks</a><ul>
-<li class="chapter" data-level="11.1" data-path="NN.html"><a href="NN.html#a-single-neuron"><i class="fa fa-check"></i><b>11.1</b> A Single Neuron</a></li>
-<li class="chapter" data-level="11.2" data-path="NN.html"><a href="NN.html#neural-network-structure"><i class="fa fa-check"></i><b>11.2</b> Neural Network Structure</a></li>
+<li class="chapter" data-level="11" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>11</b> Regression Modeling</a><ul>
+<li class="chapter" data-level="11.1" data-path="regression.html"><a href="regression.html#principles-of-regression-modeling"><i class="fa fa-check"></i><b>11.1</b> Principles of Regression Modeling</a></li>
+<li class="chapter" data-level="11.2" data-path="regression.html"><a href="regression.html#area-level-data"><i class="fa fa-check"></i><b>11.2</b> Area-level Data</a></li>
+<li class="chapter" data-level="11.3" data-path="regression.html"><a href="regression.html#variable-selection"><i class="fa fa-check"></i><b>11.3</b> Variable Selection</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="ensemble.html"><a href="ensemble.html"><i class="fa fa-check"></i><b>12</b> Hybrid Mdels</a><ul>
-<li class="chapter" data-level="12.1" data-path="ensemble.html"><a href="ensemble.html#ensembling-time-series-models"><i class="fa fa-check"></i><b>12.1</b> Ensembling Time Series Models</a></li>
-<li class="chapter" data-level="12.2" data-path="ensemble.html"><a href="ensemble.html#model-diagnostics"><i class="fa fa-check"></i><b>12.2</b> Model Diagnostics</a></li>
-<li class="chapter" data-level="12.3" data-path="ensemble.html"><a href="ensemble.html#weights-selection-using-cross-validation"><i class="fa fa-check"></i><b>12.3</b> Weights Selection Using Cross Validation</a></li>
+<li class="chapter" data-level="12" data-path="NN.html"><a href="NN.html"><i class="fa fa-check"></i><b>12</b> Neural Networks</a><ul>
+<li class="chapter" data-level="12.1" data-path="NN.html"><a href="NN.html#a-single-neuron"><i class="fa fa-check"></i><b>12.1</b> A Single Neuron</a></li>
+<li class="chapter" data-level="12.2" data-path="NN.html"><a href="NN.html#neural-network-structure"><i class="fa fa-check"></i><b>12.2</b> Neural Network Structure</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="ensemble.html"><a href="ensemble.html"><i class="fa fa-check"></i><b>13</b> Hybrid Mdels</a><ul>
+<li class="chapter" data-level="13.1" data-path="ensemble.html"><a href="ensemble.html#ensembling-time-series-models"><i class="fa fa-check"></i><b>13.1</b> Ensembling Time Series Models</a></li>
+<li class="chapter" data-level="13.2" data-path="ensemble.html"><a href="ensemble.html#model-diagnostics"><i class="fa fa-check"></i><b>13.2</b> Model Diagnostics</a></li>
+<li class="chapter" data-level="13.3" data-path="ensemble.html"><a href="ensemble.html#weights-selection-using-cross-validation"><i class="fa fa-check"></i><b>13.3</b> Weights Selection Using Cross Validation</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i>Appendix</a></li>
-<li class="chapter" data-level="13" data-path="appendix-a.html"><a href="appendix-a.html"><i class="fa fa-check"></i><b>13</b> Appendix A</a><ul>
-<li class="chapter" data-level="13.1" data-path="appendix-a.html"><a href="appendix-a.html#r-introduction-and-preliminaries"><i class="fa fa-check"></i><b>13.1</b> R Introduction and Preliminaries</a><ul>
-<li class="chapter" data-level="13.1.1" data-path="appendix-a.html"><a href="appendix-a.html#the-r-environment-and-language"><i class="fa fa-check"></i><b>13.1.1</b> The R Environment and Language</a></li>
-<li class="chapter" data-level="13.1.2" data-path="appendix-a.html"><a href="appendix-a.html#r-and-statistics"><i class="fa fa-check"></i><b>13.1.2</b> R and Statistics</a></li>
-<li class="chapter" data-level="13.1.3" data-path="appendix-a.html"><a href="appendix-a.html#obtaining-r-and-installation"><i class="fa fa-check"></i><b>13.1.3</b> Obtaining R and installation</a></li>
+<li class="chapter" data-level="14" data-path="appendix-a.html"><a href="appendix-a.html"><i class="fa fa-check"></i><b>14</b> Appendix A</a><ul>
+<li class="chapter" data-level="14.1" data-path="appendix-a.html"><a href="appendix-a.html#r-introduction-and-preliminaries"><i class="fa fa-check"></i><b>14.1</b> R Introduction and Preliminaries</a><ul>
+<li class="chapter" data-level="14.1.1" data-path="appendix-a.html"><a href="appendix-a.html#the-r-environment-and-language"><i class="fa fa-check"></i><b>14.1.1</b> The R Environment and Language</a></li>
+<li class="chapter" data-level="14.1.2" data-path="appendix-a.html"><a href="appendix-a.html#r-and-statistics"><i class="fa fa-check"></i><b>14.1.2</b> R and Statistics</a></li>
+<li class="chapter" data-level="14.1.3" data-path="appendix-a.html"><a href="appendix-a.html#obtaining-r-and-installation"><i class="fa fa-check"></i><b>14.1.3</b> Obtaining R and installation</a></li>
 </ul></li>
-<li class="chapter" data-level="13.2" data-path="appendix-a.html"><a href="appendix-a.html#starting-r"><i class="fa fa-check"></i><b>13.2</b> Starting R</a><ul>
-<li class="chapter" data-level="13.2.1" data-path="appendix-a.html"><a href="appendix-a.html#description-of-three-panels-in-user-interface"><i class="fa fa-check"></i><b>13.2.1</b> Description of three panels in user interface</a></li>
-<li class="chapter" data-level="13.2.2" data-path="appendix-a.html"><a href="appendix-a.html#r-help"><i class="fa fa-check"></i><b>13.2.2</b> R help</a></li>
-<li class="chapter" data-level="13.2.3" data-path="appendix-a.html"><a href="appendix-a.html#some-mathematical-expressions"><i class="fa fa-check"></i><b>13.2.3</b> Some mathematical expressions</a></li>
-<li class="chapter" data-level="13.2.4" data-path="appendix-a.html"><a href="appendix-a.html#r-packages"><i class="fa fa-check"></i><b>13.2.4</b> R Packages</a></li>
-<li class="chapter" data-level="13.2.5" data-path="appendix-a.html"><a href="appendix-a.html#creating-a-project-and-setting-working-directory"><i class="fa fa-check"></i><b>13.2.5</b> Creating a project and setting working directory</a></li>
+<li class="chapter" data-level="14.2" data-path="appendix-a.html"><a href="appendix-a.html#starting-r"><i class="fa fa-check"></i><b>14.2</b> Starting R</a><ul>
+<li class="chapter" data-level="14.2.1" data-path="appendix-a.html"><a href="appendix-a.html#description-of-three-panels-in-user-interface"><i class="fa fa-check"></i><b>14.2.1</b> Description of three panels in user interface</a></li>
+<li class="chapter" data-level="14.2.2" data-path="appendix-a.html"><a href="appendix-a.html#r-help"><i class="fa fa-check"></i><b>14.2.2</b> R help</a></li>
+<li class="chapter" data-level="14.2.3" data-path="appendix-a.html"><a href="appendix-a.html#some-mathematical-expressions"><i class="fa fa-check"></i><b>14.2.3</b> Some mathematical expressions</a></li>
+<li class="chapter" data-level="14.2.4" data-path="appendix-a.html"><a href="appendix-a.html#r-packages"><i class="fa fa-check"></i><b>14.2.4</b> R Packages</a></li>
+<li class="chapter" data-level="14.2.5" data-path="appendix-a.html"><a href="appendix-a.html#creating-a-project-and-setting-working-directory"><i class="fa fa-check"></i><b>14.2.5</b> Creating a project and setting working directory</a></li>
 </ul></li>
-<li class="chapter" data-level="13.3" data-path="appendix-a.html"><a href="appendix-a.html#exportimport-data"><i class="fa fa-check"></i><b>13.3</b> Export/Import Data</a><ul>
-<li class="chapter" data-level="13.3.1" data-path="appendix-a.html"><a href="appendix-a.html#data-export"><i class="fa fa-check"></i><b>13.3.1</b> Data Export</a></li>
-<li class="chapter" data-level="13.3.2" data-path="appendix-a.html"><a href="appendix-a.html#data-import"><i class="fa fa-check"></i><b>13.3.2</b> Data Import</a></li>
+<li class="chapter" data-level="14.3" data-path="appendix-a.html"><a href="appendix-a.html#exportimport-data"><i class="fa fa-check"></i><b>14.3</b> Export/Import Data</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="appendix-a.html"><a href="appendix-a.html#data-export"><i class="fa fa-check"></i><b>14.3.1</b> Data Export</a></li>
+<li class="chapter" data-level="14.3.2" data-path="appendix-a.html"><a href="appendix-a.html#data-import"><i class="fa fa-check"></i><b>14.3.2</b> Data Import</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="appendix-b.html"><a href="appendix-b.html"><i class="fa fa-check"></i><b>14</b> Appendix B</a><ul>
-<li class="chapter" data-level="14.1" data-path="appendix-b.html"><a href="appendix-b.html#epidemic-data"><i class="fa fa-check"></i><b>14.1</b> Epidemic Data</a><ul>
-<li class="chapter" data-level="14.1.1" data-path="appendix-b.html"><a href="appendix-b.html#state-level"><i class="fa fa-check"></i><b>14.1.1</b> State level</a></li>
-<li class="chapter" data-level="14.1.2" data-path="appendix-b.html"><a href="appendix-b.html#county-level"><i class="fa fa-check"></i><b>14.1.2</b> County level</a></li>
+<li class="chapter" data-level="15" data-path="appendix-b.html"><a href="appendix-b.html"><i class="fa fa-check"></i><b>15</b> Appendix B</a><ul>
+<li class="chapter" data-level="15.1" data-path="appendix-b.html"><a href="appendix-b.html#epidemic-data"><i class="fa fa-check"></i><b>15.1</b> Epidemic Data</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="appendix-b.html"><a href="appendix-b.html#state-level"><i class="fa fa-check"></i><b>15.1.1</b> State level</a></li>
+<li class="chapter" data-level="15.1.2" data-path="appendix-b.html"><a href="appendix-b.html#county-level"><i class="fa fa-check"></i><b>15.1.2</b> County level</a></li>
 </ul></li>
-<li class="chapter" data-level="14.2" data-path="appendix-b.html"><a href="appendix-b.html#other-factors"><i class="fa fa-check"></i><b>14.2</b> Other Factors</a><ul>
-<li class="chapter" data-level="14.2.1" data-path="appendix-b.html"><a href="appendix-b.html#policy-data"><i class="fa fa-check"></i><b>14.2.1</b> Policy Data</a></li>
-<li class="chapter" data-level="14.2.2" data-path="appendix-b.html"><a href="appendix-b.html#demographic-characteristics"><i class="fa fa-check"></i><b>14.2.2</b> Demographic Characteristics</a></li>
-<li class="chapter" data-level="14.2.3" data-path="appendix-b.html"><a href="appendix-b.html#healthcare-infrastructure"><i class="fa fa-check"></i><b>14.2.3</b> Healthcare Infrastructure</a></li>
-<li class="chapter" data-level="14.2.4" data-path="appendix-b.html"><a href="appendix-b.html#socioeconomic-status"><i class="fa fa-check"></i><b>14.2.4</b> Socioeconomic Status</a></li>
-<li class="chapter" data-level="14.2.5" data-path="appendix-b.html"><a href="appendix-b.html#environmental-factor"><i class="fa fa-check"></i><b>14.2.5</b> Environmental Factor</a></li>
-<li class="chapter" data-level="14.2.6" data-path="appendix-b.html"><a href="appendix-b.html#mobility"><i class="fa fa-check"></i><b>14.2.6</b> Mobility</a></li>
-<li class="chapter" data-level="14.2.7" data-path="appendix-b.html"><a href="appendix-b.html#geographic-information"><i class="fa fa-check"></i><b>14.2.7</b> Geographic Information</a></li>
+<li class="chapter" data-level="15.2" data-path="appendix-b.html"><a href="appendix-b.html#other-factors"><i class="fa fa-check"></i><b>15.2</b> Other Factors</a><ul>
+<li class="chapter" data-level="15.2.1" data-path="appendix-b.html"><a href="appendix-b.html#policy-data"><i class="fa fa-check"></i><b>15.2.1</b> Policy Data</a></li>
+<li class="chapter" data-level="15.2.2" data-path="appendix-b.html"><a href="appendix-b.html#demographic-characteristics"><i class="fa fa-check"></i><b>15.2.2</b> Demographic Characteristics</a></li>
+<li class="chapter" data-level="15.2.3" data-path="appendix-b.html"><a href="appendix-b.html#healthcare-infrastructure"><i class="fa fa-check"></i><b>15.2.3</b> Healthcare Infrastructure</a></li>
+<li class="chapter" data-level="15.2.4" data-path="appendix-b.html"><a href="appendix-b.html#socioeconomic-status"><i class="fa fa-check"></i><b>15.2.4</b> Socioeconomic Status</a></li>
+<li class="chapter" data-level="15.2.5" data-path="appendix-b.html"><a href="appendix-b.html#environmental-factor"><i class="fa fa-check"></i><b>15.2.5</b> Environmental Factor</a></li>
+<li class="chapter" data-level="15.2.6" data-path="appendix-b.html"><a href="appendix-b.html#mobility"><i class="fa fa-check"></i><b>15.2.6</b> Mobility</a></li>
+<li class="chapter" data-level="15.2.7" data-path="appendix-b.html"><a href="appendix-b.html#geographic-information"><i class="fa fa-check"></i><b>15.2.7</b> Geographic Information</a></li>
 </ul></li>
-<li class="chapter" data-level="14.3" data-path="appendix-b.html"><a href="appendix-b.html#data-sets"><i class="fa fa-check"></i><b>14.3</b> Data Sets</a><ul>
-<li class="chapter" data-level="14.3.1" data-path="appendix-b.html"><a href="appendix-b.html#chapter-2"><i class="fa fa-check"></i><b>14.3.1</b> Chapter 2</a></li>
-<li class="chapter" data-level="14.3.2" data-path="appendix-b.html"><a href="appendix-b.html#chapter-3"><i class="fa fa-check"></i><b>14.3.2</b> Chapter 3</a></li>
+<li class="chapter" data-level="15.3" data-path="appendix-b.html"><a href="appendix-b.html#data-sets"><i class="fa fa-check"></i><b>15.3</b> Data Sets</a><ul>
+<li class="chapter" data-level="15.3.1" data-path="appendix-b.html"><a href="appendix-b.html#chapter-2"><i class="fa fa-check"></i><b>15.3.1</b> Chapter 2</a></li>
+<li class="chapter" data-level="15.3.2" data-path="appendix-b.html"><a href="appendix-b.html#chapter-3"><i class="fa fa-check"></i><b>15.3.2</b> Chapter 3</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -382,15 +409,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="appendix-b" class="section level1">
-<h1><span class="header-section-number">Chapter 14</span> Appendix B</h1>
+<h1><span class="header-section-number">Chapter 15</span> Appendix B</h1>
 <p>Since the first infected case reported in December 2019, the outbreak of Coronavirus disease (COVID-19) has unfolded across the globe. In the US, coronavirus has infected more than five million people and killed over 160,000 people, as of the time of writing. While essential public health, economic and social science research in measuring and modeling COVID-19 and its effects is underway, reliable and accurate datasets are vital for scientists to conduct related research and for governments to make better decisions <span class="citation">(Killeen et al. <a href="#ref-killeen2020county" role="doc-biblioref">2020</a>)</span>. Unfortunately, errors could occur in the data collection process, especially under such a pandemic. In this work, we focus on the data collection, comparison, data inconsistency detection, and the corresponding curating.</p>
 <p>Living through unprecedented times, governments must rely on timely, reliable data to make decisions to mitigate harm and support their citizens. Every day, several volunteer groups and organizations work very hard on collecting data on COVID-19 from all the counties and states in the US. There are four primary sources, including (1) the New York Times (<a href="https://github.com/nytimes/covid-19-data">NYT</a>), (2) the COVID Tracking Project at the Atlantic (<a href="https://covidtracking.com">Atlantic</a>), (3) the data repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University (<a href="https://github.com/CSSEGISandData/COVID-19">JHU</a>), and (4) <a href="https://usafacts.org/visualizations/coronavirus-covid-19-spread-map">USAFacts</a>.</p>
 <p>We collect the epidemic data up to county level in the US along with control measures and other local information, such as socioeconomic status, demographic characteristics, healthcare infrastructure, and other essential factors to analyze the spatiotemporal dynamic pattern of the spread of COVID-19. Our data covers about 3,200 county-equivalent areas from 50 US states and the District of Columbia. A live version of the data analysis will be continually updated on the <a href="https://covid19.stat.iastate.edu">COVID-19 US Dashboard</a> and the <a href="https://github.com/covid19-dashboard-us/cdcar">Github Repository</a>.</p>
 <div id="epidemic-data" class="section level2">
-<h2><span class="header-section-number">14.1</span> Epidemic Data</h2>
+<h2><span class="header-section-number">15.1</span> Epidemic Data</h2>
 <p>The daily counts of cases and deaths of COVID-19 are crucial for understanding how this pandemic is spreading. Thanks to the contribution of the data science communities across the world, multiple sources are providing the COVID-19 data with different precision and focus. In this book, we consider the reported cases from the following four sources: the <a href="https://github.com/nytimes/covid-19-data">NYT</a>, the <a href="https://covidtracking.com">Atlantic</a>, the <a href="https://github.com/CSSEGISandData/COVID-19">JHU</a>, and the <a href="https://usafacts.org/visualizations/coronavirus-covid-19-spread-map">USAFacts</a>. To clean the data, we first fetch data from the above four sources and compile them into the same format for further comparison and cross-validation.</p>
 <div id="state-level" class="section level3">
-<h3><span class="header-section-number">14.1.1</span> State level</h3>
+<h3><span class="header-section-number">15.1.1</span> State level</h3>
 <p>In the state level epidemic data, we include the following variables. Among those variables, the variable <strong>State</strong> can be used as the key for data merge.</p>
 <ul>
 <li><p><strong>State</strong>: name of state. There are 48 mainland US states and the District of Columbia.</p></li>
@@ -399,7 +426,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 </div>
 <div id="county-level" class="section level3">
-<h3><span class="header-section-number">14.1.2</span> County level</h3>
+<h3><span class="header-section-number">15.1.2</span> County level</h3>
 <p>For county-level data, two more county-specific variables are included. As the key of this table, variable ID can be used for future data merge.</p>
 <ul>
 <li><p><strong>ID</strong>: county-level Federal Information Processing System (FIPS) code, which uniquely identifies the geographic area. The number has five digits, of which the first two are the FIPS code of the state to which the county belongs.</p></li>
@@ -410,15 +437,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <div id="other-factors" class="section level2">
-<h2><span class="header-section-number">14.2</span> Other Factors</h2>
+<h2><span class="header-section-number">15.2</span> Other Factors</h2>
 <p>When analyzing the reported cases of COVID-19, many other factors may also contribute to the temporal or spatial patterns; see the discussions in <span class="citation">(Wang et al. <a href="#ref-wang:2020:comparing" role="doc-biblioref">2020</a>)</span>. For example, local features, like socioeconomic and demographic factors, can dramatically influence the course of the epidemic, and thus, the spread of the disease could vary dramatically across different geographical regions. Therefore, these datasets are also supplemented with the population information at the county level in our repository. We further classify these factors into the following six groups.</p>
 <div id="policy-data" class="section level3">
-<h3><span class="header-section-number">14.2.1</span> Policy Data</h3>
+<h3><span class="header-section-number">15.2.1</span> Policy Data</h3>
 <p>In a race to stunt the spread of COVID-19, federal, state and local governments have issued various executive orders. Government declarations are used to identify the dates that different jurisdictions implemented various social distancing policies (emergency declarations, school closures, bans on large gatherings, limits on bars, restaurants and other public places, the deployment of severe travel restrictions, and “stay-at-home” or “shelter-in-place” orders). For example, President Trump declared a state of emergency on March 13, 2020, to enhance the federal government response to confront COVID-19. Later in the past spring, at least 316 million people in at least 42 states, the District of Columbia and Puerto Rico were urged to stay home.</p>
 <p>Since the late April, all 50 states in the US began to reopen successively, due to the immense pressures of the crippled economy and anxious public. A state is categorized as “reopening” once its stay-at-home order lifts, or once reopening is permitted in at least one primary sector (restaurants, retail stores, personal care businesses), or once reopening is permitted in a combination of smaller sectors. We compiled the dates of executive orders by checking national and state governmental websites, news articles, and press releases.</p>
 </div>
 <div id="demographic-characteristics" class="section level3">
-<h3><span class="header-section-number">14.2.2</span> Demographic Characteristics</h3>
+<h3><span class="header-section-number">15.2.2</span> Demographic Characteristics</h3>
 <p>In the demographic characteristics category, we consider the factors describing racial, ethnic, sexual, and age structures. These variables are extracted from the <a href="https://data.census.gov/cedsci/table?q=urban%20rate&amp;hidePreview=false&amp;tid=DECENNIALSF12010.H2&amp;vintage=2010">2010 Census</a>, and the <a href="https://data.census.gov/cedsci/table?q=population%20density&amp;hidePreview=false&amp;tid=ACSDP1Y2018.DP05&amp;vintage=2018">2010–2018 American Community Survey (ACS) Demographic and Housing Estimates</a>.</p>
 <p>Specifically, we include the following six variable</p>
 <ul>
@@ -432,7 +459,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 </div>
 <div id="healthcare-infrastructure" class="section level3">
-<h3><span class="header-section-number">14.2.3</span> Healthcare Infrastructure</h3>
+<h3><span class="header-section-number">15.2.3</span> Healthcare Infrastructure</h3>
 <p>We also incorporate several features related to the healthcare infrastructure at the county level in the datasets, including the percent of persons under 65 years without health insurance, the local government expenditures for health per capita, and total bed counts per 1,000 population.</p>
 <ul>
 <li><p><strong>NHIC_PCT</strong>: the percent of persons under 65 years without health insurance</p></li>
@@ -441,7 +468,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 </div>
 <div id="socioeconomic-status" class="section level3">
-<h3><span class="header-section-number">14.2.4</span> Socioeconomic Status</h3>
+<h3><span class="header-section-number">15.2.4</span> Socioeconomic Status</h3>
 <p>We consider diverse socioeconomic factors in the county level datasets. All of these factors collected from <a href="https://data.census.gov/cedsci/table?q=gini%20coefficient&amp;hidePreview=false&amp;tid=ACSDT1Y2018.B19083&amp;vintage=2018">2005–2009 ACS five-year estimates</a>.</p>
 <ul>
 <li><p><strong>Affluence</strong>: social affluence generated by factor analysis from <strong>HighIncome</strong>, <strong>HighEducation</strong>, <strong>WCEmployment</strong> and <strong>MedHU</strong>;</p></li>
@@ -456,7 +483,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 </div>
 <div id="environmental-factor" class="section level3">
-<h3><span class="header-section-number">14.2.5</span> Environmental Factor</h3>
+<h3><span class="header-section-number">15.2.5</span> Environmental Factor</h3>
 <p>We also collect environmental factors that might affect the spread of epidemics significantly, such as the urban rate and crime rate.</p>
 <ul>
 <li><p><strong>UrbanRate</strong>: urban rate;</p></li>
@@ -466,7 +493,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 </div>
 <div id="mobility" class="section level3">
-<h3><span class="header-section-number">14.2.6</span> Mobility</h3>
+<h3><span class="header-section-number">15.2.6</span> Mobility</h3>
 <p>Another category of factors in the literature that affects the spread of infectious diseases significantly is the mobility; for example, movements of people from neighborhoods. We collect the mobility data from the Bureau of Transportation Statistics.</p>
 <ul>
 <li><p><strong>Number of trips X – XX</strong>: number of trips by residents greater than X miles and shorter than XX miles. There are 10 different trip ranges: “&lt;= 1”, “1 – 3”, “3 – 5”, “5–10”, “10 – 25”, “25 – 50”, “50 – 100”, “100 – 250”, “250 – 500”, and " &gt; 500".</p></li>
@@ -474,14 +501,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 </div>
 <div id="geographic-information" class="section level3">
-<h3><span class="header-section-number">14.2.7</span> Geographic Information</h3>
+<h3><span class="header-section-number">15.2.7</span> Geographic Information</h3>
 <p>The <strong>longitude</strong> and <strong>latitude</strong> of the geographic center for each county in the US are available in Gazetteer Files: <a href="https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2019_Gazetteer" class="uri">https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2019_Gazetteer</a>.</p>
 </div>
 </div>
 <div id="data-sets" class="section level2">
-<h2><span class="header-section-number">14.3</span> Data Sets</h2>
+<h2><span class="header-section-number">15.3</span> Data Sets</h2>
 <div id="chapter-2" class="section level3">
-<h3><span class="header-section-number">14.3.1</span> Chapter 2</h3>
+<h3><span class="header-section-number">15.3.1</span> Chapter 2</h3>
 <ul>
 <li><p><code>I.county</code>: a 3104 by 328 dataframe with columns <code>ID</code>, <code>County</code>, <code>State</code> and dates from<code>X2020.12.11</code> to <code>X2020.01.22</code>.</p></li>
 <li><p><code>pop.county</code>: a 3142 by 4 dataframe with columns <code>ID</code>, <code>County</code>, <code>State</code> and <code>population</code>. Each row of the dataframe stands for one county along with its population.</p></li>
@@ -494,17 +521,92 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- * `I.county.Iowa.new` -->
 </div>
 <div id="chapter-3" class="section level3">
-<h3><span class="header-section-number">14.3.2</span> Chapter 3</h3>
+<h3><span class="header-section-number">15.3.2</span> Chapter 3</h3>
 
 <div id="refs" class="references">
 <div>
+<p>Arik, Sercan O, Chun-Liang Li, Jinsung Yoon, Rajarishi Sinha, Arkady Epshteyn, Long T Le, Vikas Menon, et al. 2020. “Interpretable Sequence Learning for Covid-19 Forecasting.” <em>arXiv Preprint arXiv:2008.00646</em>. <a href="http://arxiv.org/abs/2008.00646">http://arxiv.org/abs/2008.00646</a>.</p>
+</div>
+<div>
+<p>Arora, Parul, Himanshu Kumar, and Bijaya Ketan Panigrahi. 2020. “Prediction and Analysis of Covid-19 Positive Cases Using Deep Learning Models: A Descriptive Case Study of India.” <em>Chaos, Solitons &amp; Fractals</em> 139.</p>
+</div>
+<div>
 <p>Barreto, Mauricio L, Maria Glória Teixeira, and Eduardo Hage Carmo. 2006. “Infectious Diseases Epidemiology.” <em>Journal of Epidemiology &amp; Community Health</em> 60 (3): 192–95.</p>
+</div>
+<div>
+<p>Brauer, Fred. 2008. “Compartmental Models in Epidemiology.” In <em>Mathematical Epidemiology</em>, 19–79. Springer.</p>
+</div>
+<div>
+<p>Brauer, Fred, Pauline van den Driessche, and Jianhong Wu. 2008. <em>Mathematical Epidemiology</em>. Vol. 1945. Springer.</p>
+</div>
+<div>
+<p>Breiman, Leo. 2001. “Statistical Modeling: The Two Cultures.” <em>Statist. Sci.</em> 16 (3): 199–231. <a href="https://doi.org/10.1214/ss/1009213726">https://doi.org/10.1214/ss/1009213726</a>.</p>
+</div>
+<div>
+<p>Brockwell, Peter J., and Richard A. Davis. 2016. <em>Introduction to Time Series and Forecasting</em>. Third. Springer Texts in Statistics. Springer, [Cham]. <a href="https://doi.org/10.1007/978-3-319-29854-2">https://doi.org/10.1007/978-3-319-29854-2</a>.</p>
+</div>
+<div>
+<p>Brown, Robert Goodell. 1959. <em>Statistical Forecasting for Inventory Control</em>. New York: McGraw-Hill.</p>
+</div>
+<div>
+<p>Chen, Li-Pang, Qihuang Zhang, Grace Y Yi, and Wenqing He. 2021. “Model-Based Forecasting for Canadian Covid-19 Data.” <em>PloS One</em> 16 (1): e0244536.</p>
+</div>
+<div>
+<p>Daley, Daryl J, and Joe Gani. 2001. <em>Epidemic Modelling: An Introduction</em>. Cambridge Studies in Mathematical Biology. Cambridge University Press. <a href="https://doi.org/10.1017/CBO9780511608834">https://doi.org/10.1017/CBO9780511608834</a>.</p>
 </div>
 <div>
 <p>Dicker, R, and NC Gathany. 1992. “Principles of Epidemiology, 2nd Edn., Us Department of Health and Human Services.” <em>Public Health Service, Centre for Disease Control and Prevention (CDC), Atlanta</em>.</p>
 </div>
 <div>
+<p>Dietz, Klaus, and JAP Heesterbeek. 2002. “Daniel Bernoulli’s Epidemiological Model Revisited.” <em>Mathematical Biosciences</em> 180 (1-2): 1–21.</p>
+</div>
+<div>
+<p>Durojaye, MO, and IJ Ajie. 2017. “Mathematical Model of the Spread and Control of Ebola Virus Disease.” <em>Appl. Math</em> 7: 23–31.</p>
+</div>
+<div>
+<p>En’Ko, PD. 1989. “On the Course of Epidemics of Some Infectious Diseases.” <em>International Journal of Epidemiology</em> 18 (4): 749–55.</p>
+</div>
+<div>
+<p>Gardner, Everette S., and Ed. Mckenzie. 1985. “Forecasting Trends in Time Series.” <em>Management Science</em> 31 (10): 1237–46. <a href="https://doi.org/10.1287/mnsc.31.10.1237">https://doi.org/10.1287/mnsc.31.10.1237</a>.</p>
+</div>
+<div>
+<p>Held, Leonhard, Niel Hens, Philip D O’Neill, and Jacco Wallinga. 2020. <em>Handbook of Infectious Disease Data Analysis</em>. New York: Chapman; Hall/CRC. <a href="https://doi.org/s10.1201/9781315222912">https://doi.org/s10.1201/9781315222912</a>.</p>
+</div>
+<div>
+<p>Hoertel, Nicolas, Martin Blachier, Carlos Blanco, Mark Olfson, Marc Massetti, Marina Sánchez Rico, Frédéric Limosin, and Henri Leleu. 2020. “A Stochastic Agent-Based Model of the Sars-Cov-2 Epidemic in France.” <em>Nature Medicine</em> 26 (9): 1417–21.</p>
+</div>
+<div>
+<p>Holt, Charles C. 1957. “Forecasting Seasonals and Trends by Exponentially Weighted Moving Averages.” <em>Pittsburgh, Penn: Carnegie Institute of Technology, Graduate School of Industrial Administration.</em></p>
+</div>
+<div>
+<p>Hyndman, Rob J, and George Athanasopoulos. 2018. <em>Forecasting: Principles and Practice</em>. OTexts.</p>
+</div>
+<div>
+<p>Jewell, Nicholas P. 2003. <em>Statistics for Epidemiology</em>. CRC Press. <a href="https://doi.org/10.1093/ije/dyh293">https://doi.org/10.1093/ije/dyh293</a>.</p>
+</div>
+<div>
+<p>Keeling, Matt J., and Pejman Rohani. 2008. <em>Modeling Infectious Diseases in Humans and Animals</em>. Princeton University Press. <a href="https://doi.org/10.2307/j.ctvcm4gk0">https://doi.org/10.2307/j.ctvcm4gk0</a>.</p>
+</div>
+<div>
+<p>Kermack, William Ogilvy, and Anderson G McKendrick. 1927. “A Contribution to the Mathematical Theory of Epidemics.” <em>Proceedings of the Royal Society of London. Series A, Containing Papers of a Mathematical and Physical Character</em> 115 (772): 700–721. <a href="https://doi.org/10.1098/rspa.1933.0106">https://doi.org/10.1098/rspa.1933.0106</a>.</p>
+</div>
+<div>
 <p>Killeen, Benjamin D, Jie Ying Wu, Kinjal Shah, Anna Zapaishchykova, Philipp Nikutta, Aniruddha Tamhane, Shreya Chakraborty, et al. 2020. “A County-Level Dataset for Informing the United States’ Response to COVID-19.” Available at <a href="https://arxiv.org/abs/2004.00756v2">https://arxiv.org/abs/2004.00756v2</a>.</p>
+</div>
+<div>
+<p>KRR, Gandhi, Murthy KVR, Prasada Rao SSP, and Francesco Casella. 2020. “Non-Pharmaceutical Interventions (Npis) to Reduce Covid-19 Mortality.” <em>SSRN Electronic Journal</em>. <a href="https://doi.org/10.2139/ssrn.3560688">https://doi.org/10.2139/ssrn.3560688</a>.</p>
+</div>
+<div>
+<p>Lawson, Andrew B, Sudipto Banerjee, Robert P Haining, and Marı́a Dolores Ugarte. 2016. <em>Handbook of Spatial Epidemiology</em>. CRC Press. <a href="https://doi.org/10.1201/b19470">https://doi.org/10.1201/b19470</a>.</p>
+</div>
+<div>
+<p>Lessler, Justin, and Derek AT Cummings. 2016. “Mechanistic Models of Infectious Disease and Their Impact on Public Health.” <em>American Journal of Epidemiology</em> 183 (5): 415–22. <a href="https://doi.org/10.1093/aje/kww021">https://doi.org/10.1093/aje/kww021</a>.</p>
+</div>
+<div>
+<p>Miranda, Gisele HB, Jan M Baetens, Nathalie Bossuyt, Odemir M Bruno, and Bernard De Baets. 2019. “Real-Time Prediction of Influenza Outbreaks in Belgium.” <em>Epidemics</em> 28: 100341.</p>
+</div>
+<div>
+<p>Mojeeb, AL, Isaac Kwasi Adu, and Cuihong Yang. 2017. “A Simple Seir Mathematical Model of Malaria Transmission.” <em>Asian Research Journal of Mathematics</em>, 1–22.</p>
 </div>
 <div>
 <p>Pfeiffer, Dirk, Timothy P Robinson, Mark Stevenson, Kim B Stevens, David J Rogers, Archie CA Clements, and others. 2008. <em>Spatial Analysis in Epidemiology</em>. Vol. 142. 10.1093. Oxford University Press Oxford.</p>
@@ -513,7 +615,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Porta, Miquel. 2014. <em>A Dictionary of Epidemiology</em>. Oxford university press.</p>
 </div>
 <div>
+<p>Rahmandad, Hazhir, and John Sterman. 2008. “Heterogeneity and Network Structure in the Dynamics of Diffusion: Comparing Agent-Based and Differential Equation Models.” <em>Management Science</em> 54 (5): 998–1014.</p>
+</div>
+<div>
+<p>Roda, Weston C, Marie B Varughese, Donglin Han, and Michael Y Li. 2020. “Why Is It Difficult to Accurately Predict the Covid-19 Epidemic?” <em>Infectious Disease Modelling</em> 5: 271–81.</p>
+</div>
+<div>
 <p>Sievert, Carson. 2020. <em>Interactive Web-Based Data Visualization with R, Plotly, and Shiny</em>. CRC Press.</p>
+</div>
+<div>
+<p>Sujath, R, Jyotir Moy Chatterjee, and Aboul Ella Hassanien. 2020. “A Machine Learning Forecasting Model for Covid-19 Pandemic in India.” <em>Stochastic Environmental Research and Risk Assessment</em> 34: 959–72.</p>
 </div>
 <div>
 <p>Wang, Guannan, Zhiling Gu, Xinyi Li, Shan Yu, Myungjin Kim, Yueying Wang, Lei Gao, and Li Wang. 2020. “Comparing and Integrating US COVID-19 Daily Data from Multiple Sources: A County-Level Dataset with Local Characteristics.” Available at <a href="https://arxiv.org/abs/2006.01333v3">https://arxiv.org/abs/2006.01333v3</a>.</p>
@@ -522,7 +633,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Wickham, Hadley, and Garrett Grolemund. 2016. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. " O’Reilly Media, Inc.".</p>
 </div>
 <div>
+<p>Winters, Peter R. 1960. “Forecasting Sales by Exponentially Weighted Moving Averages.” <em>Management Science</em> 6 (3): 324–42. <a href="https://doi.org/10.1287/mnsc.6.3.324">https://doi.org/10.1287/mnsc.6.3.324</a>.</p>
+</div>
+<div>
 <p>Xie, Yihui. 2020. <em>Bookdown: Authoring Books and Technical Documents with R Markdown</em>. <a href="https://CRAN.R-project.org/package=bookdown">https://CRAN.R-project.org/package=bookdown</a>.</p>
+</div>
+<div>
+<p>Zou, Difan, Lingxiao Wang, Pan Xu, Jinghui Chen, Weitong Zhang, and Quanquan Gu. 2020. “Epidemic Model Guided Machine Learning for Covid-19 Forecasts in the United States.” <em>medRxiv</em>. <a href="https://doi.org/10.1101/2020.05.24.20111989">https://doi.org/10.1101/2020.05.24.20111989</a>.</p>
 </div>
 </div>
 </div>

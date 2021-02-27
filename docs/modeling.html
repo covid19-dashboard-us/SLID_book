@@ -24,7 +24,7 @@
 <meta name="author" content="Lily Wang" />
 
 
-<meta name="date" content="2021-02-24" />
+<meta name="date" content="2021-02-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="map.html"/>
-<link rel="next" href="regression.html"/>
+<link rel="next" href="compartment.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -295,70 +295,97 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.4.2" data-path="map.html"><a href="map.html#mapping-variables-to-colors"><i class="fa fa-check"></i><b>7.4.2</b> Mapping variables to colors</a></li>
 </ul></li>
 <li class="chapter" data-level="7.5" data-path="map.html"><a href="map.html#an-example-of-county-level-map"><i class="fa fa-check"></i><b>7.5</b> An Example of County-level Map</a></li>
-<li class="chapter" data-level="7.6" data-path="map.html"><a href="map.html#spot-maps"><i class="fa fa-check"></i><b>7.6</b> Spot Maps</a></li>
+<li class="chapter" data-level="7.6" data-path="map.html"><a href="map.html#spot-maps"><i class="fa fa-check"></i><b>7.6</b> Spot Maps</a><ul>
+<li class="chapter" data-level="7.6.1" data-path="map.html"><a href="map.html#adding-circles"><i class="fa fa-check"></i><b>7.6.1</b> Adding circles</a></li>
+<li class="chapter" data-level="7.6.2" data-path="map.html"><a href="map.html#add-popups"><i class="fa fa-check"></i><b>7.6.2</b> Add popups</a></li>
+<li class="chapter" data-level="7.6.3" data-path="map.html"><a href="map.html#add-labels"><i class="fa fa-check"></i><b>7.6.3</b> Add labels</a></li>
+</ul></li>
 <li class="chapter" data-level="7.7" data-path="map.html"><a href="map.html#integrating-leaflet-with-r-shiny"><i class="fa fa-check"></i><b>7.7</b> Integrating Leaflet with R Shiny</a></li>
 <li class="chapter" data-level="7.8" data-path="dplyr.html"><a href="dplyr.html#exercises"><i class="fa fa-check"></i><b>7.8</b> Exercises</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="modeling.html"><a href="modeling.html"><i class="fa fa-check"></i><b>8</b> Epidemic Modeling</a><ul>
 <li class="chapter" data-level="8.1" data-path="modeling.html"><a href="modeling.html#an-introduction-to-epidemic-modeling"><i class="fa fa-check"></i><b>8.1</b> An Introduction to Epidemic Modeling</a></li>
-<li class="chapter" data-level="8.2" data-path="modeling.html"><a href="modeling.html#compartment-models"><i class="fa fa-check"></i><b>8.2</b> Compartment Models</a></li>
+<li class="chapter" data-level="8.2" data-path="modeling.html"><a href="modeling.html#mechanistic-models"><i class="fa fa-check"></i><b>8.2</b> Mechanistic Models</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="modeling.html"><a href="modeling.html#compartment-modeling"><i class="fa fa-check"></i><b>8.2.1</b> Compartment Modeling</a></li>
+<li class="chapter" data-level="8.2.2" data-path="modeling.html"><a href="modeling.html#agent-based-methods"><i class="fa fa-check"></i><b>8.2.2</b> Agent-based Methods</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>9</b> Regression Modeling</a><ul>
-<li class="chapter" data-level="9.1" data-path="regression.html"><a href="regression.html#principles-of-regression-modeling"><i class="fa fa-check"></i><b>9.1</b> Principles of Regression Modeling</a></li>
-<li class="chapter" data-level="9.2" data-path="regression.html"><a href="regression.html#area-level-data"><i class="fa fa-check"></i><b>9.2</b> Area-level Data</a></li>
-<li class="chapter" data-level="9.3" data-path="regression.html"><a href="regression.html#variable-selection"><i class="fa fa-check"></i><b>9.3</b> Variable Selection</a></li>
+<li class="chapter" data-level="8.3" data-path="modeling.html"><a href="modeling.html#phenomenological-models"><i class="fa fa-check"></i><b>8.3</b> Phenomenological Models</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="modeling.html"><a href="modeling.html#time-series-analysis"><i class="fa fa-check"></i><b>8.3.1</b> Time Series Analysis</a></li>
+<li class="chapter" data-level="8.3.2" data-path="modeling.html"><a href="modeling.html#machine-learning-methods"><i class="fa fa-check"></i><b>8.3.2</b> Machine learning methods</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="modeling.html"><a href="modeling.html#epidemic-modeling-mathematical-and-statistical-perspectives"><i class="fa fa-check"></i><b>8.4</b> Epidemic Modeling: Mathematical and Statistical Perspectives</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="compartment.html"><a href="compartment.html"><i class="fa fa-check"></i><b>9</b> Compartment Models</a><ul>
+<li class="chapter" data-level="9.1" data-path="compartment.html"><a href="compartment.html#a-simple-sis-model-a-model-for-diseases-with-no-immunity"><i class="fa fa-check"></i><b>9.1</b> A Simple SIS Model (A Model for Diseases with No Immunity)</a></li>
+<li class="chapter" data-level="9.2" data-path="compartment.html"><a href="compartment.html#an-sir-model"><i class="fa fa-check"></i><b>9.2</b> An SIR Model</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="compartment.html"><a href="compartment.html#an-sir-model-with-births-and-deaths"><i class="fa fa-check"></i><b>9.2.1</b> An SIR model with births and deaths</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="compartment.html"><a href="compartment.html#sir-parameter-estimation"><i class="fa fa-check"></i><b>9.3</b> SIR parameter estimation</a></li>
+<li class="chapter" data-level="9.4" data-path="compartment.html"><a href="compartment.html#implementation-of-parameter-estimation-in-r"><i class="fa fa-check"></i><b>9.4</b> Implementation of parameter estimation in R</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="compartment.html"><a href="compartment.html#example-1.-outbreak-of-measles-in-niamey"><i class="fa fa-check"></i><b>9.4.1</b> Example 1. Outbreak of measles in Niamey</a></li>
+<li class="chapter" data-level="9.4.2" data-path="compartment.html"><a href="compartment.html#example-2.-covid-19"><i class="fa fa-check"></i><b>9.4.2</b> Example 2. COVID-19</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="compartment.html"><a href="compartment.html#basic-reproduction-number"><i class="fa fa-check"></i><b>9.5</b> Basic Reproduction Number</a><ul>
+<li class="chapter" data-level="9.5.1" data-path="compartment.html"><a href="compartment.html#seir-model"><i class="fa fa-check"></i><b>9.5.1</b> SEIR Model</a></li>
+</ul></li>
+<li class="chapter" data-level="9.6" data-path="compartment.html"><a href="compartment.html#herd-immunity"><i class="fa fa-check"></i><b>9.6</b> Herd Immunity</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="timeseries.html"><a href="timeseries.html"><i class="fa fa-check"></i><b>10</b> Time Series Analysis of Infectious Disease Data</a><ul>
 <li class="chapter" data-level="10.1" data-path="timeseries.html"><a href="timeseries.html#datasets-and-r-packages"><i class="fa fa-check"></i><b>10.1</b> Datasets and R Packages</a></li>
 <li class="chapter" data-level="10.2" data-path="timeseries.html"><a href="timeseries.html#time-series-plots"><i class="fa fa-check"></i><b>10.2</b> Time series plots</a></li>
 <li class="chapter" data-level="10.3" data-path="timeseries.html"><a href="timeseries.html#time-series-decomposition"><i class="fa fa-check"></i><b>10.3</b> Time Series Decomposition</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="NN.html"><a href="NN.html"><i class="fa fa-check"></i><b>11</b> Neural Networks</a><ul>
-<li class="chapter" data-level="11.1" data-path="NN.html"><a href="NN.html#a-single-neuron"><i class="fa fa-check"></i><b>11.1</b> A Single Neuron</a></li>
-<li class="chapter" data-level="11.2" data-path="NN.html"><a href="NN.html#neural-network-structure"><i class="fa fa-check"></i><b>11.2</b> Neural Network Structure</a></li>
+<li class="chapter" data-level="11" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>11</b> Regression Modeling</a><ul>
+<li class="chapter" data-level="11.1" data-path="regression.html"><a href="regression.html#principles-of-regression-modeling"><i class="fa fa-check"></i><b>11.1</b> Principles of Regression Modeling</a></li>
+<li class="chapter" data-level="11.2" data-path="regression.html"><a href="regression.html#area-level-data"><i class="fa fa-check"></i><b>11.2</b> Area-level Data</a></li>
+<li class="chapter" data-level="11.3" data-path="regression.html"><a href="regression.html#variable-selection"><i class="fa fa-check"></i><b>11.3</b> Variable Selection</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="ensemble.html"><a href="ensemble.html"><i class="fa fa-check"></i><b>12</b> Hybrid Mdels</a><ul>
-<li class="chapter" data-level="12.1" data-path="ensemble.html"><a href="ensemble.html#ensembling-time-series-models"><i class="fa fa-check"></i><b>12.1</b> Ensembling Time Series Models</a></li>
-<li class="chapter" data-level="12.2" data-path="ensemble.html"><a href="ensemble.html#model-diagnostics"><i class="fa fa-check"></i><b>12.2</b> Model Diagnostics</a></li>
-<li class="chapter" data-level="12.3" data-path="ensemble.html"><a href="ensemble.html#weights-selection-using-cross-validation"><i class="fa fa-check"></i><b>12.3</b> Weights Selection Using Cross Validation</a></li>
+<li class="chapter" data-level="12" data-path="NN.html"><a href="NN.html"><i class="fa fa-check"></i><b>12</b> Neural Networks</a><ul>
+<li class="chapter" data-level="12.1" data-path="NN.html"><a href="NN.html#a-single-neuron"><i class="fa fa-check"></i><b>12.1</b> A Single Neuron</a></li>
+<li class="chapter" data-level="12.2" data-path="NN.html"><a href="NN.html#neural-network-structure"><i class="fa fa-check"></i><b>12.2</b> Neural Network Structure</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="ensemble.html"><a href="ensemble.html"><i class="fa fa-check"></i><b>13</b> Hybrid Mdels</a><ul>
+<li class="chapter" data-level="13.1" data-path="ensemble.html"><a href="ensemble.html#ensembling-time-series-models"><i class="fa fa-check"></i><b>13.1</b> Ensembling Time Series Models</a></li>
+<li class="chapter" data-level="13.2" data-path="ensemble.html"><a href="ensemble.html#model-diagnostics"><i class="fa fa-check"></i><b>13.2</b> Model Diagnostics</a></li>
+<li class="chapter" data-level="13.3" data-path="ensemble.html"><a href="ensemble.html#weights-selection-using-cross-validation"><i class="fa fa-check"></i><b>13.3</b> Weights Selection Using Cross Validation</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i>Appendix</a></li>
-<li class="chapter" data-level="13" data-path="appendix-a.html"><a href="appendix-a.html"><i class="fa fa-check"></i><b>13</b> Appendix A</a><ul>
-<li class="chapter" data-level="13.1" data-path="appendix-a.html"><a href="appendix-a.html#r-introduction-and-preliminaries"><i class="fa fa-check"></i><b>13.1</b> R Introduction and Preliminaries</a><ul>
-<li class="chapter" data-level="13.1.1" data-path="appendix-a.html"><a href="appendix-a.html#the-r-environment-and-language"><i class="fa fa-check"></i><b>13.1.1</b> The R Environment and Language</a></li>
-<li class="chapter" data-level="13.1.2" data-path="appendix-a.html"><a href="appendix-a.html#r-and-statistics"><i class="fa fa-check"></i><b>13.1.2</b> R and Statistics</a></li>
-<li class="chapter" data-level="13.1.3" data-path="appendix-a.html"><a href="appendix-a.html#obtaining-r-and-installation"><i class="fa fa-check"></i><b>13.1.3</b> Obtaining R and installation</a></li>
+<li class="chapter" data-level="14" data-path="appendix-a.html"><a href="appendix-a.html"><i class="fa fa-check"></i><b>14</b> Appendix A</a><ul>
+<li class="chapter" data-level="14.1" data-path="appendix-a.html"><a href="appendix-a.html#r-introduction-and-preliminaries"><i class="fa fa-check"></i><b>14.1</b> R Introduction and Preliminaries</a><ul>
+<li class="chapter" data-level="14.1.1" data-path="appendix-a.html"><a href="appendix-a.html#the-r-environment-and-language"><i class="fa fa-check"></i><b>14.1.1</b> The R Environment and Language</a></li>
+<li class="chapter" data-level="14.1.2" data-path="appendix-a.html"><a href="appendix-a.html#r-and-statistics"><i class="fa fa-check"></i><b>14.1.2</b> R and Statistics</a></li>
+<li class="chapter" data-level="14.1.3" data-path="appendix-a.html"><a href="appendix-a.html#obtaining-r-and-installation"><i class="fa fa-check"></i><b>14.1.3</b> Obtaining R and installation</a></li>
 </ul></li>
-<li class="chapter" data-level="13.2" data-path="appendix-a.html"><a href="appendix-a.html#starting-r"><i class="fa fa-check"></i><b>13.2</b> Starting R</a><ul>
-<li class="chapter" data-level="13.2.1" data-path="appendix-a.html"><a href="appendix-a.html#description-of-three-panels-in-user-interface"><i class="fa fa-check"></i><b>13.2.1</b> Description of three panels in user interface</a></li>
-<li class="chapter" data-level="13.2.2" data-path="appendix-a.html"><a href="appendix-a.html#r-help"><i class="fa fa-check"></i><b>13.2.2</b> R help</a></li>
-<li class="chapter" data-level="13.2.3" data-path="appendix-a.html"><a href="appendix-a.html#some-mathematical-expressions"><i class="fa fa-check"></i><b>13.2.3</b> Some mathematical expressions</a></li>
-<li class="chapter" data-level="13.2.4" data-path="appendix-a.html"><a href="appendix-a.html#r-packages"><i class="fa fa-check"></i><b>13.2.4</b> R Packages</a></li>
-<li class="chapter" data-level="13.2.5" data-path="appendix-a.html"><a href="appendix-a.html#creating-a-project-and-setting-working-directory"><i class="fa fa-check"></i><b>13.2.5</b> Creating a project and setting working directory</a></li>
+<li class="chapter" data-level="14.2" data-path="appendix-a.html"><a href="appendix-a.html#starting-r"><i class="fa fa-check"></i><b>14.2</b> Starting R</a><ul>
+<li class="chapter" data-level="14.2.1" data-path="appendix-a.html"><a href="appendix-a.html#description-of-three-panels-in-user-interface"><i class="fa fa-check"></i><b>14.2.1</b> Description of three panels in user interface</a></li>
+<li class="chapter" data-level="14.2.2" data-path="appendix-a.html"><a href="appendix-a.html#r-help"><i class="fa fa-check"></i><b>14.2.2</b> R help</a></li>
+<li class="chapter" data-level="14.2.3" data-path="appendix-a.html"><a href="appendix-a.html#some-mathematical-expressions"><i class="fa fa-check"></i><b>14.2.3</b> Some mathematical expressions</a></li>
+<li class="chapter" data-level="14.2.4" data-path="appendix-a.html"><a href="appendix-a.html#r-packages"><i class="fa fa-check"></i><b>14.2.4</b> R Packages</a></li>
+<li class="chapter" data-level="14.2.5" data-path="appendix-a.html"><a href="appendix-a.html#creating-a-project-and-setting-working-directory"><i class="fa fa-check"></i><b>14.2.5</b> Creating a project and setting working directory</a></li>
 </ul></li>
-<li class="chapter" data-level="13.3" data-path="appendix-a.html"><a href="appendix-a.html#exportimport-data"><i class="fa fa-check"></i><b>13.3</b> Export/Import Data</a><ul>
-<li class="chapter" data-level="13.3.1" data-path="appendix-a.html"><a href="appendix-a.html#data-export"><i class="fa fa-check"></i><b>13.3.1</b> Data Export</a></li>
-<li class="chapter" data-level="13.3.2" data-path="appendix-a.html"><a href="appendix-a.html#data-import"><i class="fa fa-check"></i><b>13.3.2</b> Data Import</a></li>
+<li class="chapter" data-level="14.3" data-path="appendix-a.html"><a href="appendix-a.html#exportimport-data"><i class="fa fa-check"></i><b>14.3</b> Export/Import Data</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="appendix-a.html"><a href="appendix-a.html#data-export"><i class="fa fa-check"></i><b>14.3.1</b> Data Export</a></li>
+<li class="chapter" data-level="14.3.2" data-path="appendix-a.html"><a href="appendix-a.html#data-import"><i class="fa fa-check"></i><b>14.3.2</b> Data Import</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="appendix-b.html"><a href="appendix-b.html"><i class="fa fa-check"></i><b>14</b> Appendix B</a><ul>
-<li class="chapter" data-level="14.1" data-path="appendix-b.html"><a href="appendix-b.html#epidemic-data"><i class="fa fa-check"></i><b>14.1</b> Epidemic Data</a><ul>
-<li class="chapter" data-level="14.1.1" data-path="appendix-b.html"><a href="appendix-b.html#state-level"><i class="fa fa-check"></i><b>14.1.1</b> State level</a></li>
-<li class="chapter" data-level="14.1.2" data-path="appendix-b.html"><a href="appendix-b.html#county-level"><i class="fa fa-check"></i><b>14.1.2</b> County level</a></li>
+<li class="chapter" data-level="15" data-path="appendix-b.html"><a href="appendix-b.html"><i class="fa fa-check"></i><b>15</b> Appendix B</a><ul>
+<li class="chapter" data-level="15.1" data-path="appendix-b.html"><a href="appendix-b.html#epidemic-data"><i class="fa fa-check"></i><b>15.1</b> Epidemic Data</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="appendix-b.html"><a href="appendix-b.html#state-level"><i class="fa fa-check"></i><b>15.1.1</b> State level</a></li>
+<li class="chapter" data-level="15.1.2" data-path="appendix-b.html"><a href="appendix-b.html#county-level"><i class="fa fa-check"></i><b>15.1.2</b> County level</a></li>
 </ul></li>
-<li class="chapter" data-level="14.2" data-path="appendix-b.html"><a href="appendix-b.html#other-factors"><i class="fa fa-check"></i><b>14.2</b> Other Factors</a><ul>
-<li class="chapter" data-level="14.2.1" data-path="appendix-b.html"><a href="appendix-b.html#policy-data"><i class="fa fa-check"></i><b>14.2.1</b> Policy Data</a></li>
-<li class="chapter" data-level="14.2.2" data-path="appendix-b.html"><a href="appendix-b.html#demographic-characteristics"><i class="fa fa-check"></i><b>14.2.2</b> Demographic Characteristics</a></li>
-<li class="chapter" data-level="14.2.3" data-path="appendix-b.html"><a href="appendix-b.html#healthcare-infrastructure"><i class="fa fa-check"></i><b>14.2.3</b> Healthcare Infrastructure</a></li>
-<li class="chapter" data-level="14.2.4" data-path="appendix-b.html"><a href="appendix-b.html#socioeconomic-status"><i class="fa fa-check"></i><b>14.2.4</b> Socioeconomic Status</a></li>
-<li class="chapter" data-level="14.2.5" data-path="appendix-b.html"><a href="appendix-b.html#environmental-factor"><i class="fa fa-check"></i><b>14.2.5</b> Environmental Factor</a></li>
-<li class="chapter" data-level="14.2.6" data-path="appendix-b.html"><a href="appendix-b.html#mobility"><i class="fa fa-check"></i><b>14.2.6</b> Mobility</a></li>
-<li class="chapter" data-level="14.2.7" data-path="appendix-b.html"><a href="appendix-b.html#geographic-information"><i class="fa fa-check"></i><b>14.2.7</b> Geographic Information</a></li>
+<li class="chapter" data-level="15.2" data-path="appendix-b.html"><a href="appendix-b.html#other-factors"><i class="fa fa-check"></i><b>15.2</b> Other Factors</a><ul>
+<li class="chapter" data-level="15.2.1" data-path="appendix-b.html"><a href="appendix-b.html#policy-data"><i class="fa fa-check"></i><b>15.2.1</b> Policy Data</a></li>
+<li class="chapter" data-level="15.2.2" data-path="appendix-b.html"><a href="appendix-b.html#demographic-characteristics"><i class="fa fa-check"></i><b>15.2.2</b> Demographic Characteristics</a></li>
+<li class="chapter" data-level="15.2.3" data-path="appendix-b.html"><a href="appendix-b.html#healthcare-infrastructure"><i class="fa fa-check"></i><b>15.2.3</b> Healthcare Infrastructure</a></li>
+<li class="chapter" data-level="15.2.4" data-path="appendix-b.html"><a href="appendix-b.html#socioeconomic-status"><i class="fa fa-check"></i><b>15.2.4</b> Socioeconomic Status</a></li>
+<li class="chapter" data-level="15.2.5" data-path="appendix-b.html"><a href="appendix-b.html#environmental-factor"><i class="fa fa-check"></i><b>15.2.5</b> Environmental Factor</a></li>
+<li class="chapter" data-level="15.2.6" data-path="appendix-b.html"><a href="appendix-b.html#mobility"><i class="fa fa-check"></i><b>15.2.6</b> Mobility</a></li>
+<li class="chapter" data-level="15.2.7" data-path="appendix-b.html"><a href="appendix-b.html#geographic-information"><i class="fa fa-check"></i><b>15.2.7</b> Geographic Information</a></li>
 </ul></li>
-<li class="chapter" data-level="14.3" data-path="appendix-b.html"><a href="appendix-b.html#data-sets"><i class="fa fa-check"></i><b>14.3</b> Data Sets</a><ul>
-<li class="chapter" data-level="14.3.1" data-path="appendix-b.html"><a href="appendix-b.html#chapter-2"><i class="fa fa-check"></i><b>14.3.1</b> Chapter 2</a></li>
-<li class="chapter" data-level="14.3.2" data-path="appendix-b.html"><a href="appendix-b.html#chapter-3"><i class="fa fa-check"></i><b>14.3.2</b> Chapter 3</a></li>
+<li class="chapter" data-level="15.3" data-path="appendix-b.html"><a href="appendix-b.html#data-sets"><i class="fa fa-check"></i><b>15.3</b> Data Sets</a><ul>
+<li class="chapter" data-level="15.3.1" data-path="appendix-b.html"><a href="appendix-b.html#chapter-2"><i class="fa fa-check"></i><b>15.3.1</b> Chapter 2</a></li>
+<li class="chapter" data-level="15.3.2" data-path="appendix-b.html"><a href="appendix-b.html#chapter-3"><i class="fa fa-check"></i><b>15.3.2</b> Chapter 3</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -385,10 +412,167 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 8</span> Epidemic Modeling</h1>
 <div id="an-introduction-to-epidemic-modeling" class="section level2">
 <h2><span class="header-section-number">8.1</span> An Introduction to Epidemic Modeling</h2>
+<p>The oldest known disease transmission model dates back to Daniel Bernoulli, who first used a probability-based model in 1766 to evaluate the effectiveness of smallpox inoculation, the process of introducing smallpox into the skin to cause a more mild illness than if the virus acquired by the usual respiratory route, but one that induces immunity; see <span class="citation">Dietz and Heesterbeek (<a href="#ref-dietz2002daniel" role="doc-biblioref">2002</a>)</span>. This precursor to modern-day vaccination was not without risk, and Bernoulli used his model to evaluate the likelihood of death following inoculation against the gain in life expectancy from evading infection. William Farr was perhaps the first to attempt to calibrate (or fit) a model of disease transmission when he noted the similarity between the time series of smallpox incidence and the normal distribution. In 1889, En’ko investigated heterogeneity in measles transmission, using models to explain the possible mechanisms that give rise to variable epidemic sizes; see <span class="citation">En’Ko (<a href="#ref-en1989course" role="doc-biblioref">1989</a>)</span>. In 1927, Kermack and McKendrick expanded on existing models to develop the foundation of the modern-day susceptible-infected-recovered mass-action model using differential equations; see <span class="citation">Kermack and McKendrick (<a href="#ref-kermack1927contribution" role="doc-biblioref">1927</a>)</span>. These models, and many others, have formed the basis of modern disease modeling, which has been a crucial tool in improving understanding of best practices for infectious disease control. By combining mathematical or statistical formalism with epidemiological data and an understanding of biological mechanisms, infectious disease models enable the evaluation of the effect of public health interventions like vaccines, projection of future disease burden in various contexts, and answering fundamental questions, such as why some people are uninfected in an outbreak.</p>
+<p>In epidemic modeling, there are mainly three types of models, including (i) mechanistic models, (ii) phenomenological models, and (iii) hybrid models. In the following, we will give a brief introduction to each type of models.</p>
 </div>
-<div id="compartment-models" class="section level2">
-<h2><span class="header-section-number">8.2</span> Compartment Models</h2>
+<div id="mechanistic-models" class="section level2">
+<h2><span class="header-section-number">8.2</span> Mechanistic Models</h2>
+<p>Mechanistic models explicitly try to model the mechanisms of interaction among system components. These models make explicit hypotheses about the biological mechanisms that drive infection dynamics.</p>
+<div id="compartment-modeling" class="section level3">
+<h3><span class="header-section-number">8.2.1</span> Compartment Modeling</h3>
+<p>A compartment model is characterized by a set of mathematical equations to represent how individuals move from one compartment to another or interact among compartments. A majority of the compartment models in epidemiology are based on the Susceptible-infected-removed (SIR) model <span class="citation">Kermack and McKendrick (<a href="#ref-kermack1927contribution" role="doc-biblioref">1927</a>)</span> and its variants to conceptualize the dynamic changes of the population.</p>
+<p>The conventional SIR model divides a population into three compartments: the susceptible class (S) indicates those who can become infected, the infected class (I) represents those who are infectious, and the removed class (R) corresponds to those with permanent infection-acquired immunity. Due to its simplicity with a small number of parameters, the SIR model has become popular and has been widely applied to track and forecast the trajectory of epidemic disease. For example, <span class="citation">Miranda et al. (<a href="#ref-miranda2019real" role="doc-biblioref">2019</a>)</span> calibrated the parameters of the SIR model for each season separately using the Nelder-Mead optimization algorithm to predict weekly influenza-like-illness (ILI) incidence. <span class="citation">Chen et al. (<a href="#ref-chen2021model" role="doc-biblioref">2021</a>)</span> considered the SIR model for Canadian COVID-19 data. The estimates and bounds of model parameters were extracted by minimizing the squared prediction error of daily infection numbers. Based on those values, the prediction bounds for S, I, R, and daily infection numbers can be obtained. However, the SIR model often oversimplifies complex processes of disease.</p>
+<p>For many epidemic diseases, if an exposed period (infected but not yet infectious) is long enough or significant, its absence in the model could affect predictions <span class="citation">Brauer (<a href="#ref-brauer2008compartmental" role="doc-biblioref">2008</a>)</span>. The SEIR model additionally includes an exposed (E) compartment for the latent period. The SEIR has been applied to malaria transmission by formulating a system of equations for both human and mosquito population <span class="citation">Mojeeb, Adu, and Yang (<a href="#ref-mojeeb2017simple" role="doc-biblioref">2017</a>)</span> and Ebola hemorrhagic fever by considering vaccination as a control strategy <span class="citation">(Durojaye and Ajie <a href="#ref-durojaye2017mathematical" role="doc-biblioref">2017</a>)</span>. <span class="citation">Roda et al. (<a href="#ref-roda2020difficult" role="doc-biblioref">2020</a>)</span> considered both SIR and SEIR models and predicted the COVID-19 epidemic. Although a Poisson or negative binomial distribution is a common choice for count data, its probability model was approximated by normal distribution as newly confirmed cases grow quickly. Using uniform priors for model parameters, the affine invariant ensemble Markov Chain Monte Carlo algorithm was implemented for posterior distributions of the model parameters to lessen the impact of nonidentifiability in the model.</p>
+</div>
+<div id="agent-based-methods" class="section level3">
+<h3><span class="header-section-number">8.2.2</span> Agent-based Methods</h3>
+<p>Agent-based models, also known as individual-based models, are a powerful simulation modeling technique with interacting autonomous agents. Agents are artificial decision-making entities and programmed to interact with other agents and the environment in specific ways. In the epidemic modeling, agents could stay either at the state of susceptibility, the state of infected, or any pre-defined states. Then, these agents interact with each other based on a specific environment, which is usually defined through a social contact network. Agents can transfer from a state to another. A typical agent-based model consists of three key elements: (1) a population generated based on the demographic characteristics of the studied population, (2) a social contact network among the agents (individuals) in the population, and (3) a disease model, which translates the edge weights in the social contact network into infection probability <span class="citation">(Hoertel et al. <a href="#ref-hoertel2020stochastic" role="doc-biblioref">2020</a>)</span>. By simulating a set of simple agents’ interactions, they can generate complex global patterns (behaviors) and visualize main properties from a global perspective.</p>
+<p>A good example of using this approach for COVID-19 is by a team from Imperial College London <span class="citation">KRR et al. (<a href="#ref-krr2020non" role="doc-biblioref">2020</a>)</span> who applied an agent-based modeling approach to the UK data. The authors predicted the spread of COVID-19 after including many Non-Pharmaceutical Interventions. <span class="citation">Hoertel et al. (<a href="#ref-hoertel2020stochastic" role="doc-biblioref">2020</a>)</span> considers a stochastic agent-based model of the SARS-CoV-2 epidemic to predict the number of COVID-19 cases in France. A team of researchers from various universities proposed a Global Epidemic and Mobility Model (<a href="https://covid19.gleamproject.org/%7D">GLEAM</a>) which employed an agent-based model to analyze the spatiotemporal spread of COVID-19 in the continental US.</p>
+<p>Agent-based models use more detailed descriptions of disease states and/or individual characteristics and behavior, which are not easily simplified into a compartmental form. It allows for exploring complex systems and capturing relationships among individuals and heterogeneity in their attributes <span class="citation">(Rahmandad and Sterman <a href="#ref-rahmandad2008heterogeneity" role="doc-biblioref">2008</a>)</span>. Besides, it can model experiments that may be impossible or unethical to conduct in the real world, guiding public health interventions.</p>
+<p>Agent-based models require intensive computational burdens, constraining sensitivity analysis. Data on contact networks and the distribution of individual attributes are hard to obtain and highly uncertain, requiring extensive sensitivity analysis to ensure robust results.</p>
+</div>
+</div>
+<div id="phenomenological-models" class="section level2">
+<h2><span class="header-section-number">8.3</span> Phenomenological Models</h2>
+<p>Phenomenological models, sometimes also referred to as statistical models, attempt to characterize and forecast the observed effects of epidemics without incorporating biological mechanisms and postulating conjectures that explain the observed phenomena.</p>
+<div id="time-series-analysis" class="section level3">
+<h3><span class="header-section-number">8.3.1</span> Time Series Analysis</h3>
+<p>In time series analysis, we focus on using the past observations of a random variable to captures the underlying patterns and predict the future values. Within time series forecasting, <em>exponential smoothing</em> and <em>autoregressive integrated moving average (ARIMA) models</em> are the two most widely used approaches. Given a time series data, exponential smoothing models are based on a description of the trend and seasonality, while ARIMA models focus on describing the autocorrelations.</p>
+<div id="exponential-smoothing-ets" class="section level4">
+<h4><span class="header-section-number">8.3.1.1</span> Exponential Smoothing (ETS)</h4>
+<p>Exponential smoothing was proposed by <span class="citation">Brown (<a href="#ref-Brown:59" role="doc-biblioref">1959</a>)</span>, <span class="citation">Holt (<a href="#ref-Holt:57" role="doc-biblioref">1957</a>)</span>, and <span class="citation">Winters (<a href="#ref-Winters:60" role="doc-biblioref">1960</a>)</span> in the late 1950s. Traditional moving average method considers equal weights for the past observations, whereas exponential functions are used to assign exponentially decreasing weights as the observations get older in exponential smoothing. Therefore, the forecasts produced by exponential smoothing methods can be considered as weighted averages of past observations.</p>
+<p>Since the simple exponential smoothing framework usually can generate reliable forecasts quickly, the simple ETS method is suitable for forecasting data with no clear trend or seasonal pattern.</p>
+<ul>
+<li><p><strong>Holt’s Linear Trend Method</strong>: To allow the forecasting of data with a trend, <span class="citation">Holt (<a href="#ref-Holt:57" role="doc-biblioref">1957</a>)</span> proposed a linear trend method based on the simple exponential smoothing. This method involves three equations, including (i) a forecast equation, (ii) a smoothing equation for the level, and (iii) a smoothing equation for the trend. As a result, the <span class="math inline">\(h\)</span>-step-ahead forecast equals to the sum of the last estimated level and <span class="math inline">\(h\)</span> times the last estimated trend value, and thus the forecasts are linear to <span class="math inline">\(h\)</span>. The constant trend estimated by the Holt’s linear usually makes the long term forecast either indefinitely increasing or decreasing into the future.</p></li>
+<li><p><strong>Damped Trend Method</strong>: Due to the limitation of constant trend, <span class="citation">Gardner and Mckenzie (<a href="#ref-Gardner:Mckenzie:85" role="doc-biblioref">1985</a>)</span> proposed a “damped” method which includes a parameter that can “dampens” the trend to a flat line in the future. As pointed out in <span class="citation">Hyndman and Athanasopoulos (<a href="#ref-Hyndman:Athanasopoulos:2nd" role="doc-biblioref">2018</a>)</span>, the “damped” method is one of the most popular time-series methods for forecasting.</p></li>
+<li><p><strong>Holt-Winters’ Seasonal Method</strong>: By considering a systematic trend or a seasonal component, <span class="citation">Holt (<a href="#ref-Holt:57" role="doc-biblioref">1957</a>)</span> and <span class="citation">Winters (<a href="#ref-Winters:60" role="doc-biblioref">1960</a>)</span> extended Holt’s method to the Holt-Winters’ Seasonal Method which can analysis the time series with seasonality. Instead of the three equations in Holt’s Linear Trend Method, the Holt-Winters seasonal method comprises one more smoothing equation for seasonal component.</p></li>
+</ul>
+</div>
+<div id="autoregressive-integrated-moving-average-arima-model" class="section level4">
+<h4><span class="header-section-number">8.3.1.2</span> AutoRegressive Integrated Moving Average (ARIMA) model</h4>
+<p>provides another approach to time series forecasting, and it combines the autoregression (AR) and moving average (MA) model. In an ARIMA model, linear correlations among the time-series are assumed, then the ARIMA model exploits these linear dependencies to extract local patterns and remove high-frequency noise from the data.</p>
+<p>The ARIMA approach has three clear benefits. First of all, the interpretability level of the ARIMA model is very high. Therefore, researchers are able to gain a deep understanding of the relationship between the current and the past situations, and explore the influence of some exogenous variables. Secondly, the ARIMA model has an automated way to maximize prediction accuracy which can perform model selection efficiently. Thirdly, the ARIMA models have high accommodative ability due to the simplicity of model updates based on recent events. However, one drawback of the ARIMA models is that they cannot deal with nonlinear patterns or relationships.</p>
+</div>
+</div>
+<div id="machine-learning-methods" class="section level3">
+<h3><span class="header-section-number">8.3.2</span> Machine learning methods</h3>
+<p>Machine learning methods are attractive in the COVID-19 prediction with their great flexibility to capture disease spread patterns. There are two major categories of machine learning methods in the prediction of COVID-19. The first kind of methods are based on epidemic models and trained by machine learning algorithms. Specifically, <span class="citation">Zou et al. (<a href="#ref-zou2020epidemic" role="doc-biblioref">2020</a>)</span> proposes a variant of the SEIR model accounting for the untested/unreported cases of COVID-19, and the model is estimated by the standard gradient-based optimizer. <span class="citation">Arik et al. (<a href="#ref-arik2020interpretable" role="doc-biblioref">2020</a>)</span> integrates machine learning into compartmental disease modeling. It uses learning mechanisms, such as masked supervision from partial observations and partial teacher-forcing to minimize error propagation, to improve model estimation with limited training data. The second kind of method is based on conventional machine learning methods. <span class="citation">Sujath, Chatterjee, and Hassanien (<a href="#ref-sujath2020machine" role="doc-biblioref">2020</a>)</span> applied linear regression, multilayer perceptron, and vector autoregression method for predicting COVID-19 cases in India gathered from the website of Kaggle. In <span class="citation">Arora, Kumar, and Panigrahi (<a href="#ref-arora2020prediction" role="doc-biblioref">2020</a>)</span>, recurrent neural network (RNN) based long-short term memory (LSTM) is used to predict the number of COVID-19 reported cases for the state-level data in India.</p>
+</div>
+</div>
+<div id="epidemic-modeling-mathematical-and-statistical-perspectives" class="section level2">
+<h2><span class="header-section-number">8.4</span> Epidemic Modeling: Mathematical and Statistical Perspectives</h2>
+<p>Epidemic modeling has three main aims <span class="citation">(Daley and Gani <a href="#ref-Daley:Gani:01" role="doc-biblioref">2001</a>)</span>: (1) to understand better the mechanisms by which diseases spread; (2) to identify which factors contribute to the spread of the epidemic, and therefore how we may control it; (3) to predict the future course of the epidemic. Although there are many epidemic modeling methods, mathematical and statistical models have played important roles in COVID-19studies. As illustrated in Figure <a href="modeling.html#fig:mathstat">8.1</a>, mathematical and statistical approaches are complementary, but their starting points are different, and the corresponding models tend to incorporate different details.</p>
+<div class="figure" style="text-align: center"><span id="fig:mathstat"></span>
+<img src="figures/model.png" alt="Mathematical and statistical perspectives on epidemic modeling." width="65%" />
+<p class="caption">
+Figure 8.1: Mathematical and statistical perspectives on epidemic modeling.
+</p>
+</div>
+<p>As mentioned above, the fundamental concept of infectious disease epidemiology is investigating how the diseases spread. Mathematical models are undeniably useful in understanding the dynamics of infectious disease spread (e.g., when the peak will occur and whether resurgence will happen) and the effects of control measures <span class="citation">(Keeling and Rohani <a href="#ref-Keeling:Rohani:08" role="doc-biblioref">2008</a>)</span>. An essential type of mathematical model is the class of mechanistic models such as the Susceptible - Infectious - Removed (SIR) compartmental model or the Susceptible - Exposed - Infectious - Recovered model (SEIR) as illustrated in Figure <a href="modeling.html#fig:SEIR">8.2</a>; see details in <span class="citation">Brauer, Driessche, and Wu (<a href="#ref-Brauer:etal:08" role="doc-biblioref">2008</a>)</span> and <span class="citation">Lawson et al. (<a href="#ref-Lawson:etal:16" role="doc-biblioref">2016</a>)</span>. Mechanistic models make explicit hypotheses about the biological mechanisms that drive the dynamics of infection, and they function well if the aim is to evaluate the effectiveness of hypothetical NPIs in controlling disease spread <span class="citation">(Lessler and Cummings <a href="#ref-lessler2016mechanistic" role="doc-biblioref">2016</a>)</span>.</p>
+<div class="figure" style="text-align: center"><span id="fig:SEIR"></span>
+<img src="figures/SEIR1.pdf" alt="An illustration of SIR and SEIR models." width="75%" />
+<p class="caption">
+Figure 8.2: An illustration of SIR and SEIR models.
+</p>
+</div>
+<p>In the literature, statistical modeling has given the scientific field many successes in analyzing data and getting information about the mechanisms producing the data. Statistical modeling is a powerful tool for extracting information about the disease spread in epidemic studies <span class="citation">(Held et al. <a href="#ref-Held:etal:20" role="doc-biblioref">2020</a>)</span>. Statistics starts with data, and statistical modeling allows data to speak for themselves. There are two cultures in statistical modeling <span class="citation">(Breiman <a href="#ref-Breiman:01" role="doc-biblioref">2001</a>)</span>: the data modeling culture and the algorithmic modeling culture. The first one assumes that the data are generated by a given stochastic data model, and it is usually designed for inference about the relationships between variables whilst also catering to prediction. Algorithmic models treat the data mechanism as unknown and are usually designed to make the most accurate predictions possible.</p>
+<p>When analyzing the spread of infectious diseases, other factors, such as demographic characteristics, socioeconomic status, and control policies, may also be responsible for temporal or spatial patterns. For example, the spread of the disease varies considerably across different geographical regions. Local area - features, like socioeconomic factors and demographic conditions, can dramatically influence the course of the epidemic. These data are usually supplemented with the population information at the county level. Moreover, the capacity of the health care system, and control measures, such as government - mandated social distancing, also have a significant impact on the spread of the epidemic. Regression is a widely used statistical modeling method in epidemic studies because it produces a combination of the variables with weights indicating the impact of the variable <span class="citation">(Jewell <a href="#ref-jewell2003statistics" role="doc-biblioref">2003</a>)</span>. It can help determine which factors matter most, which can be ignored, and how those factors interact with each other. The benefit of regression analysis is that it can be used to understand different patterns in data. These insights may often be very valuable in understanding which factors contribute to the spread of COVID-19.</p>
+<p>Predicting the spread speed and severity of COVID-19 is crucial to resource management, developing strategies to deal with the epidemic, and ultimately assisting in prevention efforts. Mathematical models are able to mimic the way disease spreads and can be used to project or simulate future transmission scenarios under various assumptions. Statistical models are more oriented towards predictions <span class="citation">(Held et al. <a href="#ref-Held:etal:20" role="doc-biblioref">2020</a>)</span>. In fact, predictions are at the heart of statistical modeling. For example, time series analysis, one commonly used statistical forecasting approach, works by taking a series of historical observations and extrapolating the patterns into the future. Machine learning makes predictions based on known properties learned from the training data. However, purely statistical models only describe the observed data and give little information about the mechanism since they do not account for how transmission occurs. Therefore, they are generally not well - suited for long - term predictions, and a few weeks is usually close to being the ultimate prediction limit. Another advantage of statistical modeling is its ability to quantify uncertainty in the prediction, especially at an early phase of an epidemic with limited data. For example, statistical models can provide a prediction interval to understand the uncertainty surrounding the forecast <span class="citation">(Brockwell and Davis <a href="#ref-brockwell2002introduction" role="doc-biblioref">2016</a>)</span>. See more discussions in the following section.</p>
+<p>In summary, mathematical models are usually constructed in a more principle - driven manner, while statistical models are more data driven. Although both mathematical and statistical models can be used to study the effect of NPIs and make predictions, the implementation details are different, and an understanding of the corresponding limitations is crucial. For maximal effectiveness, researchers working to advance epidemic modeling will need to appreciate and exploit the complementary strengths of mathematical and statistical models.</p>
 
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-arik2020interpretable">
+<p>Arik, Sercan O, Chun-Liang Li, Jinsung Yoon, Rajarishi Sinha, Arkady Epshteyn, Long T Le, Vikas Menon, et al. 2020. “Interpretable Sequence Learning for Covid-19 Forecasting.” <em>arXiv Preprint arXiv:2008.00646</em>. <a href="http://arxiv.org/abs/2008.00646">http://arxiv.org/abs/2008.00646</a>.</p>
+</div>
+<div id="ref-arora2020prediction">
+<p>Arora, Parul, Himanshu Kumar, and Bijaya Ketan Panigrahi. 2020. “Prediction and Analysis of Covid-19 Positive Cases Using Deep Learning Models: A Descriptive Case Study of India.” <em>Chaos, Solitons &amp; Fractals</em> 139.</p>
+</div>
+<div id="ref-brauer2008compartmental">
+<p>Brauer, Fred. 2008. “Compartmental Models in Epidemiology.” In <em>Mathematical Epidemiology</em>, 19–79. Springer.</p>
+</div>
+<div id="ref-Brauer:etal:08">
+<p>Brauer, Fred, Pauline van den Driessche, and Jianhong Wu. 2008. <em>Mathematical Epidemiology</em>. Vol. 1945. Springer.</p>
+</div>
+<div id="ref-Breiman:01">
+<p>Breiman, Leo. 2001. “Statistical Modeling: The Two Cultures.” <em>Statist. Sci.</em> 16 (3): 199–231. <a href="https://doi.org/10.1214/ss/1009213726">https://doi.org/10.1214/ss/1009213726</a>.</p>
+</div>
+<div id="ref-brockwell2002introduction">
+<p>Brockwell, Peter J., and Richard A. Davis. 2016. <em>Introduction to Time Series and Forecasting</em>. Third. Springer Texts in Statistics. Springer, [Cham]. <a href="https://doi.org/10.1007/978-3-319-29854-2">https://doi.org/10.1007/978-3-319-29854-2</a>.</p>
+</div>
+<div id="ref-Brown:59">
+<p>Brown, Robert Goodell. 1959. <em>Statistical Forecasting for Inventory Control</em>. New York: McGraw-Hill.</p>
+</div>
+<div id="ref-chen2021model">
+<p>Chen, Li-Pang, Qihuang Zhang, Grace Y Yi, and Wenqing He. 2021. “Model-Based Forecasting for Canadian Covid-19 Data.” <em>PloS One</em> 16 (1): e0244536.</p>
+</div>
+<div id="ref-Daley:Gani:01">
+<p>Daley, Daryl J, and Joe Gani. 2001. <em>Epidemic Modelling: An Introduction</em>. Cambridge Studies in Mathematical Biology. Cambridge University Press. <a href="https://doi.org/10.1017/CBO9780511608834">https://doi.org/10.1017/CBO9780511608834</a>.</p>
+</div>
+<div id="ref-dietz2002daniel">
+<p>Dietz, Klaus, and JAP Heesterbeek. 2002. “Daniel Bernoulli’s Epidemiological Model Revisited.” <em>Mathematical Biosciences</em> 180 (1-2): 1–21.</p>
+</div>
+<div id="ref-durojaye2017mathematical">
+<p>Durojaye, MO, and IJ Ajie. 2017. “Mathematical Model of the Spread and Control of Ebola Virus Disease.” <em>Appl. Math</em> 7: 23–31.</p>
+</div>
+<div id="ref-en1989course">
+<p>En’Ko, PD. 1989. “On the Course of Epidemics of Some Infectious Diseases.” <em>International Journal of Epidemiology</em> 18 (4): 749–55.</p>
+</div>
+<div id="ref-Gardner:Mckenzie:85">
+<p>Gardner, Everette S., and Ed. Mckenzie. 1985. “Forecasting Trends in Time Series.” <em>Management Science</em> 31 (10): 1237–46. <a href="https://doi.org/10.1287/mnsc.31.10.1237">https://doi.org/10.1287/mnsc.31.10.1237</a>.</p>
+</div>
+<div id="ref-Held:etal:20">
+<p>Held, Leonhard, Niel Hens, Philip D O’Neill, and Jacco Wallinga. 2020. <em>Handbook of Infectious Disease Data Analysis</em>. New York: Chapman; Hall/CRC. <a href="https://doi.org/s10.1201/9781315222912">https://doi.org/s10.1201/9781315222912</a>.</p>
+</div>
+<div id="ref-hoertel2020stochastic">
+<p>Hoertel, Nicolas, Martin Blachier, Carlos Blanco, Mark Olfson, Marc Massetti, Marina Sánchez Rico, Frédéric Limosin, and Henri Leleu. 2020. “A Stochastic Agent-Based Model of the Sars-Cov-2 Epidemic in France.” <em>Nature Medicine</em> 26 (9): 1417–21.</p>
+</div>
+<div id="ref-Holt:57">
+<p>Holt, Charles C. 1957. “Forecasting Seasonals and Trends by Exponentially Weighted Moving Averages.” <em>Pittsburgh, Penn: Carnegie Institute of Technology, Graduate School of Industrial Administration.</em></p>
+</div>
+<div id="ref-Hyndman:Athanasopoulos:2nd">
+<p>Hyndman, Rob J, and George Athanasopoulos. 2018. <em>Forecasting: Principles and Practice</em>. OTexts.</p>
+</div>
+<div id="ref-jewell2003statistics">
+<p>Jewell, Nicholas P. 2003. <em>Statistics for Epidemiology</em>. CRC Press. <a href="https://doi.org/10.1093/ije/dyh293">https://doi.org/10.1093/ije/dyh293</a>.</p>
+</div>
+<div id="ref-Keeling:Rohani:08">
+<p>Keeling, Matt J., and Pejman Rohani. 2008. <em>Modeling Infectious Diseases in Humans and Animals</em>. Princeton University Press. <a href="https://doi.org/10.2307/j.ctvcm4gk0">https://doi.org/10.2307/j.ctvcm4gk0</a>.</p>
+</div>
+<div id="ref-kermack1927contribution">
+<p>Kermack, William Ogilvy, and Anderson G McKendrick. 1927. “A Contribution to the Mathematical Theory of Epidemics.” <em>Proceedings of the Royal Society of London. Series A, Containing Papers of a Mathematical and Physical Character</em> 115 (772): 700–721. <a href="https://doi.org/10.1098/rspa.1933.0106">https://doi.org/10.1098/rspa.1933.0106</a>.</p>
+</div>
+<div id="ref-krr2020non">
+<p>KRR, Gandhi, Murthy KVR, Prasada Rao SSP, and Francesco Casella. 2020. “Non-Pharmaceutical Interventions (Npis) to Reduce Covid-19 Mortality.” <em>SSRN Electronic Journal</em>. <a href="https://doi.org/10.2139/ssrn.3560688">https://doi.org/10.2139/ssrn.3560688</a>.</p>
+</div>
+<div id="ref-Lawson:etal:16">
+<p>Lawson, Andrew B, Sudipto Banerjee, Robert P Haining, and Marı́a Dolores Ugarte. 2016. <em>Handbook of Spatial Epidemiology</em>. CRC Press. <a href="https://doi.org/10.1201/b19470">https://doi.org/10.1201/b19470</a>.</p>
+</div>
+<div id="ref-lessler2016mechanistic">
+<p>Lessler, Justin, and Derek AT Cummings. 2016. “Mechanistic Models of Infectious Disease and Their Impact on Public Health.” <em>American Journal of Epidemiology</em> 183 (5): 415–22. <a href="https://doi.org/10.1093/aje/kww021">https://doi.org/10.1093/aje/kww021</a>.</p>
+</div>
+<div id="ref-miranda2019real">
+<p>Miranda, Gisele HB, Jan M Baetens, Nathalie Bossuyt, Odemir M Bruno, and Bernard De Baets. 2019. “Real-Time Prediction of Influenza Outbreaks in Belgium.” <em>Epidemics</em> 28: 100341.</p>
+</div>
+<div id="ref-mojeeb2017simple">
+<p>Mojeeb, AL, Isaac Kwasi Adu, and Cuihong Yang. 2017. “A Simple Seir Mathematical Model of Malaria Transmission.” <em>Asian Research Journal of Mathematics</em>, 1–22.</p>
+</div>
+<div id="ref-rahmandad2008heterogeneity">
+<p>Rahmandad, Hazhir, and John Sterman. 2008. “Heterogeneity and Network Structure in the Dynamics of Diffusion: Comparing Agent-Based and Differential Equation Models.” <em>Management Science</em> 54 (5): 998–1014.</p>
+</div>
+<div id="ref-roda2020difficult">
+<p>Roda, Weston C, Marie B Varughese, Donglin Han, and Michael Y Li. 2020. “Why Is It Difficult to Accurately Predict the Covid-19 Epidemic?” <em>Infectious Disease Modelling</em> 5: 271–81.</p>
+</div>
+<div id="ref-sujath2020machine">
+<p>Sujath, R, Jyotir Moy Chatterjee, and Aboul Ella Hassanien. 2020. “A Machine Learning Forecasting Model for Covid-19 Pandemic in India.” <em>Stochastic Environmental Research and Risk Assessment</em> 34: 959–72.</p>
+</div>
+<div id="ref-Winters:60">
+<p>Winters, Peter R. 1960. “Forecasting Sales by Exponentially Weighted Moving Averages.” <em>Management Science</em> 6 (3): 324–42. <a href="https://doi.org/10.1287/mnsc.6.3.324">https://doi.org/10.1287/mnsc.6.3.324</a>.</p>
+</div>
+<div id="ref-zou2020epidemic">
+<p>Zou, Difan, Lingxiao Wang, Pan Xu, Jinghui Chen, Weitong Zhang, and Quanquan Gu. 2020. “Epidemic Model Guided Machine Learning for Covid-19 Forecasts in the United States.” <em>medRxiv</em>. <a href="https://doi.org/10.1101/2020.05.24.20111989">https://doi.org/10.1101/2020.05.24.20111989</a>.</p>
 </div>
 </div>
             </section>
@@ -397,7 +581,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 <a href="map.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="regression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="compartment.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

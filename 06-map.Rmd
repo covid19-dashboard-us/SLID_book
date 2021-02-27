@@ -427,9 +427,10 @@ mutate(Infect_risk = Infected/population)
 counties1[counties1$id == 46113, 'population'] <- 14309 
 ```
 
-The final dataset `counties1` can also be downloaded from the `slid` package directly. Next, we will draw the county-level map.
+The final dataset `counties1` can also be downloaded from the `slid` package directly. First, let us load the data, color palette and scheme, and the highlight label.
 
 ```{r, eval= TRUE}
+# Load the data directly
 data(counties1)
 data(states1)
 counties1 <- counties1 %>% 
@@ -437,6 +438,7 @@ counties1 <- counties1 %>%
 states1 <- states1 %>% 
   subset(!name %in% c('Alaska', 'Hawaii', 'Puerto Rico'))
 
+# Prepare the color palette and scheme
 col2 <- colorRampPalette(c("#053061", "#2166AC", "#4393C3", 
                            "#92C5DE","#D1E5F0", "#FFFFFF", 
                            "#FDDBC7", "#F4A582", "#D6604D", 
@@ -445,6 +447,7 @@ col2 <- colorRampPalette(c("#053061", "#2166AC", "#4393C3",
 pal.county.quantile <- colorQuantile(
   palette = col2(200), domain = counties1$Infect_risk, n = 8)
 
+# Prepare the highlight label
 labels_cases.county <- sprintf(
   "<strong>%s</strong>, <strong>%s</strong>
   <br/>Infection Rate: %g <br>
@@ -456,17 +459,39 @@ labels_cases.county <- sprintf(
   counties1$population / 1000,
   counties1$Infected, counties1$Death
 ) %>% lapply(htmltools::HTML)
+```
 
+Next, we will draw the county-level map. In Leaflet, **map panes** group layers together implicitly, which allows web browsers to work with several layers at once in a more efficient way than working with layers individually. Map panes use the **z-index** CSS property to always show some layers on top of others. The default order is:
+
+* TileLayers and GridLayers
+* Paths, like lines, polylines, circles, or GeoJSON layers.
+* Marker shadows
+* Marker icons
+* Popups
+
+You can customize map panes for a leaflet map to control layer order using the function `addMapPane`, in which you can specify:
+
+* `name`: the name of the new pane.
+* `zIndex`: the zIndex of the pane. Panes with higher index are rendered above panes with lower indices.
+
+You can then use this pane to render overlays (points, lines, polygons) by setting the `pane` argument in `leafletOptions`. This will give you control over the order of the layers; for example, points are always on top of polygons, and states are on top of counties.
+
+```{r, eval= TRUE}
+# Draw the county-level map
 dmap2 <- leaflet() %>%
   setView(-96, 37.8, zoom = 4) %>%
   addTiles() %>%
-  addMapPane("polygons", zIndex = 410) %>%
+  # Add additional panes to control layer order
+  # Display borders (zIndex: 420) above the polygons (zIndex: 410)
+  addMapPane("polygons", zIndex = 410) %>% 
   addMapPane("borders", zIndex = 420) %>%
+  # Add state polygons (borders pane)
   addPolygons(
     data = states1, fill = FALSE, weight = 1,
     color = "gray", fillOpacity = 0,
     options = pathOptions(pane = "borders")
   ) %>%
+  # Add county polygons (polygons pane)
   addPolygons(
     data = counties1,
     fillColor = ~pal.county.quantile(Infect_risk),
@@ -523,7 +548,8 @@ dmap3 <- leaflet() %>%
 dmap3
 ```
 
-**Add circles**
+
+### Adding circles
 
 We can add circles to the map to highlight the top ten counties in the data using `addCircles()`. Circles are similar to circle markers; the only difference is that circles have their radii specified in meters, while circle markers are specified in pixels. As a result, the size of circles will change as the user zooms in and out, while circle markers remain a constant size on the screen regardless of zoom level. 
 
@@ -537,7 +563,7 @@ dmap3
 
 Each point can have text added to it using either a popup (appears only on click) or a label (appears either on hover or statically). We will describe the details below. 
 
-**Add popups**
+### Add popups
 
 **Popups** are small boxes containing some HTML outputs that may include texts or hyperlinks, and it points to a specific point or place on the map.
 
@@ -563,8 +589,7 @@ dmap3 %>%
              popup = ~labels_cases.county)
 ```
 
-
-**Add labels**
+### Add labels
 
 A **label** is textual or HTML content attached to markers and shapes to be always displayed or displayed on mouseover. You don’t need to click a marker/polygon for the label to be shown, unlike popups.
 
@@ -579,7 +604,7 @@ dmap3 %>%
 
 The Leaflet package includes powerful and convenient features for integrating with Shiny applications.
 
-Most Shiny output widgets are incorporated into an app by including an output for the widget in the UI definition, and using a render function in the server function. For Leaflet maps, you call `leafletOutput` in the UI side, and you assign a `renderLeaflet` call to the output on the server side, and return a Leaflet map object.
+Most Shiny output widgets are incorporated into an app by including an output for the widget in the UI definition, and using a render function in the server function. For Leaflet maps, you can call `leafletOutput` in the UI side, and you assign a `renderLeaflet` call to the output on the server side, and return a Leaflet map object.
 
 ```{r, eval=F}
 shinyServer(function (input, output) {
@@ -588,20 +613,24 @@ shinyServer(function (input, output) {
 ```
 
 **server.R**
+
 ```{r, eval=F}
 shinyServer(function (input, output) {
+  # Prepare data
   location.county <- slid::features.county %>% 
     dplyr:: select(ID, Longitude, Latitude) 
   county.top10.today <- slid::county.top10.long %>% 
     select(ID, County, State, Date, Count) %>%
     filter(Date == "2020-12-11")
   df <- left_join(county.top10.today, location.county, key = "ID")
+  # Prepare popup label
   labels_cases.county <- sprintf(
     "<strong>%s</strong>, <strong>%s</strong>
     <br/> Cum. Infected Cases on 2020-12-11: %g <br>",
     df$County, df$State, 
     df$Count
   ) %>% lapply(htmltools::HTML)
+  # Draw a spot map with popup
   output$map <- renderLeaflet({
     leaflet() %>%
       setView(-96, 37.8, zoom = 4) %>%
@@ -615,12 +644,13 @@ shinyServer(function (input, output) {
 ```
 
 **ui.R**
+
 ```{r, eval=F}
 library(shiny)
 library(dplyr)
 library(leaflet)
 shinyUI(
-  # Use a fluid Bootstrap layout
+  # Use a fluid layout
   fluidPage(
     # Give the page a title
     titlePanel(
