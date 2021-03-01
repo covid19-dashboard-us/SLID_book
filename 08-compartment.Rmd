@@ -552,7 +552,7 @@ It is important to note that $R_0$ is a dimensionless number and not a rate, and
 
 \begin{eqnarray*}
 \frac{dS(t)}{dt}& = &\mu\{N - S(t)\} - \beta I(t)\frac{S(t)}{N} + \omega R, \\
-\frac{dE(t)}{dt}& = &\beta I(t)\frac{S(t)}{N} - (\mu + \sigma)I(t), \\
+\frac{dE(t)}{dt}& = &\beta I(t)\frac{S(t)}{N} - (\mu + \sigma)E(t), \\
 \frac{dI(t)}{dt}& = &\sigma E(t) - (\mu + \gamma)I(t), \\
 \frac{dR(t)}{dt}& = &\gamma I(t) - (\mu + \omega) R(t), 
 \end{eqnarray*}
@@ -576,6 +576,206 @@ immunized to assure that the disease cannot become endemic.
 * The only disease for which this has actually been achieved worldwide is smallpox for which $R_0$ is approximately 5, so that 80% immunization does provide herd immunity, and rinderpest, a cattle disease.
 
 * For measles, epidemiological data in the United States indicate that $R_0$ for rural populations ranges from 5.4 to 6.3, requiring vaccination of 81.5% to 84.1% of the population. In urban areas $R_0$ ranges from 8.3 to 13.0, requiring vaccination of 88.0% to 92.3% percent of the population.
+
+## Exercises
+
+1. We have estimated the parameters by minimizing the SSE between model-predicted number of cases and observed data $(\text{prediction} - \text{data})^2$. What would happen if we would like to minimize the squared error on the log scale i.e., $(\log(\text{prediction}) - \log(\text{data}))^2$? What would happen if we would like minimize the square-root scale, i.e., $(\sqrt{\text{prediction}} - \sqrt{\text{data}})^2$? Try to fit the model with different definitions of loss function using the niamey data example. What’s the “correct” scale to choose?
+
+```{r, eval = FALSE, echo = FALSE, warning = FALSE}
+niameyA <- pomp(
+  data = subset(niamey, community == "A", select = - community), 
+  times = "biweek", t0 = 0, 
+  skeleton = vectorfield(
+    Csnippet("
+      DS = - Beta*S*I/N;
+      DI = Beta*S*I/N - gamma*I;
+      DR = gamma*I;")), 
+  rinit = Csnippet("
+      S = S_0;
+      I = I_0;
+      R = N - S_0 - I_0;"), 
+  statenames = c("S", "I", "R"), 
+  paramnames = c("Beta", "gamma", "N", "S_0", "I_0"))
+
+sse <- function (params) {
+  x <- trajectory(niameyA, params = params)
+  discrep <- x["I", , ] - obs(niameyA)
+  sum(discrep^2)
+}
+sse.log <- function (params) {
+  x <- trajectory(niameyA, params = params)
+  discrep <- log(x["I", , ]) - log(obs(niameyA))
+  sum(discrep^2)
+}
+
+sse.sqrt <- function (params) {
+  x <- trajectory(niameyA, params = params)
+  discrep <- sqrt(x["I", , ]) - sqrt(obs(niameyA))
+  sum(discrep^2)
+}
+f2 <- function (par) {
+  params <- c(Beta = par[1], gamma = par[2], 
+              N = 50000, S_0 = 10000, I_0 = par[3])
+  sse(params)
+}
+
+f2.log <- function (par) {
+  params <- c(Beta = par[1], gamma = par[2], 
+              N = 50000, S_0 = 10000, I_0 = par[3])
+  sse.log(params)
+}
+f2.sqrt <- function (par) {
+  params <- c(Beta = par[1], gamma = par[2], 
+              N = 50000, S_0 = 10000, I_0 = par[3])
+  sse.sqrt(params)
+}
+
+fit2 <- optim(fn = f2, par = c(8, 1, 10))
+fit2
+beta.hat2 <- fit2$par[1]
+gamma.hat2 <- fit2$par[2]
+I_0.hat2 <- fit2$par[3]
+x2 <- trajectory(niameyA,params=c(Beta = beta.hat2, gamma = gamma.hat2, 
+                   N = 50000, S_0 = 10000, I_0 = I_0.hat2), format = "data.frame")
+sir.fit.df <- left_join(as.data.frame(niameyA), x2, by = 'biweek')
+
+fit2.log <- optim(fn = f2.log, par = c(8, 1, 10))
+fit2.log
+beta.hat2.log <- fit2.log$par[1]
+gamma.hat2.log <- fit2.log$par[2]
+I_0.hat2.log <- fit2.log$par[3]
+x2.log <- trajectory(niameyA, params=c(Beta = beta.hat2.log, gamma = gamma.hat2.log, 
+                   N = 50000, S_0 = 10000, I_0 = I_0.hat2.log), format = "data.frame")
+sir.fit.df <- left_join(sir.fit.df, x2.log, by = 'biweek', suffix = c("", ".log"))
+
+fit2.sqrt <- optim(fn = f2.sqrt, par = c(8, 1, 10))
+fit2.sqrt
+beta.hat2.sqrt <- fit2.sqrt$par[1]
+gamma.hat2.sqrt <- fit2.sqrt$par[2]
+I_0.hat2.sqrt <- fit2.sqrt$par[3]
+x2.sqrt <- trajectory(niameyA, params=c(Beta = beta.hat2.sqrt, gamma = gamma.hat2.sqrt, 
+                   N = 50000, S_0 = 10000, I_0 = I_0.hat2.sqrt), format = "data.frame")
+sir.fit.df <- left_join(sir.fit.df, x2.sqrt, by = 'biweek', suffix = c("", ".sqrt"))
+
+plot_ly(data = sir.fit.df) %>% 
+  add_trace(x = ~biweek, y = ~measles, type = 'scatter', 
+            mode = 'lines+markers', name = 'data') %>% 
+  add_trace(x = ~biweek, y = ~I, type = 'scatter', 
+            mode = 'lines+markers', name = TeX("$(\\text{prediction} - \\text{data})^2$")) %>%
+  add_trace(x = ~biweek, y = ~I.log, type = 'scatter', 
+            mode = 'lines+markers', name = TeX("$(\\log(\\text{prediction}) - \\log(\\text{data}))^2$")) %>%
+  add_trace(x = ~biweek, y = ~I.sqrt, type = 'scatter', 
+            mode = 'lines+markers', name = TeX("$(\\sqrt{\\text{prediction}} - \\sqrt{\\text{data}})^2$")) %>% 
+  config(mathjax = 'cdn')
+  
+```
+
+2. Change the optimization algorithm used by optim via the method argument. Investigate the effect on your parameter estimates. Try to use other optimizers, such as `nlm`, `nlminb`, `constrOptim`, or the `nloptr` package, etc. 
+
+```{r, echo = FALSE, eval = FALSE, warning = FALSE, message = FALSE}
+# for example:
+tmp1 <- optim(fn = f2, par = c(8, 1, 10), method = "Nelder-Mead") # default method: "Nelder-Mead"
+tmp1
+tmp2 <- optim(fn = f2, par = c(8, 1, 10), method = 'L-BFGS', lower=c(0,0,0))
+tmp2
+# (For this example, not all method will succeed. It might be due to the fact that SIR model has some natural constraints and the process cannot take all possible combination of parameters.)
+# tmp3 <- nlm(f = f2, p = c(8, 1, 10))
+# tmp3
+tmp4 <- nlminb(start = c(8, 1, 10), objective = f2, lower=c(0,0,0), control = list(rel.tol = 1e-5))
+tmp4
+tmp5 <- constrOptim(theta = c(8, 1, 10), f = f2, grad=NULL, ui = diag(1,3), ci=c(0,0,0))
+tmp5
+```
+
+3. Suppose, alternatively, that the errors are log-normal with constant variance. Under what definition of SSE will least-squares and maximum likelihood give the same parameter estimates?
+
+
+4. Simulate and visualize the dynamics using SIR model with births and deaths. Consider `time=seq(0,20,by=1/52)` in years, `N=100000`, `t_0 = 0`, `S_0=100000/12`, `I_0=100` and two sets of parameters: (a) $\mu = 1/50$, $\gamma = 365/13$, $\beta = 400$ and (b) $\mu = 1/50$, $\gamma = 365/5$, $\beta = 1000$. 
+
+```{r, echo = FALSE, eval = FALSE}
+# The code comes from https://kingaa.github.io/short-course/parest/odes.html#exercise-seir-model
+open.sir.ode <- Csnippet("
+  DS = -Beta*S*I/N+mu*(N-S);
+  DI = Beta*S*I/N-gamma*I-mu*I;
+  DR = gamma*I-mu*R;
+")
+
+init2 <- Csnippet("
+  S = S_0;
+  I = I_0;
+  R = N-S_0-I_0;
+")
+
+pomp(data=data.frame(time=seq(0, 20, by=1/52), cases=NA),
+     times="time", t0=0,
+     skeleton=vectorfield(open.sir.ode),
+     rinit=init2,
+     statenames=c("S","I","R"),
+     paramnames=c("Beta","gamma","mu","S_0","I_0","N")
+) -> open.sir 
+
+params1 <- c(mu=1/50, Beta=400, gamma=365/13,
+  N=100000, S_0=100000/12, I_0=100)
+params2 <- c(mu=1/50, Beta=1000, gamma=365/5,
+  N=100000, S_0=100000/12, I_0=100)
+x1 <- trajectory(open.sir, params=params1, format="d") 
+x2 <- trajectory(open.sir, params=params2, format="d") 
+plot_ly() %>% 
+  add_trace(data = x1, x = ~time, y = ~I, type = 'scatter', 
+            mode = 'lines', name = 'set 1') %>%
+  add_trace(data = x2, x = ~time, y = ~I, type = 'scatter', 
+            mode = 'lines', name = 'set 2')
+```
+
+5: Under the assumptions of this model, the average host lifespan is $1/\mu$. Explore how host lifespan affects the dynamics by integrating the differential equations for lifespans of 20 and 200 years. Consider `time=seq(0,20,by=1/52)`, `N=100000`, `t_0 = 0`, `S_0=100000/12`, `I_0=100` and parameters: $\gamma = 365/13$, $\beta = 400$. 
+
+```{r, echo = FALSE, eval = FALSE}
+params3 <- c(mu=1/20, Beta=400, gamma=365/13,
+  N=100000, S_0=100000/12, I_0=100)
+params4 <- c(mu=1/200, Beta=400, gamma=365/13,
+  N=100000, S_0=100000/12, I_0=100)
+x3 <- trajectory(open.sir, params=params3, format="d") 
+x4 <- trajectory(open.sir, params=params4, format="d") 
+plot_ly() %>% 
+  add_trace(data = x3, x = ~time, y = ~I, type = 'scatter', 
+            mode = 'lines', name = '20 years') %>%
+  add_trace(data = x4, x = ~time, y = ~I, type = 'scatter', 
+            mode = 'lines', name='200 years')
+
+```
+
+
+6: Compare the dynamics of SIR and SEIR models for the parameters $\mu = 1/50$, $\gamma = 365/13$, $\beta = 400$ and assuming that, for example, $E(0)=100$, the latent period has duration 8 days, and immunity lasts for 10 years in the SEIR model.
+
+```{r, echo = FALSE, eval = FALSE}
+open.seir.ode <- Csnippet("
+  DS = -Beta*S*I/N + mu*(N-S) + omega*R;
+  DE = Beta*S*I/N - (mu+sigma)*E;
+  DI = sigma*E-(mu+gamma)*I;
+  DR = gamma*I-(mu+omega)*R;
+")
+init3 <- Csnippet("
+  S = S_0;
+  E = E_0;
+  I = I_0;
+  R = N-S_0-E_0-I_0;
+")
+pomp(data=data.frame(time=seq(0,20,by=1/52),cases=NA),
+     times="time", t0=0,
+     skeleton=vectorfield(open.seir.ode),
+     rinit=init3,
+     statenames=c("S","E","I","R"),
+     paramnames=c("Beta","gamma","mu","omega","sigma","S_0","E_0","I_0","N")
+) -> open.seir 
+params5 <- c(mu=1/50, Beta=400, gamma=365/13, omega=1/10, sigma=365/8,
+  N=100000, S_0=100000/12, I_0=100, E_0=100)
+x5 <- trajectory(open.seir, params=params5, format="d") 
+plot_ly() %>% 
+  add_trace(data = x1, x = ~time, y = ~I, type = 'scatter', 
+            mode = 'lines', name = 'SIR') %>%
+  add_trace(data = x5, x = ~time, y = ~I, type = 'scatter', 
+            mode = 'lines', name = 'SEIR')
+```
 
 
 

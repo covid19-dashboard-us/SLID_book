@@ -78,10 +78,50 @@ In the literature, statistical modeling has given the scientific field many succ
 
 When analyzing the spread of infectious diseases, other factors, such as demographic characteristics, socioeconomic status, and control policies, may also be responsible for temporal or spatial patterns. For example, the spread of the disease varies considerably across different geographical regions. Local area - features, like socioeconomic factors and demographic conditions, can dramatically influence the course of the epidemic. These data are usually supplemented with the population information at the county level. Moreover, the capacity of the health care system, and control measures, such as government - mandated social distancing, also have a significant impact on the spread of the epidemic. Regression is a widely used statistical modeling method in epidemic studies because it produces a combination of the variables with weights indicating the impact of the variable [@jewell2003statistics]. It can help determine which factors matter most, which can be ignored, and how those factors interact with each other. The benefit of regression analysis is that it can be used to understand different patterns in data. These insights may often be very valuable in understanding which factors contribute to the spread of COVID-19.
 
-Predicting the spread speed and severity of COVID-19 is crucial to resource management, developing strategies to deal with the epidemic, and ultimately assisting in prevention efforts. Mathematical models are able to mimic the way disease spreads and can be used to project or simulate future transmission scenarios under various assumptions. Statistical models are more oriented towards predictions [@Held:etal:20]. In fact, predictions are at the heart of statistical modeling. For example, time series analysis, one commonly used statistical forecasting approach, works by taking a series of historical observations and extrapolating the patterns into the future. Machine learning makes predictions based on known properties learned from the training data. However, purely statistical models only describe the observed data and give little information about the mechanism since they do not account for how transmission occurs. Therefore, they are generally not well - suited for long - term predictions, and a few weeks is usually close to being the ultimate prediction limit. Another advantage of statistical modeling is its ability to quantify uncertainty in the prediction, especially at an early phase of an epidemic with limited data. For example, statistical models can provide a prediction interval to understand the uncertainty surrounding the forecast [@brockwell2002introduction]. See more discussions in the following section.  
+Predicting the spread speed and severity of COVID-19 is crucial to resource management, developing strategies to deal with the epidemic, and ultimately assisting in prevention efforts. Mathematical models are able to mimic the way disease spreads and can be used to project or simulate future transmission scenarios under various assumptions. Statistical models are more oriented towards predictions [@Held:etal:20]. In fact, predictions are at the heart of statistical modeling. For example, time series analysis, one commonly used statistical forecasting approach, works by taking a series of historical observations and extrapolating the patterns into the future. Machine learning makes predictions based on known properties learned from the training data. However, purely statistical models only describe the observed data and give little information about the mechanism since they do not account for how transmission occurs. Therefore, they are generally not well - suited for long - term predictions, and a few weeks is usually close to being the ultimate prediction limit. Another advantage of statistical modeling is its ability to quantify uncertainty in the prediction, especially at an early phase of an epidemic with limited data. For example, statistical models can provide a prediction interval to understand the uncertainty surrounding the forecast [@brockwell2002introduction]. 
 
 In summary, mathematical models are usually constructed in a more principle - driven manner, while statistical models are more data driven. Although both mathematical and statistical models can be used to study the effect of NPIs and make predictions, the implementation details are different, and an understanding of the corresponding limitations is crucial. For maximal effectiveness, researchers working to advance epidemic modeling will need to appreciate and exploit the complementary strengths of mathematical and statistical models.
 
+
+## Some Terminologies in Epidemic Modeling
+
+In this section, we introduce some terminologies often used in infectious disease modeling.
+
+* **Incidence:** number of new cases in a given time period expressed as percent infected per year (cumulative incidence) or number per person time of observation (incidence density).
+    + An example: Auckland in New Zealand, often has epidemics of meningococcal disease, with annual incidences of up to 16.9/ 100,000 people.
+
+* **Prevalence:** number of cases at a given time expressed as a percent at a given time. 
+    + An example: A recent Scottish study showed that the prevalence of obesity in a group of children aged from 3 to 4 years was 12.8% at the time.
+
+* **Attack rate:** proportion of non-immune exposed individuals who become clinically ill.
+    + An example: In an outbreak of gastroenteritis with 50 cases among a population at risk of 2500, the attack rate of disease is 50/2500 = 0.02.
+
+* **Primary/secondary cases:** The person who comes into and infects a population is the primary case. Those who subsequently contract the infection are secondary cases. Further spread is described as “waves” or “generations”.
+
+* **Case fatality:** proportion of infected individuals who die of the infection. 
+
+* **Mortality:** proportion of the population that die yearly of the disease and is a product of incidence and the case fatality rate.
+    + As an example, consider two populations. Population 1 has 1,000 people; 300 have the specified disease, 100 of whom die from it. The mortality rate for the disease is 100/1,000 = 10%. The case fatality rate is 100/300 = 33%. Population 2 also has 1,000 people; 50 people have the disease and 40 die from it. The mortality rate is 40/1,000 = 4%; the case fatality rate, however, is 40/50 = 80%. Theincidence of death from the disease is higher in the first population, but the severity of disease is greater in the second.
+
+* **Reproductive rate:** potential for an infectious disease to spread. Influential factors include: 
+    + probability of transmission between an infected and a susceptible individual; 
+    + frequency of population contact; 
+    + duration of infection; 
+    + population immune proportion.
+
+* **Transmission routes:** direct (mucous membrane to mucous membrane, cross placental, blood or tissue, skin to skin, sneezes or coughs) and indirect (water, air borne, food borne, vectors or objects).
+
+* **Reservoir:** the population of organisms or the specific environment in which an infectious pathogen naturally lives and reproduces, or upon which the pathogen primarily depends for its survival.
+
+* **Incubation period:** time from exposure to development of disease (the time between inoculation and symptom expression).
+
+* **Infectious period:** length of time a person can transmit disease.
+
+* **Latent period:** period of infection without being infectious (the time between inoculation and infectiousness of the host). This may occur right after exposure or late in the disease.
+
+* **Epidemic:** occurrence of cases of illness in excess of expectancy. 
+    + An epidemic whose incidence remains stable for a long period is describes as **endemic**. 
+    + A global outbreak is described as a **pandemic**.
 
 
 
