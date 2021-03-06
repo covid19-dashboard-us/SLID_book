@@ -264,7 +264,7 @@ dmap <- dmap %>% addPolygons(
         # Options to highlight a shape on hover
         highlight = highlightOptions(
           weight = 5, color = "#666",
-          dashArray = "", fillOpacity = 0.9,
+          dashArray = NULL, fillOpacity = 0.9,
           bringToFront = TRUE), label = labels_cases,
         labelOptions = labelOptions(
           style = list("font-weight" = "normal", padding = "3px 8px"),
@@ -327,7 +327,7 @@ map.state <- function(dat, fill.var, labels, pal, ID = 'name_ns'){
       dashArray = "3", fillOpacity = 0.9,
       layerId = ~dat@data %>% pull(ID),
       highlight = highlightOptions(
-        weight = 5, color = "#666", dashArray = "",
+        weight = 5, color = "#666", dashArray = NULL,
         fillOpacity = 0.9, bringToFront = TRUE),
       label = labels,
       labelOptions = labelOptions(
@@ -499,7 +499,7 @@ dmap2 <- leaflet() %>%
     dashArray = "3", fillOpacity = 0.9,
     highlight = highlightOptions(
       weight = 5, color = "#666",
-      dashArray = "", fillOpacity = 0.9,
+      dashArray = NULL, fillOpacity = 0.9,
       bringToFront = TRUE),
     label = labels_cases.county,
     layerId = ~id,
