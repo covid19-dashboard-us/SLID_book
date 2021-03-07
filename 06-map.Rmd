@@ -726,9 +726,9 @@ geojson_read(x = paste0(urlRemote, pathGithub, fileName),
     
   a. Calculate the weekly risk of each county and create a `weekly_risk` variable, which contains the number of newly infected cases in the past weeks (December 5, 2020, to December 11, 2020) for each county divided by its population.
      
-  b. Draw a choropleth map to display the weekly risk for each state. You can change the opacity and the weight of the borderlines according to your aesthetic preferences. Use `colorQuantile` to color the counties.
+  b. Draw a choropleth map to display the weekly risk for each county. You can change the opacity and the weight of the borderlines according to your aesthetic preferences. Use `colorQuantile` to color the counties.
      
-  c. Generate the highlighted label with the county, state name and the value of `weekly_risk`, and population, and display the label when the mouse moves over to the state.
+  c. Generate the highlighted label with the county, state name and the value of `weekly_risk`, and population, and display the label when the mouse moves over to the county.
      
   d. Draw a spot map and highlight the top 10 counties with the highest weekly risk in the past week (December 5, 2020, to December 11, 2020). 
      
