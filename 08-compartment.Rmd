@@ -260,7 +260,7 @@ where the parameter $p$ reflects a combination of sampling efficiency and the de
 
 ## Implementation of parameter estimation in R
 
-Example code for implementing SIR to model the outbreak of measles in Niamey can be found in http://kingaa.github.io/clim-dis/parest/niamey.csv. We mainly show how to use R to find the parameters in SIR model by minimizing the sum of squared errors. 
+Example code for implementing SIR to model the outbreak of measles in Niamey can be found in https://kingaa.github.io/short-course/parest/odes.html. We mainly show how to use R to find the parameters in SIR model by minimizing the sum of squared errors. Here is the data of the  outbreak of measles in Niamey: http://kingaa.github.io/clim-dis/parest/niamey.csv.
 
 ### Example 1. Outbreak of measles in Niamey
 
@@ -276,9 +276,9 @@ plot_ly(data = niamey) %>%
             type = 'scatter', mode = 'lines+markers')
 ```
 
-1. Least squares method
+#### Least squares method
 
-The R package “pomp” provides facilities for dealing with the important special case of deterministic dynamics. 
+The R package “pomp” provides facilities for dealing with the important special case of deterministic dynamics. The “pomp” package was developed for data analysis with partially observed Markov process (POMP) models; see details from https://cran.r-project.org/web/packages/pomp/index.html.
 
 ```{r, message = FALSE, warning = FALSE}
 library(pomp)
@@ -299,7 +299,12 @@ niameyA <- pomp(
 
 ```
 
-* **Grid search method**
+In the above, two important arguments are:
+
+* `times`: The times corresponding to the observations. times must be a strictly increasing numeric vector. If data is a data-frame, times should be the name of the column of observation times.
+* `t0`: The zero-time. This must be no later than the time of the first observation, `times[1]`.
+
+1. Grid search method
 
 If we assume all the other parameters are known, one simple option to find optimal $\beta$ would be grid searching a value that minimizes the sum of squared error (SSE), which is the difference between the fitted infection curve with given $beta$ compared to the true observations. For example, it is well known that measles’ infectious period is about two weeks, so we can safely assume that $\gamma = 1$.
 
@@ -339,9 +344,9 @@ plot_ly(data = sir.fit.df) %>%
             mode = 'lines+markers', name = 'fitted')
 ```
 
-* **Optimization algorithm**
+2. Optimization algorithm
 
-However, this grid-search approach won't perform well when we have more than one parameter. In that case, we can use the `optim` function instead.
+However, this grid-search approach won't perform well when we have more than one parameter. For example, we would like to assume that $\beta$, $\gamma$ and $I_0$ are all unknown, and we would like to estimate them simultaneously. In that case, we can use the `optim` function instead.
 
 ```{r,meessage = FALSE, warning=FALSE}
 # General-purpose optimization
@@ -368,7 +373,7 @@ plot_ly(data = sir.fit.df) %>%
 
 ```
 
-2. Maximum likelihood approach 
+#### Maximum likelihood approach 
 
 Another way to fit the model is using likelihood. Note that the model can be simplified a little bit by defining $b = \beta/N$. 
 
@@ -438,8 +443,10 @@ N0 <- pop.county %>%
 est.h <- 60
 pred.h <- 12
 date.start <- as.Date('2020-10-01')
-dates.train <- date.start + 0:(est.h - 1) # training period
-dates.test <- date.start + est.h + 0:(pred.h - 1) # testing period
+# training period
+dates.train <- date.start + 0:(est.h - 1) 
+# prediction period
+dates.test <- date.start + est.h + 0:(pred.h - 1) 
 dates.all <- date.start + 0:(est.h + pred.h - 1)
 P.train <- data.frame(Date = 0:(est.h - 1), 
                       P_cases = as.numeric(I.county[i, 
@@ -469,7 +476,6 @@ process.tmp <- pomp(
   statenames = c("S", "I", "R"), 
   paramnames = c("Beta", "gamma", "N", "S_0", "I_0"))
 
-
 sse <- function (params) {
   x <- trajectory(process.tmp, params = params)
   discrep <- x["I", , ] + x["R", , ] - obs(process.tmp)
@@ -493,16 +499,17 @@ f1 <- function (par) {
 beta0 <- 0.07
 I0 <- 1000
 
+# we estimate I0 and beta0
 fit1 <- optim(fn = f1, par = c(I0, beta0))
-
 I0.hat1 <- fit1$par[1]
 beta.hat1 <- fit1$par[2]
 process.tmp1 <- process.tmp
 pomp::coef(process.tmp1) <- c(Beta = beta.hat1, gamma = R.rate, 
                               N = N0, S_0 = S0, I_0 = I0.hat1)
+# we estimate the cases in each compartment
 x1 <- trajectory(process.tmp1, times = 0:(est.h + pred.h - 1), 
                  format = "data.frame")
-
+# we estimate the reported cases
 valid.df <- data.frame(Date = dates.all, 
                        P_cases = P.all$P_cases, 
                        SIR_P = x1$I + x1$R, 
@@ -727,7 +734,7 @@ plot_ly() %>%
             mode = 'lines', name = 'set 2')
 ```
 
-5: Under the assumptions of this model, the average host lifespan is $1/\mu$. Explore how host lifespan affects the dynamics by integrating the differential equations for lifespans of 20 and 200 years. Consider `time=seq(0,20,by=1/52)`, `N=100000`, `t_0 = 0`, `S_0=100000/12`, `I_0=100` and parameters: $\gamma = 365/13$, $\beta = 400$. 
+5. Under the assumptions of this model, the average host lifespan is $1/\mu$. Explore how host lifespan affects the dynamics by integrating the differential equations for lifespans of 20 and 200 years. Consider `time=seq(0, 20, by=1/52)`, `N=100000`, `t_0 = 0`, `S_0=100000/12`, `I_0=100` and parameters: $\gamma = 365/13$, $\beta = 400$. 
 
 ```{r, echo = FALSE, eval = FALSE}
 params3 <- c(mu=1/20, Beta=400, gamma=365/13,

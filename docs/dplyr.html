@@ -24,7 +24,7 @@
 <meta name="author" content="Lily Wang" />
 
 
-<meta name="date" content="2021-03-07" />
+<meta name="date" content="2021-03-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -65,6 +65,10 @@
 <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
 <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
 <script src="libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -375,8 +379,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10" data-path="timeseries.html"><a href="timeseries.html"><i class="fa fa-check"></i><b>10</b> Time Series Analysis of Infectious Disease Data</a>
 <ul>
 <li class="chapter" data-level="10.1" data-path="timeseries.html"><a href="timeseries.html#datasets-and-r-packages"><i class="fa fa-check"></i><b>10.1</b> Datasets and R Packages</a></li>
-<li class="chapter" data-level="10.2" data-path="timeseries.html"><a href="timeseries.html#time-series-plots"><i class="fa fa-check"></i><b>10.2</b> Time series plots</a></li>
+<li class="chapter" data-level="10.2" data-path="timeseries.html"><a href="timeseries.html#time-series-plots"><i class="fa fa-check"></i><b>10.2</b> Time series plots</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="timeseries.html"><a href="timeseries.html#tsibble-objects"><i class="fa fa-check"></i><b>10.2.1</b> “tsibble” objects</a></li>
+<li class="chapter" data-level="10.2.2" data-path="timeseries.html"><a href="timeseries.html#working-with-tsibble-objects"><i class="fa fa-check"></i><b>10.2.2</b> Working with “tsibble” objects</a></li>
+<li class="chapter" data-level="10.2.3" data-path="timeseries.html"><a href="timeseries.html#drawing-time-series-plots"><i class="fa fa-check"></i><b>10.2.3</b> Drawing time series plots</a></li>
+<li class="chapter" data-level="10.2.4" data-path="timeseries.html"><a href="timeseries.html#objectives-of-time-series-analysis"><i class="fa fa-check"></i><b>10.2.4</b> Objectives of Time Series Analysis</a></li>
+<li class="chapter" data-level="10.2.5" data-path="timeseries.html"><a href="timeseries.html#autocorrelation"><i class="fa fa-check"></i><b>10.2.5</b> Autocorrelation</a></li>
+<li class="chapter" data-level="10.2.6" data-path="timeseries.html"><a href="timeseries.html#autocorrelation-1"><i class="fa fa-check"></i><b>10.2.6</b> Autocorrelation</a></li>
+</ul></li>
 <li class="chapter" data-level="10.3" data-path="timeseries.html"><a href="timeseries.html#time-series-decomposition"><i class="fa fa-check"></i><b>10.3</b> Time Series Decomposition</a></li>
+<li class="chapter" data-level="10.4" data-path="timeseries.html"><a href="timeseries.html#simple-time-series-forecasting-approaches"><i class="fa fa-check"></i><b>10.4</b> Simple Time Series Forecasting Approaches</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="timeseries.html"><a href="timeseries.html#average-method"><i class="fa fa-check"></i><b>10.4.1</b> Average method</a></li>
+<li class="chapter" data-level="10.4.2" data-path="timeseries.html"><a href="timeseries.html#random-walk-forecasts"><i class="fa fa-check"></i><b>10.4.2</b> Random walk forecasts</a></li>
+<li class="chapter" data-level="10.4.3" data-path="timeseries.html"><a href="timeseries.html#seasonal-random-walk-forecasts"><i class="fa fa-check"></i><b>10.4.3</b> Seasonal random walk forecasts</a></li>
+<li class="chapter" data-level="10.4.4" data-path="timeseries.html"><a href="timeseries.html#random-walk-with-drift-method"><i class="fa fa-check"></i><b>10.4.4</b> Random walk with drift method</a></li>
+<li class="chapter" data-level="10.4.5" data-path="timeseries.html"><a href="timeseries.html#combining-the-forecasting-results"><i class="fa fa-check"></i><b>10.4.5</b> Combining the forecasting results</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="timeseries.html"><a href="timeseries.html#methods-for-estimating-the-trend"><i class="fa fa-check"></i><b>10.5</b> Methods for Estimating the Trend</a></li>
+<li class="chapter" data-level="10.6" data-path="timeseries.html"><a href="timeseries.html#arma-models"><i class="fa fa-check"></i><b>10.6</b> ARMA Models</a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="timeseries.html"><a href="timeseries.html#simple-examples-of-arma-models"><i class="fa fa-check"></i><b>10.6.1</b> Simple Examples of ARMA Models</a></li>
+<li class="chapter" data-level="10.6.2" data-path="timeseries.html"><a href="timeseries.html#arima"><i class="fa fa-check"></i><b>10.6.2</b> ARIMA</a></li>
+<li class="chapter" data-level="10.6.3" data-path="timeseries.html"><a href="timeseries.html#seasonal-arima-model"><i class="fa fa-check"></i><b>10.6.3</b> Seasonal ARIMA model</a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="timeseries.html"><a href="timeseries.html#model-comparison"><i class="fa fa-check"></i><b>10.7</b> Model Comparison</a></li>
+<li class="chapter" data-level="10.8" data-path="timeseries.html"><a href="timeseries.html#ensuring-forecasts-stay-within-limits"><i class="fa fa-check"></i><b>10.8</b> Ensuring forecasts stay within limits</a>
+<ul>
+<li class="chapter" data-level="10.8.1" data-path="timeseries.html"><a href="timeseries.html#positive-forecasts"><i class="fa fa-check"></i><b>10.8.1</b> Positive forecasts</a></li>
+<li class="chapter" data-level="10.8.2" data-path="timeseries.html"><a href="timeseries.html#forecasts-constrained-to-an-interval"><i class="fa fa-check"></i><b>10.8.2</b> Forecasts constrained to an interval</a></li>
+</ul></li>
+<li class="chapter" data-level="10.9" data-path="timeseries.html"><a href="timeseries.html#prediction-intervals-for-aggregates"><i class="fa fa-check"></i><b>10.9</b> Prediction intervals for aggregates</a></li>
+<li class="chapter" data-level="10.10" data-path="timeseries.html"><a href="timeseries.html#exercises-5"><i class="fa fa-check"></i><b>10.10</b> Exercises</a></li>
+<li class="chapter" data-level="10.11" data-path="timeseries.html"><a href="timeseries.html#references"><i class="fa fa-check"></i><b>10.11</b> References</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>11</b> Regression Modeling</a>
 <ul>
@@ -395,7 +431,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13.2" data-path="ensemble.html"><a href="ensemble.html#model-diagnostics"><i class="fa fa-check"></i><b>13.2</b> Model Diagnostics</a></li>
 <li class="chapter" data-level="13.3" data-path="ensemble.html"><a href="ensemble.html#weights-selection-using-cross-validation"><i class="fa fa-check"></i><b>13.3</b> Weights Selection Using Cross Validation</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
 <li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i>Appendix</a></li>
 <li class="chapter" data-level="14" data-path="appendix-a.html"><a href="appendix-a.html"><i class="fa fa-check"></i><b>14</b> Appendix A</a>
 <ul>
@@ -464,7 +500,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="dplyr" class="section level1" number="3">
 <h1><span class="header-section-number">Chapter 3</span> Data Wrangling with <code>dplyr</code> and <code>tidyr</code></h1>
-<p>The package <code>dplyr</code> is an R package for making tabular data wrangling easier by using a limited set of functions that can be combined to extract and summarize insights from your data. It pairs nicely with the package <code>tidyr</code>, enabling you to swiftly convert between different data formats (long vs. wide) for plotting and analysis. It addresses the common problem of reshaping your data for plotting and use by different R functions. Sometimes we want data sets where we have one row per measurement. Sometimes we want a dataframe where each measurement type has its own column, and rows are instead more aggregated groups. Sometimes you may want to select important variables, filter out key observations, create new variables and obtain summary statistics. As illustrated in Figure <a href="dplyr.html#fig:process1">3.1</a>, you may need to work back and forth between these formats, which is nontrivial, and <code>tidyr</code> and <code>dplyr</code> give you the right tools for this and more sophisticated data wrangling.</p>
+<p>The package <code>dplyr</code> is an R package created to make tabular data wrangling less difficult by using a limited set of functions that are able to be used together to extract and summarize insights from your data. It works well with the package, <code>tidyr</code>, which allows you to quickly convert between different data formats (long vs. wide) for the purpose of plotting and analysis. It tackles the common problem of reshaping your data for plotting and use by different R functions. Sometimes we may want data sets where we have one row per measurement, or a data frame where each measurement type has its own column and rows are, instead, more aggregated groups, or maybe you want to select important variables, filter out key observations, create new variables and obtain summary statistics. As illustrated in Figure <a href="dplyr.html#fig:process1">3.1</a>, it is necessary that you work back and forth between those formats. <code>tidyr</code> and <code>dplyr</code> give you the right tools for this as well as for more advanced and intricate data wrangling.</p>
 <div class="figure" style="text-align: center"><span id="fig:process1"></span>
 <img src="figures/process_new.png" alt="A typical data science process." width="75%" />
 <p class="caption">
@@ -487,13 +523,13 @@ Figure 3.1: A typical data science process.
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="dplyr.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
 <div id="tibbles" class="section level3" number="3.1.1">
 <h3><span class="header-section-number">3.1.1</span> Tibbles</h3>
-<p>Throughout this book, we work with “tibbles” instead of R’s traditional “data.frame.” Tibbles are data frames, but they are a modern reimagining of the “data.frame,” keeping what time has proven to be effective, and throwing out what is not. Here we will use the <code>tibble</code> package, which provides opinionated data frames that make working in the <code>tidyverse</code> a little easier.</p>
+<p>In this book, we will work with “tibbles,” rather than R’s “data.frame.” Tibbles are data frames but modernized so that they keep what time has proven to be effective and throwing out what is not. Here, we will use the <code>tibble</code> package, which provides opinionated data frames that make working in <code>tidyverse</code> a little easier.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="dplyr.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The easiest way to get tibble is to install the whole tidyverse:</span></span>
 <span id="cb6-2"><a href="dplyr.html#cb6-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
 <span id="cb6-3"><a href="dplyr.html#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="dplyr.html#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternatively, install just tibble:</span></span>
 <span id="cb6-5"><a href="dplyr.html#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;tibble&quot;</span>)</span></code></pre></div>
-<p>In most places, we will use the term “tibble” and “data frame” interchangeably; when we want to draw particular attention to R’s built-in data frame, we will call them “data.frame.” See <span class="citation"><a href="appendix-b.html#ref-wickham2016r" role="doc-biblioref">Wickham and Grolemund</a> (<a href="appendix-b.html#ref-wickham2016r" role="doc-biblioref">2016</a>)</span> for more details about how to create and use “tibbles.”</p>
+<p>For the most part, we will use the terms “tibble” and “data frame” interchangeably. When we choose to point out R’s data frame, we will call it a “data.frame.” See <span class="citation"><a href="appendix-b.html#ref-wickham2016r" role="doc-biblioref">Wickham and Grolemund</a> (<a href="appendix-b.html#ref-wickham2016r" role="doc-biblioref">2016</a>)</span> for more details about how to create and use “tibbles.”</p>
 </div>
 <div id="import-data" class="section level3" number="3.1.2">
 <h3><span class="header-section-number">3.1.2</span> Import data</h3>
@@ -505,7 +541,7 @@ Figure 3.1: A typical data science process.
 <li><p><code>read_table()</code> reads a common variation of fixed width files where columns are separated by white space.</p></li>
 <li><p><code>load()</code> loads an <code>.RData</code> file and import all of the objects contained in the <code>.RData</code> file into your current workspace.</p></li>
 </ul>
-<p>Below we will work on COVID-19 county level infected count data (<code>I.county</code>), and we can obtain the data from Github R package <code>slid</code>. It is a “data frame” which includes “ID” (county-level Federal Information Processing System code), “County” (name of county), “State” (name of state), “XYYYY.MM.DD” (the number of cumulative infected cases in a county related to the date of YYYY.MM.DD) for 3,104 counties in the US. For example, the variable <code>X2020.01.22</code> is the number of cumulative infected cases in a county on 01/22/2020. See Appendix B for more detailed description of the data and its source.</p>
+<p>Below we will work on a COVID-19, county level infected count data (<code>I.county</code>), and we can obtain the data from the Github R package <code>slid</code>. It is a “data frame” which includes “ID” (county-level Federal Information Processing System code), “County” (name of county), “State” (name of state), “XYYYY.MM.DD” (the number of cumulative infected cases in a county related to the date of YYYY.MM.DD) for 3,104 counties in the US. For example, the variable <code>X2020.01.22</code> is the number of cumulative infected cases in a county on 01/22/2020. See Appendix B for more detailed description of the data and its source.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="dplyr.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install the slid package from github</span></span>
 <span id="cb7-2"><a href="dplyr.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># library(devtools)</span></span>
 <span id="cb7-3"><a href="dplyr.html#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># devtools::install_github(&#39;covid19-dashboard-us/slid&#39;)</span></span>
@@ -566,29 +602,29 @@ Figure 3.2: Some commonly used logic comparisons.
 </div>
 <div id="pipes" class="section level3" number="3.2.3">
 <h3><span class="header-section-number">3.2.3</span> Pipes</h3>
-<p>What if you want to select and filter at the same time? There are three ways to do this: use intermediate steps, nested functions, or pipes.</p>
-<p>With intermediate steps, you create a temporary dataframe and use that as input to the next function, like this:</p>
+<p>What if you wanted to select and filter at the same time? There are three ways to do this: use intermediate steps, nested functions, or pipes.</p>
+<p>With intermediate steps, you create a temporary data frame and use that as input to the next function, like this:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="dplyr.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># all Iowa counties from 2020.12.01 to 2020.12.11</span></span>
 <span id="cb12-2"><a href="dplyr.html#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># method 1</span></span>
 <span id="cb12-3"><a href="dplyr.html#cb12-3" aria-hidden="true" tabindex="-1"></a>Iowa.I.county <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(I.county, State <span class="sc">==</span> <span class="st">&quot;Iowa&quot;</span>)</span>
 <span id="cb12-4"><a href="dplyr.html#cb12-4" aria-hidden="true" tabindex="-1"></a>Iowa.I.county.DEC <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(Iowa.I.county, </span>
 <span id="cb12-5"><a href="dplyr.html#cb12-5" aria-hidden="true" tabindex="-1"></a>                                   X2020.<span class="fl">12.11</span><span class="sc">:</span>X2020.<span class="fl">12.01</span>)</span></code></pre></div>
-<p>This is readable, but can clutter up your workspace with lots of objects that you have to name individually. With multiple steps, that can be hard to keep track of.</p>
+<p>This is readable, but can easily fill up your workspace with lots of objects that need to be named individually. With multiple steps, that can be difficult to keep track of.</p>
 <p>You can also nest functions (i.e. one function inside of another), like this:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="dplyr.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># all Iowa counties from 2020.12.01 to 2020.12.11</span></span>
 <span id="cb13-2"><a href="dplyr.html#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># method 2</span></span>
 <span id="cb13-3"><a href="dplyr.html#cb13-3" aria-hidden="true" tabindex="-1"></a>Iowa.I.county.DEC <span class="ot">&lt;-</span> </span>
 <span id="cb13-4"><a href="dplyr.html#cb13-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(dplyr<span class="sc">::</span><span class="fu">filter</span>(I.county, State <span class="sc">==</span> <span class="st">&quot;Iowa&quot;</span>), </span>
 <span id="cb13-5"><a href="dplyr.html#cb13-5" aria-hidden="true" tabindex="-1"></a>                ID, County, State, X2020.<span class="fl">12.11</span><span class="sc">:</span>X2020.<span class="fl">12.01</span>)</span></code></pre></div>
-<p>This is handy but can be difficult to read if too many functions are nested, as R evaluates the expression from the inside out (in this case, filtering, then selecting).</p>
-<p>The last option, <strong>pipes</strong>, are a recent addition to R. <strong>Pipes</strong> let you take the output of one function and send it directly to the next, which is useful when you need to do many things to the same dataset. Pipes in R look like <code>%&gt;%</code> and are made available via the <code>magrittr</code> package, installed automatically with <code>dplyr</code>.</p>
+<p>This is useful but can be tricky to read if too many functions are nested, as R evaluates the expression from the inside out (in this case, filtering, then selecting).</p>
+<p>The last option, <strong>pipes</strong>, were recently added to R. <strong>Pipes</strong> let you take the output of one function and send it directly to the next, which is useful when you need to do multiple things to the same data set. Pipes in R look like <code>%&gt;%</code> and are made available via the <code>magrittr</code> package, installed automatically with <code>dplyr</code>.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="dplyr.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># all Iowa counties from 2020.12.01 to 2020.12.11</span></span>
 <span id="cb14-2"><a href="dplyr.html#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># method 3</span></span>
 <span id="cb14-3"><a href="dplyr.html#cb14-3" aria-hidden="true" tabindex="-1"></a>I.county <span class="sc">%&gt;%</span></span>
 <span id="cb14-4"><a href="dplyr.html#cb14-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(State <span class="sc">==</span> <span class="st">&quot;Iowa&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb14-5"><a href="dplyr.html#cb14-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(ID, County, X2020.<span class="fl">12.11</span><span class="sc">:</span>X2020.<span class="fl">12.01</span>)</span></code></pre></div>
-<p>In the above code, we use the <strong>pipe</strong> to send the interviews dataset first through <code>filter()</code> to keep rows for the state of Iowa, then through <code>select()</code> to keep only the count in December. Since <code>%&gt;%</code> takes the object on its left and passes it as the first argument to the function on its right, we don’t need to explicitly include the <code>dataframe</code> as an argument to the <code>filter()</code> and <code>select()</code> functions anymore.</p>
-<p>Some may find it helpful to read the pipe like the word “then.” For instance, in the above example, we take the dataframe <code>I.county</code>, then we filter for rows with <code>State == "Iowa"</code>, then we select columns from <code>X2020.12.11</code> to <code>X2020.12.01</code>. The <code>dplyr</code> functions are somewhat simple, but by combining them into linear workflows with the pipe, we can accomplish more complex data wrangling operations.</p>
+<p>In the above code, we use the <strong>pipe</strong> to send the interviews data set first through <code>filter()</code> to keep rows for the state of Iowa, then through <code>select()</code> to keep only the count in December. Since <code>%&gt;%</code> takes the object on its left and passes it as the first argument to the function on its right, we don’t need to explicitly include the <code>dataframe</code> as an argument to the <code>filter()</code> and <code>select()</code> functions anymore.</p>
+<p>Some may find it helpful to read the pipe like the word “then.” For instance, in the above example, we take the data frame <code>I.county</code>, then we filter for rows with <code>State == "Iowa"</code>, then we select columns from <code>X2020.12.11</code> to <code>X2020.12.01</code>. The <code>dplyr</code> functions are somewhat simple, but by combining them into linear workflows with the pipe, we can accomplish more complex data wrangling operations.</p>
 <p>If we want to create a new object with this smaller version of the data, we can assign it a new name:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="dplyr.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># assign a name to all Iowa counties </span></span>
 <span id="cb15-2"><a href="dplyr.html#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># from 2020.12.01 to 2020.12.11</span></span>

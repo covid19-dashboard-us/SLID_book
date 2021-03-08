@@ -1,15 +1,1112 @@
 # Time Series Analysis of Infectious Disease Data {#timeseries}
 
+Several quantities are of interest in epidemic forecasting, such as the timing of and incidence in the peak week, cumulative incidence, and weekly incidence. The policy/decision-makers are also interested in evaluating outbreak size and duration, and employing the epidemic curve to identify the mode of transmission of the disease and measure its prevalence of the disease. 
 
+Forecasting goals can also be classified as long-term or short-term forecasts. Long-term disease forecasts can predict COVID-19 peak or severity, while short-term forecasts can be used to guide resource allocation in the short term by local agencies or to anticipate the case burden by hospitals in the coming week; see @altieri2020curating. The projection can be made at different resolution levels, for example, national, regional or local. National-level or state-level long-term forecasts are of interest to policymakers regulating intervention strategies and deciding how much funding to allocate for resources. Prediction models with a finer resolution are needed to assess the local risk of COVID-19. Knowing more about the vulnerable communities and the reasons for those communities that are more likely to be infected are crucial for the policy and decision-makers to assist in prevention efforts [@altieri2020curating].
+ 
+We provide a predictive analysis of the spread of COVID-19, using the dataset made publicly available online by the Johns Hopkins University. Our main objective is to provide future predictions of the number of infected people for different countries. We use two well-known methods for prediction: time series analysis and neural network. 
 
 ## Datasets and R Packages
 
+**Data** 
 
+The dataset from JHU contains the cumulative number of cases reported daily for different countries. We base our analysis on the state-level time series. For each state, we consider the time-series $y_n$ starting from the day when the first case was reported. Given the current day index $n$, we predict the number of cases for the day $n + h$ by considering as input the number of cases reported for the past $w$ days, that is, for the days $n-w+1$ to $n$.
+
+```{r, results='hide', warning=FALSE, message=FALSE}
+#install_github('covid19-dashboard-us/slid')
+library(slid)
+data(state.long)
+```
+
+**R Package: `fable`**
+
+We will use the R packages `fable`, `tsibble` and `dplyr`, which together offer various functions for computing and visualizing basic time series components.
+
+```{r, results='hide', warning=FALSE, message=FALSE}
+library(dplyr)
+library(fable)
+library(tsibble)
+```
+
+The R package `fable` provides a collection of commonly used univariate and multivariate time series forecasting models including exponential smoothing via state space models and autoregressive integrated moving average (ARIMA) modeling. 
+
+The [Forecasting: Principles and Practices](https://otexts.com/fpp3/) online textbook provides an introduction to time series forecasting using `fable`. 
 
 ## Time series plots
+
+Time series is a set of observations recorded sequentially. The first thing to do in any time series analysis task is to plot the data. Graphs enable many features of the data to be visualized, including patterns, unusual observations, changes over time, and relationships between variables. The features that are seen in plots of the data must then be incorporated, as much as possible, into the forecasting methods to be used. Just as the type of data determines what forecasting method to use, it also determines what graphs are appropriate. But before we produce graphs, we need to set up our time series in R.
+
+### “tsibble” objects
+
+A time series can be thought of as a list of numbers, along with some information about what times those numbers were recorded. This information can be stored as a “tsibble” object in R.
+
+Take the `state.long` data for example, 
+
+```{r}
+state.long
+```
+
+We can turn this into a “tsibble” object using the `as_tsibble()` function: 
+
+
+```{r, collapse=TRUE}
+state.ts <- as_tsibble(state.long, key = State) 
+state.ts
+```
+
+The summary above shows that this is a “tsibble” object, which contains 15,925 rows and 7 columns. The object is uniquely identified by the key: `State`. It informs us that there are separate time series in the “tsibble” for each of the 49 states in the US. 
+
+A “tsibble” allows multiple time series to be stored in a single object. The `state.long` dataset contains the infected count, death count for each mainland state in the US and District of Columbia. 
+
+
+### Working with “tsibble” objects
+
+We have used several functions above to work with “tsibble” objects, including `mutate()` and `select()`. To illustrate these further and some other useful functions, we will use the `state.ts` tsibble created in the above.
+
+```{r, collapse=TRUE}
+state.ts <- as_tsibble(state.long, key = State) %>%
+  group_by(State) %>%
+  mutate(Infected = Infected/1000) %>%
+  mutate(YDA_Infected = lag(Infected, order_by = DATE)) %>%
+  mutate(YDA_Death = lag(Death, order_by = DATE)) %>%
+  mutate(Y.Infected = Infected - YDA_Infected) %>%
+  mutate(Y.Death = Death - YDA_Death) %>%
+  dplyr::filter(!is.na(Y.Infected)) %>%
+  dplyr::filter(!is.na(Y.Death)) %>%
+  dplyr::select(-c(YDA_Infected, YDA_Death))
+
+state.ts 
+```
+
+This tsibble use the `mutate()` to create two extra variables: `Y.Infected` and `Y.Death`, which are the daily new infected count and the daily new death count for each state. 
+
+We can use the `filter()` function to extract the data for the state of Florida, for example:
+
+```{r, collapse=TRUE}
+Florida.ts <- state.ts %>%
+  dplyr::filter(State == "Florida")
+```
+
+Next we can simplify the resulting object by selecting five variables we will need in subsequent analysis. 
+
+```{r, collapse=TRUE}
+Florida.ts <- Florida.ts %>% 
+  dplyr::select(Infected, Death, Y.Infected, Y.Death)
+Florida.ts
+```
+
+Note that the index variable `DATE` would be returned even if it was not explicitly selected as it is required for a tsibble.
+
+
+### Drawing time series plots
+
+To further examine the data, we now use the `autoplot()` to draw some time series plot; see Figure \@ref(fig:death1). 
+
+```{r death1, fig.height=3, fig.width=7, fig.align = "center", fig.cap="The time series plot of the daily new death count in Florida using the `autoplot()` function."}
+Florida.ts %>%
+autoplot(Y.Death)
+```
+
+We can also use the `ggplot()` to draw some time series plot. Figure \@ref(fig:death2) shows the time series plot with blue line. 
+
+```{r death2, fig.height=3, fig.width=7, fig.align = "center", fig.cap="The time series plot of the daily new death count in Florida using the `ggplot()` function."}
+library(ggplot2)
+ggplot(Florida.ts, aes(x = DATE, y = Y.Death)) + 
+  geom_line(color = "blue") + 
+  labs(title = 'Florida daily new death count') 
+```
+
+We can draw multiple time series on the same plot. The time series plot shown in Figure \@ref(fig:death3) illusterate the daily new infected and death counts in Florida.
+
+```{r death3, fig.height=3, fig.width=7, fig.align = "center", fig.cap="The time series plot of the daily new infected and death counts in Florida."}
+  ggplot(Florida.ts, aes(x = DATE)) +
+  geom_line(aes(y = Y.Infected, colour = "Y.Infected (thousand)")) +
+  geom_line(aes(y = Y.Death, colour = "Y.Death")) +
+  ylab("Count") + xlab("Day") +
+  guides(colour=guide_legend(title = "Forecasts")) +
+  theme(legend.position="bottom")
+```
+
+We can draw multiple time series on the same plot by `group = State`. Figure \@ref(fig:death4) shows the time series plot of the daily new death count for each of the midwest states using the `ggplot()` function.
+
+```{r death4, fig.height=5, fig.width=7, fig.align = "center", fig.cap="The time series plot of the daily new death count for each of the midwest states using the `ggplot()` function."}
+state.ts %>%
+  dplyr::filter(Region== "Midwest") %>%
+  ggplot(aes(x = DATE, y = Y.Death, 
+             group = State, color = State)) +
+  geom_line() +
+  theme(legend.position="bottom")
+```
+
+```{r deathall, fig.height=5, fig.width=7, fig.align = "center", fig.cap="The time series plot of the daily new death count for each of the midwest states using the `autoplot()` function."}
+state.ts %>% 
+  dplyr::filter(Region== "Midwest") %>% 
+  autoplot(Y.Death) +
+ylab("Deaths") + xlab("Day") +
+ggtitle("Daily new death count for each of the midwest")
+```
+
+After making the time series plots, we look for
+
+* **Trend:** upward or downward movement that might be extrapolated into future; it does not have to be linear.
+
+* **Periodicity:** repetition in regular pattern (usually peaks and troughs;
+
+* **Seasonality:** periodic behavior of known period (i.e., 12 months for monthly data);
+
+* **Heteroskedasticity:** changing variance, particularly with changing level;
+
+* **Dependence:** positive (successive observations are similar) or negative (successive observations are dissimilar);
+
+* **Missing data**, **structural breaks**, **outliers**.
+
+**Remark:** Some readers confuse cyclic behavior with seasonal behavior, but they are really quite different. If the fluctuations are not of a fixed frequency, then they are cyclic; if the frequency is unchanging and associated with some aspect of the calendar, then the pattern is seasonal.
+
+**Time series seasonal plot**
+
+We can produce a time series seasonal plot using `gg_season()` function in `feasts` package. A seasonal plot is similar to a regular time series plot, except the x-axis shows data from within each season. This plot type allows the underlying seasonal pattern to be seen more clearly, and is especially useful in identifying years in which the pattern changes. Figure \@ref(fig:deathweek) shows the time series weekly plot of the daily new death count.
+
+```{r deathweek, fig.height=5, fig.width=7, fig.align = "center", fig.cap="The time series weekly plot of the daily new death count."} 
+library(feasts)
+Florida.ts %>% gg_season(Y.Death, period = "week")
+```
+
+**A lag plot**
+
+We can draw a lag plot to show the time series against lags of itself using the `gg_lag()` in the R library `feasts`. 
+
+```{r deathlag, fig.align = "center", fig.cap="The lag plot of the daily new death count for Florida."} 
+library(feasts)
+Florida.ts %>% 
+  gg_lag(y = Y.Death, geom = "point")
+```
+
+It is often colored the seasonal period (here weekly cycle) to identify how each season (each date in a week) correlates with others. From Figure \@ref(fig:deathlag), one sees that the relationship is strongly positive at lag 7, reflecting the strong weekly cycle in the data. 
+
+### Objectives of Time Series Analysis
+
+* Provide an interpretable model of data
+    + often involves multivariate series
+    + allows testing of scientific hypotheses
+    + but, not always a major emphasis in time series analysis
+
+* Predict future values of series
+    + very common application of time series analysis
+    + predictive models often do not try to explain
+
+* Provide a compact description of data
+    + good predictive model can be used for data compression
+    + used extensively in telecommunications
+
+**Modeling Strategy** 
+
+* Take a probabilistic approach
+    + observations $=$ realizations of random variables 
+    + in much of statistics, random variables are assumed to be indepedent
+
+* Difficulties in time series:
+    + random variables are typically not identically distributed
+    + different means due to trend, seasonality
+    + may be different variances as well
+    + random variables typically not independent
+    + dependence may be positive or negative
+
+* Try to make things easier
+    + eliminate heterostedasticity via transformation (e.g. log)
+    + eliminate trend and seasonality
+    + model remainder as dependent but identically distributed
+
+### Autocorrelation
+
+Let $\{X_t\}$ be a time series with $E(X_t^2)<\infty$. 
+
+* The **mean function** of $\{X_t\}$ is
+  \[
+  \mu_X(t)=\mathrm{E}(X_t).
+  \] 
+* The **covariance function** of $\{X_t\}$ is
+  \[
+  \gamma_X(s,t)=\mathrm{Cov}(X_t,X_s) = \mathrm{E}[(X_s-\mu_X(s))(X_t-\mu_X(t))]
+  \]
+for all integers $s$ and $t$.
+  
+**Modeling Dependence** 
+
+* Hard to model dependence if dependence changes with time 
+* Easiest to model dependence in stationary case
+
+Roughly speaking, stationary means **probabilistic properties** of series do not change with time. There are two versions of interest.
+
+1. **Strict stationarity:** joint probability distributions do not change with time. 
+
+A time series $\{X_t\}$ is **strictly stationary** if for any positive integer $k$ and integers $t_1, \ldots, t_k$ and $h$,
+ \[
+ (X_{t_1},X_{t_2},\ldots,X_{t_k}) \overset{d}{=} (X_{t_1+h},X_{t_2+h},\ldots,X_{t_k+h})
+ \]
+where ``$\overset{d}{=}$'' denotes equality in probability distribution.
+    
+Remark: covariances make sense only if variances exist 
+
+* If $\{X_t\}$ is IID, then $\{X_t\}$ is strictly stationary 
+* Strict stationarity is a very strong modeling assumption
+    + hard to verify in practice
+    + often stronger than necessary for useful results $\Rightarrow$ introduce next so-called weak stationarity
+     
+2. **Weak stationarity:** 1st and 2nd order moment properties (i.e., mean and covariance structures) do not change over time     
+     
+* A time series $\{X_t\}$ is **weakly stationary** if for all integers $t$ and $h$:
+
+    (a) $\mathrm{Var}(X_t)<\infty$
+    (b) $E[X_t]$ does not depend on $t$
+    (c) $\mathrm{Cov}(X_t,X_{t+h})$ does not depend on $t$
+
+* Notes
+    (a) implies all means, variances, and covariances exist
+    (b) implies means are constant (rules out trend, seasonality)
+    (c) with $h = 0$, (c) implies variances are constant (rules out heteroskedasticity)
+
+* **Weakly stationary** also known as covariance stationary, second order stationary, or just stationary
+
+        * 1st and 2nd-order moments do not change with time
+        * much weaker than strict stationarity 
+
+
+### Autocorrelation
+
+1. **Autocovariance Function (ACVF)**  
+
+For weakly stationary time series, $\mathrm{Cov}(X_{t},X_{t+h})=\gamma(h)$, a function of $h$ only. 
+
+2. **Autocorrelation Function (ACF)**
+
+The autocorrelation function (ACF) of $\{X_t\}$ is defined by
+\[
+\rho(h)=\frac{\gamma(h)}{\gamma(0)}=\frac{\mathrm{Cov}(X_{t},X_{t+h})}{\sqrt{\mathrm{Var}(X_{t})\mathrm{Var}(X_{t+h})}}
+\] 
+
+3. **Sample ACVF**
+
+Let $\{X_t\}_{t=1}^n$ be a time series and $\bar{X}_{n}=\frac{1}{n}\sum_{t=1}^{n}X_t$ be its sample mean. The sample ACVF (based on $\{X_t\}_{t=1}^n$): 
+\[
+\hat{\gamma}(h)\equiv \frac{1}{n}\sum_{t=1}^{n-|h|} (X_{t}-\bar{X}_{n})(X_{t+|h|}-\bar{X}_{n}), ~|h|<n
+\]
+which estimates $\gamma(h)=E[(X_t-EX_t)(X_{t+|h|}-EX_t)]$. 
+
+4. **Sample ACF**
+
+The sample ACF based on $\{X_t\}_{t=1}^n$ is defined as 
+\[
+\hat{\rho}(h)\equiv \hat{\gamma}(h)/\hat{\gamma}(0), ~|h|<n
+\]
+which estimates $\rho(h)=\gamma(h)/\gamma(0)$, $|\hat{\rho}(h)|\leq 1$, $\hat{\rho}(0)=1$.
+
+The autocorrelation coefficients are plotted to show the autocorrelation function or ACF. Figure \@ref(fig:acf) shows the ACF plot of the daily new death count in Florida.
+
+```{r acf, fig.height=3, fig.width=7, fig.align = "center", fig.cap="The ACF plot of the daily new death count in Florida."}
+Florida.ts %>%
+  ACF(Y.Death) %>%
+  autoplot()
+```
+
+The dashed blue lines in this graph indicate whether the correlations are significantly different from zero, and $\hat{\rho}(4)$ is higher than for the other lags. This is due to the weekly pattern in the data: the peaks tend to be four quarters apart, and the troughs tend to be four quarters apart.
+
+**Remark:** 
+
+1. When data have a trend, the autocorrelations for small lags tend to be large and positive because observations nearby in time are also nearby in size. So the ACF of the time series with a trend tends to have positive values that slowly decrease as the lags increase.
+
+2. When data are seasonal, the autocorrelations will be larger for the seasonal lags (at multiples of the seasonal frequency) than for other lags.
+
+```{r acfpacf, warning=FALSE, message=FALSE, fig.align = "center", fig.cap="Time plot, ACF plot and PACF plot of lag-7 differenced data."}
+Florida.ts %>% 
+  gg_tsdisplay(difference(Y.Death, 7), plot_type='partial', lag=36) +
+  labs(y="Lag 7 differenced")
+```
 
 
 
 ## Time Series Decomposition
 
+Time series data can exhibit various patterns, and it is often helpful to split a time series into several components, each representing an underlying pattern category. In the literature, a time series is usually decomposed into three components: a trend component, a seasonal component, and a remainder component. In the following, we consider the following classical decomposition:
+    \[
+    X_t=m_t+s_t+Y_t
+    \]
+where $m_t$ is the **trend** at $t$ (non-random often), $s_t$: a function with known period $d$ referred to as **seasonality** (non-random), and $Y_t$: irregular and random noise that is stationary. 
 
+Our aims are the following: 
+ 
+* to estimate and extract $m_t$ and $s_t$ so that the residual $Y_t$ will turn out to be stationary;
+* to find a satisfactory probabilistic model for $Y_t$;
+* use it in conjunction with $m_t$ and $s_t$ for prediction and simulation of $\{X_t\}$.
+
+When decomposing a time series, it is sometimes helpful to first transform or adjust the series in order to make the decomposition (and later analysis) as simple as possible. So we will begin by discussing transformations and adjustments.
+
+`STL` developed by @Cleveland1990 is a versatile and robust method for decomposing time series. STL is an acronym for “Seasonal and Trend decomposition using Loess,” while Loess is a method for estimating nonlinear relationships.
+
+Below we will demonstrate how to use the `STL()` to decompose the time series of the daily new death count in Florida.
+
+```{r, eval=TRUE}
+# Time series decomposition
+dcmp <- Florida.ts %>%
+  model(STL(Y.Death))
+components(dcmp)
+```
+
+We will decompose the time series of the daily new deaths in Florida as shown in Figure \@ref(fig:death1). Figure \@ref(fig:dcmp1) shows the trend of the time series. 
+
+```{r dcmp1, fig.height=3, fig.width=7, fig.align = "center", fig.cap="Trend of the daily new death count time series in Florida."}
+Florida.ts %>%
+  autoplot(Y.Death, color = "gray") +
+  autolayer(components(dcmp), trend, color = "red") +
+  labs(y = "Death Count", title = "Daily New Death Count with Trend")
+
+components(dcmp) %>% autoplot()
+```
+
+The `STL()` function also allows us to choose the trend window `trend(window = )` and the seasonal window `season(window = )`, which controls how rapidly the trend and seasonal components can change. The smaller the value, the more rapid the changes. The trend window is the number of consecutive observations to be used when estimating the trend-cycle; the season window is the number of consecutive days to estimate each value in the seasonal component. For example, Figure \@ref(fig:dcmp2) shows the trend, seasonality and residuals of the daily new death count time series in Florida based on `trend(window = 14)` and `season(window = 7)`. Both trend and seasonal windows should be odd numbers. 
+
+```{r dcmp2, fig.height=3, fig.width=7, fig.align = "center", fig.cap="The trend, seasonality and residuals of the daily new death count time series in Florida based on trend window = 14 and seasonal window = 7."}
+Florida.ts %>%
+  model(STL(Y.Death ~ trend(window = 14) + season(window = 7),
+            robust = TRUE
+  )) %>%
+  components() %>%
+  autoplot()
+```
+
+
+**Trend and Seasonal Estimation: Method I**
+  
+Step 1. Form preliminary estimate $\hat{m}_t$ of trend by passing data through filter/smoothing that eliminates $s_t$ as much as possible.
+
+Step 2. Subtract trend estimate from data: $u_t = x_t - \hat{m}_t$ .
+
+Step 3. Obtain seasonal pattern estimate $\{\hat{s}_j : j = 1,\ldots,d\}$.
+
+Step 4.  Replicate $\{\hat{s}_j\}$ as need be to form estimate $\{\hat{s}_t\}$ of $\{s_t\}$.
+
+Step 5. Form deseasonalized data: $d_t = x_t -\hat{s}_t$. 
+
+Step 6. Use deseasonalized data to get final estimate $\hat{m}_t$ of trend.
+
+**Trend and Seasonal Estimation: Method II**
+
+Step 1. Apply a lag-$d$ differencing operator to $X_t$, then
+
+\begin{eqnarray*}
+(1-B^d)X_t&=&m_t-m_{t-d}+s_t-s_{t-d}+Y_t-Y_{t-d}\\
+&=&m_t-m_{t-d}+Y_t-Y_{t-d}.
+\end{eqnarray*}
+
+Step 2. Resulting model has a trend component defined by $m_t-m_{t-d}$ and a stochastic component given by $Y_t-Y_{t-d}$.
+  
+Step 3. Trend component can be eliminated by applying an appropriate power of differencing operator, say $(1-B)^{d^{\prime}}$. Thus, 
+\[
+  \underbrace{(1-B)^{d^{\prime}}}{}\underbrace{(1-B^d)}{}X_t
+  =\underbrace{(1-B)^{d^{\prime}}}{}\underbrace{(1-B^d)}{}m_t
+  +\underbrace{(1-B)^{d^{\prime}}}{}\underbrace{(1-B^d)}{}Y_t
+\]
+is a model for a series related to $\{x_t\}$ that is free of trend and
+seasonal components.
+
+## Simple Time Series Forecasting Approaches
+
+We use data-driven prediction approaches without considering any other aspect, such as the disease spread mechanism.  We describe each approach in detail in the following subsections. If $\{Z_t\}$ is a sequence of independent random variables that follow the same normal distribution with zero mean, we call $\{Z_t\}$ IID Gaussian noise.
+
+### Average method
+
+Denote the time series data by $\{Y_t\}$, and consider the following model: 
+\[
+Y_t=\mu+Z_t, 
+\]
+where $\{Z_t\}$ are IID gaussian noise.
+
+The average method assumes that forecasts of all future values are equal to the average (or “mean”) of the historical data. If we let the historical data be denoted by $Y_1,\ldots,Y_n$, and let $\hat{Y}_{n+h|n}$ be the estimate of $Y_{n+h}$ based on the historical data, then we can write the forecasts as 
+\[
+\hat{Y}_{n+h|n}=\frac{1}{n}\sum_{t=1}^n Y_t.
+\]
+ 
+For a numeric vector or time series of class `ts` $y$, the function `MEAN(y)` returns an i.i.d model applied to `y`. The `forecast(h = )` returns the forecasts and prediction intervals for $Y_{n+h}$ via the average method, and $h$ is the number of periods for forecasting. Figure \@ref(fig:predmean) shows the two weeks ahead forecast and 95% prediction intervals for the daily death count in Florida based on the average method.
+
+```{r predmean, warning=FALSE, message=FALSE, fig.height=3, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using the average method."}
+Florida.ts %>% 
+model(MEAN(Y.Death))%>%
+  forecast(h = 14) %>% 
+  autoplot(Florida.ts, level = 95, title = "Average Method") +
+  labs(y = "Death count", title = "Average Method")
+```
+
+
+### Random walk forecasts
+
+The random walk model assumes that
+\[
+Y_t=Y_{t-1}+Z_t,
+\]
+where $\{Z_t\}$ are IID gaussian noise. 
+
+The random walk approach simply sets all forecasts to be the value of the last observation. That is,
+\[
+\hat{Y}_{n+h|n}=Y_n.
+\]
+The function `RW(y)` or `NAIVE(y)` together with `forecast(h)` provide the random walk forecasts and prediction intervals for $Y_{n+h}$.
+
+```{r predrw, warning=FALSE, message=FALSE, fig.height=3, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using the random walk method."}
+Florida.ts %>% model(RW(Y.Death))%>%
+# NAIVE(Y.Death) is an equivalent alternative
+  forecast(h = 14) %>% 
+  autoplot(Florida.ts, level = 95) +
+  labs(y = "Death count", title = "Random Work Method")
+```
+
+### Seasonal random walk forecasts
+
+A similar method is useful for highly seasonal data. In this case, we set each forecast to be equal to the last observed value from the same day of the previous week. Formally, the forecast for time $n+h$ is written as
+\[
+\hat{Y}_{n+h|n}=Y_{n+h-m(k+1)},
+\]
+where $m=$ the seasonal period, and $k=[(h-1)/m]$. For COVID-19 data, we often observe the seven day cycle; see @wang:2020:comparing. Then, $m=7$ and $k$ is the number of complete weeks in the forecast period prior to time $n+h$.
+
+The function `SNAIVE(y)` with `forecast(h)` provides the seasonal random walk forecasts and prediction intervals for $Y_{n+h}$.
+
+```{r predsnaive, warning=FALSE, message=FALSE, fig.height=3, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using the seasonal random walk method."}
+Florida.ts %>% model(SNAIVE(Y.Death))%>%
+  forecast(h = 14) %>% 
+  autoplot(Florida.ts, level = 95) +
+  labs(y = "Death count", title = "Seasonal Random Work Method")
+```
+
+### Random walk with drift method
+
+The random walk with drift model is
+\[
+Y_t=c+Y_{t-1}+Z_t
+\]
+where $\{Z_t\}$ are i.i.d and follow a normal distribution. 
+
+A variation on the random walk method allows the forecasts to increase or decrease over time, where the amount of change over time (called the **drift**) is set to be the average change seen in the historical data. Forecasts are given by
+\[
+\hat{Y}_{n+h|n}=\hat{c}h+Y_n=Y_n+h\frac{Y_n-Y_1}{n-1}.
+\]
+
+We use the `RW( ~ drift())` with `forecast(h)` provide to make an $h$ step ahead forecast.
+
+```{r predrwd, warning=FALSE, message=FALSE, fig.height=3, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using the random walk with drift method."}
+Florida.ts %>% 
+  model(RW(Y.Death ~ drift())) %>% 
+  forecast(h = 14) %>% 
+  autoplot(Florida.ts, level = 95)  +
+  labs(y = "Death count", title = "Random Work Method with Drift")
+```
+
+### Combining the forecasting results
+
+Now, let us combine all the forecasting results based on the previous methods together. Figure \ref(fig:pred4) shows the comparison among different methods.
+
+``````{r pred4, warning=FALSE, message=FALSE, fig.height=4, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using four differentt methods."}
+library(tsibble)
+# Set training data from JAN 23 to NOV 27
+train <- Florida.ts %>% 
+  filter_index("2020-01-23" ~ "2020-11-27")
+
+# Fit the models
+death_fit <- train %>%
+  model(
+    Mean = MEAN(Y.Death),
+    `RW` = RW(Y.Death),
+    `Seasonal naïve` = SNAIVE(Y.Death),
+    `RW-Drift` = RW(Y.Death ~ drift())
+  )
+# Generate forecasts for the next 2 weeks
+death_fc <- death_fit %>% forecast(h = 14)
+# Plot forecasts against actual values
+death_fc %>%
+  autoplot(train, level = NULL) +
+  autolayer(filter_index(dplyr::select(Florida.ts, Y.Death), 
+                         "2020-11-28" ~ .), color = "black") +
+  labs(y = "Death count", 
+       title = "Simple Time Series Forecasting Methods") +
+  guides(colour = guide_legend(title = "Forecast"))
+```
+
+## Methods for Estimating the Trend
+
+1. Polynomial regression 
+
+Simplest curve fit or approximation model, where the number of cases is approximated locally with polynomials of degree $d$.
+\[
+Y_t = \beta_0 + \beta_1 t + \beta_2 t^2 + \cdots + \beta_d t^d + Z_t,
+\]
+where $\{Z_t\}$ are IID gaussian noise.
+
+Figure \@ref(fig:predlm) of the 14 days ahead forecast of the daily death count for Florida using the linear regression method.
+
+```{r, warning=FALSE, message=FALSE}
+death_lmfit <- train %>%  
+  model(TSLM(Y.Death ~ DATE)) 
+```
+
+```{r predlm, warning=FALSE, message=FALSE, echo=FALSE, fig.height=3, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using the linear regression method."}
+death_lmfit %>% forecast(h = 14) %>% 
+  autoplot(train, level = 95) + 
+  autolayer(filter_index(dplyr::select(Florida.ts, Y.Death), 
+                         "2020-11-28" ~ .), color = "black") +
+  labs(y = "Death count", title = "Linear Regression Method")
+```
+
+Figure \@ref(fig:predlm) shows the 14 days ahead forecast of the daily death count for Florida using the linear regression method with the seasonal component: `season(7)`.
+
+```{r, warning=FALSE, message=FALSE}
+death_lmsfit <- train %>%  
+  model(TSLM(Y.Death  ~ DATE + season(7))) 
+```
+```{r predlms, warning=FALSE, message=FALSE, echo=FALSE, fig.height=3, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using the linear regression method with the seasonal component."}
+death_lmsfit %>% forecast(h = 14) %>% 
+  autoplot(train, level = 95) + 
+  autolayer(filter_index(dplyr::select(Florida.ts, Y.Death), 
+                         "2020-11-28" ~ .), color = "black") +
+  labs(y = "Death count", 
+     title = "Linear Regression Method with Seasonal Component")
+```
+    
+2. Simple exponential smoothing
+
+Consider the following nonseasonal model with trend:
+\[
+Y_t=m_t+Z_t,
+\]
+where $\mathrm{E}Z_t=0$.
+
+We can estimate $m_t$ using simple exponential smoothing (SES). For any fixed $0<\alpha<1$, consider $\hat{m}_t$ defined by the following recursions:
+
+\begin{eqnarray*}
+\hat{m}_1 &=& Y_1, \mathrm{~~and}\\
+\hat{m}_t &=& \alpha Y_t+(1-\alpha)\hat{m}_{t-1}\\
+          &=& \alpha Y_t+(1-\alpha)\{\alpha Y_{t-1}+(1-\alpha)\hat{m}_{t-2}\}\\
+          &=& \alpha Y_t+(1-\alpha)\alpha Y_{t-1}+(1-\alpha)^2\alpha X_{t-2}+(1-\alpha)^3\hat{m}_{t-3}\\
+          &=& \ldots
+\end{eqnarray*}
+
+with exponentially decreasing weights on previous observations: $\alpha(1-\alpha)^0$ on $Y_t$, $\alpha(1-\alpha)^1$ on $Y_{t-1}$, $\alpha(1-\alpha)^2$ on $Y_{t-2}$, $\ldots$
+
+* $\alpha\rightarrow 1$, less bias, more variance
+* $\alpha\rightarrow 0$, more bias, less variance
+
+This method is suitable for forecasting data with no clear trend or seasonal pattern. The function `SES(y)` function returns forecasts and other information for the simple exponential smoothing forecasts applied to `y`.
+
+```{r, warning=FALSE, message=FALSE}
+ets_fit <- train %>% 
+  model(additive = ETS(Y.Death 
+                       ~ error("A") + trend("N") + season("N"), 
+                       opt_crit = "mse")) 
+```
+```{r predses1, warning=FALSE, message=FALSE, echo=FALSE, fig.height=3, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using the simple exponential smoothing method."}
+ets_fit %>% forecast(h = 14) %>% 
+  autoplot(train, level = 95) +
+  autolayer(filter_index(dplyr::select(Florida.ts, Y.Death), 
+                         "2020-11-28" ~ .), color = "black") +
+  labs(y = "Death count", 
+       title = "Simple Exponential Smoothing Method")
+```  
+
+The `ETS()` also allows you to extend the simple exponential smoothing to allow the forecasting of data with a trend and seasonality.
+
+```{r, warning=FALSE, message=FALSE}
+etss_fit <- train %>% 
+  model(additive = ETS(Y.Death 
+                       ~ error("A") + trend("A") + season("A"))) 
+```
+```{r predses2, warning=FALSE, message=FALSE, echo=FALSE, fig.height=3, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using the extended exponential smoothing method with trend and seasonality components."}
+etss_fit %>% forecast(h = 14) %>% 
+  autoplot(train, level = 95) + 
+  autolayer(filter_index(dplyr::select(Florida.ts, Y.Death), 
+                         "2020-11-28" ~ .), color = "black") +
+  labs(y = "Death count", 
+       title = "Exponential Smoothing with Trend and Seasonal Components")
+```  
+
+
+3. Residual diagnostics
+    
+The fitted values and residuals from a model can be obtained using the `augment()` function. In the above example, we saved the fitted models as beer_fit. So we can simply apply `augment()` to this object to compute the fitted values and residuals for all models.
+
+```{r}
+augment(death_lmfit)
+```
+
+Residuals are useful in checking whether a model has adequately captured the information in the data. If patterns are observable in the residuals, the model can probably be improved.
+
+A good forecasting method will yield residuals with the following properties:
+
+* The residuals are uncorrelated. If there are correlations between residuals, then there is information left in the residuals that should be used in computing forecasts.
+* The residuals have zero mean. If the residuals have a mean other than zero, then the forecasts are biased.
+* The residuals have constant variance.
+* The residuals are normally distributed.
+
+Any forecasting method that does not satisfy these properties can be improved. 
+
+The residuals obtained from forecasting this series using the linear regression method with seasonal components are shown in Figure \@ref(fig:reslmsts). 
+
+```{r reslmsts, warning=FALSE, message=FALSE, fig.height=3, fig.width=7, fig.align = "center", fig.cap="Residual plot based on the linear regression method with seasonal components."}
+augment(death_lmsfit) %>%
+  autoplot(.resid) +
+  labs(x = "Day", y = "Residual", 
+       title = "Residuals from linear regression with seasonal component.")
+```
+
+A convenient shortcut for producing these residual diagnostic graphs is the `gg_tsresiduals()` function, which will produce a time plot, ACF plot and histogram of the residuals. 
+
+```{r reslms, warning=FALSE, message=FALSE, fig.height=3, fig.width=7, fig.align = "center", fig.cap="Time plot, ACF plot and histogram of the residuals based on the linear regression method with seasonal components."}
+gg_tsresiduals(death_lmsfit)
+```
+
+The residuals plots obtained from forecasting this series using the extended exponential smoothing method with trend and seasonality components are shown in Figure \@ref(fig:resets). 
+
+```{r resets, warning=FALSE, message=FALSE, fig.height=3, fig.width=7, fig.align = "center", fig.cap="Time plot, ACF plot and histogram of the residuals based on the extended ETS method with trend and seasonal components."}
+gg_tsresiduals(etss_fit)
+```
+
+These graphs show that the ETS method produces forecasts that appear to account for all available information. The residuals' mean is close to zero, and there is no significant correlation in the residuals series. The time plot of the residuals shows that the variation of the residuals stays much the same across the historical data, apart from the one outlier. Therefore the residual variance can be treated as constant. This can also be seen on the histogram of the residuals. The histogram suggests that the residuals seem to be normal. Consequently, forecasts from this method will probably be quite good, but prediction intervals that are computed assuming a normal distribution seem to be reasonable.
+
+
+## ARMA Models 
+
+A process $\{X_t\}$ is said to be ARMA$(p,q)$ (for integers $p,q \geq 0$), or an AutoRegressive (AR) Moving Average (MA), with
+
+\begin{eqnarray*}
+\mathrm{AR~polynomial~} \phi(z) &=& 1 -\phi_1 z -\phi_2 z^2 - \cdots -\phi_p z^p \\
+\mathrm{MA~polynomial~} \theta(z) &=& 1 + \theta_1 z +\theta_2 z^2 + \cdots +\theta_q z^q
+\end{eqnarray*}
+
+if $\{X_t\}$ satisfies
+
+\[
+\phi(B)X_t = \theta(B)Z_t \quad \mathrm{for~all~integers~} t,
+\]
+
+with respect to some $\{Z_t\}\sim \mathrm{WN}(0,\sigma^2)$. That is,
+
+\begin{eqnarray*}
+\phi(B)X_t &=& X_t -\phi_1 X_{t-1} -\phi_2 X_{t-2} - \cdots -\phi_p X_{t-p}\\
+&=&Z_t+\theta_1 Z_{t-1} +\theta_2 Z_{t-2} + \cdots +\theta_q Z_{t-q}=\theta(B)Z_t
+\end{eqnarray*}
+
+### Simple Examples of ARMA Models
+
+* AR(1) or ARMA(1,0)
+\[
+X_t=\phi X_{t-1}+Z_{t}
+\]
+with AR polynomial: $\phi(z)=1-\phi z$ and MA polynomial: $\theta(z)=1$. 
+
+* MA(1) or ARMA(0,1)
+\[
+X_t=Z_{t}+\theta Z_{t-1}
+\]
+with AR polynomial: $\phi(z)=1$ and MA polynomial: $\theta(z)=1 +\theta z$. 
+
+A Remark of an ARMA Model:
+
+If $\{X_t\}$ satisfies $\phi(B)X_t = \theta(B)Z_t$, then $\{X_t\}$ also satisfies
+\[
+(1 - aB)\phi(B)X_t = (1-aB)\theta(B)Z_t
+\]
+for any $a\in \mathbb{R}$. So, the same process $\{X_t\}$ would satisfy different ARMA models. 
+
+In the ARMA definition, assume that the polynomials $\phi(z)$ and $\theta(z)$ have no common factors!
+
+
+
+### ARIMA
+
+A process $\{Y_t\}$ is said to be ARIMA$(p,d,q)$ (for integers $p,d,q \geq 0$), or an AutoRegressive (AR) Integrated (I) Moving Average (MA), if $\{Y_t\}$ satisfies
+
+\begin{eqnarray*}
+(1-B)^d Y_t = X_t \sim \mathrm{ARMA}(p,q) \mathrm{~for~all~integers~} t.
+\end{eqnarray*}
+
+Example: $Y_t \sim$ ARIMA$(p,1,q)$: suppose $X_t \sim \mathrm{ARMA}(p,q)$ 
+\[
+Y_t=Y_{t-1}+X_t=\cdots=Y_{0}+\sum_{j=1}^t X_j, ~ t=1,2, \ldots
+\]
+
+**Remarks:**
+
+* For any positive integer $d=1,2,\ldots$, $\{Y_t\}$ is not weakly stationary. 
+* For $d = 0$, $\{Y_t\}$ is just $\mathrm{ARMA}(p, q)$ [typically weakly stationary] with so-called **short-memory** dependence.
+* For $0<d<1$, $\{Y_t\}$ is weakly stationary with so-called **long-memory** dependence.
+
+
+**Example 1:** Suppose $\{X_t\}$ is an ARIMA(1,1,0):
+\[
+(1-\phi B)(1-B)X_t=Z_t, ~ Z_t\sim \mathrm{WN}(0,\sigma^2)
+\]
+One can solve this as 
+\[
+X_t=X_0+\sum_{j=1}^{t}Y_j, \mathrm{~with}
+\]
+\[
+Y_t=(1-B)X_t=\sum_{j=0}^{\infty}\phi^jZ_{t-j}.
+\]
+
+**Example 2:** Suppose $\{X_t\}$ is an ARIMA(0,1,1):
+\[
+X_t=X_{t-1}+W_t-\theta_1W_{t-1}
+\]
+If $|\theta_1|<1$, we can show 
+\[
+X_t=\sum_{j=1}^{\infty}(1-\theta_1)\theta_1^jX_{t-j}+W_t, \mathrm{~and~so}
+\]
+
+\begin{eqnarray*}
+\tilde{X}_{n+1}&=&\sum_{j=1}^{\infty}(1-\theta_1)\theta_1^jX_{n+1-j}\\
+&=& (1-\theta_1)X_n+\sum_{j=2}^{\infty}(1-\theta_1)\theta_1^jX_{n+1-j}\\
+&=& (1-\theta_1)X_n+\theta_1\tilde{X}_{n}
+\end{eqnarray*}
+
+Exponentially weighted moving average.
+
+**Building ARIMA models**
+
+Step 1. Plot the time series. Look for trends, seasonal components, step changes, outliers.
+
+Step 2. Nonlinearly transform data, if necessary.
+
+Step 3. Identify preliminary values of $d$, $p$, and $q$.
+
+Step 4. Estimate parameters.
+
+Step 5. Use diagnostics to confirm residuals are white noise/iid/normal.
+
+Step 6. Model selection.
+
+
+**Identifying $d, p, q$**
+
+* For identifying preliminary values of $d$, a time series plot can also help.
+* Too little differencing: not stationary.
+* Too much differencing: extra dependence introduced.
+* For identifying $p, q$, look at sample ACF, PACF of $(1 - B)^dX_t$:
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+library(knitr)
+library(kableExtra)
+df <- data.frame(Model = c("AR(p)", "MA(q)", "ARMA(p,q)"), 
+                 ACF = c("decays", "zero for h > q", "decays"), 
+                 PACF = c("zero for h > p", "decays", "decays"))
+kable(df, col.names = c("Model", "ACF", "PACF"), 
+      escape = F, caption = "My caption") %>%
+ kable_styling(latex_options = "hold_position")
+```
+
+### Seasonal ARIMA model
+
+A seasonal ARIMA model is formed by including additional seasonal terms in the ARIMA models we have seen so far. It is written as follows:
+
+**Pure seasonal ARMA Models**
+
+For $P,Q \geq 0$ and $s > 0$, we say that a time series $\{X_t\}$ is an
+ARMA(P,Q)$_s$ process if $\Phi(B^s)X_t = \Theta(B^s)Z_t$, where
+\[
+\Phi(B^s) = 1 - \sum_{j=1}^{P}\Phi_jB^{js},
+\]
+\[
+\Theta(B^s) = 1+ \sum_{j=1}^{Q}\Theta_jB^{js},
+\]
+
+Example: $P=0$, $Q=1$, $s=12$. $X_t=Z_t+\Theta_1Z_{t-12}$.
+
+\begin{align*}
+\gamma(0) &= (1+\Theta_1^2)\sigma^2,\\
+\gamma(12)&= \Theta_1 \sigma^2,\\
+\gamma(h) &= 0, \mathrm{~for~} h = 1, 2,\ldots, 11, 13, 14, \ldots.
+\end{align*}
+
+Example: $P=1$, $Q=0$, $s=12$. $X_t=\Phi_1X_{t-12}+Z_{t}$.
+
+\begin{align*}
+\gamma(0) &= \frac{\sigma^2}{1-\Phi_1^2},\\
+\gamma(12i)&= \frac{\sigma^2\Phi_1^i}{1-\Phi_1^2},\\
+\gamma(h) &= 0, \mathrm{~for~other~} h.
+\end{align*}
+
+The ACF and PACF for a seasonal ARMA(P,Q)s are zero for $h \neq si$. For $h = si$, they are analogous to the patterns for ARMA(p,q):
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+library(knitr)
+library(kableExtra)
+df <- data.frame(Model = c("AR(P)s", "MA(Q)s", "ARMA(P,Q)s"), 
+                 ACF = c("decays", "zero for i > Q", "decays"), 
+                 PACF = c("zero for i > P", "decays", "decays"))
+kable(df, col.names = c("Model", "ACF", "PACF"), 
+      escape = F, caption = "My caption") %>%
+ kable_styling(latex_options = "hold_position")
+```
+
+```{r predarima, warning=FALSE, message=FALSE, fig.height=4, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using different ARIMA models."}
+death_arima <- train %>%
+  model(
+    arima210 = ARIMA(Y.Death ~ pdq(2,1,0)),
+    arima013 = ARIMA(Y.Death ~ pdq(0,1,3)),
+    stepwise = ARIMA(Y.Death),
+    search = ARIMA(Y.Death, stepwise=FALSE)
+  )
+# Generate forecasts for the next 2 weeks
+death_fc <- death_arima %>% forecast(h = 14)
+# Plot forecasts against actual values
+death_fc %>%
+  autoplot(train, level = NULL) +
+  autolayer(filter_index(dplyr::select(Florida.ts, Y.Death), 
+                         "2020-11-28" ~ .), color = "black") +
+  labs(y = "Death count", title = "Different ARIMA Forecasts") +
+  guides(colour = guide_legend(title = "Methods")) +
+  theme(legend.position="bottom")
+```
+
+The `glance()` function provides a one-row summary of each model, and commonly includes descriptions of the model’s fit, such as the residual variance and information criteria. It is worth noticing that the information criteria (AIC, AICc, BIC) are only comparable between the same model class and only if those models share the same response (after transformations and differencing).
+
+```{r}
+death_arima %>%
+  glance() %>%
+  arrange(AICc)
+```
+
+If you’re working with a single model (or want to look at one model in particular), the `report()` function gives a familiar and nicely formatted model-specific display.
+
+```{r}
+death_arima %>%
+  select(arima210) %>%
+  report()
+```
+
+## Model Comparison
+
+Exponential smoothing and ARIMA models are the two most widely used approaches to time series forecasting, and provide complementary approaches to the problem. While exponential smoothing models are based on a description of the trend and seasonality in the data, ARIMA models aim to describe the autocorrelations in the data.
+
+To compare how well the models fit the data, we can consider some common accuracy measures. It seems that on the training set the ETS model out-performs ARIMA for the series where travellers are on holiday, business, and visiting friends and relatives. The Evaluating modelling accuracy chapter from the [Forecasting: Principles and Practices](https://otexts.com/fpp3/) textbook provides more detail in how modelling and forecasting accuracy is evaluated.
+
+```{r}
+death_fit <-  train %>%
+  model(
+    `ETS` = ETS(Y.Death 
+                ~ error("A") + trend("A") + season("A")),  
+    `ARIMA` = ARIMA(Y.Death, stepwise=FALSE)
+  )
+
+# Model fitting results of ARIMA
+death_fit %>%
+  dplyr::select(ARIMA) %>%
+  report()
+
+# Evaluate the modeling and forecasting accuracy
+death_fit %>% 
+  accuracy() %>%
+  arrange(MASE)
+```
+
+```{r predetsarima, warning=FALSE, message=FALSE, fig.height=4, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using ETS and ARIMA models."}
+# Generate forecasts for the next 2 weeks
+death_fc <- death_fit %>% forecast(h = 14)
+
+# Plot forecasts against actual values
+death_fc %>%
+  autoplot(train, level = 95) +
+  autolayer(filter_index(dplyr::select(Florida.ts, Y.Death), 
+                         "2020-11-28" ~ .), color = "black") +
+  labs(y = "Death count", title = "ETS vs ARIMA Forecasts") +
+  guides(colour = guide_legend(title = "Forecasts")) +
+  theme(legend.position="bottom")
+```
+
+## Ensuring forecasts stay within limits
+
+It is common to want forecasts to be positive, or to require them to be within some specified range $[a,b]$. Both of these situations are relatively easy to handle using transformations.
+
+### Positive forecasts
+
+To impose a positivity constraint, we can simply work on the log scale. Here is an example using ETS models applied to the daily new death count time series for Florida. 
+
+```{r predetslog, warning=FALSE, message=FALSE, fig.height=4, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using ETS, constrained to be positive."} 
+train %>% model(`ETS` = ETS(log(Y.Death+1) 
+                ~ error("A") + trend("A") + season("A"))) %>% 
+  forecast(h = 14) %>%
+  autoplot(train, level = 95)
+```
+
+### Forecasts constrained to an interval
+
+To see how to handle data constrained to an interval, imagine that the egg prices were constrained to lie within $[a,b]$. Then we can transform the data using a scaled logit transform as follows:  
+\[
+y=\log\left(\frac{x-a}{b-x}\right),
+\]
+where $x$ is on the original scale and $y$ is the transformed data. To reverse the transformation, we will use
+\[
+x=\frac{(b-a)e^y}{1+e^y}+a.
+\]
+This is not a built-in transformation, so we will need to first setup the transformation functions.
+
+```{r} 
+scaled_logit <- function(x, lower = 0, upper = 1){
+  log((x - lower) / (upper - x))
+}
+inv_scaled_logit <- function(x, lower = 0, upper = 1){
+  (upper - lower) * exp(x) / (1 + exp(x)) + lower
+}
+my_scaled_logit <- new_transformation(scaled_logit, inv_scaled_logit)
+```
+
+Now, we can make the prediction based on the transfromed time series. Let us consider the forecast within $[0,300]$.
+
+```{r predetslog2, warning=FALSE, message=FALSE, fig.height=4, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using ETS, constrained to be within [0,300]."} 
+train %>%
+  model(ETS(my_scaled_logit(Y.Death + 1, lower = 0, upper = 300) ~ 
+              error("A") + trend("A") + season("A"))) %>%
+  forecast(h = 14) %>%
+  autoplot(train, level = 95)
+```
+
+## Prediction intervals for aggregates
+
+We considered the daily new death count in the above sections, but we may want to forecast the cumulative count.
+
+If the point forecasts are means, then adding them up will give a reasonable estimate of the total. But prediction intervals are more tricky due to the correlations between forecast errors. A general solution is to use simulations. For example, we consider the forecast of the cumulative death count in the next two weeks.
+
+```{r, warning=FALSE, message=FALSE}
+d_ets_fit <-  train %>% model(
+    `ETS` = ETS(Y.Death 
+                ~ error("A") + trend("A") + season("A")) 
+  )
+
+d.pred.paths <- d_ets_fit %>%
+  # Simulate 10000 future sample paths, each of length 14
+  generate(times = 10000, h = 14) %>%
+  # Sum the results for each sample path
+  as_tibble() %>%
+  group_by(.rep) %>%
+  mutate(.sim = as.integer(.sim)) %>%
+  mutate(.sim = replace(.sim, which(.sim < 0), 0)) %>%
+  mutate(.csum = cumsum(.sim))
+```
+
+We can compute the mean of the simulations, and extract a specified prediction interval at a particular confidence level. For example, 
+
+```{r, warning=FALSE, message=FALSE}
+d.pred.report <- d.pred.paths %>% 
+  group_by(DATE) %>%
+  summarize(.mean = mean(.csum),
+            .lpi95 = quantile(.csum, .025), 
+            .upi95 = quantile(.csum, .975),
+            ) %>%
+  mutate(.mean = .mean + tail(train$Death,1),
+         .lpi95 = .lpi95 + tail(train$Death,1),
+         .upi95 = .upi95 + tail(train$Death,1)
+         )
+```
+
+Figure \@(fig:predcum) shows the two weeks ahead forecast of the cumulative death count for Florida using ETS.
+
+```{r predcum, warning=FALSE, message=FALSE, fig.height=4, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the cumulative death count for Florida using ETS."} 
+p <- ggplot(train, aes(DATE, Death)) + 
+  geom_line() + 
+  labs(x = "Days", y = "Count", 
+       title = 'Daily new Death cases and prediction') + 
+  # Add prediction intervals
+  geom_ribbon(mapping = aes(x = DATE, 
+                            y = .mean, 
+                            ymin = .lpi95, 
+                            ymax = .upi95,
+                            fill = '95% Prediction Band'), 
+              data = d.pred.report, alpha = 0.4) +
+  # Add line for predicted values
+  geom_line(mapping = aes(x = DATE, 
+                          y = .mean,
+                          colour = 'Predicted Value'),
+            linetype = "dashed", data = d.pred.report,
+            # Set the line type in legend
+            key_glyph = "timeseries") + 
+  scale_colour_manual("", values = "red")+
+  scale_fill_manual("", values = "pink") 
+p 
+```
+
+
+## Exercises
+
+1. Download the file `tute1.csv` from the book website, open it in Excel (or some other spreadsheet application), and review its contents. You should find four columns of information. Columns B through D each contain a quarterly series, labelled Sales, AdBudget and GDP. 
+
+You can read the data into R with the following script:
+
+```{r eval=FALSE}
+tute1 <- readr::read_csv("tute1.csv")
+View(tute1)
+```
+
+  a. Convert the data to time series
+
+```{r eval=FALSE}
+mytimeseries <- tute1 %>%
+  mutate(Quarter = yearmonth(Quarter)) %>%
+  as_tsibble(index = Quarter)
+```
+
+  b. Construct time series plots of each of the three series
+
+```{r eval=FALSE}
+mytimeseries %>%
+  pivot_longer(-Quarter, names_to="Key", values_to="Value") %>%
+  ggplot(aes(x = Quarter, y = Value, colour = Key)) +
+    geom_line() +
+    facet_grid(vars(Key), scales = "free_y")
+```
+
+2. Use the following graphics functions: `autoplot()`, `gg_season()`, `gg_subseries()`, `gg_lag()`, `ACF()` and explore features from the following time series: 
+
+  a. Can you spot any seasonality and trend?
+  b. What do you learn about the series?
+  c. What can you say about the seasonal patterns?
+  d. Can you identify any unusual years?
+
+3. For your retail time series (???):
+
+  a. Create a training dataset consisting of observations before 2011 using
+
+```{r eval=FALSE}
+myts_train <- myts %>%
+  filter(Month <= yearmonth("2010 Dec"))
+```
+
+  b. Check that your data have been split appropriately by producing the following plot.
+
+```{r eval=FALSE}
+autoplot(myts) +
+  autolayer(myts_train, colour = "red")
+```
+
+  c. Calculate seasonal naïve forecasts using SNAIVE() applied to your training data (myts_train).
+
+```{r eval=FALSE}
+fit <- myts_train %>%
+  model(SNAIVE())
+fc <- fit %>%
+  forecast()
+```
+
+  d. Compare the accuracy of your forecasts against the actual values.
+
+```{r eval=FALSE}
+fit %>% accuracy()
+fc %>% accuracy(myts)
+```
+
+  e. Check the residuals.
+
+```{r eval=FALSE}
+fit %>% gg_tsresiduals()
+Do the residuals appear to be uncorrelated and normally distributed?
+```
+
+  f. How sensitive are the accuracy measures to the amount of training data used?
+
+
+## References
+
+@Hyndman2018

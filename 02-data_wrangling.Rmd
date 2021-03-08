@@ -1,6 +1,6 @@
 # Data Wrangling with `dplyr` and `tidyr` {#dplyr}
 
-The package `dplyr` is an R package for making tabular data wrangling easier by using a limited set of functions that can be combined to extract and summarize insights from your data. It pairs nicely with the package `tidyr`, enabling you to swiftly convert between different data formats (long vs. wide) for plotting and analysis. It addresses the common problem of reshaping your data for plotting and use by different R functions. Sometimes we want data sets where we have one row per measurement. Sometimes we want a dataframe where each measurement type has its own column, and rows are instead more aggregated groups. Sometimes you may want to select important variables, filter out key observations, create new variables and obtain summary statistics. As illustrated in Figure \@ref(fig:process1), you may need to work back and forth between these formats, which is nontrivial, and `tidyr` and `dplyr` give you the right tools for this and more sophisticated data wrangling.
+The package `dplyr` is an R package created to make tabular data wrangling less difficult by using a limited set of functions that are able to be used together to extract and summarize insights from your data. It works well with the package, `tidyr`, which allows you to quickly convert between different data formats (long vs. wide) for the purpose of plotting and analysis. It tackles the common problem of reshaping your data for plotting and use by different R functions. Sometimes we may want data sets where we have one row per measurement, or a data frame where each measurement type has its own column and rows are, instead, more aggregated groups, or maybe you want to select important variables, filter out key observations, create new variables and obtain summary statistics. As illustrated in Figure \@ref(fig:process1), it is necessary that you work back and forth between those formats. `tidyr` and `dplyr` give you the right tools for this as well as for more advanced and intricate data wrangling.
 
 ```{r process1, out.width = "75%", echo=FALSE, fig.align = "center", fig.cap="A typical data science process."}
 knitr::include_graphics("figures/process_new.png")
@@ -20,7 +20,7 @@ library(dplyr)
 
 ### Tibbles
 
-Throughout this book, we work with “tibbles” instead of R’s traditional “data.frame”. Tibbles are data frames, but they are a modern reimagining of the “data.frame”, keeping what time has proven to be effective, and throwing out what is not. Here we will use the `tibble` package, which provides opinionated data frames that make working in the `tidyverse` a little easier. 
+In this book, we will work with "tibbles", rather than R’s  “data.frame”. Tibbles are data frames but modernized so that they keep what time has proven to be effective and throwing out what is not. Here, we will use the `tibble` package, which provides opinionated data frames that make working in `tidyverse` a little easier. 
 
 ```{R, eval=FALSE, warning=FALSE, message=FALSE}
 # The easiest way to get tibble is to install the whole tidyverse:
@@ -30,7 +30,7 @@ Throughout this book, we work with “tibbles” instead of R’s traditional �
 install.packages("tibble")
 ```
 
-In most places, we will use the term “tibble” and “data frame” interchangeably; when we want to draw particular attention to R’s built-in data frame, we will call them “data.frame”. See @wickham2016r for more details about how to create and use “tibbles”.
+For the most part, we will use the terms “tibble” and “data frame” interchangeably. When we choose to point out R’s data frame, we will call it a “data.frame”. See @wickham2016r for more details about how to create and use “tibbles”.
 
 ### Import data 
 
@@ -46,7 +46,7 @@ Recall R offers many ways to import data:
 
 * `load()` loads an `.RData` file and import all of the objects contained in the `.RData` file into your current workspace. 
 
-Below we will work on COVID-19 county level infected count data (`I.county`), and we can obtain the data from Github R package `slid`. It is a “data frame” which includes “ID” (county-level Federal Information Processing System code), “County” (name of county), “State” (name of state), “XYYYY.MM.DD” (the number of cumulative infected cases in a county related to the date of YYYY.MM.DD) for 3,104 counties in the US. For example, the variable `X2020.01.22` is the number of cumulative infected cases in a county on 01/22/2020. See Appendix B for more detailed description of the data and its source.
+Below we will work on a COVID-19, county level infected count data (`I.county`), and we can obtain the data from the Github R package `slid`. It is a “data frame” which includes “ID” (county-level Federal Information Processing System code), “County” (name of county), “State” (name of state), “XYYYY.MM.DD” (the number of cumulative infected cases in a county related to the date of YYYY.MM.DD) for 3,104 counties in the US. For example, the variable `X2020.01.22` is the number of cumulative infected cases in a county on 01/22/2020. See Appendix B for more detailed description of the data and its source.
 
 
 ```{R,  results='hide', warning=FALSE, message=FALSE}
@@ -123,9 +123,9 @@ knitr::include_graphics("figures/logic.png")
 
 ### Pipes
 
-What if you want to select and filter at the same time? There are three ways to do this: use intermediate steps, nested functions, or pipes.
+What if you wanted to select and filter at the same time? There are three ways to do this: use intermediate steps, nested functions, or pipes.
 
-With intermediate steps, you create a temporary dataframe and use that as input to the next function, like this:
+With intermediate steps, you create a temporary data frame and use that as input to the next function, like this:
 
 ```{R eval=TRUE}
 # all Iowa counties from 2020.12.01 to 2020.12.11
@@ -135,7 +135,7 @@ Iowa.I.county.DEC <- dplyr::select(Iowa.I.county,
                                    X2020.12.11:X2020.12.01)
 ```
 
-This is readable, but can clutter up your workspace with lots of objects that you have to name individually. With multiple steps, that can be hard to keep track of.
+This is readable, but can easily fill up your workspace with lots of objects that need to be named individually. With multiple steps, that can be difficult to keep track of.
 
 You can also nest functions (i.e. one function inside of another), like this:
 
@@ -147,9 +147,9 @@ Iowa.I.county.DEC <-
                 ID, County, State, X2020.12.11:X2020.12.01)
 ```
 
-This is handy but can be difficult to read if too many functions are nested, as R evaluates the expression from the inside out (in this case, filtering, then selecting).
+This is useful but can be tricky to read if too many functions are nested, as R evaluates the expression from the inside out (in this case, filtering, then selecting).
 
-The last option, **pipes**, are a recent addition to R. **Pipes** let you take the output of one function and send it directly to the next, which is useful when you need to do many things to the same dataset. Pipes in R look like `%>%` and are made available via the `magrittr` package, installed automatically with `dplyr`.
+The last option, **pipes**, were recently added to R. **Pipes** let you take the output of one function and send it directly to the next, which is useful when you need to do multiple things to the same data set. Pipes in R look like `%>%` and are made available via the `magrittr` package, installed automatically with `dplyr`.
 
 ```{R results='hide'}
 # all Iowa counties from 2020.12.01 to 2020.12.11
@@ -159,9 +159,9 @@ I.county %>%
   dplyr::select(ID, County, X2020.12.11:X2020.12.01)
 ```
 
-In the above code, we use the **pipe** to send the interviews dataset first through `filter()` to keep rows for the state of Iowa, then through `select()` to keep only the count in December. Since `%>%` takes the object on its left and passes it as the first argument to the function on its right, we don't need to explicitly include the `dataframe` as an argument to the `filter()` and `select()` functions anymore.
+In the above code, we use the **pipe** to send the interviews data set first through `filter()` to keep rows for the state of Iowa, then through `select()` to keep only the count in December. Since `%>%` takes the object on its left and passes it as the first argument to the function on its right, we don't need to explicitly include the `dataframe` as an argument to the `filter()` and `select()` functions anymore.
 
-Some may find it helpful to read the pipe like the word "then". For instance, in the above example, we take the dataframe `I.county`, then we filter for rows with `State == "Iowa"`, then we select columns from `X2020.12.11` to `X2020.12.01`. The `dplyr` functions are somewhat simple, but by combining them into linear workflows with the pipe, we can accomplish more complex data wrangling operations.
+Some may find it helpful to read the pipe like the word "then". For instance, in the above example, we take the data frame `I.county`, then we filter for rows with `State == "Iowa"`, then we select columns from `X2020.12.11` to `X2020.12.01`. The `dplyr` functions are somewhat simple, but by combining them into linear workflows with the pipe, we can accomplish more complex data wrangling operations.
 
 If we want to create a new object with this smaller version of the data, we can assign it a new name:
 
