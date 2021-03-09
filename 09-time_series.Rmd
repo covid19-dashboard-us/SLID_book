@@ -338,7 +338,44 @@ Our aims are the following:
 * to find a satisfactory probabilistic model for $Y_t$;
 * use it in conjunction with $m_t$ and $s_t$ for prediction and simulation of $\{X_t\}$.
 
+
+### Box-Cox transformations
+
 When decomposing a time series, it is sometimes helpful to first transform or adjust the series in order to make the decomposition (and later analysis) as simple as possible. So we will begin by discussing transformations and adjustments.
+
+Each of these transformations is close to a member of the family of Box-Cox transformations:
+\[
+w_t =\left\{\begin{array}{ll}
+\log(y_t), & \lambda=0;\\
+(y_t^{\lambda}-1)/\lambda, & \lambda \neq 0.
+\end{array}
+\right.
+\]
+
+* $\lambda= 1$: (No substantive transformation);
+* $\lambda= 1/2$: (Square root plus linear transformation);
+* $\lambda= 0$: (Natural logarithm);
+* $\lambda= -1$: (Inverse plus 1);
+* $y_t^{\lambda}=1$ for $\lambda$ close to zero behaves like logs;
+* If some $y_t = 0$, then must have $\lambda > 0$;
+* If some $y_t < 0$, no power transformation is possible unless all $y_t$ adjusted by adding a constant to all values;
+* Choose a simple value of $\lambda$. It makes explanation easier;
+* Results are relatively insensitive to value of $\lambda$;
+* Often no transformation ($\lambda= 1$) needed;
+* Transformation often makes little difference to forecasts but has large effect on PI;
+* Choosing $\lambda = 0$ is a simple way to force forecasts to be positive.
+
+We must reverse the transformation (or back-transform) to obtain forecasts
+on the original scale. The reverse Box-Cox transformations are given by
+\[
+y_t=\left\{\begin{array}{ll}
+\exp(w_t), & \lambda=0;\\
+(\lambda w_t+1)^{1/\lambda}-1, & \lambda \neq 0.
+\end{array}
+\right.
+\]
+
+### Seasonal and trend decomposition using Loess (STL)
 
 `STL` developed by @Cleveland1990 is a versatile and robust method for decomposing time series. STL is an acronym for “Seasonal and Trend decomposition using Loess,” while Loess is a method for estimating nonlinear relationships.
 
@@ -357,14 +394,19 @@ We will decompose the time series of the daily new deaths in Florida as shown in
 Florida.ts %>%
   autoplot(Y.Death, color = "gray") +
   autolayer(components(dcmp), trend, color = "red") +
-  labs(y = "Death Count", title = "Daily New Death Count with Trend")
+  labs(y = "Death Count", 
+       title = "Daily New Death Count with Trend")
+```
 
+Next, we can draw the STL decomposition: trend, days of week effect and remainder, using the `autoplot()` function. 
+
+```{r}
 components(dcmp) %>% autoplot()
 ```
 
 The `STL()` function also allows us to choose the trend window `trend(window = )` and the seasonal window `season(window = )`, which controls how rapidly the trend and seasonal components can change. The smaller the value, the more rapid the changes. The trend window is the number of consecutive observations to be used when estimating the trend-cycle; the season window is the number of consecutive days to estimate each value in the seasonal component. For example, Figure \@ref(fig:dcmp2) shows the trend, seasonality and residuals of the daily new death count time series in Florida based on `trend(window = 14)` and `season(window = 7)`. Both trend and seasonal windows should be odd numbers. 
 
-```{r dcmp2, fig.height=3, fig.width=7, fig.align = "center", fig.cap="The trend, seasonality and residuals of the daily new death count time series in Florida based on trend window = 14 and seasonal window = 7."}
+```{r dcmp2, fig.align = "center", fig.cap="The trend, seasonality and residuals of the daily new death count time series in Florida based on trend window = 14 and seasonal window = 7."}
 Florida.ts %>%
   model(STL(Y.Death ~ trend(window = 14) + season(window = 7),
             robust = TRUE
@@ -374,7 +416,9 @@ Florida.ts %>%
 ```
 
 
-**Trend and Seasonal Estimation: Method I**
+### Trend and seasonal estimation: 
+
+#### Method I
   
 Step 1. Form preliminary estimate $\hat{m}_t$ of trend by passing data through filter/smoothing that eliminates $s_t$ as much as possible.
 
@@ -388,7 +432,7 @@ Step 5. Form deseasonalized data: $d_t = x_t -\hat{s}_t$.
 
 Step 6. Use deseasonalized data to get final estimate $\hat{m}_t$ of trend.
 
-**Trend and Seasonal Estimation: Method II**
+#### Method II
 
 Step 1. Apply a lag-$d$ differencing operator to $X_t$, then
 
@@ -410,7 +454,7 @@ seasonal components.
 
 ## Simple Time Series Forecasting Approaches
 
-We use data-driven prediction approaches without considering any other aspect, such as the disease spread mechanism.  We describe each approach in detail in the following subsections. If $\{Z_t\}$ is a sequence of independent random variables that follow the same normal distribution with zero mean, we call $\{Z_t\}$ IID Gaussian noise.
+We use data-driven prediction approaches without considering any other aspect, such as the disease spread mechanism. We describe each approach in detail in the following subsections. If $\{Z_t\}$ is a sequence of independent random variables that follow the same normal distribution with zero mean, we call $\{Z_t\}$ IID Gaussian noise.
 
 ### Average method
 

@@ -70,6 +70,12 @@ fig:SIR
 fig:sim1
 fig:sim2
 fig:SIRbd
+fig:sse
+fig:measles1
+fig:measles2
+fig:ml
+fig:measles3
+fig:covid19
 fig:death1
 fig:death2
 fig:death3
@@ -79,8 +85,7 @@ fig:deathweek
 fig:deathlag
 fig:acf
 fig:acfpacf
-fig:dcmp1-1
-fig:dcmp1-2
+fig:dcmp1
 fig:dcmp2
 fig:predmean
 fig:predrw
@@ -94,8 +99,8 @@ fig:predses2
 fig:reslmsts
 fig:reslms
 fig:resets
-tab:unnamed-chunk-169
-tab:unnamed-chunk-170
+tab:unnamed-chunk-166
+tab:unnamed-chunk-167
 fig:predarima
 fig:predetsarima
 fig:predetslog
@@ -255,7 +260,7 @@ implementation-of-parameter-estimation-in-r
 example-1.-outbreak-of-measles-in-niamey
 least-squares-method
 maximum-likelihood-approach
-example-2.-covid-19
+example-2.-covid-19-data
 basic-reproduction-number
 seir-model
 herd-immunity
@@ -270,6 +275,11 @@ objectives-of-time-series-analysis
 autocorrelation
 autocorrelation-1
 time-series-decomposition
+box-cox-transformations
+seasonal-and-trend-decomposition-using-loess-stl
+trend-and-seasonal-estimation
+method-i
+method-ii
 simple-time-series-forecasting-approaches
 average-method
 random-walk-forecasts
