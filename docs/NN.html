@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 12 Neural Networks | Statistical Learning of Infectious Disease Data Analytics</title>
   <meta name="description" content="The use of statistical models to understand infectious disease dynamics has a very rich history in epidemiology. This book introduces modern statistical models and state-of-the-art learning methods to analyze infectious disease data. Many of the key approaches, examples and case studies will be presented. The primary emphasis will be interpretation, inference and hands-on data analyses. This course also provides practical concepts and R computing skills to perform infectious disease data analysis and visualization." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 12 Neural Networks | Statistical Learning of Infectious Disease Data Analytics" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Lily Wang" />
 
 
-<meta name="date" content="2021-03-08" />
+<meta name="date" content="2021-03-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +33,7 @@
   
 <link rel="prev" href="regression.html"/>
 <link rel="next" href="ensemble.html"/>
-<script src="libs/header-attrs-2.6/header-attrs.js"></script>
-<script src="libs/jquery-3.5.1/jquery.min.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -51,20 +50,21 @@
 
 
 
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
-<script src="libs/plotly-binding-4.9.3.9000/plotly.js"></script>
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.9.2.1/plotly.js"></script>
 <script src="libs/typedarray-0.1/typedarray.min.js"></script>
-<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
-<link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
-<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
 <link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
 <script src="libs/leaflet-1.3.1/leaflet.js"></script>
 <link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
-<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
 <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
 <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
@@ -72,18 +72,18 @@
 
 
 <style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -103,7 +103,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -152,33 +152,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">A Minimal Book Example</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a>
-<ul>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#data-sets-used-in-labs-and-exercises"><i class="fa fa-check"></i><b>1.1</b> Data Sets Used in Labs and Exercises</a></li>
 <li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.2</b> Acknowledgements</a></li>
 <li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#about-the-author"><i class="fa fa-check"></i><b>1.3</b> About the Author</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
-<ul>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a><ul>
 <li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#aims-and-scope-of-this-book"><i class="fa fa-check"></i><b>2.1</b> Aims and Scope of This Book</a></li>
-<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#the-structure-of-this-book"><i class="fa fa-check"></i><b>2.2</b> The Structure of This Book</a>
-<ul>
+<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#the-structure-of-this-book"><i class="fa fa-check"></i><b>2.2</b> The Structure of This Book</a><ul>
 <li class="chapter" data-level="2.2.1" data-path="intro.html"><a href="intro.html#infectious-disease-data"><i class="fa fa-check"></i><b>2.2.1</b> Infectious disease data</a></li>
 <li class="chapter" data-level="2.2.2" data-path="intro.html"><a href="intro.html#basic-characteristics-of-the-infection-process"><i class="fa fa-check"></i><b>2.2.2</b> Basic characteristics of the infection process</a></li>
 <li class="chapter" data-level="2.2.3" data-path="intro.html"><a href="intro.html#data-visualization"><i class="fa fa-check"></i><b>2.2.3</b> Data visualization</a></li>
 <li class="chapter" data-level="2.2.4" data-path="intro.html"><a href="intro.html#modeling-and-forecasting"><i class="fa fa-check"></i><b>2.2.4</b> Modeling and Forecasting</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>3</b> Data Wrangling with <code>dplyr</code> and <code>tidyr</code></a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="dplyr.html"><a href="dplyr.html#learning-dplyr"><i class="fa fa-check"></i><b>3.1</b> Learning <code>dplyr</code></a>
-<ul>
+<li class="chapter" data-level="3" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>3</b> Data Wrangling with <code>dplyr</code> and <code>tidyr</code></a><ul>
+<li class="chapter" data-level="3.1" data-path="dplyr.html"><a href="dplyr.html#learning-dplyr"><i class="fa fa-check"></i><b>3.1</b> Learning <code>dplyr</code></a><ul>
 <li class="chapter" data-level="3.1.1" data-path="dplyr.html"><a href="dplyr.html#tibbles"><i class="fa fa-check"></i><b>3.1.1</b> Tibbles</a></li>
 <li class="chapter" data-level="3.1.2" data-path="dplyr.html"><a href="dplyr.html#import-data"><i class="fa fa-check"></i><b>3.1.2</b> Import data</a></li>
 <li class="chapter" data-level="3.1.3" data-path="dplyr.html"><a href="dplyr.html#common-dplyr-functions"><i class="fa fa-check"></i><b>3.1.3</b> Common <code>dplyr</code> functions</a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="dplyr.html"><a href="dplyr.html#selecting-columns-and-filtering-rows"><i class="fa fa-check"></i><b>3.2</b> Selecting Columns and Filtering Rows</a>
-<ul>
+<li class="chapter" data-level="3.2" data-path="dplyr.html"><a href="dplyr.html#selecting-columns-and-filtering-rows"><i class="fa fa-check"></i><b>3.2</b> Selecting Columns and Filtering Rows</a><ul>
 <li class="chapter" data-level="3.2.1" data-path="dplyr.html"><a href="dplyr.html#subset-variables-columns"><i class="fa fa-check"></i><b>3.2.1</b> Subset Variables (Columns)</a></li>
 <li class="chapter" data-level="3.2.2" data-path="dplyr.html"><a href="dplyr.html#subset-observations-rows"><i class="fa fa-check"></i><b>3.2.2</b> Subset Observations (Rows)</a></li>
 <li class="chapter" data-level="3.2.3" data-path="dplyr.html"><a href="dplyr.html#pipes"><i class="fa fa-check"></i><b>3.2.3</b> Pipes</a></li>
@@ -186,43 +180,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3.3" data-path="dplyr.html"><a href="dplyr.html#make-new-variables-mutate"><i class="fa fa-check"></i><b>3.3</b> Make New Variables: Mutate</a></li>
 <li class="chapter" data-level="3.4" data-path="dplyr.html"><a href="dplyr.html#summarize-data"><i class="fa fa-check"></i><b>3.4</b> Summarize Data</a></li>
-<li class="chapter" data-level="3.5" data-path="dplyr.html"><a href="dplyr.html#combine-data-sets"><i class="fa fa-check"></i><b>3.5</b> Combine Data Sets</a>
-<ul>
+<li class="chapter" data-level="3.5" data-path="dplyr.html"><a href="dplyr.html#combine-data-sets"><i class="fa fa-check"></i><b>3.5</b> Combine Data Sets</a><ul>
 <li class="chapter" data-level="3.5.1" data-path="dplyr.html"><a href="dplyr.html#the-join-family"><i class="fa fa-check"></i><b>3.5.1</b> The join family</a></li>
 <li class="chapter" data-level="3.5.2" data-path="dplyr.html"><a href="dplyr.html#toy-examples-with-joins"><i class="fa fa-check"></i><b>3.5.2</b> Toy examples with joins</a></li>
 <li class="chapter" data-level="3.5.3" data-path="dplyr.html"><a href="dplyr.html#practice-with-joins-for-real-data"><i class="fa fa-check"></i><b>3.5.3</b> Practice with joins for real data</a></li>
 </ul></li>
-<li class="chapter" data-level="3.6" data-path="dplyr.html"><a href="dplyr.html#reshaping-data"><i class="fa fa-check"></i><b>3.6</b> Reshaping Data</a>
-<ul>
+<li class="chapter" data-level="3.6" data-path="dplyr.html"><a href="dplyr.html#reshaping-data"><i class="fa fa-check"></i><b>3.6</b> Reshaping Data</a><ul>
 <li class="chapter" data-level="3.6.1" data-path="dplyr.html"><a href="dplyr.html#from-wide-to-long"><i class="fa fa-check"></i><b>3.6.1</b> From wide to long</a></li>
 <li class="chapter" data-level="3.6.2" data-path="dplyr.html"><a href="dplyr.html#from-long-to-wide"><i class="fa fa-check"></i><b>3.6.2</b> From long to wide</a></li>
 </ul></li>
 <li class="chapter" data-level="3.7" data-path="dplyr.html"><a href="dplyr.html#exercises"><i class="fa fa-check"></i><b>3.7</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>4</b> Data Visualization with ggplot2</a>
-<ul>
+<li class="chapter" data-level="4" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>4</b> Data Visualization with ggplot2</a><ul>
 <li class="chapter" data-level="4.1" data-path="ggplot2.html"><a href="ggplot2.html#introduction"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
-<li class="chapter" data-level="4.2" data-path="ggplot2.html"><a href="ggplot2.html#types-of-variables-and-preparation"><i class="fa fa-check"></i><b>4.2</b> Types of Variables and Preparation</a>
-<ul>
+<li class="chapter" data-level="4.2" data-path="ggplot2.html"><a href="ggplot2.html#types-of-variables-and-preparation"><i class="fa fa-check"></i><b>4.2</b> Types of Variables and Preparation</a><ul>
 <li class="chapter" data-level="4.2.1" data-path="ggplot2.html"><a href="ggplot2.html#types-of-variables"><i class="fa fa-check"></i><b>4.2.1</b> Types of Variables</a></li>
 <li class="chapter" data-level="4.2.2" data-path="ggplot2.html"><a href="ggplot2.html#rules-for-graph-designing"><i class="fa fa-check"></i><b>4.2.2</b> Rules for Graph Designing</a></li>
 <li class="chapter" data-level="4.2.3" data-path="ggplot2.html"><a href="ggplot2.html#installing-packages-and-loading-data"><i class="fa fa-check"></i><b>4.2.3</b> Installing packages and loading data</a></li>
 <li class="chapter" data-level="4.2.4" data-path="ggplot2.html"><a href="ggplot2.html#your-first-scatterplot"><i class="fa fa-check"></i><b>4.2.4</b> Your first scatterplot</a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="ggplot2.html"><a href="ggplot2.html#position-scales-and-axes"><i class="fa fa-check"></i><b>4.3</b> Position Scales and Axes</a>
-<ul>
+<li class="chapter" data-level="4.3" data-path="ggplot2.html"><a href="ggplot2.html#position-scales-and-axes"><i class="fa fa-check"></i><b>4.3</b> Position Scales and Axes</a><ul>
 <li class="chapter" data-level="4.3.1" data-path="ggplot2.html"><a href="ggplot2.html#change-the-labels-of-the-axis-using-xlab-and-ylab"><i class="fa fa-check"></i><b>4.3.1</b> Change the labels of the axis using <code>xlab()</code> and <code>ylab()</code></a></li>
 <li class="chapter" data-level="4.3.2" data-path="ggplot2.html"><a href="ggplot2.html#change-the-range-of-the-axis-using-xlim-and-ylim"><i class="fa fa-check"></i><b>4.3.2</b> Change the range of the axis using <code>xlim()</code> and <code>ylim()</code></a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="ggplot2.html"><a href="ggplot2.html#color-scales-and-size-of-geom_points"><i class="fa fa-check"></i><b>4.4</b> Color Scales and Size of <code>geom_points()</code></a>
-<ul>
+<li class="chapter" data-level="4.4" data-path="ggplot2.html"><a href="ggplot2.html#color-scales-and-size-of-geom_points"><i class="fa fa-check"></i><b>4.4</b> Color Scales and Size of <code>geom_points()</code></a><ul>
 <li class="chapter" data-level="4.4.1" data-path="ggplot2.html"><a href="ggplot2.html#change-the-color-of-all-points"><i class="fa fa-check"></i><b>4.4.1</b> Change the color of all points</a></li>
 <li class="chapter" data-level="4.4.2" data-path="ggplot2.html"><a href="ggplot2.html#color-the-observations-by-the-value-of-a-feature"><i class="fa fa-check"></i><b>4.4.2</b> Color the observations by the value of a feature</a></li>
 <li class="chapter" data-level="4.4.3" data-path="ggplot2.html"><a href="ggplot2.html#change-the-color-palette"><i class="fa fa-check"></i><b>4.4.3</b> Change the color palette</a></li>
 <li class="chapter" data-level="4.4.4" data-path="ggplot2.html"><a href="ggplot2.html#change-the-size-by-the-value-of-a-feature"><i class="fa fa-check"></i><b>4.4.4</b> Change the size by the value of a feature</a></li>
 </ul></li>
-<li class="chapter" data-level="4.5" data-path="ggplot2.html"><a href="ggplot2.html#individual-geoms"><i class="fa fa-check"></i><b>4.5</b> Individual geoms</a>
-<ul>
+<li class="chapter" data-level="4.5" data-path="ggplot2.html"><a href="ggplot2.html#individual-geoms"><i class="fa fa-check"></i><b>4.5</b> Individual geoms</a><ul>
 <li class="chapter" data-level="4.5.1" data-path="ggplot2.html"><a href="ggplot2.html#histogram"><i class="fa fa-check"></i><b>4.5.1</b> Histogram</a></li>
 <li class="chapter" data-level="4.5.2" data-path="ggplot2.html"><a href="ggplot2.html#bar-chart"><i class="fa fa-check"></i><b>4.5.2</b> Bar chart</a></li>
 <li class="chapter" data-level="4.5.3" data-path="ggplot2.html"><a href="ggplot2.html#default-bar-chart"><i class="fa fa-check"></i><b>4.5.3</b> Default bar chart</a></li>
@@ -230,76 +217,63 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.5.5" data-path="ggplot2.html"><a href="ggplot2.html#legend"><i class="fa fa-check"></i><b>4.5.5</b> Legend</a></li>
 <li class="chapter" data-level="4.5.6" data-path="ggplot2.html"><a href="ggplot2.html#boxplots-jittering-and-violin-plots"><i class="fa fa-check"></i><b>4.5.6</b> Boxplots, jittering and violin plots</a></li>
 </ul></li>
-<li class="chapter" data-level="4.6" data-path="ggplot2.html"><a href="ggplot2.html#collective-geoms"><i class="fa fa-check"></i><b>4.6</b> Collective geoms</a>
-<ul>
+<li class="chapter" data-level="4.6" data-path="ggplot2.html"><a href="ggplot2.html#collective-geoms"><i class="fa fa-check"></i><b>4.6</b> Collective geoms</a><ul>
 <li class="chapter" data-level="4.6.1" data-path="ggplot2.html"><a href="ggplot2.html#smoother"><i class="fa fa-check"></i><b>4.6.1</b> Smoother</a></li>
 </ul></li>
-<li class="chapter" data-level="4.7" data-path="ggplot2.html"><a href="ggplot2.html#time-series"><i class="fa fa-check"></i><b>4.7</b> Time Series</a>
-<ul>
+<li class="chapter" data-level="4.7" data-path="ggplot2.html"><a href="ggplot2.html#time-series"><i class="fa fa-check"></i><b>4.7</b> Time Series</a><ul>
 <li class="chapter" data-level="4.7.1" data-path="ggplot2.html"><a href="ggplot2.html#basic-line-plots"><i class="fa fa-check"></i><b>4.7.1</b> Basic line plots</a></li>
 <li class="chapter" data-level="4.7.2" data-path="ggplot2.html"><a href="ggplot2.html#add-a-second-line"><i class="fa fa-check"></i><b>4.7.2</b> Add a second line</a></li>
 <li class="chapter" data-level="4.7.3" data-path="ggplot2.html"><a href="ggplot2.html#add-ribbons"><i class="fa fa-check"></i><b>4.7.3</b> Add ribbons</a></li>
 <li class="chapter" data-level="4.7.4" data-path="ggplot2.html"><a href="ggplot2.html#adjust-the-scale-of-time-axis"><i class="fa fa-check"></i><b>4.7.4</b> Adjust the scale of time axis</a></li>
 <li class="chapter" data-level="4.7.5" data-path="ggplot2.html"><a href="ggplot2.html#add-annotations"><i class="fa fa-check"></i><b>4.7.5</b> Add annotations</a></li>
 </ul></li>
-<li class="chapter" data-level="4.8" data-path="ggplot2.html"><a href="ggplot2.html#maps"><i class="fa fa-check"></i><b>4.8</b> Maps</a>
-<ul>
+<li class="chapter" data-level="4.8" data-path="ggplot2.html"><a href="ggplot2.html#maps"><i class="fa fa-check"></i><b>4.8</b> Maps</a><ul>
 <li class="chapter" data-level="4.8.1" data-path="ggplot2.html"><a href="ggplot2.html#making-a-base-map"><i class="fa fa-check"></i><b>4.8.1</b> Making a base map</a></li>
 <li class="chapter" data-level="4.8.2" data-path="ggplot2.html"><a href="ggplot2.html#customizing-choropleth-map"><i class="fa fa-check"></i><b>4.8.2</b> Customizing <code>choropleth</code> map</a></li>
 <li class="chapter" data-level="4.8.3" data-path="ggplot2.html"><a href="ggplot2.html#overlay-polygon-maps"><i class="fa fa-check"></i><b>4.8.3</b> Overlay polygon maps</a></li>
 </ul></li>
-<li class="chapter" data-level="4.9" data-path="ggplot2.html"><a href="ggplot2.html#arranging-plots"><i class="fa fa-check"></i><b>4.9</b> Arranging Plots</a>
-<ul>
+<li class="chapter" data-level="4.9" data-path="ggplot2.html"><a href="ggplot2.html#arranging-plots"><i class="fa fa-check"></i><b>4.9</b> Arranging Plots</a><ul>
 <li class="chapter" data-level="4.9.1" data-path="ggplot2.html"><a href="ggplot2.html#facet"><i class="fa fa-check"></i><b>4.9.1</b> Facet</a></li>
 <li class="chapter" data-level="4.9.2" data-path="ggplot2.html"><a href="ggplot2.html#combining-plots-using-patchwork-package"><i class="fa fa-check"></i><b>4.9.2</b> Combining plots using <code>patchwork</code> package</a></li>
 </ul></li>
-<li class="chapter" data-level="4.10" data-path="ggplot2.html"><a href="ggplot2.html#output"><i class="fa fa-check"></i><b>4.10</b> Output</a>
-<ul>
+<li class="chapter" data-level="4.10" data-path="ggplot2.html"><a href="ggplot2.html#output"><i class="fa fa-check"></i><b>4.10</b> Output</a><ul>
 <li class="chapter" data-level="4.10.1" data-path="ggplot2.html"><a href="ggplot2.html#save-in-figure-format"><i class="fa fa-check"></i><b>4.10.1</b> Save in figure format</a></li>
 <li class="chapter" data-level="4.10.2" data-path="ggplot2.html"><a href="ggplot2.html#save-in-rds-format"><i class="fa fa-check"></i><b>4.10.2</b> Save in RDS format</a></li>
 </ul></li>
-<li class="chapter" data-level="4.11" data-path="ggplot2.html"><a href="ggplot2.html#exercises-1"><i class="fa fa-check"></i><b>4.11</b> Exercises</a></li>
+<li class="chapter" data-level="4.11" data-path="dplyr.html"><a href="dplyr.html#exercises"><i class="fa fa-check"></i><b>4.11</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="plotly.html"><a href="plotly.html"><i class="fa fa-check"></i><b>5</b> Interactive Visualization</a>
-<ul>
+<li class="chapter" data-level="5" data-path="plotly.html"><a href="plotly.html"><i class="fa fa-check"></i><b>5</b> Interactive Visualization</a><ul>
 <li class="chapter" data-level="5.1" data-path="plotly.html"><a href="plotly.html#an-introduction"><i class="fa fa-check"></i><b>5.1</b> An Introduction</a></li>
-<li class="chapter" data-level="5.2" data-path="plotly.html"><a href="plotly.html#creating-plotly-objects"><i class="fa fa-check"></i><b>5.2</b> Creating Plotly Objects</a>
-<ul>
+<li class="chapter" data-level="5.2" data-path="plotly.html"><a href="plotly.html#creating-plotly-objects"><i class="fa fa-check"></i><b>5.2</b> Creating Plotly Objects</a><ul>
 <li class="chapter" data-level="5.2.1" data-path="plotly.html"><a href="plotly.html#using-plot_ly-to-create-a-plotly-object"><i class="fa fa-check"></i><b>5.2.1</b> Using <code>plot_ly()</code> to create a plotly object</a></li>
 <li class="chapter" data-level="5.2.2" data-path="plotly.html"><a href="plotly.html#use-dplyr-verbs-to-modify-data"><i class="fa fa-check"></i><b>5.2.2</b> Use <code>dplyr</code> verbs to modify data</a></li>
 <li class="chapter" data-level="5.2.3" data-path="plotly.html"><a href="plotly.html#using-ggplotly-to-create-a-plotly-object"><i class="fa fa-check"></i><b>5.2.3</b> Using <code>ggplotly()</code> to create a <code>plotly</code> object</a></li>
 </ul></li>
-<li class="chapter" data-level="5.3" data-path="plotly.html"><a href="plotly.html#scatterplots-and-line-plots"><i class="fa fa-check"></i><b>5.3</b> Scatterplots and Line Plots</a>
-<ul>
+<li class="chapter" data-level="5.3" data-path="plotly.html"><a href="plotly.html#scatterplots-and-line-plots"><i class="fa fa-check"></i><b>5.3</b> Scatterplots and Line Plots</a><ul>
 <li class="chapter" data-level="5.3.1" data-path="plotly.html"><a href="plotly.html#make-a-scatterplot"><i class="fa fa-check"></i><b>5.3.1</b> Make a scatterplot</a></li>
 <li class="chapter" data-level="5.3.2" data-path="plotly.html"><a href="plotly.html#markers"><i class="fa fa-check"></i><b>5.3.2</b> Markers</a></li>
 <li class="chapter" data-level="5.3.3" data-path="plotly.html"><a href="plotly.html#a-single-time-series-plot"><i class="fa fa-check"></i><b>5.3.3</b> A single time series plot</a></li>
 <li class="chapter" data-level="5.3.4" data-path="plotly.html"><a href="plotly.html#hover-text-and-template"><i class="fa fa-check"></i><b>5.3.4</b> Hover text and template</a></li>
 <li class="chapter" data-level="5.3.5" data-path="plotly.html"><a href="plotly.html#multiple-time-series-plots"><i class="fa fa-check"></i><b>5.3.5</b> Multiple time series plots</a></li>
 <li class="chapter" data-level="5.3.6" data-path="plotly.html"><a href="plotly.html#more-features-about-the-lines"><i class="fa fa-check"></i><b>5.3.6</b> More features about the lines</a></li>
-<li class="chapter" data-level="5.3.7" data-path="plotly.html"><a href="plotly.html#add-ribbons-1"><i class="fa fa-check"></i><b>5.3.7</b> Add ribbons</a></li>
+<li class="chapter" data-level="5.3.7" data-path="ggplot2.html"><a href="ggplot2.html#add-ribbons"><i class="fa fa-check"></i><b>5.3.7</b> Add ribbons</a></li>
 </ul></li>
-<li class="chapter" data-level="5.4" data-path="plotly.html"><a href="plotly.html#pie-charts"><i class="fa fa-check"></i><b>5.4</b> Pie Charts</a>
-<ul>
+<li class="chapter" data-level="5.4" data-path="plotly.html"><a href="plotly.html#pie-charts"><i class="fa fa-check"></i><b>5.4</b> Pie Charts</a><ul>
 <li class="chapter" data-level="5.4.1" data-path="plotly.html"><a href="plotly.html#draw-static-pie-charts-using-ggplot2"><i class="fa fa-check"></i><b>5.4.1</b> Draw static pie charts using ggplot2</a></li>
 <li class="chapter" data-level="5.4.2" data-path="plotly.html"><a href="plotly.html#draw-interactive-pie-charts"><i class="fa fa-check"></i><b>5.4.2</b> Draw interactive pie charts</a></li>
 </ul></li>
-<li class="chapter" data-level="5.5" data-path="plotly.html"><a href="plotly.html#animation"><i class="fa fa-check"></i><b>5.5</b> Animation</a>
-<ul>
+<li class="chapter" data-level="5.5" data-path="plotly.html"><a href="plotly.html#animation"><i class="fa fa-check"></i><b>5.5</b> Animation</a><ul>
 <li class="chapter" data-level="5.5.1" data-path="plotly.html"><a href="plotly.html#an-animation-of-the-evolution-of-infected-vs.-death-count"><i class="fa fa-check"></i><b>5.5.1</b> An animation of the evolution of infected vs. death count</a></li>
 <li class="chapter" data-level="5.5.2" data-path="plotly.html"><a href="plotly.html#an-animation-of-the-state-level-time-series-plot-of-infected-count"><i class="fa fa-check"></i><b>5.5.2</b> An animation of the state-level time series plot of infected count</a></li>
 </ul></li>
-<li class="chapter" data-level="5.6" data-path="plotly.html"><a href="plotly.html#saving-html"><i class="fa fa-check"></i><b>5.6</b> Saving HTML</a>
-<ul>
+<li class="chapter" data-level="5.6" data-path="plotly.html"><a href="plotly.html#saving-html"><i class="fa fa-check"></i><b>5.6</b> Saving HTML</a><ul>
 <li class="chapter" data-level="5.6.1" data-path="plotly.html"><a href="plotly.html#save-as-a-standalone-html-file"><i class="fa fa-check"></i><b>5.6.1</b> Save as a standalone HTML file</a></li>
 <li class="chapter" data-level="5.6.2" data-path="plotly.html"><a href="plotly.html#save-as-non-selfcontained-html-file"><i class="fa fa-check"></i><b>5.6.2</b> Save as non-selfcontained HTML file</a></li>
 </ul></li>
-<li class="chapter" data-level="5.7" data-path="plotly.html"><a href="plotly.html#exercises-2"><i class="fa fa-check"></i><b>5.7</b> Exercises</a></li>
+<li class="chapter" data-level="5.7" data-path="dplyr.html"><a href="dplyr.html#exercises"><i class="fa fa-check"></i><b>5.7</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="shiny.html"><a href="shiny.html"><i class="fa fa-check"></i><b>6</b> R Shiny</a>
-<ul>
-<li class="chapter" data-level="6.1" data-path="shiny.html"><a href="shiny.html#an-introduction-to-shiny"><i class="fa fa-check"></i><b>6.1</b> An Introduction to Shiny</a>
-<ul>
+<li class="chapter" data-level="6" data-path="shiny.html"><a href="shiny.html"><i class="fa fa-check"></i><b>6</b> R Shiny</a><ul>
+<li class="chapter" data-level="6.1" data-path="shiny.html"><a href="shiny.html#an-introduction-to-shiny"><i class="fa fa-check"></i><b>6.1</b> An Introduction to Shiny</a><ul>
 <li class="chapter" data-level="6.1.1" data-path="shiny.html"><a href="shiny.html#your-first-shiny-app"><i class="fa fa-check"></i><b>6.1.1</b> Your first shiny app</a></li>
 <li class="chapter" data-level="6.1.2" data-path="shiny.html"><a href="shiny.html#create-a-new-shiny-app-in-rstudio"><i class="fa fa-check"></i><b>6.1.2</b> Create a new shiny app in RStudio</a></li>
 <li class="chapter" data-level="6.1.3" data-path="shiny.html"><a href="shiny.html#share-your-app"><i class="fa fa-check"></i><b>6.1.3</b> Share your app</a></li>
@@ -308,46 +282,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.3" data-path="shiny.html"><a href="shiny.html#displaying-reactive-output"><i class="fa fa-check"></i><b>6.3</b> Displaying Reactive Output</a></li>
 <li class="chapter" data-level="6.4" data-path="shiny.html"><a href="shiny.html#rendering-plotly-inside-shiny"><i class="fa fa-check"></i><b>6.4</b> Rendering Plotly Inside Shiny</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="map.html"><a href="map.html"><i class="fa fa-check"></i><b>7</b> Interactive Geospatial Visualization</a>
-<ul>
-<li class="chapter" data-level="7.1" data-path="map.html"><a href="map.html#an-introduction-to-leaflet"><i class="fa fa-check"></i><b>7.1</b> An Introduction to Leaflet</a>
-<ul>
+<li class="chapter" data-level="7" data-path="map.html"><a href="map.html"><i class="fa fa-check"></i><b>7</b> Interactive Geospatial Visualization</a><ul>
+<li class="chapter" data-level="7.1" data-path="map.html"><a href="map.html#an-introduction-to-leaflet"><i class="fa fa-check"></i><b>7.1</b> An Introduction to Leaflet</a><ul>
 <li class="chapter" data-level="7.1.1" data-path="map.html"><a href="map.html#more-references"><i class="fa fa-check"></i><b>7.1.1</b> More References</a></li>
 <li class="chapter" data-level="7.1.2" data-path="map.html"><a href="map.html#features-and-installation"><i class="fa fa-check"></i><b>7.1.2</b> Features and installation</a></li>
 <li class="chapter" data-level="7.1.3" data-path="map.html"><a href="map.html#basic-usage"><i class="fa fa-check"></i><b>7.1.3</b> Basic Usage</a></li>
 </ul></li>
 <li class="chapter" data-level="7.2" data-path="map.html"><a href="map.html#the-data-object"><i class="fa fa-check"></i><b>7.2</b> The Data Object</a></li>
-<li class="chapter" data-level="7.3" data-path="map.html"><a href="map.html#choropleth-map"><i class="fa fa-check"></i><b>7.3</b> Choropleth map</a>
-<ul>
+<li class="chapter" data-level="7.3" data-path="map.html"><a href="map.html#choropleth-map"><i class="fa fa-check"></i><b>7.3</b> Choropleth map</a><ul>
 <li class="chapter" data-level="7.3.1" data-path="map.html"><a href="map.html#create-a-base-map"><i class="fa fa-check"></i><b>7.3.1</b> Create a base map</a></li>
 <li class="chapter" data-level="7.3.2" data-path="map.html"><a href="map.html#color-the-map"><i class="fa fa-check"></i><b>7.3.2</b> Color the map</a></li>
 <li class="chapter" data-level="7.3.3" data-path="map.html"><a href="map.html#interactive-map"><i class="fa fa-check"></i><b>7.3.3</b> Interactive map</a></li>
 </ul></li>
-<li class="chapter" data-level="7.4" data-path="map.html"><a href="map.html#legend-1"><i class="fa fa-check"></i><b>7.4</b> Legend</a>
-<ul>
+<li class="chapter" data-level="7.4" data-path="ggplot2.html"><a href="ggplot2.html#legend"><i class="fa fa-check"></i><b>7.4</b> Legend</a><ul>
 <li class="chapter" data-level="7.4.1" data-path="map.html"><a href="map.html#classification-schemes"><i class="fa fa-check"></i><b>7.4.1</b> Classification schemes</a></li>
 <li class="chapter" data-level="7.4.2" data-path="map.html"><a href="map.html#mapping-variables-to-colors"><i class="fa fa-check"></i><b>7.4.2</b> Mapping variables to colors</a></li>
 </ul></li>
 <li class="chapter" data-level="7.5" data-path="map.html"><a href="map.html#an-example-of-county-level-map"><i class="fa fa-check"></i><b>7.5</b> An Example of County-level Map</a></li>
-<li class="chapter" data-level="7.6" data-path="map.html"><a href="map.html#spot-maps"><i class="fa fa-check"></i><b>7.6</b> Spot Maps</a>
-<ul>
+<li class="chapter" data-level="7.6" data-path="map.html"><a href="map.html#spot-maps"><i class="fa fa-check"></i><b>7.6</b> Spot Maps</a><ul>
 <li class="chapter" data-level="7.6.1" data-path="map.html"><a href="map.html#adding-circles"><i class="fa fa-check"></i><b>7.6.1</b> Adding circles</a></li>
 <li class="chapter" data-level="7.6.2" data-path="map.html"><a href="map.html#add-popups"><i class="fa fa-check"></i><b>7.6.2</b> Add popups</a></li>
 <li class="chapter" data-level="7.6.3" data-path="map.html"><a href="map.html#add-labels"><i class="fa fa-check"></i><b>7.6.3</b> Add labels</a></li>
 </ul></li>
 <li class="chapter" data-level="7.7" data-path="map.html"><a href="map.html#integrating-leaflet-with-r-shiny"><i class="fa fa-check"></i><b>7.7</b> Integrating Leaflet with R Shiny</a></li>
-<li class="chapter" data-level="7.8" data-path="map.html"><a href="map.html#exercises-3"><i class="fa fa-check"></i><b>7.8</b> Exercises</a></li>
+<li class="chapter" data-level="7.8" data-path="dplyr.html"><a href="dplyr.html#exercises"><i class="fa fa-check"></i><b>7.8</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="modeling.html"><a href="modeling.html"><i class="fa fa-check"></i><b>8</b> Epidemic Modeling</a>
-<ul>
+<li class="chapter" data-level="8" data-path="modeling.html"><a href="modeling.html"><i class="fa fa-check"></i><b>8</b> Epidemic Modeling</a><ul>
 <li class="chapter" data-level="8.1" data-path="modeling.html"><a href="modeling.html#an-introduction-to-epidemic-modeling"><i class="fa fa-check"></i><b>8.1</b> An Introduction to Epidemic Modeling</a></li>
-<li class="chapter" data-level="8.2" data-path="modeling.html"><a href="modeling.html#mechanistic-models"><i class="fa fa-check"></i><b>8.2</b> Mechanistic Models</a>
-<ul>
+<li class="chapter" data-level="8.2" data-path="modeling.html"><a href="modeling.html#mechanistic-models"><i class="fa fa-check"></i><b>8.2</b> Mechanistic Models</a><ul>
 <li class="chapter" data-level="8.2.1" data-path="modeling.html"><a href="modeling.html#compartment-modeling"><i class="fa fa-check"></i><b>8.2.1</b> Compartment Modeling</a></li>
 <li class="chapter" data-level="8.2.2" data-path="modeling.html"><a href="modeling.html#agent-based-methods"><i class="fa fa-check"></i><b>8.2.2</b> Agent-based Methods</a></li>
 </ul></li>
-<li class="chapter" data-level="8.3" data-path="modeling.html"><a href="modeling.html#phenomenological-models"><i class="fa fa-check"></i><b>8.3</b> Phenomenological Models</a>
-<ul>
+<li class="chapter" data-level="8.3" data-path="modeling.html"><a href="modeling.html#phenomenological-models"><i class="fa fa-check"></i><b>8.3</b> Phenomenological Models</a><ul>
 <li class="chapter" data-level="8.3.1" data-path="modeling.html"><a href="modeling.html#time-series-analysis"><i class="fa fa-check"></i><b>8.3.1</b> Time Series Analysis</a></li>
 <li class="chapter" data-level="8.3.2" data-path="modeling.html"><a href="modeling.html#regression-methods"><i class="fa fa-check"></i><b>8.3.2</b> Regression methods</a></li>
 <li class="chapter" data-level="8.3.3" data-path="modeling.html"><a href="modeling.html#machine-learning-methods"><i class="fa fa-check"></i><b>8.3.3</b> Machine learning methods</a></li>
@@ -356,31 +322,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.5" data-path="modeling.html"><a href="modeling.html#epidemic-modeling-mathematical-and-statistical-perspectives"><i class="fa fa-check"></i><b>8.5</b> Epidemic Modeling: Mathematical and Statistical Perspectives</a></li>
 <li class="chapter" data-level="8.6" data-path="modeling.html"><a href="modeling.html#some-terminologies-in-epidemic-modeling"><i class="fa fa-check"></i><b>8.6</b> Some Terminologies in Epidemic Modeling</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="compartment.html"><a href="compartment.html"><i class="fa fa-check"></i><b>9</b> Compartment Models</a>
-<ul>
+<li class="chapter" data-level="9" data-path="compartment.html"><a href="compartment.html"><i class="fa fa-check"></i><b>9</b> Compartment Models</a><ul>
 <li class="chapter" data-level="9.1" data-path="compartment.html"><a href="compartment.html#a-simple-sis-model-a-model-for-diseases-with-no-immunity"><i class="fa fa-check"></i><b>9.1</b> A Simple SIS Model (A Model for Diseases with No Immunity)</a></li>
-<li class="chapter" data-level="9.2" data-path="compartment.html"><a href="compartment.html#an-sir-model"><i class="fa fa-check"></i><b>9.2</b> An SIR Model</a>
-<ul>
+<li class="chapter" data-level="9.2" data-path="compartment.html"><a href="compartment.html#an-sir-model"><i class="fa fa-check"></i><b>9.2</b> An SIR Model</a><ul>
 <li class="chapter" data-level="9.2.1" data-path="compartment.html"><a href="compartment.html#an-sir-model-with-births-and-deaths"><i class="fa fa-check"></i><b>9.2.1</b> An SIR model with births and deaths</a></li>
 </ul></li>
 <li class="chapter" data-level="9.3" data-path="compartment.html"><a href="compartment.html#sir-parameter-estimation"><i class="fa fa-check"></i><b>9.3</b> SIR parameter estimation</a></li>
-<li class="chapter" data-level="9.4" data-path="compartment.html"><a href="compartment.html#implementation-of-parameter-estimation-in-r"><i class="fa fa-check"></i><b>9.4</b> Implementation of parameter estimation in R</a>
-<ul>
+<li class="chapter" data-level="9.4" data-path="compartment.html"><a href="compartment.html#implementation-of-parameter-estimation-in-r"><i class="fa fa-check"></i><b>9.4</b> Implementation of parameter estimation in R</a><ul>
 <li class="chapter" data-level="9.4.1" data-path="compartment.html"><a href="compartment.html#example-1.-outbreak-of-measles-in-niamey"><i class="fa fa-check"></i><b>9.4.1</b> Example 1. Outbreak of measles in Niamey</a></li>
 <li class="chapter" data-level="9.4.2" data-path="compartment.html"><a href="compartment.html#example-2.-covid-19-data"><i class="fa fa-check"></i><b>9.4.2</b> Example 2. COVID-19 data</a></li>
 </ul></li>
-<li class="chapter" data-level="9.5" data-path="compartment.html"><a href="compartment.html#basic-reproduction-number"><i class="fa fa-check"></i><b>9.5</b> Basic Reproduction Number</a>
-<ul>
+<li class="chapter" data-level="9.5" data-path="compartment.html"><a href="compartment.html#basic-reproduction-number"><i class="fa fa-check"></i><b>9.5</b> Basic Reproduction Number</a><ul>
 <li class="chapter" data-level="9.5.1" data-path="compartment.html"><a href="compartment.html#seir-model"><i class="fa fa-check"></i><b>9.5.1</b> SEIR Model</a></li>
 </ul></li>
 <li class="chapter" data-level="9.6" data-path="compartment.html"><a href="compartment.html#herd-immunity"><i class="fa fa-check"></i><b>9.6</b> Herd Immunity</a></li>
-<li class="chapter" data-level="9.7" data-path="compartment.html"><a href="compartment.html#exercises-4"><i class="fa fa-check"></i><b>9.7</b> Exercises</a></li>
+<li class="chapter" data-level="9.7" data-path="dplyr.html"><a href="dplyr.html#exercises"><i class="fa fa-check"></i><b>9.7</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="timeseries.html"><a href="timeseries.html"><i class="fa fa-check"></i><b>10</b> Time Series Analysis of Infectious Disease Data</a>
-<ul>
+<li class="chapter" data-level="10" data-path="timeseries.html"><a href="timeseries.html"><i class="fa fa-check"></i><b>10</b> Time Series Analysis of Infectious Disease Data</a><ul>
 <li class="chapter" data-level="10.1" data-path="timeseries.html"><a href="timeseries.html#datasets-and-r-packages"><i class="fa fa-check"></i><b>10.1</b> Datasets and R Packages</a></li>
-<li class="chapter" data-level="10.2" data-path="timeseries.html"><a href="timeseries.html#time-series-plots"><i class="fa fa-check"></i><b>10.2</b> Time series plots</a>
-<ul>
+<li class="chapter" data-level="10.2" data-path="timeseries.html"><a href="timeseries.html#time-series-plots"><i class="fa fa-check"></i><b>10.2</b> Time series plots</a><ul>
 <li class="chapter" data-level="10.2.1" data-path="timeseries.html"><a href="timeseries.html#tsibble-objects"><i class="fa fa-check"></i><b>10.2.1</b> “tsibble” objects</a></li>
 <li class="chapter" data-level="10.2.2" data-path="timeseries.html"><a href="timeseries.html#working-with-tsibble-objects"><i class="fa fa-check"></i><b>10.2.2</b> Working with “tsibble” objects</a></li>
 <li class="chapter" data-level="10.2.3" data-path="timeseries.html"><a href="timeseries.html#drawing-time-series-plots"><i class="fa fa-check"></i><b>10.2.3</b> Drawing time series plots</a></li>
@@ -388,87 +348,80 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.2.5" data-path="timeseries.html"><a href="timeseries.html#autocorrelation"><i class="fa fa-check"></i><b>10.2.5</b> Autocorrelation</a></li>
 <li class="chapter" data-level="10.2.6" data-path="timeseries.html"><a href="timeseries.html#autocorrelation-1"><i class="fa fa-check"></i><b>10.2.6</b> Autocorrelation</a></li>
 </ul></li>
-<li class="chapter" data-level="10.3" data-path="timeseries.html"><a href="timeseries.html#time-series-decomposition"><i class="fa fa-check"></i><b>10.3</b> Time Series Decomposition</a>
-<ul>
+<li class="chapter" data-level="10.3" data-path="timeseries.html"><a href="timeseries.html#time-series-decomposition"><i class="fa fa-check"></i><b>10.3</b> Time Series Decomposition</a><ul>
 <li class="chapter" data-level="10.3.1" data-path="timeseries.html"><a href="timeseries.html#box-cox-transformations"><i class="fa fa-check"></i><b>10.3.1</b> Box-Cox transformations</a></li>
-<li class="chapter" data-level="10.3.2" data-path="timeseries.html"><a href="timeseries.html#seasonal-and-trend-decomposition-using-loess-stl"><i class="fa fa-check"></i><b>10.3.2</b> Seasonal and trend decomposition using Loess (STL)</a></li>
-<li class="chapter" data-level="10.3.3" data-path="timeseries.html"><a href="timeseries.html#trend-and-seasonal-estimation"><i class="fa fa-check"></i><b>10.3.3</b> Trend and seasonal estimation:</a></li>
+<li class="chapter" data-level="10.3.2" data-path="timeseries.html"><a href="timeseries.html#methods-for-estimating-the-trend"><i class="fa fa-check"></i><b>10.3.2</b> Methods for estimating the trend</a></li>
+<li class="chapter" data-level="10.3.3" data-path="timeseries.html"><a href="timeseries.html#seasonal-and-trend-decomposition-using-loess-stl"><i class="fa fa-check"></i><b>10.3.3</b> Seasonal and trend decomposition using Loess (STL)</a></li>
+<li class="chapter" data-level="10.3.4" data-path="timeseries.html"><a href="timeseries.html#trend-and-seasonal-estimation"><i class="fa fa-check"></i><b>10.3.4</b> Trend and seasonal estimation:</a></li>
 </ul></li>
-<li class="chapter" data-level="10.4" data-path="timeseries.html"><a href="timeseries.html#simple-time-series-forecasting-approaches"><i class="fa fa-check"></i><b>10.4</b> Simple Time Series Forecasting Approaches</a>
-<ul>
+<li class="chapter" data-level="10.4" data-path="timeseries.html"><a href="timeseries.html#simple-time-series-forecasting-approaches"><i class="fa fa-check"></i><b>10.4</b> Simple Time Series Forecasting Approaches</a><ul>
 <li class="chapter" data-level="10.4.1" data-path="timeseries.html"><a href="timeseries.html#average-method"><i class="fa fa-check"></i><b>10.4.1</b> Average method</a></li>
 <li class="chapter" data-level="10.4.2" data-path="timeseries.html"><a href="timeseries.html#random-walk-forecasts"><i class="fa fa-check"></i><b>10.4.2</b> Random walk forecasts</a></li>
 <li class="chapter" data-level="10.4.3" data-path="timeseries.html"><a href="timeseries.html#seasonal-random-walk-forecasts"><i class="fa fa-check"></i><b>10.4.3</b> Seasonal random walk forecasts</a></li>
 <li class="chapter" data-level="10.4.4" data-path="timeseries.html"><a href="timeseries.html#random-walk-with-drift-method"><i class="fa fa-check"></i><b>10.4.4</b> Random walk with drift method</a></li>
-<li class="chapter" data-level="10.4.5" data-path="timeseries.html"><a href="timeseries.html#combining-the-forecasting-results"><i class="fa fa-check"></i><b>10.4.5</b> Combining the forecasting results</a></li>
+<li class="chapter" data-level="10.4.5" data-path="timeseries.html"><a href="timeseries.html#displaying-all-the-forecasting-results"><i class="fa fa-check"></i><b>10.4.5</b> Displaying all the forecasting results</a></li>
+<li class="chapter" data-level="10.4.6" data-path="timeseries.html"><a href="timeseries.html#distributional-forecasts-and-prediction-intervals"><i class="fa fa-check"></i><b>10.4.6</b> Distributional forecasts and prediction intervals</a></li>
 </ul></li>
-<li class="chapter" data-level="10.5" data-path="timeseries.html"><a href="timeseries.html#methods-for-estimating-the-trend"><i class="fa fa-check"></i><b>10.5</b> Methods for Estimating the Trend</a></li>
-<li class="chapter" data-level="10.6" data-path="timeseries.html"><a href="timeseries.html#arma-models"><i class="fa fa-check"></i><b>10.6</b> ARMA Models</a>
-<ul>
-<li class="chapter" data-level="10.6.1" data-path="timeseries.html"><a href="timeseries.html#simple-examples-of-arma-models"><i class="fa fa-check"></i><b>10.6.1</b> Simple Examples of ARMA Models</a></li>
-<li class="chapter" data-level="10.6.2" data-path="timeseries.html"><a href="timeseries.html#arima"><i class="fa fa-check"></i><b>10.6.2</b> ARIMA</a></li>
-<li class="chapter" data-level="10.6.3" data-path="timeseries.html"><a href="timeseries.html#seasonal-arima-model"><i class="fa fa-check"></i><b>10.6.3</b> Seasonal ARIMA model</a></li>
+<li class="chapter" data-level="10.5" data-path="timeseries.html"><a href="timeseries.html#residual-diagnostics-and-accuracy-evaluation"><i class="fa fa-check"></i><b>10.5</b> Residual Diagnostics and Accuracy Evaluation</a><ul>
+<li class="chapter" data-level="10.5.1" data-path="timeseries.html"><a href="timeseries.html#residual-diagnostics"><i class="fa fa-check"></i><b>10.5.1</b> Residual diagnostics</a></li>
+<li class="chapter" data-level="10.5.2" data-path="timeseries.html"><a href="timeseries.html#forecasting-accuracy"><i class="fa fa-check"></i><b>10.5.2</b> Forecasting accuracy</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="timeseries.html"><a href="timeseries.html#arima-models"><i class="fa fa-check"></i><b>10.6</b> ARIMA Models</a><ul>
+<li class="chapter" data-level="10.6.1" data-path="timeseries.html"><a href="timeseries.html#differencing"><i class="fa fa-check"></i><b>10.6.1</b> Differencing</a></li>
+<li class="chapter" data-level="10.6.2" data-path="timeseries.html"><a href="timeseries.html#arma-models"><i class="fa fa-check"></i><b>10.6.2</b> ARMA models</a></li>
+<li class="chapter" data-level="10.6.3" data-path="timeseries.html"><a href="timeseries.html#simple-examples-of-arma-models"><i class="fa fa-check"></i><b>10.6.3</b> Simple examples of ARMA models</a></li>
+<li class="chapter" data-level="10.6.4" data-path="timeseries.html"><a href="timeseries.html#arima-models-1"><i class="fa fa-check"></i><b>10.6.4</b> ARIMA models</a></li>
+<li class="chapter" data-level="10.6.5" data-path="timeseries.html"><a href="timeseries.html#seasonal-arima-model"><i class="fa fa-check"></i><b>10.6.5</b> Seasonal ARIMA model</a></li>
 </ul></li>
 <li class="chapter" data-level="10.7" data-path="timeseries.html"><a href="timeseries.html#model-comparison"><i class="fa fa-check"></i><b>10.7</b> Model Comparison</a></li>
-<li class="chapter" data-level="10.8" data-path="timeseries.html"><a href="timeseries.html#ensuring-forecasts-stay-within-limits"><i class="fa fa-check"></i><b>10.8</b> Ensuring forecasts stay within limits</a>
-<ul>
+<li class="chapter" data-level="10.8" data-path="timeseries.html"><a href="timeseries.html#ensuring-forecasts-stay-within-limits"><i class="fa fa-check"></i><b>10.8</b> Ensuring forecasts stay within limits</a><ul>
 <li class="chapter" data-level="10.8.1" data-path="timeseries.html"><a href="timeseries.html#positive-forecasts"><i class="fa fa-check"></i><b>10.8.1</b> Positive forecasts</a></li>
 <li class="chapter" data-level="10.8.2" data-path="timeseries.html"><a href="timeseries.html#forecasts-constrained-to-an-interval"><i class="fa fa-check"></i><b>10.8.2</b> Forecasts constrained to an interval</a></li>
 </ul></li>
-<li class="chapter" data-level="10.9" data-path="timeseries.html"><a href="timeseries.html#prediction-intervals-for-aggregates"><i class="fa fa-check"></i><b>10.9</b> Prediction intervals for aggregates</a></li>
-<li class="chapter" data-level="10.10" data-path="timeseries.html"><a href="timeseries.html#exercises-5"><i class="fa fa-check"></i><b>10.10</b> Exercises</a></li>
+<li class="chapter" data-level="10.9" data-path="timeseries.html"><a href="timeseries.html#prediction-intervals-for-aggregates"><i class="fa fa-check"></i><b>10.9</b> Prediction Intervals for Aggregates</a></li>
+<li class="chapter" data-level="10.10" data-path="dplyr.html"><a href="dplyr.html#exercises"><i class="fa fa-check"></i><b>10.10</b> Exercises</a></li>
 <li class="chapter" data-level="10.11" data-path="timeseries.html"><a href="timeseries.html#references"><i class="fa fa-check"></i><b>10.11</b> References</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>11</b> Regression Modeling</a>
-<ul>
+<li class="chapter" data-level="11" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>11</b> Regression Modeling</a><ul>
 <li class="chapter" data-level="11.1" data-path="regression.html"><a href="regression.html#principles-of-regression-modeling"><i class="fa fa-check"></i><b>11.1</b> Principles of Regression Modeling</a></li>
 <li class="chapter" data-level="11.2" data-path="regression.html"><a href="regression.html#area-level-data"><i class="fa fa-check"></i><b>11.2</b> Area-level Data</a></li>
 <li class="chapter" data-level="11.3" data-path="regression.html"><a href="regression.html#variable-selection"><i class="fa fa-check"></i><b>11.3</b> Variable Selection</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="NN.html"><a href="NN.html"><i class="fa fa-check"></i><b>12</b> Neural Networks</a>
-<ul>
+<li class="chapter" data-level="12" data-path="NN.html"><a href="NN.html"><i class="fa fa-check"></i><b>12</b> Neural Networks</a><ul>
 <li class="chapter" data-level="12.1" data-path="NN.html"><a href="NN.html#a-single-neuron"><i class="fa fa-check"></i><b>12.1</b> A Single Neuron</a></li>
 <li class="chapter" data-level="12.2" data-path="NN.html"><a href="NN.html#neural-network-structure"><i class="fa fa-check"></i><b>12.2</b> Neural Network Structure</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="ensemble.html"><a href="ensemble.html"><i class="fa fa-check"></i><b>13</b> Hybrid Mdels</a>
-<ul>
+<li class="chapter" data-level="13" data-path="ensemble.html"><a href="ensemble.html"><i class="fa fa-check"></i><b>13</b> Hybrid Mdels</a><ul>
 <li class="chapter" data-level="13.1" data-path="ensemble.html"><a href="ensemble.html#ensembling-time-series-models"><i class="fa fa-check"></i><b>13.1</b> Ensembling Time Series Models</a></li>
 <li class="chapter" data-level="13.2" data-path="ensemble.html"><a href="ensemble.html#model-diagnostics"><i class="fa fa-check"></i><b>13.2</b> Model Diagnostics</a></li>
 <li class="chapter" data-level="13.3" data-path="ensemble.html"><a href="ensemble.html#weights-selection-using-cross-validation"><i class="fa fa-check"></i><b>13.3</b> Weights Selection Using Cross Validation</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="" data-path="timeseries.html"><a href="timeseries.html#references"><i class="fa fa-check"></i>References</a></li>
 <li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i>Appendix</a></li>
-<li class="chapter" data-level="14" data-path="appendix-a.html"><a href="appendix-a.html"><i class="fa fa-check"></i><b>14</b> Appendix A</a>
-<ul>
-<li class="chapter" data-level="14.1" data-path="appendix-a.html"><a href="appendix-a.html#r-introduction-and-preliminaries"><i class="fa fa-check"></i><b>14.1</b> R Introduction and Preliminaries</a>
-<ul>
+<li class="chapter" data-level="14" data-path="appendix-a.html"><a href="appendix-a.html"><i class="fa fa-check"></i><b>14</b> Appendix A</a><ul>
+<li class="chapter" data-level="14.1" data-path="appendix-a.html"><a href="appendix-a.html#r-introduction-and-preliminaries"><i class="fa fa-check"></i><b>14.1</b> R Introduction and Preliminaries</a><ul>
 <li class="chapter" data-level="14.1.1" data-path="appendix-a.html"><a href="appendix-a.html#the-r-environment-and-language"><i class="fa fa-check"></i><b>14.1.1</b> The R Environment and Language</a></li>
 <li class="chapter" data-level="14.1.2" data-path="appendix-a.html"><a href="appendix-a.html#r-and-statistics"><i class="fa fa-check"></i><b>14.1.2</b> R and Statistics</a></li>
 <li class="chapter" data-level="14.1.3" data-path="appendix-a.html"><a href="appendix-a.html#obtaining-r-and-installation"><i class="fa fa-check"></i><b>14.1.3</b> Obtaining R and installation</a></li>
 </ul></li>
-<li class="chapter" data-level="14.2" data-path="appendix-a.html"><a href="appendix-a.html#starting-r"><i class="fa fa-check"></i><b>14.2</b> Starting R</a>
-<ul>
+<li class="chapter" data-level="14.2" data-path="appendix-a.html"><a href="appendix-a.html#starting-r"><i class="fa fa-check"></i><b>14.2</b> Starting R</a><ul>
 <li class="chapter" data-level="14.2.1" data-path="appendix-a.html"><a href="appendix-a.html#description-of-three-panels-in-user-interface"><i class="fa fa-check"></i><b>14.2.1</b> Description of three panels in user interface</a></li>
 <li class="chapter" data-level="14.2.2" data-path="appendix-a.html"><a href="appendix-a.html#r-help"><i class="fa fa-check"></i><b>14.2.2</b> R help</a></li>
 <li class="chapter" data-level="14.2.3" data-path="appendix-a.html"><a href="appendix-a.html#some-mathematical-expressions"><i class="fa fa-check"></i><b>14.2.3</b> Some mathematical expressions</a></li>
 <li class="chapter" data-level="14.2.4" data-path="appendix-a.html"><a href="appendix-a.html#r-packages"><i class="fa fa-check"></i><b>14.2.4</b> R Packages</a></li>
 <li class="chapter" data-level="14.2.5" data-path="appendix-a.html"><a href="appendix-a.html#creating-a-project-and-setting-working-directory"><i class="fa fa-check"></i><b>14.2.5</b> Creating a project and setting working directory</a></li>
 </ul></li>
-<li class="chapter" data-level="14.3" data-path="appendix-a.html"><a href="appendix-a.html#exportimport-data"><i class="fa fa-check"></i><b>14.3</b> Export/Import Data</a>
-<ul>
+<li class="chapter" data-level="14.3" data-path="appendix-a.html"><a href="appendix-a.html#exportimport-data"><i class="fa fa-check"></i><b>14.3</b> Export/Import Data</a><ul>
 <li class="chapter" data-level="14.3.1" data-path="appendix-a.html"><a href="appendix-a.html#data-export"><i class="fa fa-check"></i><b>14.3.1</b> Data Export</a></li>
 <li class="chapter" data-level="14.3.2" data-path="appendix-a.html"><a href="appendix-a.html#data-import"><i class="fa fa-check"></i><b>14.3.2</b> Data Import</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="appendix-b.html"><a href="appendix-b.html"><i class="fa fa-check"></i><b>15</b> Appendix B</a>
-<ul>
-<li class="chapter" data-level="15.1" data-path="appendix-b.html"><a href="appendix-b.html#epidemic-data"><i class="fa fa-check"></i><b>15.1</b> Epidemic Data</a>
-<ul>
+<li class="chapter" data-level="15" data-path="appendix-b.html"><a href="appendix-b.html"><i class="fa fa-check"></i><b>15</b> Appendix B</a><ul>
+<li class="chapter" data-level="15.1" data-path="appendix-b.html"><a href="appendix-b.html#epidemic-data"><i class="fa fa-check"></i><b>15.1</b> Epidemic Data</a><ul>
 <li class="chapter" data-level="15.1.1" data-path="appendix-b.html"><a href="appendix-b.html#state-level"><i class="fa fa-check"></i><b>15.1.1</b> State level</a></li>
 <li class="chapter" data-level="15.1.2" data-path="appendix-b.html"><a href="appendix-b.html#county-level"><i class="fa fa-check"></i><b>15.1.2</b> County level</a></li>
 </ul></li>
-<li class="chapter" data-level="15.2" data-path="appendix-b.html"><a href="appendix-b.html#other-factors"><i class="fa fa-check"></i><b>15.2</b> Other Factors</a>
-<ul>
+<li class="chapter" data-level="15.2" data-path="appendix-b.html"><a href="appendix-b.html#other-factors"><i class="fa fa-check"></i><b>15.2</b> Other Factors</a><ul>
 <li class="chapter" data-level="15.2.1" data-path="appendix-b.html"><a href="appendix-b.html#policy-data"><i class="fa fa-check"></i><b>15.2.1</b> Policy Data</a></li>
 <li class="chapter" data-level="15.2.2" data-path="appendix-b.html"><a href="appendix-b.html#demographic-characteristics"><i class="fa fa-check"></i><b>15.2.2</b> Demographic Characteristics</a></li>
 <li class="chapter" data-level="15.2.3" data-path="appendix-b.html"><a href="appendix-b.html#healthcare-infrastructure"><i class="fa fa-check"></i><b>15.2.3</b> Healthcare Infrastructure</a></li>
@@ -477,8 +430,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="15.2.6" data-path="appendix-b.html"><a href="appendix-b.html#mobility"><i class="fa fa-check"></i><b>15.2.6</b> Mobility</a></li>
 <li class="chapter" data-level="15.2.7" data-path="appendix-b.html"><a href="appendix-b.html#geographic-information"><i class="fa fa-check"></i><b>15.2.7</b> Geographic Information</a></li>
 </ul></li>
-<li class="chapter" data-level="15.3" data-path="appendix-b.html"><a href="appendix-b.html#data-sets"><i class="fa fa-check"></i><b>15.3</b> Data Sets</a>
-<ul>
+<li class="chapter" data-level="15.3" data-path="appendix-b.html"><a href="appendix-b.html#data-sets"><i class="fa fa-check"></i><b>15.3</b> Data Sets</a><ul>
 <li class="chapter" data-level="15.3.1" data-path="appendix-b.html"><a href="appendix-b.html#chapter-2"><i class="fa fa-check"></i><b>15.3.1</b> Chapter 2</a></li>
 <li class="chapter" data-level="15.3.2" data-path="appendix-b.html"><a href="appendix-b.html#chapter-3"><i class="fa fa-check"></i><b>15.3.2</b> Chapter 3</a></li>
 </ul></li>
@@ -503,12 +455,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="NN" class="section level1" number="12">
+<div id="NN" class="section level1">
 <h1><span class="header-section-number">Chapter 12</span> Neural Networks</h1>
-<div id="a-single-neuron" class="section level2" number="12.1">
+<div id="a-single-neuron" class="section level2">
 <h2><span class="header-section-number">12.1</span> A Single Neuron</h2>
 </div>
-<div id="neural-network-structure" class="section level2" number="12.2">
+<div id="neural-network-structure" class="section level2">
 <h2><span class="header-section-number">12.2</span> Neural Network Structure</h2>
 
 </div>

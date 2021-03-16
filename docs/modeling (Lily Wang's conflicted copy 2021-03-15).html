@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 8 Epidemic Modeling | Statistical Learning of Infectious Disease Data Analytics</title>
+  <meta name="description" content="The use of statistical models to understand infectious disease dynamics has a very rich history in epidemiology. This book introduces modern statistical models and state-of-the-art learning methods to analyze infectious disease data. Many of the key approaches, examples and case studies will be presented. The primary emphasis will be interpretation, inference and hands-on data analyses. This course also provides practical concepts and R computing skills to perform infectious disease data analysis and visualization." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 8 Epidemic Modeling | Statistical Learning of Infectious Disease Data Analytics" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="The use of statistical models to understand infectious disease dynamics has a very rich history in epidemiology. This book introduces modern statistical models and state-of-the-art learning methods to analyze infectious disease data. Many of the key approaches, examples and case studies will be presented. The primary emphasis will be interpretation, inference and hands-on data analyses. This course also provides practical concepts and R computing skills to perform infectious disease data analysis and visualization." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 8 Epidemic Modeling | Statistical Learning of Infectious Disease Data Analytics" />
+  
+  <meta name="twitter:description" content="The use of statistical models to understand infectious disease dynamics has a very rich history in epidemiology. This book introduces modern statistical models and state-of-the-art learning methods to analyze infectious disease data. Many of the key approaches, examples and case studies will be presented. The primary emphasis will be interpretation, inference and hands-on data analyses. This course also provides practical concepts and R computing skills to perform infectious disease data analysis and visualization." />
+  
+
+<meta name="author" content="Lily Wang" />
+
+
+<meta name="date" content="2021-03-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="map.html"/>
+<link rel="next" href="compartment.html"/>
+<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.9.3.9000/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#data-sets-used-in-labs-and-exercises"><i class="fa fa-check"></i><b>1.1</b> Data Sets Used in Labs and Exercises</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.2</b> Acknowledgements</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#about-the-author"><i class="fa fa-check"></i><b>1.3</b> About the Author</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#aims-and-scope-of-this-book"><i class="fa fa-check"></i><b>2.1</b> Aims and Scope of This Book</a></li>
+<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#the-structure-of-this-book"><i class="fa fa-check"></i><b>2.2</b> The Structure of This Book</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="intro.html"><a href="intro.html#infectious-disease-data"><i class="fa fa-check"></i><b>2.2.1</b> Infectious disease data</a></li>
+<li class="chapter" data-level="2.2.2" data-path="intro.html"><a href="intro.html#basic-characteristics-of-the-infection-process"><i class="fa fa-check"></i><b>2.2.2</b> Basic characteristics of the infection process</a></li>
+<li class="chapter" data-level="2.2.3" data-path="intro.html"><a href="intro.html#data-visualization"><i class="fa fa-check"></i><b>2.2.3</b> Data visualization</a></li>
+<li class="chapter" data-level="2.2.4" data-path="intro.html"><a href="intro.html#modeling-and-forecasting"><i class="fa fa-check"></i><b>2.2.4</b> Modeling and Forecasting</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="dplyr.html"><a href="dplyr.html"><i class="fa fa-check"></i><b>3</b> Data Wrangling with <code>dplyr</code> and <code>tidyr</code></a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="dplyr.html"><a href="dplyr.html#learning-dplyr"><i class="fa fa-check"></i><b>3.1</b> Learning <code>dplyr</code></a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="dplyr.html"><a href="dplyr.html#tibbles"><i class="fa fa-check"></i><b>3.1.1</b> Tibbles</a></li>
+<li class="chapter" data-level="3.1.2" data-path="dplyr.html"><a href="dplyr.html#import-data"><i class="fa fa-check"></i><b>3.1.2</b> Import data</a></li>
+<li class="chapter" data-level="3.1.3" data-path="dplyr.html"><a href="dplyr.html#common-dplyr-functions"><i class="fa fa-check"></i><b>3.1.3</b> Common <code>dplyr</code> functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="dplyr.html"><a href="dplyr.html#selecting-columns-and-filtering-rows"><i class="fa fa-check"></i><b>3.2</b> Selecting Columns and Filtering Rows</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="dplyr.html"><a href="dplyr.html#subset-variables-columns"><i class="fa fa-check"></i><b>3.2.1</b> Subset Variables (Columns)</a></li>
+<li class="chapter" data-level="3.2.2" data-path="dplyr.html"><a href="dplyr.html#subset-observations-rows"><i class="fa fa-check"></i><b>3.2.2</b> Subset Observations (Rows)</a></li>
+<li class="chapter" data-level="3.2.3" data-path="dplyr.html"><a href="dplyr.html#pipes"><i class="fa fa-check"></i><b>3.2.3</b> Pipes</a></li>
+<li class="chapter" data-level="3.2.4" data-path="dplyr.html"><a href="dplyr.html#select-and-order-top-n-entries-by-group-if-grouped-data."><i class="fa fa-check"></i><b>3.2.4</b> Select and order top n entries (by group if grouped data).</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="dplyr.html"><a href="dplyr.html#make-new-variables-mutate"><i class="fa fa-check"></i><b>3.3</b> Make New Variables: Mutate</a></li>
+<li class="chapter" data-level="3.4" data-path="dplyr.html"><a href="dplyr.html#summarize-data"><i class="fa fa-check"></i><b>3.4</b> Summarize Data</a></li>
+<li class="chapter" data-level="3.5" data-path="dplyr.html"><a href="dplyr.html#combine-data-sets"><i class="fa fa-check"></i><b>3.5</b> Combine Data Sets</a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="dplyr.html"><a href="dplyr.html#the-join-family"><i class="fa fa-check"></i><b>3.5.1</b> The join family</a></li>
+<li class="chapter" data-level="3.5.2" data-path="dplyr.html"><a href="dplyr.html#toy-examples-with-joins"><i class="fa fa-check"></i><b>3.5.2</b> Toy examples with joins</a></li>
+<li class="chapter" data-level="3.5.3" data-path="dplyr.html"><a href="dplyr.html#practice-with-joins-for-real-data"><i class="fa fa-check"></i><b>3.5.3</b> Practice with joins for real data</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="dplyr.html"><a href="dplyr.html#reshaping-data"><i class="fa fa-check"></i><b>3.6</b> Reshaping Data</a>
+<ul>
+<li class="chapter" data-level="3.6.1" data-path="dplyr.html"><a href="dplyr.html#from-wide-to-long"><i class="fa fa-check"></i><b>3.6.1</b> From wide to long</a></li>
+<li class="chapter" data-level="3.6.2" data-path="dplyr.html"><a href="dplyr.html#from-long-to-wide"><i class="fa fa-check"></i><b>3.6.2</b> From long to wide</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="dplyr.html"><a href="dplyr.html#exercises"><i class="fa fa-check"></i><b>3.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="ggplot2.html"><a href="ggplot2.html"><i class="fa fa-check"></i><b>4</b> Data Visualization with ggplot2</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="ggplot2.html"><a href="ggplot2.html#introduction"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="ggplot2.html"><a href="ggplot2.html#types-of-variables-and-preparation"><i class="fa fa-check"></i><b>4.2</b> Types of Variables and Preparation</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="ggplot2.html"><a href="ggplot2.html#types-of-variables"><i class="fa fa-check"></i><b>4.2.1</b> Types of Variables</a></li>
+<li class="chapter" data-level="4.2.2" data-path="ggplot2.html"><a href="ggplot2.html#rules-for-graph-designing"><i class="fa fa-check"></i><b>4.2.2</b> Rules for Graph Designing</a></li>
+<li class="chapter" data-level="4.2.3" data-path="ggplot2.html"><a href="ggplot2.html#installing-packages-and-loading-data"><i class="fa fa-check"></i><b>4.2.3</b> Installing packages and loading data</a></li>
+<li class="chapter" data-level="4.2.4" data-path="ggplot2.html"><a href="ggplot2.html#your-first-scatterplot"><i class="fa fa-check"></i><b>4.2.4</b> Your first scatterplot</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="ggplot2.html"><a href="ggplot2.html#position-scales-and-axes"><i class="fa fa-check"></i><b>4.3</b> Position Scales and Axes</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="ggplot2.html"><a href="ggplot2.html#change-the-labels-of-the-axis-using-xlab-and-ylab"><i class="fa fa-check"></i><b>4.3.1</b> Change the labels of the axis using <code>xlab()</code> and <code>ylab()</code></a></li>
+<li class="chapter" data-level="4.3.2" data-path="ggplot2.html"><a href="ggplot2.html#change-the-range-of-the-axis-using-xlim-and-ylim"><i class="fa fa-check"></i><b>4.3.2</b> Change the range of the axis using <code>xlim()</code> and <code>ylim()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="ggplot2.html"><a href="ggplot2.html#color-scales-and-size-of-geom_points"><i class="fa fa-check"></i><b>4.4</b> Color Scales and Size of <code>geom_points()</code></a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="ggplot2.html"><a href="ggplot2.html#change-the-color-of-all-points"><i class="fa fa-check"></i><b>4.4.1</b> Change the color of all points</a></li>
+<li class="chapter" data-level="4.4.2" data-path="ggplot2.html"><a href="ggplot2.html#color-the-observations-by-the-value-of-a-feature"><i class="fa fa-check"></i><b>4.4.2</b> Color the observations by the value of a feature</a></li>
+<li class="chapter" data-level="4.4.3" data-path="ggplot2.html"><a href="ggplot2.html#change-the-color-palette"><i class="fa fa-check"></i><b>4.4.3</b> Change the color palette</a></li>
+<li class="chapter" data-level="4.4.4" data-path="ggplot2.html"><a href="ggplot2.html#change-the-size-by-the-value-of-a-feature"><i class="fa fa-check"></i><b>4.4.4</b> Change the size by the value of a feature</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="ggplot2.html"><a href="ggplot2.html#individual-geoms"><i class="fa fa-check"></i><b>4.5</b> Individual geoms</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="ggplot2.html"><a href="ggplot2.html#histogram"><i class="fa fa-check"></i><b>4.5.1</b> Histogram</a></li>
+<li class="chapter" data-level="4.5.2" data-path="ggplot2.html"><a href="ggplot2.html#bar-chart"><i class="fa fa-check"></i><b>4.5.2</b> Bar chart</a></li>
+<li class="chapter" data-level="4.5.3" data-path="ggplot2.html"><a href="ggplot2.html#default-bar-chart"><i class="fa fa-check"></i><b>4.5.3</b> Default bar chart</a></li>
+<li class="chapter" data-level="4.5.4" data-path="ggplot2.html"><a href="ggplot2.html#bar-chart-with-assigned-value"><i class="fa fa-check"></i><b>4.5.4</b> Bar chart with assigned value</a></li>
+<li class="chapter" data-level="4.5.5" data-path="ggplot2.html"><a href="ggplot2.html#legend"><i class="fa fa-check"></i><b>4.5.5</b> Legend</a></li>
+<li class="chapter" data-level="4.5.6" data-path="ggplot2.html"><a href="ggplot2.html#boxplots-jittering-and-violin-plots"><i class="fa fa-check"></i><b>4.5.6</b> Boxplots, jittering and violin plots</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="ggplot2.html"><a href="ggplot2.html#collective-geoms"><i class="fa fa-check"></i><b>4.6</b> Collective geoms</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="ggplot2.html"><a href="ggplot2.html#smoother"><i class="fa fa-check"></i><b>4.6.1</b> Smoother</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="ggplot2.html"><a href="ggplot2.html#time-series"><i class="fa fa-check"></i><b>4.7</b> Time Series</a>
+<ul>
+<li class="chapter" data-level="4.7.1" data-path="ggplot2.html"><a href="ggplot2.html#basic-line-plots"><i class="fa fa-check"></i><b>4.7.1</b> Basic line plots</a></li>
+<li class="chapter" data-level="4.7.2" data-path="ggplot2.html"><a href="ggplot2.html#add-a-second-line"><i class="fa fa-check"></i><b>4.7.2</b> Add a second line</a></li>
+<li class="chapter" data-level="4.7.3" data-path="ggplot2.html"><a href="ggplot2.html#add-ribbons"><i class="fa fa-check"></i><b>4.7.3</b> Add ribbons</a></li>
+<li class="chapter" data-level="4.7.4" data-path="ggplot2.html"><a href="ggplot2.html#adjust-the-scale-of-time-axis"><i class="fa fa-check"></i><b>4.7.4</b> Adjust the scale of time axis</a></li>
+<li class="chapter" data-level="4.7.5" data-path="ggplot2.html"><a href="ggplot2.html#add-annotations"><i class="fa fa-check"></i><b>4.7.5</b> Add annotations</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="ggplot2.html"><a href="ggplot2.html#maps"><i class="fa fa-check"></i><b>4.8</b> Maps</a>
+<ul>
+<li class="chapter" data-level="4.8.1" data-path="ggplot2.html"><a href="ggplot2.html#making-a-base-map"><i class="fa fa-check"></i><b>4.8.1</b> Making a base map</a></li>
+<li class="chapter" data-level="4.8.2" data-path="ggplot2.html"><a href="ggplot2.html#customizing-choropleth-map"><i class="fa fa-check"></i><b>4.8.2</b> Customizing <code>choropleth</code> map</a></li>
+<li class="chapter" data-level="4.8.3" data-path="ggplot2.html"><a href="ggplot2.html#overlay-polygon-maps"><i class="fa fa-check"></i><b>4.8.3</b> Overlay polygon maps</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="ggplot2.html"><a href="ggplot2.html#arranging-plots"><i class="fa fa-check"></i><b>4.9</b> Arranging Plots</a>
+<ul>
+<li class="chapter" data-level="4.9.1" data-path="ggplot2.html"><a href="ggplot2.html#facet"><i class="fa fa-check"></i><b>4.9.1</b> Facet</a></li>
+<li class="chapter" data-level="4.9.2" data-path="ggplot2.html"><a href="ggplot2.html#combining-plots-using-patchwork-package"><i class="fa fa-check"></i><b>4.9.2</b> Combining plots using <code>patchwork</code> package</a></li>
+</ul></li>
+<li class="chapter" data-level="4.10" data-path="ggplot2.html"><a href="ggplot2.html#output"><i class="fa fa-check"></i><b>4.10</b> Output</a>
+<ul>
+<li class="chapter" data-level="4.10.1" data-path="ggplot2.html"><a href="ggplot2.html#save-in-figure-format"><i class="fa fa-check"></i><b>4.10.1</b> Save in figure format</a></li>
+<li class="chapter" data-level="4.10.2" data-path="ggplot2.html"><a href="ggplot2.html#save-in-rds-format"><i class="fa fa-check"></i><b>4.10.2</b> Save in RDS format</a></li>
+</ul></li>
+<li class="chapter" data-level="4.11" data-path="ggplot2.html"><a href="ggplot2.html#exercises-1"><i class="fa fa-check"></i><b>4.11</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="plotly.html"><a href="plotly.html"><i class="fa fa-check"></i><b>5</b> Interactive Visualization</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="plotly.html"><a href="plotly.html#an-introduction"><i class="fa fa-check"></i><b>5.1</b> An Introduction</a></li>
+<li class="chapter" data-level="5.2" data-path="plotly.html"><a href="plotly.html#creating-plotly-objects"><i class="fa fa-check"></i><b>5.2</b> Creating Plotly Objects</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="plotly.html"><a href="plotly.html#using-plot_ly-to-create-a-plotly-object"><i class="fa fa-check"></i><b>5.2.1</b> Using <code>plot_ly()</code> to create a plotly object</a></li>
+<li class="chapter" data-level="5.2.2" data-path="plotly.html"><a href="plotly.html#use-dplyr-verbs-to-modify-data"><i class="fa fa-check"></i><b>5.2.2</b> Use <code>dplyr</code> verbs to modify data</a></li>
+<li class="chapter" data-level="5.2.3" data-path="plotly.html"><a href="plotly.html#using-ggplotly-to-create-a-plotly-object"><i class="fa fa-check"></i><b>5.2.3</b> Using <code>ggplotly()</code> to create a <code>plotly</code> object</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="plotly.html"><a href="plotly.html#scatterplots-and-line-plots"><i class="fa fa-check"></i><b>5.3</b> Scatterplots and Line Plots</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="plotly.html"><a href="plotly.html#make-a-scatterplot"><i class="fa fa-check"></i><b>5.3.1</b> Make a scatterplot</a></li>
+<li class="chapter" data-level="5.3.2" data-path="plotly.html"><a href="plotly.html#markers"><i class="fa fa-check"></i><b>5.3.2</b> Markers</a></li>
+<li class="chapter" data-level="5.3.3" data-path="plotly.html"><a href="plotly.html#a-single-time-series-plot"><i class="fa fa-check"></i><b>5.3.3</b> A single time series plot</a></li>
+<li class="chapter" data-level="5.3.4" data-path="plotly.html"><a href="plotly.html#hover-text-and-template"><i class="fa fa-check"></i><b>5.3.4</b> Hover text and template</a></li>
+<li class="chapter" data-level="5.3.5" data-path="plotly.html"><a href="plotly.html#multiple-time-series-plots"><i class="fa fa-check"></i><b>5.3.5</b> Multiple time series plots</a></li>
+<li class="chapter" data-level="5.3.6" data-path="plotly.html"><a href="plotly.html#more-features-about-the-lines"><i class="fa fa-check"></i><b>5.3.6</b> More features about the lines</a></li>
+<li class="chapter" data-level="5.3.7" data-path="plotly.html"><a href="plotly.html#add-ribbons-1"><i class="fa fa-check"></i><b>5.3.7</b> Add ribbons</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="plotly.html"><a href="plotly.html#pie-charts"><i class="fa fa-check"></i><b>5.4</b> Pie Charts</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="plotly.html"><a href="plotly.html#draw-static-pie-charts-using-ggplot2"><i class="fa fa-check"></i><b>5.4.1</b> Draw static pie charts using ggplot2</a></li>
+<li class="chapter" data-level="5.4.2" data-path="plotly.html"><a href="plotly.html#draw-interactive-pie-charts"><i class="fa fa-check"></i><b>5.4.2</b> Draw interactive pie charts</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="plotly.html"><a href="plotly.html#animation"><i class="fa fa-check"></i><b>5.5</b> Animation</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="plotly.html"><a href="plotly.html#an-animation-of-the-evolution-of-infected-vs.-death-count"><i class="fa fa-check"></i><b>5.5.1</b> An animation of the evolution of infected vs. death count</a></li>
+<li class="chapter" data-level="5.5.2" data-path="plotly.html"><a href="plotly.html#an-animation-of-the-state-level-time-series-plot-of-infected-count"><i class="fa fa-check"></i><b>5.5.2</b> An animation of the state-level time series plot of infected count</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="plotly.html"><a href="plotly.html#saving-html"><i class="fa fa-check"></i><b>5.6</b> Saving HTML</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="plotly.html"><a href="plotly.html#save-as-a-standalone-html-file"><i class="fa fa-check"></i><b>5.6.1</b> Save as a standalone HTML file</a></li>
+<li class="chapter" data-level="5.6.2" data-path="plotly.html"><a href="plotly.html#save-as-non-selfcontained-html-file"><i class="fa fa-check"></i><b>5.6.2</b> Save as non-selfcontained HTML file</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="plotly.html"><a href="plotly.html#exercises-2"><i class="fa fa-check"></i><b>5.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="shiny.html"><a href="shiny.html"><i class="fa fa-check"></i><b>6</b> R Shiny</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="shiny.html"><a href="shiny.html#an-introduction-to-shiny"><i class="fa fa-check"></i><b>6.1</b> An Introduction to Shiny</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="shiny.html"><a href="shiny.html#your-first-shiny-app"><i class="fa fa-check"></i><b>6.1.1</b> Your first shiny app</a></li>
+<li class="chapter" data-level="6.1.2" data-path="shiny.html"><a href="shiny.html#create-a-new-shiny-app-in-rstudio"><i class="fa fa-check"></i><b>6.1.2</b> Create a new shiny app in RStudio</a></li>
+<li class="chapter" data-level="6.1.3" data-path="shiny.html"><a href="shiny.html#share-your-app"><i class="fa fa-check"></i><b>6.1.3</b> Share your app</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="shiny.html"><a href="shiny.html#useful-input-widgets"><i class="fa fa-check"></i><b>6.2</b> Useful Input Widgets</a></li>
+<li class="chapter" data-level="6.3" data-path="shiny.html"><a href="shiny.html#displaying-reactive-output"><i class="fa fa-check"></i><b>6.3</b> Displaying Reactive Output</a></li>
+<li class="chapter" data-level="6.4" data-path="shiny.html"><a href="shiny.html#rendering-plotly-inside-shiny"><i class="fa fa-check"></i><b>6.4</b> Rendering Plotly Inside Shiny</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="map.html"><a href="map.html"><i class="fa fa-check"></i><b>7</b> Interactive Geospatial Visualization</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="map.html"><a href="map.html#an-introduction-to-leaflet"><i class="fa fa-check"></i><b>7.1</b> An Introduction to Leaflet</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="map.html"><a href="map.html#more-references"><i class="fa fa-check"></i><b>7.1.1</b> More References</a></li>
+<li class="chapter" data-level="7.1.2" data-path="map.html"><a href="map.html#features-and-installation"><i class="fa fa-check"></i><b>7.1.2</b> Features and installation</a></li>
+<li class="chapter" data-level="7.1.3" data-path="map.html"><a href="map.html#basic-usage"><i class="fa fa-check"></i><b>7.1.3</b> Basic Usage</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="map.html"><a href="map.html#the-data-object"><i class="fa fa-check"></i><b>7.2</b> The Data Object</a></li>
+<li class="chapter" data-level="7.3" data-path="map.html"><a href="map.html#choropleth-map"><i class="fa fa-check"></i><b>7.3</b> Choropleth map</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="map.html"><a href="map.html#create-a-base-map"><i class="fa fa-check"></i><b>7.3.1</b> Create a base map</a></li>
+<li class="chapter" data-level="7.3.2" data-path="map.html"><a href="map.html#color-the-map"><i class="fa fa-check"></i><b>7.3.2</b> Color the map</a></li>
+<li class="chapter" data-level="7.3.3" data-path="map.html"><a href="map.html#interactive-map"><i class="fa fa-check"></i><b>7.3.3</b> Interactive map</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="map.html"><a href="map.html#legend-1"><i class="fa fa-check"></i><b>7.4</b> Legend</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="map.html"><a href="map.html#classification-schemes"><i class="fa fa-check"></i><b>7.4.1</b> Classification schemes</a></li>
+<li class="chapter" data-level="7.4.2" data-path="map.html"><a href="map.html#mapping-variables-to-colors"><i class="fa fa-check"></i><b>7.4.2</b> Mapping variables to colors</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="map.html"><a href="map.html#an-example-of-county-level-map"><i class="fa fa-check"></i><b>7.5</b> An Example of County-level Map</a></li>
+<li class="chapter" data-level="7.6" data-path="map.html"><a href="map.html#spot-maps"><i class="fa fa-check"></i><b>7.6</b> Spot Maps</a>
+<ul>
+<li class="chapter" data-level="7.6.1" data-path="map.html"><a href="map.html#adding-circles"><i class="fa fa-check"></i><b>7.6.1</b> Adding circles</a></li>
+<li class="chapter" data-level="7.6.2" data-path="map.html"><a href="map.html#add-popups"><i class="fa fa-check"></i><b>7.6.2</b> Add popups</a></li>
+<li class="chapter" data-level="7.6.3" data-path="map.html"><a href="map.html#add-labels"><i class="fa fa-check"></i><b>7.6.3</b> Add labels</a></li>
+</ul></li>
+<li class="chapter" data-level="7.7" data-path="map.html"><a href="map.html#integrating-leaflet-with-r-shiny"><i class="fa fa-check"></i><b>7.7</b> Integrating Leaflet with R Shiny</a></li>
+<li class="chapter" data-level="7.8" data-path="map.html"><a href="map.html#exercises-3"><i class="fa fa-check"></i><b>7.8</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="modeling.html"><a href="modeling.html"><i class="fa fa-check"></i><b>8</b> Epidemic Modeling</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="modeling.html"><a href="modeling.html#an-introduction-to-epidemic-modeling"><i class="fa fa-check"></i><b>8.1</b> An Introduction to Epidemic Modeling</a></li>
+<li class="chapter" data-level="8.2" data-path="modeling.html"><a href="modeling.html#mechanistic-models"><i class="fa fa-check"></i><b>8.2</b> Mechanistic Models</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="modeling.html"><a href="modeling.html#compartment-modeling"><i class="fa fa-check"></i><b>8.2.1</b> Compartment Modeling</a></li>
+<li class="chapter" data-level="8.2.2" data-path="modeling.html"><a href="modeling.html#agent-based-methods"><i class="fa fa-check"></i><b>8.2.2</b> Agent-based Methods</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="modeling.html"><a href="modeling.html#phenomenological-models"><i class="fa fa-check"></i><b>8.3</b> Phenomenological Models</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="modeling.html"><a href="modeling.html#time-series-analysis"><i class="fa fa-check"></i><b>8.3.1</b> Time Series Analysis</a></li>
+<li class="chapter" data-level="8.3.2" data-path="modeling.html"><a href="modeling.html#regression-methods"><i class="fa fa-check"></i><b>8.3.2</b> Regression methods</a></li>
+<li class="chapter" data-level="8.3.3" data-path="modeling.html"><a href="modeling.html#machine-learning-methods"><i class="fa fa-check"></i><b>8.3.3</b> Machine learning methods</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="modeling.html"><a href="modeling.html#hybrid-models-and-ensemble-methods"><i class="fa fa-check"></i><b>8.4</b> Hybrid Models and Ensemble Methods</a></li>
+<li class="chapter" data-level="8.5" data-path="modeling.html"><a href="modeling.html#epidemic-modeling-mathematical-and-statistical-perspectives"><i class="fa fa-check"></i><b>8.5</b> Epidemic Modeling: Mathematical and Statistical Perspectives</a></li>
+<li class="chapter" data-level="8.6" data-path="modeling.html"><a href="modeling.html#some-terminologies-in-epidemic-modeling"><i class="fa fa-check"></i><b>8.6</b> Some Terminologies in Epidemic Modeling</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="compartment.html"><a href="compartment.html"><i class="fa fa-check"></i><b>9</b> Compartment Models</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="compartment.html"><a href="compartment.html#a-simple-sis-model-a-model-for-diseases-with-no-immunity"><i class="fa fa-check"></i><b>9.1</b> A Simple SIS Model (A Model for Diseases with No Immunity)</a></li>
+<li class="chapter" data-level="9.2" data-path="compartment.html"><a href="compartment.html#an-sir-model"><i class="fa fa-check"></i><b>9.2</b> An SIR Model</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="compartment.html"><a href="compartment.html#an-sir-model-with-births-and-deaths"><i class="fa fa-check"></i><b>9.2.1</b> An SIR model with births and deaths</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="compartment.html"><a href="compartment.html#sir-parameter-estimation"><i class="fa fa-check"></i><b>9.3</b> SIR parameter estimation</a></li>
+<li class="chapter" data-level="9.4" data-path="compartment.html"><a href="compartment.html#implementation-of-parameter-estimation-in-r"><i class="fa fa-check"></i><b>9.4</b> Implementation of parameter estimation in R</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="compartment.html"><a href="compartment.html#example-1.-outbreak-of-measles-in-niamey"><i class="fa fa-check"></i><b>9.4.1</b> Example 1. Outbreak of measles in Niamey</a></li>
+<li class="chapter" data-level="9.4.2" data-path="compartment.html"><a href="compartment.html#example-2.-covid-19-data"><i class="fa fa-check"></i><b>9.4.2</b> Example 2. COVID-19 data</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="compartment.html"><a href="compartment.html#basic-reproduction-number"><i class="fa fa-check"></i><b>9.5</b> Basic Reproduction Number</a>
+<ul>
+<li class="chapter" data-level="9.5.1" data-path="compartment.html"><a href="compartment.html#seir-model"><i class="fa fa-check"></i><b>9.5.1</b> SEIR Model</a></li>
+</ul></li>
+<li class="chapter" data-level="9.6" data-path="compartment.html"><a href="compartment.html#herd-immunity"><i class="fa fa-check"></i><b>9.6</b> Herd Immunity</a></li>
+<li class="chapter" data-level="9.7" data-path="compartment.html"><a href="compartment.html#exercises-4"><i class="fa fa-check"></i><b>9.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="timeseries.html"><a href="timeseries.html"><i class="fa fa-check"></i><b>10</b> Time Series Analysis of Infectious Disease Data</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="timeseries.html"><a href="timeseries.html#datasets-and-r-packages"><i class="fa fa-check"></i><b>10.1</b> Datasets and R Packages</a></li>
+<li class="chapter" data-level="10.2" data-path="timeseries.html"><a href="timeseries.html#time-series-plots"><i class="fa fa-check"></i><b>10.2</b> Time series plots</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="timeseries.html"><a href="timeseries.html#tsibble-objects"><i class="fa fa-check"></i><b>10.2.1</b> “tsibble” objects</a></li>
+<li class="chapter" data-level="10.2.2" data-path="timeseries.html"><a href="timeseries.html#working-with-tsibble-objects"><i class="fa fa-check"></i><b>10.2.2</b> Working with “tsibble” objects</a></li>
+<li class="chapter" data-level="10.2.3" data-path="timeseries.html"><a href="timeseries.html#drawing-time-series-plots"><i class="fa fa-check"></i><b>10.2.3</b> Drawing time series plots</a></li>
+<li class="chapter" data-level="10.2.4" data-path="timeseries.html"><a href="timeseries.html#objectives-of-time-series-analysis"><i class="fa fa-check"></i><b>10.2.4</b> Objectives of Time Series Analysis</a></li>
+<li class="chapter" data-level="10.2.5" data-path="timeseries.html"><a href="timeseries.html#autocorrelation"><i class="fa fa-check"></i><b>10.2.5</b> Autocorrelation</a></li>
+<li class="chapter" data-level="10.2.6" data-path="timeseries.html"><a href="timeseries.html#autocorrelation-1"><i class="fa fa-check"></i><b>10.2.6</b> Autocorrelation</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="timeseries.html"><a href="timeseries.html#time-series-decomposition"><i class="fa fa-check"></i><b>10.3</b> Time Series Decomposition</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="timeseries.html"><a href="timeseries.html#box-cox-transformations"><i class="fa fa-check"></i><b>10.3.1</b> Box-Cox transformations</a></li>
+<li class="chapter" data-level="10.3.2" data-path="timeseries.html"><a href="timeseries.html#methods-for-estimating-the-trend"><i class="fa fa-check"></i><b>10.3.2</b> Methods for estimating the trend</a></li>
+<li class="chapter" data-level="10.3.3" data-path="timeseries.html"><a href="timeseries.html#seasonal-and-trend-decomposition-using-loess-stl"><i class="fa fa-check"></i><b>10.3.3</b> Seasonal and trend decomposition using Loess (STL)</a></li>
+<li class="chapter" data-level="10.3.4" data-path="timeseries.html"><a href="timeseries.html#trend-and-seasonal-estimation"><i class="fa fa-check"></i><b>10.3.4</b> Trend and seasonal estimation:</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="timeseries.html"><a href="timeseries.html#simple-time-series-forecasting-approaches"><i class="fa fa-check"></i><b>10.4</b> Simple Time Series Forecasting Approaches</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="timeseries.html"><a href="timeseries.html#average-method"><i class="fa fa-check"></i><b>10.4.1</b> Average method</a></li>
+<li class="chapter" data-level="10.4.2" data-path="timeseries.html"><a href="timeseries.html#random-walk-forecasts"><i class="fa fa-check"></i><b>10.4.2</b> Random walk forecasts</a></li>
+<li class="chapter" data-level="10.4.3" data-path="timeseries.html"><a href="timeseries.html#seasonal-random-walk-forecasts"><i class="fa fa-check"></i><b>10.4.3</b> Seasonal random walk forecasts</a></li>
+<li class="chapter" data-level="10.4.4" data-path="timeseries.html"><a href="timeseries.html#random-walk-with-drift-method"><i class="fa fa-check"></i><b>10.4.4</b> Random walk with drift method</a></li>
+<li class="chapter" data-level="10.4.5" data-path="timeseries.html"><a href="timeseries.html#displaying-all-the-forecasting-results"><i class="fa fa-check"></i><b>10.4.5</b> Displaying all the forecasting results</a></li>
+<li class="chapter" data-level="10.4.6" data-path="timeseries.html"><a href="timeseries.html#distributional-forecasts-and-prediction-intervals"><i class="fa fa-check"></i><b>10.4.6</b> Distributional forecasts and prediction intervals</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="timeseries.html"><a href="timeseries.html#residual-diagnostics-and-accuracy-evaluation"><i class="fa fa-check"></i><b>10.5</b> Residual Diagnostics and Accuracy Evaluation</a>
+<ul>
+<li class="chapter" data-level="10.5.1" data-path="timeseries.html"><a href="timeseries.html#residual-diagnostics"><i class="fa fa-check"></i><b>10.5.1</b> Residual diagnostics</a></li>
+<li class="chapter" data-level="10.5.2" data-path="timeseries.html"><a href="timeseries.html#forecasting-accuracy"><i class="fa fa-check"></i><b>10.5.2</b> Forecasting accuracy</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="timeseries.html"><a href="timeseries.html#arima-models"><i class="fa fa-check"></i><b>10.6</b> ARIMA Models</a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="timeseries.html"><a href="timeseries.html#differencing"><i class="fa fa-check"></i><b>10.6.1</b> Differencing</a></li>
+<li class="chapter" data-level="10.6.2" data-path="timeseries.html"><a href="timeseries.html#arma-models"><i class="fa fa-check"></i><b>10.6.2</b> ARMA models</a></li>
+<li class="chapter" data-level="10.6.3" data-path="timeseries.html"><a href="timeseries.html#simple-examples-of-arma-models"><i class="fa fa-check"></i><b>10.6.3</b> Simple examples of ARMA models</a></li>
+<li class="chapter" data-level="10.6.4" data-path="timeseries.html"><a href="timeseries.html#arima-models-1"><i class="fa fa-check"></i><b>10.6.4</b> ARIMA models</a></li>
+<li class="chapter" data-level="10.6.5" data-path="timeseries.html"><a href="timeseries.html#seasonal-arima-model"><i class="fa fa-check"></i><b>10.6.5</b> Seasonal ARIMA model</a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="timeseries.html"><a href="timeseries.html#model-comparison"><i class="fa fa-check"></i><b>10.7</b> Model Comparison</a></li>
+<li class="chapter" data-level="10.8" data-path="timeseries.html"><a href="timeseries.html#ensuring-forecasts-stay-within-limits"><i class="fa fa-check"></i><b>10.8</b> Ensuring forecasts stay within limits</a>
+<ul>
+<li class="chapter" data-level="10.8.1" data-path="timeseries.html"><a href="timeseries.html#positive-forecasts"><i class="fa fa-check"></i><b>10.8.1</b> Positive forecasts</a></li>
+<li class="chapter" data-level="10.8.2" data-path="timeseries.html"><a href="timeseries.html#forecasts-constrained-to-an-interval"><i class="fa fa-check"></i><b>10.8.2</b> Forecasts constrained to an interval</a></li>
+</ul></li>
+<li class="chapter" data-level="10.9" data-path="timeseries.html"><a href="timeseries.html#prediction-intervals-for-aggregates"><i class="fa fa-check"></i><b>10.9</b> Prediction Intervals for Aggregates</a></li>
+<li class="chapter" data-level="10.10" data-path="timeseries.html"><a href="timeseries.html#exercises-5"><i class="fa fa-check"></i><b>10.10</b> Exercises</a></li>
+<li class="chapter" data-level="10.11" data-path="timeseries.html"><a href="timeseries.html#references"><i class="fa fa-check"></i><b>10.11</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>11</b> Regression Modeling</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="regression.html"><a href="regression.html#principles-of-regression-modeling"><i class="fa fa-check"></i><b>11.1</b> Principles of Regression Modeling</a></li>
+<li class="chapter" data-level="11.2" data-path="regression.html"><a href="regression.html#area-level-data"><i class="fa fa-check"></i><b>11.2</b> Area-level Data</a></li>
+<li class="chapter" data-level="11.3" data-path="regression.html"><a href="regression.html#variable-selection"><i class="fa fa-check"></i><b>11.3</b> Variable Selection</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="NN.html"><a href="NN.html"><i class="fa fa-check"></i><b>12</b> Neural Networks</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="NN.html"><a href="NN.html#a-single-neuron"><i class="fa fa-check"></i><b>12.1</b> A Single Neuron</a></li>
+<li class="chapter" data-level="12.2" data-path="NN.html"><a href="NN.html#neural-network-structure"><i class="fa fa-check"></i><b>12.2</b> Neural Network Structure</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="ensemble.html"><a href="ensemble.html"><i class="fa fa-check"></i><b>13</b> Hybrid Mdels</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="ensemble.html"><a href="ensemble.html#ensembling-time-series-models"><i class="fa fa-check"></i><b>13.1</b> Ensembling Time Series Models</a></li>
+<li class="chapter" data-level="13.2" data-path="ensemble.html"><a href="ensemble.html#model-diagnostics"><i class="fa fa-check"></i><b>13.2</b> Model Diagnostics</a></li>
+<li class="chapter" data-level="13.3" data-path="ensemble.html"><a href="ensemble.html#weights-selection-using-cross-validation"><i class="fa fa-check"></i><b>13.3</b> Weights Selection Using Cross Validation</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i>Appendix</a></li>
+<li class="chapter" data-level="14" data-path="appendix-a.html"><a href="appendix-a.html"><i class="fa fa-check"></i><b>14</b> Appendix A</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="appendix-a.html"><a href="appendix-a.html#r-introduction-and-preliminaries"><i class="fa fa-check"></i><b>14.1</b> R Introduction and Preliminaries</a>
+<ul>
+<li class="chapter" data-level="14.1.1" data-path="appendix-a.html"><a href="appendix-a.html#the-r-environment-and-language"><i class="fa fa-check"></i><b>14.1.1</b> The R Environment and Language</a></li>
+<li class="chapter" data-level="14.1.2" data-path="appendix-a.html"><a href="appendix-a.html#r-and-statistics"><i class="fa fa-check"></i><b>14.1.2</b> R and Statistics</a></li>
+<li class="chapter" data-level="14.1.3" data-path="appendix-a.html"><a href="appendix-a.html#obtaining-r-and-installation"><i class="fa fa-check"></i><b>14.1.3</b> Obtaining R and installation</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="appendix-a.html"><a href="appendix-a.html#starting-r"><i class="fa fa-check"></i><b>14.2</b> Starting R</a>
+<ul>
+<li class="chapter" data-level="14.2.1" data-path="appendix-a.html"><a href="appendix-a.html#description-of-three-panels-in-user-interface"><i class="fa fa-check"></i><b>14.2.1</b> Description of three panels in user interface</a></li>
+<li class="chapter" data-level="14.2.2" data-path="appendix-a.html"><a href="appendix-a.html#r-help"><i class="fa fa-check"></i><b>14.2.2</b> R help</a></li>
+<li class="chapter" data-level="14.2.3" data-path="appendix-a.html"><a href="appendix-a.html#some-mathematical-expressions"><i class="fa fa-check"></i><b>14.2.3</b> Some mathematical expressions</a></li>
+<li class="chapter" data-level="14.2.4" data-path="appendix-a.html"><a href="appendix-a.html#r-packages"><i class="fa fa-check"></i><b>14.2.4</b> R Packages</a></li>
+<li class="chapter" data-level="14.2.5" data-path="appendix-a.html"><a href="appendix-a.html#creating-a-project-and-setting-working-directory"><i class="fa fa-check"></i><b>14.2.5</b> Creating a project and setting working directory</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="appendix-a.html"><a href="appendix-a.html#exportimport-data"><i class="fa fa-check"></i><b>14.3</b> Export/Import Data</a>
+<ul>
+<li class="chapter" data-level="14.3.1" data-path="appendix-a.html"><a href="appendix-a.html#data-export"><i class="fa fa-check"></i><b>14.3.1</b> Data Export</a></li>
+<li class="chapter" data-level="14.3.2" data-path="appendix-a.html"><a href="appendix-a.html#data-import"><i class="fa fa-check"></i><b>14.3.2</b> Data Import</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="appendix-b.html"><a href="appendix-b.html"><i class="fa fa-check"></i><b>15</b> Appendix B</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="appendix-b.html"><a href="appendix-b.html#epidemic-data"><i class="fa fa-check"></i><b>15.1</b> Epidemic Data</a>
+<ul>
+<li class="chapter" data-level="15.1.1" data-path="appendix-b.html"><a href="appendix-b.html#state-level"><i class="fa fa-check"></i><b>15.1.1</b> State level</a></li>
+<li class="chapter" data-level="15.1.2" data-path="appendix-b.html"><a href="appendix-b.html#county-level"><i class="fa fa-check"></i><b>15.1.2</b> County level</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="appendix-b.html"><a href="appendix-b.html#other-factors"><i class="fa fa-check"></i><b>15.2</b> Other Factors</a>
+<ul>
+<li class="chapter" data-level="15.2.1" data-path="appendix-b.html"><a href="appendix-b.html#policy-data"><i class="fa fa-check"></i><b>15.2.1</b> Policy Data</a></li>
+<li class="chapter" data-level="15.2.2" data-path="appendix-b.html"><a href="appendix-b.html#demographic-characteristics"><i class="fa fa-check"></i><b>15.2.2</b> Demographic Characteristics</a></li>
+<li class="chapter" data-level="15.2.3" data-path="appendix-b.html"><a href="appendix-b.html#healthcare-infrastructure"><i class="fa fa-check"></i><b>15.2.3</b> Healthcare Infrastructure</a></li>
+<li class="chapter" data-level="15.2.4" data-path="appendix-b.html"><a href="appendix-b.html#socioeconomic-status"><i class="fa fa-check"></i><b>15.2.4</b> Socioeconomic Status</a></li>
+<li class="chapter" data-level="15.2.5" data-path="appendix-b.html"><a href="appendix-b.html#environmental-factor"><i class="fa fa-check"></i><b>15.2.5</b> Environmental Factor</a></li>
+<li class="chapter" data-level="15.2.6" data-path="appendix-b.html"><a href="appendix-b.html#mobility"><i class="fa fa-check"></i><b>15.2.6</b> Mobility</a></li>
+<li class="chapter" data-level="15.2.7" data-path="appendix-b.html"><a href="appendix-b.html#geographic-information"><i class="fa fa-check"></i><b>15.2.7</b> Geographic Information</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="appendix-b.html"><a href="appendix-b.html#data-sets"><i class="fa fa-check"></i><b>15.3</b> Data Sets</a>
+<ul>
+<li class="chapter" data-level="15.3.1" data-path="appendix-b.html"><a href="appendix-b.html#chapter-2"><i class="fa fa-check"></i><b>15.3.1</b> Chapter 2</a></li>
+<li class="chapter" data-level="15.3.2" data-path="appendix-b.html"><a href="appendix-b.html#chapter-3"><i class="fa fa-check"></i><b>15.3.2</b> Chapter 3</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Statistical Learning of Infectious Disease Data Analytics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="modeling" class="section level1" number="8">
+<h1><span class="header-section-number">Chapter 8</span> Epidemic Modeling</h1>
+<div id="an-introduction-to-epidemic-modeling" class="section level2" number="8.1">
+<h2><span class="header-section-number">8.1</span> An Introduction to Epidemic Modeling</h2>
+<p>The earliest disease transmission model dates back to Daniel Bernoulli <span class="citation">(<a href="appendix-b.html#ref-dietz2002daniel" role="doc-biblioref">Dietz and Heesterbeek 2002</a>)</span>. Bernoulli developed an epidemiological model in 1760 and used it to demonstrate the life expectancy increased due to the use of inoculation against smallpox. William Farr was perhaps the first to attempt to calibrate (or fit) a model of disease transmission when he noted the similarity between the time series of smallpox incidence and the normal distribution. In 1889, En’ko investigated heterogeneity in measles transmission, using models to explain the possible mechanisms that give rise to variable epidemic sizes; see <span class="citation"><a href="appendix-b.html#ref-en1989course" role="doc-biblioref">En’Ko</a> (<a href="appendix-b.html#ref-en1989course" role="doc-biblioref">1989</a>)</span>. In 1927, Kermack and McKendrick expanded on existing models to develop the foundation of the modern-day susceptible-infected-recovered mass-action model using differential equations; see <span class="citation"><a href="appendix-b.html#ref-kermack1927contribution" role="doc-biblioref">Kermack and McKendrick</a> (<a href="appendix-b.html#ref-kermack1927contribution" role="doc-biblioref">1927</a>)</span>. These models, and many others, have formed the basis of modern disease modeling, which has been a crucial tool in improving understanding of best practices for infectious disease control. By combining mathematical or statistical formalism with epidemiological data and an understanding of biological mechanisms, infectious disease models enable the evaluation of the effect of public health interventions like vaccines, projection of future disease burden in various contexts, and answering fundamental questions, such as why some people are uninfected in an outbreak.</p>
+<p>In epidemic modeling, there are mainly three types of models, including (i) mechanistic models, (ii) phenomenological models, and (iii) hybrid models. In the following, we will give a brief introduction to each type of models. More indepth studies will be covered in Chapters <a href="compartment.html#compartment">9</a>–<a href="ensemble.html#ensemble">13</a>.</p>
+</div>
+<div id="mechanistic-models" class="section level2" number="8.2">
+<h2><span class="header-section-number">8.2</span> Mechanistic Models</h2>
+<p>Mechanistic models explicitly try to model the mechanisms of interaction among system components. These models make explicit hypotheses about the biological mechanisms that drive infection dynamics.</p>
+<div id="compartment-modeling" class="section level3" number="8.2.1">
+<h3><span class="header-section-number">8.2.1</span> Compartment Modeling</h3>
+<p>A compartment model is characterized by a set of mathematical equations to represent how individuals move from one compartment to another or interact among compartments. A majority of the compartment models in epidemiology are based on the Susceptible-infected-removed (SIR) model <span class="citation"><a href="appendix-b.html#ref-kermack1927contribution" role="doc-biblioref">Kermack and McKendrick</a> (<a href="appendix-b.html#ref-kermack1927contribution" role="doc-biblioref">1927</a>)</span> and its variants to conceptualize the dynamic changes of the population.</p>
+<p>The conventional SIR model divides a population into three compartments: the susceptible class (S) indicates those who can become infected, the infected class (I) represents those who are infectious, and the removed class (R) corresponds to those with permanent infection-acquired immunity. Due to its simplicity with a small number of parameters, the SIR model has become popular and has been widely applied to track and forecast the trajectory of epidemic disease. For example, <span class="citation"><a href="appendix-b.html#ref-miranda2019real" role="doc-biblioref">Miranda et al.</a> (<a href="appendix-b.html#ref-miranda2019real" role="doc-biblioref">2019</a>)</span> calibrated the parameters of the SIR model for each season separately using the Nelder-Mead optimization algorithm to predict weekly influenza-like-illness (ILI) incidence. <span class="citation"><a href="appendix-b.html#ref-chen2021model" role="doc-biblioref">Chen et al.</a> (<a href="appendix-b.html#ref-chen2021model" role="doc-biblioref">2021</a>)</span> considered the SIR model for Canadian COVID-19 data. The estimates and bounds of model parameters were extracted by minimizing the squared prediction error of daily infection numbers. Based on those values, the prediction bounds for S, I, R, and daily infection numbers can be obtained. However, the SIR model often oversimplifies complex processes of disease.</p>
+<p>For many epidemic diseases, if an exposed period (infected but not yet infectious) is long enough or significant, its absence in the model could affect predictions <span class="citation"><a href="appendix-b.html#ref-brauer2008compartmental" role="doc-biblioref">Brauer</a> (<a href="appendix-b.html#ref-brauer2008compartmental" role="doc-biblioref">2008</a>)</span>. The SEIR model additionally includes an exposed (E) compartment for the latent period. The SEIR has been applied to malaria transmission by formulating a system of equations for both human and mosquito population <span class="citation"><a href="appendix-b.html#ref-mojeeb2017simple" role="doc-biblioref">Mojeeb, Adu, and Yang</a> (<a href="appendix-b.html#ref-mojeeb2017simple" role="doc-biblioref">2017</a>)</span> and Ebola hemorrhagic fever by considering vaccination as a control strategy <span class="citation">(<a href="appendix-b.html#ref-durojaye2017mathematical" role="doc-biblioref">Durojaye and Ajie 2017</a>)</span>. <span class="citation"><a href="appendix-b.html#ref-roda2020difficult" role="doc-biblioref">Roda et al.</a> (<a href="appendix-b.html#ref-roda2020difficult" role="doc-biblioref">2020</a>)</span> considered both SIR and SEIR models and predicted the COVID-19 epidemic. Although a Poisson or negative binomial distribution is a common choice for count data, its probability model was approximated by normal distribution as newly confirmed cases grow quickly. Using uniform priors for model parameters, the affine invariant ensemble Markov Chain Monte Carlo algorithm was implemented for posterior distributions of the model parameters to lessen the impact of nonidentifiability in the model.</p>
+<p>In Chapter <a href="compartment.html#compartment">9</a>, we will study compartment models with more detailed structure and see how they can help study infectious diseases.</p>
+</div>
+<div id="agent-based-methods" class="section level3" number="8.2.2">
+<h3><span class="header-section-number">8.2.2</span> Agent-based Methods</h3>
+<p>Agent-based models, also known as individual-based models, are a powerful simulation modeling technique with interacting autonomous agents. Agents are artificial decision-making entities and programmed to interact with other agents and the environment in specific ways. In the epidemic modeling, agents could stay either at the state of susceptibility, the state of infected, or any pre-defined states. Then, these agents interact with each other based on a specific environment, which is usually defined through a social contact network. Agents can transfer from a state to another. A typical agent-based model consists of three key elements: (1) a population generated based on the demographic characteristics of the studied population, (2) a social contact network among the agents (individuals) in the population, and (3) a disease model, which translates the edge weights in the social contact network into infection probability <span class="citation">(<a href="appendix-b.html#ref-hoertel2020stochastic" role="doc-biblioref">Hoertel et al. 2020</a>)</span>. By simulating a set of simple agents’ interactions, they can generate complex global patterns (behaviors) and visualize main properties from a global perspective.</p>
+<p>A good example of using this approach for COVID-19 is by a team from Imperial College London <span class="citation"><a href="appendix-b.html#ref-krr2020non" role="doc-biblioref">KRR et al.</a> (<a href="appendix-b.html#ref-krr2020non" role="doc-biblioref">2020</a>)</span> who applied an agent-based modeling approach to the UK data. The authors predicted the spread of COVID-19 after including many Non-Pharmaceutical Interventions. <span class="citation"><a href="appendix-b.html#ref-hoertel2020stochastic" role="doc-biblioref">Hoertel et al.</a> (<a href="appendix-b.html#ref-hoertel2020stochastic" role="doc-biblioref">2020</a>)</span> considers a stochastic agent-based model of the SARS-CoV-2 epidemic to predict the number of COVID-19 cases in France. A team of researchers from various universities proposed a Global Epidemic and Mobility Model (<a href="https://covid19.gleamproject.org/%7D">GLEAM</a>) which employed an agent-based model to analyze the spatiotemporal spread of COVID-19 in the continental US.</p>
+<p>Agent-based models use more detailed descriptions of disease states and/or individual characteristics and behavior, which are not easily simplified into a compartmental form. It allows for exploring complex systems and capturing relationships among individuals and heterogeneity in their attributes <span class="citation">(<a href="appendix-b.html#ref-rahmandad2008heterogeneity" role="doc-biblioref">Rahmandad and Sterman 2008</a>)</span>. Besides, it can model experiments that may be impossible or unethical to conduct in the real world, guiding public health interventions.</p>
+<p>Agent-based models require intensive computational burdens, constraining sensitivity analysis. Data on contact networks and the distribution of individual attributes are hard to obtain and highly uncertain, requiring extensive sensitivity analysis to ensure robust results.</p>
+</div>
+</div>
+<div id="phenomenological-models" class="section level2" number="8.3">
+<h2><span class="header-section-number">8.3</span> Phenomenological Models</h2>
+<p>Phenomenological models, sometimes also referred to as statistical models, attempt to characterize and forecast the observed effects of epidemics without incorporating biological mechanisms and postulating conjectures that explain the observed phenomena.</p>
+<div id="time-series-analysis" class="section level3" number="8.3.1">
+<h3><span class="header-section-number">8.3.1</span> Time Series Analysis</h3>
+<p>In time series analysis, we focus on using the past observations of a random variable to captures the underlying patterns and predict the future values. Within time series forecasting, <em>exponential smoothing</em> and <em>autoregressive integrated moving average (ARIMA) models</em> are the two most widely used approaches. Given a time series data, exponential smoothing models are based on a description of the trend and seasonality, while ARIMA models focus on describing the autocorrelations. Below, we will give a short introduction to ETS and ARIMA models. Chapter <a href="timeseries.html#timeseries">10</a> will introduce the details of time series analysis and how to make the epidemic prediction using R.</p>
+<div id="exponential-smoothing-ets" class="section level4" number="8.3.1.1">
+<h4><span class="header-section-number">8.3.1.1</span> Exponential Smoothing (ETS)</h4>
+<p>Exponential smoothing was proposed by <span class="citation"><a href="appendix-b.html#ref-Brown:59" role="doc-biblioref">Brown</a> (<a href="appendix-b.html#ref-Brown:59" role="doc-biblioref">1959</a>)</span>, <span class="citation"><a href="appendix-b.html#ref-Holt:57" role="doc-biblioref">Holt</a> (<a href="appendix-b.html#ref-Holt:57" role="doc-biblioref">1957</a>)</span>, and <span class="citation"><a href="appendix-b.html#ref-Winters:60" role="doc-biblioref">Winters</a> (<a href="appendix-b.html#ref-Winters:60" role="doc-biblioref">1960</a>)</span> in the late 1950s. Traditional moving average method considers equal weights for the past observations, whereas exponential functions are used to assign exponentially decreasing weights as the observations get older in exponential smoothing. Therefore, the forecasts produced by exponential smoothing methods can be considered as weighted averages of past observations.</p>
+<p>Since the simple exponential smoothing framework usually can generate reliable forecasts quickly, the simple ETS method is suitable for forecasting data with no clear trend or seasonal pattern.</p>
+<ul>
+<li><p><strong>Holt’s Linear Trend Method</strong>: To allow the forecasting of data with a trend, <span class="citation"><a href="appendix-b.html#ref-Holt:57" role="doc-biblioref">Holt</a> (<a href="appendix-b.html#ref-Holt:57" role="doc-biblioref">1957</a>)</span> proposed a linear trend method based on the simple exponential smoothing. This method involves three equations, including (i) a forecast equation, (ii) a smoothing equation for the level, and (iii) a smoothing equation for the trend. As a result, the <span class="math inline">\(h\)</span>-step-ahead forecast equals to the sum of the last estimated level and <span class="math inline">\(h\)</span> times the last estimated trend value, and thus the forecasts are linear to <span class="math inline">\(h\)</span>. The constant trend estimated by the Holt’s linear usually makes the long term forecast either indefinitely increasing or decreasing into the future.</p></li>
+<li><p><strong>Damped Trend Method</strong>: Due to the limitation of constant trend, <span class="citation"><a href="appendix-b.html#ref-Gardner:Mckenzie:85" role="doc-biblioref">Gardner and Mckenzie</a> (<a href="appendix-b.html#ref-Gardner:Mckenzie:85" role="doc-biblioref">1985</a>)</span> proposed a “damped” method which includes a parameter that can “dampens” the trend to a flat line in the future. As pointed out in <span class="citation"><a href="appendix-b.html#ref-Hyndman:Athanasopoulos:2nd" role="doc-biblioref">Hyndman and Athanasopoulos</a> (<a href="appendix-b.html#ref-Hyndman:Athanasopoulos:2nd" role="doc-biblioref">2018a</a>)</span>, the “damped” method is one of the most popular time-series methods for forecasting.</p></li>
+<li><p><strong>Holt-Winters’ Seasonal Method</strong>: By considering a systematic trend or a seasonal component, <span class="citation"><a href="appendix-b.html#ref-Holt:57" role="doc-biblioref">Holt</a> (<a href="appendix-b.html#ref-Holt:57" role="doc-biblioref">1957</a>)</span> and <span class="citation"><a href="appendix-b.html#ref-Winters:60" role="doc-biblioref">Winters</a> (<a href="appendix-b.html#ref-Winters:60" role="doc-biblioref">1960</a>)</span> extended Holt’s method to the Holt-Winters’ Seasonal Method which can analysis the time series with seasonality. Instead of the three equations in Holt’s Linear Trend Method, the Holt-Winters seasonal method comprises one more smoothing equation for seasonal component.</p></li>
+</ul>
+</div>
+<div id="autoregressive-integrated-moving-average-arima-model" class="section level4" number="8.3.1.2">
+<h4><span class="header-section-number">8.3.1.2</span> AutoRegressive Integrated Moving Average (ARIMA) model</h4>
+<p>provides another approach to time series forecasting, and it combines the autoregression (AR) and moving average (MA) model. In an ARIMA model, linear correlations among the time-series are assumed, then the ARIMA model exploits these linear dependencies to extract local patterns and remove high-frequency noise from the data.</p>
+<p>The ARIMA approach has three clear benefits. First of all, the interpretability level of the ARIMA model is very high. Therefore, researchers are able to gain a deep understanding of the relationship between the current and the past situations, and explore the influence of some exogenous variables. Secondly, the ARIMA model has an automated way to maximize prediction accuracy which can perform model selection efficiently. Thirdly, the ARIMA models have high accommodative ability due to the simplicity of model updates based on recent events. However, one drawback of the ARIMA models is that they cannot deal with nonlinear patterns or relationships.</p>
+</div>
+</div>
+<div id="regression-methods" class="section level3" number="8.3.2">
+<h3><span class="header-section-number">8.3.2</span> Regression methods</h3>
+<p>In epidemic modeling, regression methods are also popularly applied to estimate future prevalence or targets of interest. For example, <span class="citation"><a href="appendix-b.html#ref-Altieri:etal:21" role="doc-biblioref">Altieri et al.</a> (<a href="appendix-b.html#ref-Altieri:etal:21" role="doc-biblioref">2021</a>)</span> considered five regression models with different trends in COVID-19 death counts. In addition, the Los Alamos National Laboratory (LANL) has proposed a regression method called COVID-19 Forecasts using Fast Evaluations and Estimation (COFFEE); see <span class="citation"><a href="appendix-b.html#ref-coffee2020" role="doc-biblioref">Castro1 et al.</a> (<a href="appendix-b.html#ref-coffee2020" role="doc-biblioref">2020</a>)</span>. We will introduce (generalized) linear regression models and other regression models in Chapter <a href="regression.html#regression">11</a>. We will also present how the analytical techniques of regression and discrimination as a means of quantifying the effect of a set of explanatory variables on the spatial distribution of a particular outcome.</p>
+</div>
+<div id="machine-learning-methods" class="section level3" number="8.3.3">
+<h3><span class="header-section-number">8.3.3</span> Machine learning methods</h3>
+<p>Machine learning methods are attractive in the COVID-19 prediction with their great flexibility to capture disease spread patterns. There are two major categories of machine learning methods in the prediction of COVID-19. The first kind of methods are based on epidemic models and trained by machine learning algorithms. Specifically, <span class="citation"><a href="appendix-b.html#ref-zou2020epidemic" role="doc-biblioref">Zou et al.</a> (<a href="appendix-b.html#ref-zou2020epidemic" role="doc-biblioref">2020</a>)</span> proposes a variant of the SEIR model accounting for the untested/unreported cases of COVID-19, and the model is estimated by the standard gradient-based optimizer. <span class="citation"><a href="appendix-b.html#ref-arik2020interpretable" role="doc-biblioref">Arik et al.</a> (<a href="appendix-b.html#ref-arik2020interpretable" role="doc-biblioref">2020</a>)</span> integrates machine learning into compartmental disease modeling. It uses learning mechanisms, such as masked supervision from partial observations and partial teacher-forcing to minimize error propagation, to improve model estimation with limited training data. The second kind of method is based on conventional machine learning methods. <span class="citation"><a href="appendix-b.html#ref-sujath2020machine" role="doc-biblioref">Sujath, Chatterjee, and Hassanien</a> (<a href="appendix-b.html#ref-sujath2020machine" role="doc-biblioref">2020</a>)</span> applied linear regression, multilayer perceptron, and vector autoregression method for predicting COVID-19 cases in India gathered from the website of Kaggle. In <span class="citation"><a href="appendix-b.html#ref-arora2020prediction" role="doc-biblioref">Arora, Kumar, and Panigrahi</a> (<a href="appendix-b.html#ref-arora2020prediction" role="doc-biblioref">2020</a>)</span>, recurrent neural network (RNN) based long-short term memory (LSTM) is used to predict the number of COVID-19 reported cases for the state-level data in India. In Chapter <a href="NN.html#NN">12</a>, we will provide some implementation details of neural network models for forecasting.</p>
+</div>
+</div>
+<div id="hybrid-models-and-ensemble-methods" class="section level2" number="8.4">
+<h2><span class="header-section-number">8.4</span> Hybrid Models and Ensemble Methods</h2>
+<p>Hybrid modeling often refers to the approaches where part of a model is formulated on the basis of mechanistic principles and part of the model has to be inferred from data because of a lack of understanding of the mechanistic details. In the past two decades, statistical and machine learning-inspired time series methods have been successfully implemented in studying the spread dynamics of infectious diseases such as seasonal influenza. In COVID-19 studies, we have seen a growing number of hybrid methods combining characteristics of mechanistic models and phenomenological models. Examples of hybrid models and will be given Chapter <a href="ensemble.html#ensemble">13</a>. Another hybrid method widely used in forecasting is the ensemble method, which combines multiple forecasting algorithms to improve predictive performance. The basic idea of ensemble methods is that when there is much uncertainty in finding the best model, combining different algorithms could improve prediction accuracy by reducing the instability of the forecast. We will also introduce some ensemble methods using multiple forecasting algorithms to improve the predictive performance in Chapter <a href="ensemble.html#ensemble">13</a>.</p>
+</div>
+<div id="epidemic-modeling-mathematical-and-statistical-perspectives" class="section level2" number="8.5">
+<h2><span class="header-section-number">8.5</span> Epidemic Modeling: Mathematical and Statistical Perspectives</h2>
+<p>Epidemic modeling has three main aims <span class="citation">(<a href="appendix-b.html#ref-Daley:Gani:01" role="doc-biblioref">Daley and Gani 2001</a>)</span>: (1) to understand better the mechanisms by which diseases spread; (2) to identify which factors contribute to the spread of the epidemic, and therefore how we may control it; (3) to predict the future course of the epidemic. Although there are many epidemic modeling methods, mathematical and statistical models have played important roles in COVID-19studies. As illustrated in Figure <a href="modeling.html#fig:mathstat">8.1</a>, mathematical and statistical approaches are complementary, but their starting points are different, and the corresponding models tend to incorporate different details.</p>
+<div class="figure" style="text-align: center"><span id="fig:mathstat"></span>
+<img src="figures/model.png" alt="Mathematical and statistical perspectives on epidemic modeling." width="65%" />
+<p class="caption">
+Figure 8.1: Mathematical and statistical perspectives on epidemic modeling.
+</p>
+</div>
+<p>As mentioned above, the fundamental concept of infectious disease epidemiology is investigating how the diseases spread. Mathematical models are undeniably useful in understanding the dynamics of infectious disease spread (e.g., when the peak will occur and whether resurgence will happen) and the effects of control measures <span class="citation">(<a href="appendix-b.html#ref-Keeling:Rohani:08" role="doc-biblioref">Keeling and Rohani 2008</a>)</span>. An essential type of mathematical model is the class of mechanistic models such as the Susceptible - Infectious - Removed (SIR) compartmental model or the Susceptible - Exposed - Infectious - Recovered model (SEIR) as illustrated in Figure <a href="modeling.html#fig:SEIR">8.2</a>; see details in <span class="citation"><a href="appendix-b.html#ref-Brauer:etal:08" role="doc-biblioref">Brauer, Driessche, and Wu</a> (<a href="appendix-b.html#ref-Brauer:etal:08" role="doc-biblioref">2008</a>)</span> and <span class="citation"><a href="appendix-b.html#ref-Lawson:etal:16" role="doc-biblioref">Lawson et al.</a> (<a href="appendix-b.html#ref-Lawson:etal:16" role="doc-biblioref">2016</a>)</span>. Mechanistic models make explicit hypotheses about the biological mechanisms that drive the dynamics of infection, and they function well if the aim is to evaluate the effectiveness of hypothetical NPIs in controlling disease spread <span class="citation">(<a href="appendix-b.html#ref-lessler2016mechanistic" role="doc-biblioref">Lessler and Cummings 2016</a>)</span>.</p>
+<div class="figure" style="text-align: center"><span id="fig:SEIR"></span>
+<img src="figures/SEIR1.pdf" alt="An illustration of SIR and SEIR models." width="75%" />
+<p class="caption">
+Figure 8.2: An illustration of SIR and SEIR models.
+</p>
+</div>
+<p>In the literature, statistical modeling has given the scientific field many successes in analyzing data and getting information about the mechanisms producing the data. Statistical modeling is a powerful tool for extracting information about the disease spread in epidemic studies <span class="citation">(<a href="appendix-b.html#ref-Held:etal:20" role="doc-biblioref">Held et al. 2020</a>)</span>. Statistics starts with data, and statistical modeling allows data to speak for themselves. There are two cultures in statistical modeling <span class="citation">(<a href="appendix-b.html#ref-Breiman:01" role="doc-biblioref">Breiman 2001</a>)</span>: the data modeling culture and the algorithmic modeling culture. The first one assumes that the data are generated by a given stochastic data model, and it is usually designed for inference about the relationships between variables whilst also catering to prediction. Algorithmic models treat the data mechanism as unknown and are usually designed to make the most accurate predictions possible.</p>
+<p>When analyzing the spread of infectious diseases, other factors, such as demographic characteristics, socioeconomic status, and control policies, may also be responsible for temporal or spatial patterns. For example, the spread of the disease varies considerably across different geographical regions. Local area - features, like socioeconomic factors and demographic conditions, can dramatically influence the course of the epidemic. These data are usually supplemented with the population information at the county level. Moreover, the capacity of the health care system, and control measures, such as government - mandated social distancing, also have a significant impact on the spread of the epidemic. Regression is a widely used statistical modeling method in epidemic studies because it produces a combination of the variables with weights indicating the impact of the variable <span class="citation">(<a href="appendix-b.html#ref-jewell2003statistics" role="doc-biblioref">Jewell 2003</a>)</span>. It can help determine which factors matter most, which can be ignored, and how those factors interact with each other. The benefit of regression analysis is that it can be used to understand different patterns in data. These insights may often be very valuable in understanding which factors contribute to the spread of COVID-19.</p>
+<p>Predicting the spread speed and severity of COVID-19 is crucial to resource management, developing strategies to deal with the epidemic, and ultimately assisting in prevention efforts. Mathematical models are able to mimic the way disease spreads and can be used to project or simulate future transmission scenarios under various assumptions. Statistical models are more oriented towards predictions <span class="citation">(<a href="appendix-b.html#ref-Held:etal:20" role="doc-biblioref">Held et al. 2020</a>)</span>. In fact, predictions are at the heart of statistical modeling. For example, time series analysis, one commonly used statistical forecasting approach, works by taking a series of historical observations and extrapolating the patterns into the future. Machine learning makes predictions based on known properties learned from the training data. However, purely statistical models only describe the observed data and give little information about the mechanism since they do not account for how transmission occurs. Therefore, they are generally not well - suited for long - term predictions, and a few weeks is usually close to being the ultimate prediction limit. Another advantage of statistical modeling is its ability to quantify uncertainty in the prediction, especially at an early phase of an epidemic with limited data. For example, statistical models can provide a prediction interval to understand the uncertainty surrounding the forecast <span class="citation">(<a href="appendix-b.html#ref-brockwell2002introduction" role="doc-biblioref">Brockwell and Davis 2016</a>)</span>.</p>
+<p>In summary, mathematical models are usually constructed in a more principle - driven manner, while statistical models are more data driven. Although both mathematical and statistical models can be used to study the effect of NPIs and make predictions, the implementation details are different, and an understanding of the corresponding limitations is crucial. For maximal effectiveness, researchers working to advance epidemic modeling will need to appreciate and exploit the complementary strengths of mathematical and statistical models.</p>
+</div>
+<div id="some-terminologies-in-epidemic-modeling" class="section level2" number="8.6">
+<h2><span class="header-section-number">8.6</span> Some Terminologies in Epidemic Modeling</h2>
+<p>In this section, we introduce some terminologies often used in infectious disease modeling.</p>
+<ul>
+<li><p><strong>Incidence:</strong> number of new cases in a given time period expressed as percent infected per year (cumulative incidence) or number per person time of observation (incidence density).</p>
+<ul>
+<li>An example: Auckland in New Zealand, often has epidemics of meningococcal disease, with annual incidences of up to 16.9/ 100,000 people.</li>
+</ul></li>
+<li><p><strong>Prevalence:</strong> number of cases at a given time expressed as a percent at a given time.</p>
+<ul>
+<li>An example: A recent Scottish study showed that the prevalence of obesity in a group of children aged from 3 to 4 years was 12.8% at the time.</li>
+</ul></li>
+<li><p><strong>Attack rate:</strong> proportion of non-immune exposed individuals who become clinically ill.</p>
+<ul>
+<li>An example: In an outbreak of gastroenteritis with 50 cases among a population at risk of 2500, the attack rate of disease is 50/2500 = 0.02.</li>
+</ul></li>
+<li><p><strong>Primary/secondary cases:</strong> The person who comes into and infects a population is the primary case. Those who subsequently contract the infection are secondary cases. Further spread is described as “waves” or “generations.”</p></li>
+<li><p><strong>Case fatality:</strong> proportion of infected individuals who die of the infection.</p></li>
+<li><p><strong>Mortality:</strong> proportion of the population that die yearly of the disease and is a product of incidence and the case fatality rate.</p>
+<ul>
+<li>As an example, consider two populations. Population 1 has 1,000 people; 300 have the specified disease, 100 of whom die from it. The mortality rate for the disease is 100/1,000 = 10%. The case fatality rate is 100/300 = 33%. Population 2 also has 1,000 people; 50 people have the disease and 40 die from it. The mortality rate is 40/1,000 = 4%; the case fatality rate, however, is 40/50 = 80%. Theincidence of death from the disease is higher in the first population, but the severity of disease is greater in the second.</li>
+</ul></li>
+<li><p><strong>Reproductive rate:</strong> potential for an infectious disease to spread. Influential factors include:</p>
+<ul>
+<li>probability of transmission between an infected and a susceptible individual;</li>
+<li>frequency of population contact;</li>
+<li>duration of infection;</li>
+<li>population immune proportion.</li>
+</ul></li>
+<li><p><strong>Transmission routes:</strong> direct (mucous membrane to mucous membrane, cross placental, blood or tissue, skin to skin, sneezes or coughs) and indirect (water, air borne, food borne, vectors or objects).</p></li>
+<li><p><strong>Reservoir:</strong> the population of organisms or the specific environment in which an infectious pathogen naturally lives and reproduces, or upon which the pathogen primarily depends for its survival.</p></li>
+<li><p><strong>Incubation period:</strong> time from exposure to development of disease (the time between inoculation and symptom expression).</p></li>
+<li><p><strong>Infectious period:</strong> length of time a person can transmit disease.</p></li>
+<li><p><strong>Latent period:</strong> period of infection without being infectious (the time between inoculation and infectiousness of the host). This may occur right after exposure or late in the disease.</p></li>
+<li><p><strong>Epidemic:</strong> occurrence of cases of illness in excess of expectancy.</p>
+<ul>
+<li>An epidemic whose incidence remains stable for a long period is describes as <strong>endemic</strong>.</li>
+<li>A global outbreak is described as a <strong>pandemic</strong>.</li>
+</ul></li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="map.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="compartment.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["SLID_book.pdf", "SLID_book.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

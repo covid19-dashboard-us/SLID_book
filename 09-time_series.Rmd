@@ -28,7 +28,7 @@ library(fable)
 library(tsibble)
 ```
 
-The R package `fable` provides a collection of commonly used univariate and multivariate time series forecasting models including exponential smoothing via state space models and autoregressive integrated moving average (ARIMA) modeling. 
+The R package “fable” provides a collection of commonly used univariate and multivariate time series forecasting models including exponential smoothing via state space models and autoregressive integrated moving average (ARIMA) modeling. The “fable” package provides the tools to evaluate, visualize, and combine models in a workflow consistent with the “tidyverse”.
 
 The [Forecasting: Principles and Practices](https://otexts.com/fpp3/) online textbook provides an introduction to time series forecasting using `fable`. 
 
@@ -38,7 +38,7 @@ Time series is a set of observations recorded sequentially. The first thing to d
 
 ### “tsibble” objects
 
-A time series can be thought of as a list of numbers, along with some information about what times those numbers were recorded. This information can be stored as a “tsibble” object in R.
+A time series can be thought of as a list of numbers, along with some information about what times those numbers were recorded. This information can be stored as a “tsibble” object in R. Beyond the tibble-like representation, **key** comprised of single or multiple variables is introduced to uniquely identify observational units over time (**index**). Each observation should be uniquely identified by **index** and **key** in a valid “tsibble” object.
 
 Take the `state.long` data for example, 
 
@@ -47,7 +47,6 @@ state.long
 ```
 
 We can turn this into a “tsibble” object using the `as_tsibble()` function: 
-
 
 ```{r, collapse=TRUE}
 state.ts <- as_tsibble(state.long, key = State) 
@@ -61,7 +60,7 @@ A “tsibble” allows multiple time series to be stored in a single object. The
 
 ### Working with “tsibble” objects
 
-We have used several functions above to work with “tsibble” objects, including `mutate()` and `select()`. To illustrate these further and some other useful functions, we will use the `state.ts` tsibble created in the above.
+Several functions in the “dplyr” package can be used to work with “tsibble” objects, including `mutate()` and `select()`. To illustrate these further and some other useful functions, we will use the `state.ts` tsibble created in the above.
 
 ```{r, collapse=TRUE}
 state.ts <- as_tsibble(state.long, key = State) %>%
@@ -87,7 +86,7 @@ Florida.ts <- state.ts %>%
   dplyr::filter(State == "Florida")
 ```
 
-Next we can simplify the resulting object by selecting five variables we will need in subsequent analysis. 
+Next, we can simplify the resulting object by selecting five variables we will need in subsequent analysis. 
 
 ```{r, collapse=TRUE}
 Florida.ts <- Florida.ts %>% 
@@ -107,7 +106,7 @@ Florida.ts %>%
 autoplot(Y.Death)
 ```
 
-We can also use the `ggplot()` to draw some time series plot. Figure \@ref(fig:death2) shows the time series plot with blue line. 
+We can also use the “ggplot2” to draw some time series plot. Figure \@ref(fig:death2) shows the time series plot with blue line. 
 
 ```{r death2, fig.height=3, fig.width=7, fig.align = "center", fig.cap="The time series plot of the daily new death count in Florida using the `ggplot()` function."}
 library(ggplot2)
@@ -116,7 +115,7 @@ ggplot(Florida.ts, aes(x = DATE, y = Y.Death)) +
   labs(title = 'Florida daily new death count') 
 ```
 
-We can draw multiple time series on the same plot. The time series plot shown in Figure \@ref(fig:death3) illusterate the daily new infected and death counts in Florida.
+We can draw multiple time series on the same plot using “ggplot2”. The time series plot shown in Figure \@ref(fig:death3) illusterate the daily new infected and death counts in Florida.
 
 ```{r death3, fig.height=3, fig.width=7, fig.align = "center", fig.cap="The time series plot of the daily new infected and death counts in Florida."}
   ggplot(Florida.ts, aes(x = DATE)) +
@@ -127,7 +126,7 @@ We can draw multiple time series on the same plot. The time series plot shown in
   theme(legend.position="bottom")
 ```
 
-We can draw multiple time series on the same plot by `group = State`. Figure \@ref(fig:death4) shows the time series plot of the daily new death count for each of the midwest states using the `ggplot()` function.
+Figure \@ref(fig:death4) shows the time series plot of the daily new death count for each of the midwest states using the `ggplot()` function.
 
 ```{r death4, fig.height=5, fig.width=7, fig.align = "center", fig.cap="The time series plot of the daily new death count for each of the midwest states using the `ggplot()` function."}
 state.ts %>%
@@ -137,6 +136,8 @@ state.ts %>%
   geom_line() +
   theme(legend.position="bottom")
 ```
+
+We can also use the `autoplot()` function to draw multiple time series on one plot. Figure \@ref(fig:deathall) shows the time series plot of the daily new death count for each of the midwest states using the `autoplot()` function.
 
 ```{r deathall, fig.height=5, fig.width=7, fig.align = "center", fig.cap="The time series plot of the daily new death count for each of the midwest states using the `autoplot()` function."}
 state.ts %>% 
@@ -164,7 +165,9 @@ After making the time series plots, we look for
 
 **Time series seasonal plot**
 
-We can produce a time series seasonal plot using `gg_season()` function in `feasts` package. A seasonal plot is similar to a regular time series plot, except the x-axis shows data from within each season. This plot type allows the underlying seasonal pattern to be seen more clearly, and is especially useful in identifying years in which the pattern changes. Figure \@ref(fig:deathweek) shows the time series weekly plot of the daily new death count.
+We can produce a time series seasonal plot using `gg_season()` function in the “feast” R package, which provides a collection of features, decomposition methods, statistical summaries and graphics functions for analyzing tidy time series data. 
+
+A seasonal plot is similar to a regular time series plot, except the x-axis shows data from within each season. This plot type allows the underlying seasonal pattern to be seen more clearly, and is especially useful in identifying the time in which the pattern changes. Figure \@ref(fig:deathweek) shows the time series weekly plot of the daily new death count.
 
 ```{r deathweek, fig.height=5, fig.width=7, fig.align = "center", fig.cap="The time series weekly plot of the daily new death count."} 
 library(feasts)
@@ -323,7 +326,6 @@ Florida.ts %>%
 ```
 
 
-
 ## Time Series Decomposition
 
 Time series data can exhibit various patterns, and it is often helpful to split a time series into several components, each representing an underlying pattern category. In the literature, a time series is usually decomposed into three components: a trend component, a seasonal component, and a remainder component. In the following, we consider the following classical decomposition:
@@ -341,43 +343,189 @@ Our aims are the following:
 
 ### Box-Cox transformations
 
-When decomposing a time series, it is sometimes helpful to first transform or adjust the series in order to make the decomposition (and later analysis) as simple as possible. So we will begin by discussing transformations and adjustments.
+When decomposing a time series, it is sometimes helpful to first transform or adjust the series in order to make the decomposition (and later analysis) as simple as possible. Transformations help to stabilize the variance. So we will begin by discussing transformations and adjustments.
 
 Each of these transformations is close to a member of the family of Box-Cox transformations:
 \[
-w_t =\left\{\begin{array}{ll}
-\log(y_t), & \lambda=0;\\
-(y_t^{\lambda}-1)/\lambda, & \lambda \neq 0.
+W_t =\left\{\begin{array}{ll}
+\log(Y_t), & \lambda=0;\\
+(Y_t^{\lambda}-1)/\lambda, & \lambda \neq 0.
 \end{array}
 \right.
 \]
 
 * $\lambda= 1$: (No substantive transformation);
 * $\lambda= 1/2$: (Square root plus linear transformation);
-* $\lambda= 0$: (Natural logarithm);
+* $\lambda= 0$: (Natural logarithm). This is a simple way to force forecasts to be positive;
 * $\lambda= -1$: (Inverse plus 1);
-* $y_t^{\lambda}=1$ for $\lambda$ close to zero behaves like logs;
-* If some $y_t = 0$, then must have $\lambda > 0$;
-* If some $y_t < 0$, no power transformation is possible unless all $y_t$ adjusted by adding a constant to all values;
-* Choose a simple value of $\lambda$. It makes explanation easier;
-* Results are relatively insensitive to value of $\lambda$;
-* Often no transformation ($\lambda= 1$) needed;
-* Transformation often makes little difference to forecasts but has large effect on PI;
-* Choosing $\lambda = 0$ is a simple way to force forecasts to be positive.
+* $Y_t^{\lambda}=1$ for $\lambda$ close to zero behaves like logs;
+* If some $Y_t = 0$, then must have $\lambda > 0$;
+* If some $Y_t < 0$, no power transformation is possible unless all $Y_t$ adjusted by adding a constant to all values;
+* Choose a simple value of $\lambda$, which makes explanation easier;
+* Results are relatively insensitive to value of $\lambda$.
 
 We must reverse the transformation (or back-transform) to obtain forecasts
 on the original scale. The reverse Box-Cox transformations are given by
 \[
-y_t=\left\{\begin{array}{ll}
-\exp(w_t), & \lambda=0;\\
-(\lambda w_t+1)^{1/\lambda}-1, & \lambda \neq 0.
+Y_t=\left\{\begin{array}{ll}
+\exp(W_t), & \lambda=0;\\
+(\lambda W_t+1)^{1/\lambda}-1, & \lambda \neq 0.
 \end{array}
 \right.
 \]
 
+### Methods for estimating the trend
+
+1. Polynomial regression 
+
+Simplest curve fit or approximation model, where the number of cases is approximated locally with polynomials of degree $d$.
+\[
+Y_t = \beta_0 + \beta_1 t + \beta_2 t^2 + \cdots + \beta_d t^d + Z_t,
+\]
+where $\{Z_t\}$ are IID gaussian noise.
+
+Figure \@ref(fig:predlm) of the 14 days ahead forecast of the daily death count for Florida using the linear regression method.
+
+```{r, warning=FALSE, message=FALSE}
+death_lmfit <- Florida.ts %>%  
+  model(TSLM(Y.Death ~ DATE)) 
+```
+
+```{r predlm, warning=FALSE, message=FALSE, echo=FALSE, fig.height=3, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using the linear regression method."}
+death_lmfit %>% forecast(h = 14) %>% 
+  autoplot(Florida.ts, level = 95) + 
+  autolayer(filter_index(dplyr::select(Florida.ts, Y.Death), 
+                         "2020-11-28" ~ .), color = "black") +
+  labs(y = "Death count", title = "Linear Regression Method")
+```
+
+Figure \@ref(fig:predlm) shows the 14 days ahead forecast of the daily death count for Florida using the linear regression method with the seasonal component: `season(7)`.
+
+```{r, warning=FALSE, message=FALSE}
+death_lmsfit <- Florida.ts %>%  
+  model(TSLM(Y.Death  ~ DATE + season(7))) 
+```
+```{r predlms, warning=FALSE, message=FALSE, echo=FALSE, fig.height=3, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using the linear regression method with the seasonal component."}
+death_lmsfit %>% forecast(h = 14) %>% 
+  autoplot(Florida.ts, level = 95) + 
+  autolayer(filter_index(dplyr::select(Florida.ts, Y.Death), 
+                         "2020-11-28" ~ .), color = "black") +
+  labs(y = "Death count", 
+     title = "Linear Regression Method with Seasonal Component")
+```
+
+2. Linear filtering
+
+For an integer $q\geq 0$, and filtering parameters $\{a_{-q},a_{-q+1},\ldots, a_0,a_1,\ldots,a_{q}\}$, we consider the following linear filter:
+\[
+\hat{m}_{t}=\sum_{k=-q}^{q}a_{k}X_{t-k}. 
+\]
+For example, if $a_{k}=1/(1+2q)$, then
+\[
+\hat{m}_{t}=\frac{1}{1+2q}\sum_{k=-q}^{q} m_{t-k}+\frac{1}{1+2q}\sum_{k=-q}^{q}Y_{t-k}
+\]
+is the two-sided moving average. We call this an $m$-MA smoothing, meaning a moving average of order $m=1+2q$. This method allows linear trend function $m_t=c_0+c_1t$ to pass without distortion: 
+\[
+\sum_{k=-q}^{q}a_{k}m_{t-k}=m_t.
+\]
+
+**Remarks:**
+
+The $m$-MA can be easily done using `slide_dbl()` from the slider package which applies a function to “sliding” time windows. We can use the `mean()` function to specify the window size.
+
+* For small $q$, $\hat{m}_{t}$ is more close to $m_t$, less bias, more variance;
+* For large $q$, more bias, less variance;
+* This is so called **variance-bias** trade-off in filtering.
+
+For example, we consider $q=2$ and $q=7$ below to have a 5-MA smoothing and a 15-MA smoothing, respectively. 
+
+```{r, warning=FALSE, message=FALSE}
+Florida.ts.MA5 <- Florida.ts %>%
+  mutate(
+    `5-MA` = slider::slide_dbl(Y.Death, mean,
+                .before = 2, .after = 2, .complete = TRUE)
+  )
+Florida.ts.MA15 <- Florida.ts %>%
+  mutate(
+    `15-MA` = slider::slide_dbl(Y.Death, mean,
+                .before = 7, .after = 7, .complete = TRUE)
+  )
+```
+
+To see what the trend-cycle estimate looks like, we plot the above two moving average trends along with the original data in Figure \@ref(fig:MA15).
+
+```{r MA15, warning=FALSE, message=FALSE, fig.height=3, fig.width=7, fig.align = "center", fig.cap="Florida daily new death count with the 5-MA (green) and 15-MA (red) smoothing of the trend."}
+Florida.ts %>% autoplot(Y.Death) +
+  autolayer(Florida.ts.MA5, `5-MA`, color = "green") +
+  autolayer(Florida.ts.MA15, `15-MA`, color = "red") +
+  labs(y = "Death count", 
+     title = "Florida daily new death count with moving average trend") +
+  guides(colour = guide_legend(title = "series"))
+```
+
+    
+3. Simple exponential smoothing
+
+Consider the following nonseasonal model with trend:
+\[
+Y_t=m_t+Z_t,
+\]
+where $\mathrm{E}Z_t=0$.
+
+We can estimate $m_t$ using simple exponential smoothing. For any fixed $0<\alpha<1$, consider $\hat{m}_t$ defined by the following recursions:
+
+\begin{eqnarray*}
+\hat{m}_1 &=& Y_1, \mathrm{~~and}\\
+\hat{m}_t &=& \alpha Y_t+(1-\alpha)\hat{m}_{t-1}\\
+          &=& \alpha Y_t+(1-\alpha)\{\alpha Y_{t-1}+(1-\alpha)\hat{m}_{t-2}\}\\
+          &=& \alpha Y_t+(1-\alpha)\alpha Y_{t-1}+(1-\alpha)^2\alpha X_{t-2}+(1-\alpha)^3\hat{m}_{t-3}\\
+          &=& \ldots
+\end{eqnarray*}
+
+with exponentially decreasing weights on previous observations: $\alpha(1-\alpha)^0$ on $Y_t$, $\alpha(1-\alpha)^1$ on $Y_{t-1}$, $\alpha(1-\alpha)^2$ on $Y_{t-2}$, $\ldots$
+
+* $\alpha\rightarrow 1$, less bias, more variance
+* $\alpha\rightarrow 0$, more bias, less variance
+
+This method is suitable for forecasting data with no clear trend or seasonal pattern. The function `ETS` function returns forecasts and other information for the simple exponential smoothing forecasts applied to `y`.
+
+```{r, warning=FALSE, message=FALSE}
+ets_fit <- Florida.ts %>% 
+  model(ETS(Y.Death 
+            ~ error("A") + trend("N") + season("N"), 
+            opt_crit = "mse")) 
+```
+```{r predses1, warning=FALSE, message=FALSE, echo=FALSE, fig.height=3, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using the simple exponential smoothing method."}
+ets_fit %>% forecast(h = 14) %>% 
+  autoplot(Florida.ts, level = 95) +
+  autolayer(filter_index(dplyr::select(Florida.ts, Y.Death), 
+                         "2020-11-28" ~ .), color = "black") +
+  labs(y = "Death count", 
+       title = "Simple Exponential Smoothing Method")
+```  
+
+The `ETS()` also allows you to extend the simple exponential smoothing to allow the forecasting of data with a trend and seasonality.
+
+```{r, warning=FALSE, message=FALSE}
+etss_fit <- Florida.ts %>% 
+  model(`ETS` = ETS(Y.Death 
+                       ~ error("A") + trend("A") + season("A"))) 
+```
+```{r predses2, warning=FALSE, message=FALSE, echo=FALSE, fig.height=3, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using the extended exponential smoothing method with trend and seasonality components."}
+etss_fit %>% forecast(h = 14) %>% 
+  autoplot(Florida.ts, level = 95) + 
+  autolayer(filter_index(dplyr::select(Florida.ts, Y.Death), 
+                         "2020-11-28" ~ .), color = "black") +
+  labs(y = "Death count", 
+       title = "Exponential Smoothing with Trend and Seasonal Components")
+```  
+
+
 ### Seasonal and trend decomposition using Loess (STL)
 
-`STL` developed by @Cleveland1990 is a versatile and robust method for decomposing time series. STL is an acronym for “Seasonal and Trend decomposition using Loess,” while Loess is a method for estimating nonlinear relationships.
+`STL` developed by @Cleveland1990 is a versatile and robust method for decomposing time series. STL is an acronym for “Seasonal and Trend decomposition using Loess,” while Loess is a method for estimating nonlinear relationships. 
+
+The algorithm updates trend and seasonal components iteratively: The seasonal values are removed, and the remainder smoothed to find the trend. The overall level is removed from the seasonal component and added to the trend component. This process is iterated a few times. The remainder component is the residuals from the seasonal plus trend fit.
 
 Below we will demonstrate how to use the `STL()` to decompose the time series of the daily new death count in Florida.
 
@@ -404,11 +552,11 @@ Next, we can draw the STL decomposition: trend, days of week effect and remainde
 components(dcmp) %>% autoplot()
 ```
 
-The `STL()` function also allows us to choose the trend window `trend(window = )` and the seasonal window `season(window = )`, which controls how rapidly the trend and seasonal components can change. The smaller the value, the more rapid the changes. The trend window is the number of consecutive observations to be used when estimating the trend-cycle; the season window is the number of consecutive days to estimate each value in the seasonal component. For example, Figure \@ref(fig:dcmp2) shows the trend, seasonality and residuals of the daily new death count time series in Florida based on `trend(window = 14)` and `season(window = 7)`. Both trend and seasonal windows should be odd numbers. 
+The `STL()` function also allows us to choose the trend window `trend(window = )` and the seasonal window `season(window = )`, which controls how rapidly the trend and seasonal components can change. The smaller the value, the more rapid the changes. The trend window is the number of consecutive observations to be used when estimating the trend-cycle; the season window is the number of consecutive days to estimate each value in the seasonal component. For example, Figure \@ref(fig:dcmp2) shows the trend, seasonality and residuals of the daily new death count time series in Florida based on `trend(window = 15)` and `season(window = 7)`. Both trend and seasonal windows should be odd numbers. 
 
 ```{r dcmp2, fig.align = "center", fig.cap="The trend, seasonality and residuals of the daily new death count time series in Florida based on trend window = 14 and seasonal window = 7."}
 Florida.ts %>%
-  model(STL(Y.Death ~ trend(window = 14) + season(window = 7),
+  model(STL(Y.Death ~ trend(window = 15) + season(window = 7),
             robust = TRUE
   )) %>%
   components() %>%
@@ -418,8 +566,6 @@ Florida.ts %>%
 
 ### Trend and seasonal estimation: 
 
-#### Method I
-  
 Step 1. Form preliminary estimate $\hat{m}_t$ of trend by passing data through filter/smoothing that eliminates $s_t$ as much as possible.
 
 Step 2. Subtract trend estimate from data: $u_t = x_t - \hat{m}_t$ .
@@ -432,25 +578,7 @@ Step 5. Form deseasonalized data: $d_t = x_t -\hat{s}_t$.
 
 Step 6. Use deseasonalized data to get final estimate $\hat{m}_t$ of trend.
 
-#### Method II
 
-Step 1. Apply a lag-$d$ differencing operator to $X_t$, then
-
-\begin{eqnarray*}
-(1-B^d)X_t&=&m_t-m_{t-d}+s_t-s_{t-d}+Y_t-Y_{t-d}\\
-&=&m_t-m_{t-d}+Y_t-Y_{t-d}.
-\end{eqnarray*}
-
-Step 2. Resulting model has a trend component defined by $m_t-m_{t-d}$ and a stochastic component given by $Y_t-Y_{t-d}$.
-  
-Step 3. Trend component can be eliminated by applying an appropriate power of differencing operator, say $(1-B)^{d^{\prime}}$. Thus, 
-\[
-  \underbrace{(1-B)^{d^{\prime}}}{}\underbrace{(1-B^d)}{}X_t
-  =\underbrace{(1-B)^{d^{\prime}}}{}\underbrace{(1-B^d)}{}m_t
-  +\underbrace{(1-B)^{d^{\prime}}}{}\underbrace{(1-B^d)}{}Y_t
-\]
-is a model for a series related to $\{x_t\}$ that is free of trend and
-seasonal components.
 
 ## Simple Time Series Forecasting Approaches
 
@@ -529,7 +657,7 @@ where $\{Z_t\}$ are i.i.d and follow a normal distribution.
 
 A variation on the random walk method allows the forecasts to increase or decrease over time, where the amount of change over time (called the **drift**) is set to be the average change seen in the historical data. Forecasts are given by
 \[
-\hat{Y}_{n+h|n}=\hat{c}h+Y_n=Y_n+h\frac{Y_n-Y_1}{n-1}.
+\hat{Y}_{n+h|n}=\hat{c}h+Y_n=Y_n+h\left(\frac{Y_n-Y_1}{n-1}\right).
 \]
 
 We use the `RW( ~ drift())` with `forecast(h)` provide to make an $h$ step ahead forecast.
@@ -542,18 +670,13 @@ Florida.ts %>%
   labs(y = "Death count", title = "Random Work Method with Drift")
 ```
 
-### Combining the forecasting results
+### Displaying all the forecasting results
 
-Now, let us combine all the forecasting results based on the previous methods together. Figure \ref(fig:pred4) shows the comparison among different methods.
+Now, let us display all the forecasting results based on the previous methods together. Figure \@ref(fig:pred4) shows the comparison among different methods.
 
-``````{r pred4, warning=FALSE, message=FALSE, fig.height=4, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using four differentt methods."}
-library(tsibble)
-# Set training data from JAN 23 to NOV 27
-train <- Florida.ts %>% 
-  filter_index("2020-01-23" ~ "2020-11-27")
-
+``````{r pred4, warning=FALSE, message=FALSE, fig.height=4, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using four different methods."}
 # Fit the models
-death_fit <- train %>%
+death_fit <- Florida.ts %>%
   model(
     Mean = MEAN(Y.Death),
     `RW` = RW(Y.Death),
@@ -564,7 +687,7 @@ death_fit <- train %>%
 death_fc <- death_fit %>% forecast(h = 14)
 # Plot forecasts against actual values
 death_fc %>%
-  autoplot(train, level = NULL) +
+  autoplot(Florida.ts, level = NULL) +
   autolayer(filter_index(dplyr::select(Florida.ts, Y.Death), 
                          "2020-11-28" ~ .), color = "black") +
   labs(y = "Death count", 
@@ -572,104 +695,42 @@ death_fc %>%
   guides(colour = guide_legend(title = "Forecast"))
 ```
 
-## Methods for Estimating the Trend
 
-1. Polynomial regression 
+### Distributional forecasts and prediction intervals
 
-Simplest curve fit or approximation model, where the number of cases is approximated locally with polynomials of degree $d$.
+#### Forecast distributions
+
+A forecast $\hat{Y}_{n+h|n}$ is (usually) the mean of the conditional distribution $Y_{n+h} \mid Y_1, \dots, Y_{n}$. Most time series models produce normally distributed forecasts. The forecast distribution describes the probability of observing any future value.
+
+Assuming residuals are normal, uncorrelated, with standard deviation $\hat\sigma$:
+
+* **Mean:**  $\hat{Y}_{n+h|n} \sim N(\bar{Y}, (1 + 1/n)\hat{\sigma}^2)$;
+* **Random walk:**  $\hat{Y}_{n+h|n} \sim N(Y_n, h\hat{\sigma}^2)$;
+* **Seasonal random walk:**  $\hat{Y}_{n+h|n} \sim N(Y_{n+h-m(k+1)}, (k+1)\hat{\sigma}^2)$, where $k$ is the integer part of $(h-1)/m$;
+* **Drift:**  $\hat{Y}_{n+h|n} \sim N(Y_n + \frac{h}{n-1}(Y_n - Y_1),h\frac{n+h}{n}\hat{\sigma}^2)$.
+
+Note that when $h=1$ and $n$ is large, these all give the same approximate forecast variance: $\hat{\sigma}^2$.
+
+#### Prediction intervals
+
+A prediction interval gives a region within which we expect $Y_{n+h}$ to lie with a specified probability. Assuming forecast errors are normally distributed, then a 95% PI is
 \[
-Y_t = \beta_0 + \beta_1 t + \beta_2 t^2 + \cdots + \beta_d t^d + Z_t,
+  \hat{Y}_{n+h|n} \pm 1.96 \hat\sigma_h
 \]
-where $\{Z_t\}$ are IID gaussian noise.
+where $\hat\sigma_h$ is the standard deviation of the $h$-step distribution. When $h=1$, $\hat\sigma_h$ can be estimated from the residuals.
 
-Figure \@ref(fig:predlm) of the 14 days ahead forecast of the daily death count for Florida using the linear regression method.
-
-```{r, warning=FALSE, message=FALSE}
-death_lmfit <- train %>%  
-  model(TSLM(Y.Death ~ DATE)) 
-```
-
-```{r predlm, warning=FALSE, message=FALSE, echo=FALSE, fig.height=3, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using the linear regression method."}
-death_lmfit %>% forecast(h = 14) %>% 
-  autoplot(train, level = 95) + 
-  autolayer(filter_index(dplyr::select(Florida.ts, Y.Death), 
-                         "2020-11-28" ~ .), color = "black") +
-  labs(y = "Death count", title = "Linear Regression Method")
-```
-
-Figure \@ref(fig:predlm) shows the 14 days ahead forecast of the daily death count for Florida using the linear regression method with the seasonal component: `season(7)`.
+We can use the `hilo()` function to convert the forecast distributions into intervals. By default, 80% and 95% prediction intervals are returned. We can use `level` argument to control coverage.
 
 ```{r, warning=FALSE, message=FALSE}
-death_lmsfit <- train %>%  
-  model(TSLM(Y.Death  ~ DATE + season(7))) 
+Florida.ts %>% 
+  model(RW(Y.Death ~ drift())) %>% 
+  forecast(h = 14) %>% 
+  hilo(level = 95)
 ```
-```{r predlms, warning=FALSE, message=FALSE, echo=FALSE, fig.height=3, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using the linear regression method with the seasonal component."}
-death_lmsfit %>% forecast(h = 14) %>% 
-  autoplot(train, level = 95) + 
-  autolayer(filter_index(dplyr::select(Florida.ts, Y.Death), 
-                         "2020-11-28" ~ .), color = "black") +
-  labs(y = "Death count", 
-     title = "Linear Regression Method with Seasonal Component")
-```
-    
-2. Simple exponential smoothing
 
-Consider the following nonseasonal model with trend:
-\[
-Y_t=m_t+Z_t,
-\]
-where $\mathrm{E}Z_t=0$.
+## Residual Diagnostics and Accuracy Evaluation
 
-We can estimate $m_t$ using simple exponential smoothing (SES). For any fixed $0<\alpha<1$, consider $\hat{m}_t$ defined by the following recursions:
-
-\begin{eqnarray*}
-\hat{m}_1 &=& Y_1, \mathrm{~~and}\\
-\hat{m}_t &=& \alpha Y_t+(1-\alpha)\hat{m}_{t-1}\\
-          &=& \alpha Y_t+(1-\alpha)\{\alpha Y_{t-1}+(1-\alpha)\hat{m}_{t-2}\}\\
-          &=& \alpha Y_t+(1-\alpha)\alpha Y_{t-1}+(1-\alpha)^2\alpha X_{t-2}+(1-\alpha)^3\hat{m}_{t-3}\\
-          &=& \ldots
-\end{eqnarray*}
-
-with exponentially decreasing weights on previous observations: $\alpha(1-\alpha)^0$ on $Y_t$, $\alpha(1-\alpha)^1$ on $Y_{t-1}$, $\alpha(1-\alpha)^2$ on $Y_{t-2}$, $\ldots$
-
-* $\alpha\rightarrow 1$, less bias, more variance
-* $\alpha\rightarrow 0$, more bias, less variance
-
-This method is suitable for forecasting data with no clear trend or seasonal pattern. The function `SES(y)` function returns forecasts and other information for the simple exponential smoothing forecasts applied to `y`.
-
-```{r, warning=FALSE, message=FALSE}
-ets_fit <- train %>% 
-  model(additive = ETS(Y.Death 
-                       ~ error("A") + trend("N") + season("N"), 
-                       opt_crit = "mse")) 
-```
-```{r predses1, warning=FALSE, message=FALSE, echo=FALSE, fig.height=3, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using the simple exponential smoothing method."}
-ets_fit %>% forecast(h = 14) %>% 
-  autoplot(train, level = 95) +
-  autolayer(filter_index(dplyr::select(Florida.ts, Y.Death), 
-                         "2020-11-28" ~ .), color = "black") +
-  labs(y = "Death count", 
-       title = "Simple Exponential Smoothing Method")
-```  
-
-The `ETS()` also allows you to extend the simple exponential smoothing to allow the forecasting of data with a trend and seasonality.
-
-```{r, warning=FALSE, message=FALSE}
-etss_fit <- train %>% 
-  model(additive = ETS(Y.Death 
-                       ~ error("A") + trend("A") + season("A"))) 
-```
-```{r predses2, warning=FALSE, message=FALSE, echo=FALSE, fig.height=3, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using the extended exponential smoothing method with trend and seasonality components."}
-etss_fit %>% forecast(h = 14) %>% 
-  autoplot(train, level = 95) + 
-  autolayer(filter_index(dplyr::select(Florida.ts, Y.Death), 
-                         "2020-11-28" ~ .), color = "black") +
-  labs(y = "Death count", 
-       title = "Exponential Smoothing with Trend and Seasonal Components")
-```  
-
-
-3. Residual diagnostics
+### Residual diagnostics
     
 The fitted values and residuals from a model can be obtained using the `augment()` function. In the above example, we saved the fitted models as beer_fit. So we can simply apply `augment()` to this object to compute the fitted values and residuals for all models.
 
@@ -711,8 +772,159 @@ gg_tsresiduals(etss_fit)
 
 These graphs show that the ETS method produces forecasts that appear to account for all available information. The residuals' mean is close to zero, and there is no significant correlation in the residuals series. The time plot of the residuals shows that the variation of the residuals stays much the same across the historical data, apart from the one outlier. Therefore the residual variance can be treated as constant. This can also be seen on the histogram of the residuals. The histogram suggests that the residuals seem to be normal. Consequently, forecasts from this method will probably be quite good, but prediction intervals that are computed assuming a normal distribution seem to be reasonable.
 
+Instead of checking to see whether each sample autocorrelation falls inside the bounds defined in \@ref(fig:resets) above, it is also possible to consider the portmanteau test such as the Ljung–Box test. The hypothesis of iid data is then rejected at level $\alpha$ if the p-value is smaller than $\alpha$.
 
-## ARMA Models 
+```{r, warning=FALSE, message=FALSE}
+augment(etss_fit) %>%
+features(.resid, ljung_box, lag=10, dof=0)
+```
+
+### Forecasting accuracy
+
+Cross-validation (CV) is a popular technique for model comparison. First, we split the dataset into a subset called the training set, and another subset called the test set; see Figure \@ref(fig:training). Then, we train the model on the training set, and record the forecast error on the test set.
+
+```{r training, out.width = "75%", echo=FALSE, fig.align = "center", fig.cap="Training and test sets."}
+knitr::include_graphics("figures/training.png")
+```
+
+**Forecast error** is defined as the difference between an observed value and its forecast:
+\[
+  e_{n+h} = Y_{n+h} - \hat{Y}_{n+h|n},
+\]
+where the training data is given by $\{Y_1,\ldots,Y_n\}$.
+
+For any $h=1,\dots,H$, let $Y_{n+h}$ be the $(n+h)$th observation. Next, let $\hat{Y}_{n+h|n}$ be its forecast based on data up to time $n$. Denote $e_{n+h}=Y_{n+h} - \hat{Y}_{n+h|n}$. For a continuous or discrete time series, a point forecast is usually preferred, such as the number of daily confirmed cases. To evaluate the quality of these point forecasts, several measures have been proposed:
+\begin{align*}
+\text{MAE}  &= \text{mean}(|e_{n+h}|)~~~~~
+\text{MSE}  = \text{mean}(e_{n+h}^2) \\
+\text{RMSE} &= \sqrt{\text{mean}(e_{n+h}^2)} ~~~~
+\text{MAPE} = 100\text{mean}(|e_{n+h}|/ |Y_{n+h}|)\\
+\text{MASE} &= \text{mean}(|e_{n+h}|/Q)~~~Q = (n-1)^{-1}\sum_{t=2}^n |Y_t-Y_{t-1}|
+\end{align*}
+
+Remark: MAE, MSE, RMSE are all scale dependent. MAPE and MASE are scale independent, but MAPE is more sensible than MASE. MAPE can be infinite or undefined if $Y_t=0$ for any $t$ in the period of interest, and having extreme values if any $Y_t$ is close to zero. 
+
+<!-- When choosing models, it is common practice to separate the available data into two portions, training and test data, where the training data is used to estimate any parameters of a forecasting method and the test data is used to evaluate its accuracy. Because the test data is not used in determining the forecasts, it should provide a reliable indication of how well the model is likely to forecast on new data. -->
+
+In the following, we divide the data `Florida.ts` into two parts: a training set (JAN 23 to NOV 27) and a validation set or test set (NOV 28 to DEC 11). The model is fit on the training set, and the fitted model is used to predict the responses for the observations in the test set. \@ref(fig:validation) shows the forecasts of the daily death count for NOV 28--DEC 11 based on the training data. 
+
+```{r validation, warning=FALSE, message=FALSE, fig.height=3, fig.width=7, fig.align = "center", fig.cap="Forecasts of the daily death count for NOV 28--DEC 11 based on the training data."}
+library(tsibble)
+# Set training data from JAN 23 to NOV 27
+train <- Florida.ts %>% 
+  filter_index("2020-01-23" ~ "2020-11-27")
+
+Reg_fit <- train %>% 
+  model(`LM` = TSLM(Y.Death  ~ DATE + season(7)),
+        `ETS` = ETS(Y.Death 
+                       ~ error("A") + trend("A") + season("A"))
+        ) 
+
+Reg_fc <- Reg_fit %>% forecast(h = 14) 
+
+Reg_fc %>% 
+  autoplot(train, level = 95) + 
+  autolayer(filter_index(dplyr::select(Florida.ts, Y.Death), 
+                         "2020-11-28" ~ .), color = "black") +
+  labs(y = "Death count", 
+       title = "Exponential Smoothing with 
+       Trend and Seasonal Components")
+```
+
+The `accuracy()` function can be used to obtain the accuracy of the forecast, which is able to automatically extract the relevant periods from the data (`Florida.ts` in this example) to match the forecasts when computing the various accuracy measures.
+
+```{r, warning=FALSE, message=FALSE}
+accuracy(Reg_fc, Florida.ts)
+```
+
+
+The Evaluating modelling accuracy chapter from the [Forecasting: Principles and Practices](https://otexts.com/fpp3/) textbook provides more detail in how modeling and forecasting accuracy is evaluated.
+
+
+## ARIMA Models 
+
+### Differencing
+When working with time series lags, it is useful to introduce the backward shift operator. Let $B$ be the backward shift operator such that $B^{k}f(t)=f(t-k)$. For example,
+\begin{eqnarray*}
+        B^{1}t &=& t-1,\\
+        B^{2}t &=& t-2,\\
+        B^{2}t^2 &=& (t-2)^2,\\
+        Bc &=& c~~~~~~(c \mathrm{~is~a~constant})
+\end{eqnarray*}
+
+Next we define $1-B$ as the difference operator. Using the difference operator, is easier to describe the process of differencing, e.g.
+\[
+(1-B)X_t=X_t-BX_t=X_t-X_{t-1}.
+\]
+
+Second-order differerence is denoted $(1-B)^2$, which is not the same as a second difference $1-B^2$. In general, a $d$th-order difference can be written as
+\[
+(1-B)^d X_t.
+\]
+
+Here are two more examples:
+
+* If $m_t=\alpha+\beta t$, then the first-order difference of $m_t$ is $(1-B)m_t=\beta$.
+* If $m_t=\alpha+\beta t+\gamma t^2$, then the second-order differences of $m_t$ is $(1-B)^2 m_t=2\gamma$.
+
+The backshift notation is particularly useful when combining differences, as the operator can be treated using ordinary algebraic rules. In particular, terms involving $B$ can be multiplied together.
+
+Let $1-B^k$ be the lag-$k$ difference operator, that is, 
+    \[
+   (1-B^k) X_t = X_t -X_{t-k}.
+    \]
+Applying lag-$d$ differencing to remove seasonal, we have 
+    \[
+    (1-B^d)s_t=s_{t}-B^{d}s_{t}=s_t-s_{t-d}=0.
+    \]
+Remark: In fact,
+    \[
+        \underset{}{(1-B^d)=}\underset{\mathrm{difference~operator}}{\underbrace{(1-B)}}
+        \underset{\mathrm{seasonal~summation~filter}}{\underbrace{[1+B+B^2+\cdots+B^{d-1}]}}
+    \]
+Note: $(1+B+B^2+\cdots+B^{d-1})s_{t}=s_{t}+s_{t-1}+\cdots+s_{t-(d-1)}=\sum_{j=0}^{d-1}s_{t-j}=0$.
+
+We can use the `difference()` function in the tsibble package, and two important arguments are: 
+
+* `lag`:	A positive integer indicating which lag to use.
+* `differences`:	A positive integer indicating the order of the difference.
+
+
+```{r, warning=FALSE, message=FALSE, fig.height=3, fig.width=7, fig.align = "center"}
+Florida.ts %>%
+  autoplot(Death)
+Florida.ts %>%
+  autoplot(Death %>% difference(1))
+Florida.ts %>%
+  autoplot(Death %>% difference(7))
+Florida.ts %>%
+  autoplot(Death %>% difference(1) %>% difference(7))
+```
+
+
+The following provides another method to eliminate the trend and seasonality using differencing. 
+
+Step 1. Apply a lag-$d$ differencing operator to $X_t$, then
+
+\begin{eqnarray*}
+(1-B^d)X_t&=&m_t-m_{t-d}+s_t-s_{t-d}+Y_t-Y_{t-d}\\
+&=&m_t-m_{t-d}+Y_t-Y_{t-d}.
+\end{eqnarray*}
+
+Step 2. Resulting model has a trend component defined by $m_t-m_{t-d}$ and a stochastic component given by $Y_t-Y_{t-d}$.
+  
+Step 3. Trend component can be eliminated by applying an appropriate power of differencing operator, say $(1-B)^{d^{\prime}}$. Thus, 
+\[
+  \underbrace{(1-B)^{d^{\prime}}}{}\underbrace{(1-B^d)}{}X_t
+  =\underbrace{(1-B)^{d^{\prime}}}{}\underbrace{(1-B^d)}{}m_t
+  +\underbrace{(1-B)^{d^{\prime}}}{}\underbrace{(1-B^d)}{}Y_t
+\]
+is a model for a series related to $\{x_t\}$ that is free of trend and
+seasonal components.
+
+### ARMA models
+
+This sections introduce an important parametric family of stationary time series, the autoregressive moving-average, or ARMA, processes.
 
 A process $\{X_t\}$ is said to be ARMA$(p,q)$ (for integers $p,q \geq 0$), or an AutoRegressive (AR) Moving Average (MA), with
 
@@ -727,14 +939,17 @@ if $\{X_t\}$ satisfies
 \phi(B)X_t = \theta(B)Z_t \quad \mathrm{for~all~integers~} t,
 \]
 
-with respect to some $\{Z_t\}\sim \mathrm{WN}(0,\sigma^2)$. That is,
+with respect to some $\{Z_t\}\sim \mathrm{WN}(0,\sigma^2)$, where $B$ is the backward shift operator. That is,
 
 \begin{eqnarray*}
 \phi(B)X_t &=& X_t -\phi_1 X_{t-1} -\phi_2 X_{t-2} - \cdots -\phi_p X_{t-p}\\
 &=&Z_t+\theta_1 Z_{t-1} +\theta_2 Z_{t-2} + \cdots +\theta_q Z_{t-q}=\theta(B)Z_t
 \end{eqnarray*}
 
-### Simple Examples of ARMA Models
+The time series $\{X_t\}$ is said to be an autoregressive process of order $p$ (or AR( p)) if
+$\theta(z) \equiv 1$, and a moving-average process of order $q$ (or MA(q)) if $\phi(z) \equiv 1$.
+
+### Simple examples of ARMA models
 
 * AR(1) or ARMA(1,0)
 \[
@@ -748,19 +963,20 @@ X_t=Z_{t}+\theta Z_{t-1}
 \]
 with AR polynomial: $\phi(z)=1$ and MA polynomial: $\theta(z)=1 +\theta z$. 
 
-A Remark of an ARMA Model:
+<!-- A Remark of an ARMA Model: -->
 
-If $\{X_t\}$ satisfies $\phi(B)X_t = \theta(B)Z_t$, then $\{X_t\}$ also satisfies
-\[
-(1 - aB)\phi(B)X_t = (1-aB)\theta(B)Z_t
-\]
-for any $a\in \mathbb{R}$. So, the same process $\{X_t\}$ would satisfy different ARMA models. 
+<!-- If $\{X_t\}$ satisfies $\phi(B)X_t = \theta(B)Z_t$, then $\{X_t\}$ also satisfies -->
+<!-- \[ -->
+<!-- (1 - aB)\phi(B)X_t = (1-aB)\theta(B)Z_t -->
+<!-- \] -->
+<!-- for any $a\in \mathbb‹€´π{R}$. So, the same process $\{X_t\}$ would satisfy different ARMA models.  -->
 
-In the ARMA definition, assume that the polynomials $\phi(z)$ and $\theta(z)$ have no common factors!
+<!-- In the ARMA definition, assume that the polynomials $\phi(z)$ and $\theta(z)$ have no common factors! -->
 
 
+### ARIMA models
 
-### ARIMA
+We consider a generalization of the ARMA models to incorporate a wide range of nonstationary series.
 
 A process $\{Y_t\}$ is said to be ARIMA$(p,d,q)$ (for integers $p,d,q \geq 0$), or an AutoRegressive (AR) Integrated (I) Moving Average (MA), if $\{Y_t\}$ satisfies
 
@@ -838,13 +1054,29 @@ df <- data.frame(Model = c("AR(p)", "MA(q)", "ARMA(p,q)"),
                  ACF = c("decays", "zero for h > q", "decays"), 
                  PACF = c("zero for h > p", "decays", "decays"))
 kable(df, col.names = c("Model", "ACF", "PACF"), 
-      escape = F, caption = "My caption") %>%
+      escape = F, caption = "ACF and PACF for ARMA models") %>%
  kable_styling(latex_options = "hold_position")
 ```
 
 ### Seasonal ARIMA model
 
-A seasonal ARIMA model is formed by including additional seasonal terms in the ARIMA models we have seen so far. It is written as follows:
+A seasonal ARIMA model is formed by including additional seasonal terms in the ARIMA models we have seen so far. 
+
+If $d$ and $D$ are nonnegative integers, then $\{X_t\}$ is a seasonal ARIMA$(p, d, q)\times (P, D, Q)_s$ process with period $s$ if the differenced series 
+\[
+Y_t =(1-B)^d(1-B^s)^DX_t
+\]
+is a causal ARMA process defined by
+\[
+\phi(B)\Phi(B^s)Y_t=\theta(B)\Theta(B^s)Z_t, ~~Z_t\sim WN(0,\sigma^2),
+\]
+where 
+\begin{eqnarray*}
+\phi(z) &=& 1 -\phi_1 z -\phi_2 z^2 - \cdots -\phi_p z^p, \\
+\Phi(z) &=& 1 -\Phi_1 z -\Phi_2 z^2 - \cdots -\Phi_p z^P, \\
+\theta(z) &=& 1 + \theta_1 z +\theta_2 z^2 + \cdots +\theta_q z^q,\\
+\Theta(z) &=& 1 + \Theta_1 z +\Theta_2 z^2 + \cdots +\Theta_q z^Q.
+\end{eqnarray*}
 
 **Pure seasonal ARMA Models**
 
@@ -886,6 +1118,20 @@ kable(df, col.names = c("Model", "ACF", "PACF"),
  kable_styling(latex_options = "hold_position")
 ```
 
+We can estimate an ARIMA model using the `ARIMA` function, which searches through the model space specified in the specials to identify the best ARIMA model which has lowest AIC, AICc or BIC value. We can specify an ARIMA model via the `formula` argument.
+
+* If the RHS of formula is left blank, the default search space is given by `pdq() + PDQ()`: that is, a model with candidate seasonal and nonseasonal terms, but no exogenous regressors.
+
+* To specify a model fully (avoid automatic selection), the intercept and `pdq()`, `PDQ()` values must be specified: for example,
+```{r eval=FALSE}
+formula = response ~ 1 + pdq(1, 1, 1) + PDQ(1, 0, 0)
+```
+     + The `pdq` special is used to specify non-seasonal components of the model.
+     + The `PDQ` special is used to specify seasonal components of the model. 
+     + To force a nonseasonal fit, specify `PDQ(0, 0, 0)` in the RHS of the model formula.
+     + The `period` argument is used in `PDQ` to specify the periodic nature of the seasonality.
+
+Below, we fit different ARIMA models for the daily death count, and conduct the two weeks ahead forecast.
 ```{r predarima, warning=FALSE, message=FALSE, fig.height=4, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using different ARIMA models."}
 death_arima <- train %>%
   model(
@@ -926,7 +1172,7 @@ death_arima %>%
 
 Exponential smoothing and ARIMA models are the two most widely used approaches to time series forecasting, and provide complementary approaches to the problem. While exponential smoothing models are based on a description of the trend and seasonality in the data, ARIMA models aim to describe the autocorrelations in the data.
 
-To compare how well the models fit the data, we can consider some common accuracy measures. It seems that on the training set the ETS model out-performs ARIMA for the series where travellers are on holiday, business, and visiting friends and relatives. The Evaluating modelling accuracy chapter from the [Forecasting: Principles and Practices](https://otexts.com/fpp3/) textbook provides more detail in how modelling and forecasting accuracy is evaluated.
+To compare how well the models fit the data, we can consider some common accuracy measures. It seems that on the training set the ETS model out-performs ARIMA for the series where travellers are on holiday, business, and visiting friends and relatives. 
 
 ```{r}
 death_fit <-  train %>%
@@ -978,7 +1224,7 @@ train %>% model(`ETS` = ETS(log(Y.Death+1)
 
 ### Forecasts constrained to an interval
 
-To see how to handle data constrained to an interval, imagine that the egg prices were constrained to lie within $[a,b]$. Then we can transform the data using a scaled logit transform as follows:  
+Sometimes it makes sense to assume that the number of deaths are constrained to lie within $[a,b]$. To handle data constrained to an interval, we can transform the data using a scaled logit transform as follows:  
 \[
 y=\log\left(\frac{x-a}{b-x}\right),
 \]
@@ -1008,7 +1254,7 @@ train %>%
   autoplot(train, level = 95)
 ```
 
-## Prediction intervals for aggregates
+## Prediction Intervals for Aggregates
 
 We considered the daily new death count in the above sections, but we may want to forecast the cumulative count.
 
