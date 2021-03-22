@@ -1,11 +1,260 @@
 # Neural Networks {#NN}
 
+Artificial Neural Network is computing system inspired by biological neural network that constitute animal brain. Such systems “learn” to perform tasks by considering examples, generally without being programmed with any task-specific rules.
 
 ## A Single Neuron
 
+The basic unit of computation in a neural network is the neuron, often called a node or unit. It receives input from some other nodes, or from an external source and computes an output. Each input has an associated weight ($w$), which is assigned on the basis of its relative importance to other inputs. The node applies a function $f$ (defined below) to the weighted sum of its inputs as shown in Figure \@ref(fig:NN1) below:
+  
+```{r NN1, out.width = "40%", echo=FALSE, fig.align = "center", fig.cap="An illustration of a single neuron."}
+knitr::include_graphics("figures/NN1.png")
+```
 
+The above network takes numerical inputs $X_0,X_1,X_2, X_3$ and has weights $w_0,w_1,w_2,w_3$ associated with those inputs. The output $Y$ from the neuron is computed as shown in the Figure \@ref(fig:NN1). The function $f$ is non-linear and is called the Activation Function. The purpose of the activation function is to introduce non-linearity into the output of a neuron. This is important because most real world data is non linear and we want neurons to learn these non linear representations.
+
+
+Every activation function (or non-linearity) takes a single number and performs a certain fixed mathematical operation on it. There are several activation functions you may encounter in practice:
+  
+**Sigmoid:** takes a real-valued input and squashes it to range between 0 and 1
+
+\[
+  \sigma(x) = 1 / (1 + \exp(-x))
+\]
+
+**tanh:** takes a real-valued input and squashes it to the range $[-1, 1]$
+
+\[
+  \tanh(x) = 2\sigma(2x) - 1
+\]
+
+**ReLU (Rectified Linear Unit):** it takes a real-valued input and thresholds it at zero (replaces negative values with zero)
+
+\[
+  f(x) = \max(0, x)
+\]
+
+Figure \@ref(fig:active) show each of the above activation functions.
+
+```{r active, out.width = "30%", echo=FALSE, fig.align = "center", fig.show='hold', fig.cap="An illustration of activation functions."}
+knitr::include_graphics(c("figures/sigmoid.pdf", "figures/tanh.pdf", "figures/relu.pdf"))
+```
+
+As the number of training data for each country is limited, we use a single-layer neural network called the extreme learning machine (ELM) to avoid over-fitting. Due to the non-stationary nature of the time-series, a sliding window approach is used to provide a more accurate prediction.
 
 ## Neural Network Structure
+
+Figure \@ref(fig:NN2) shows a neural network constructed from 3 type of layers:
+
+**Input Layer:** The Input layer has four nodes. The other two nodes take $X_1$, $X_2$ and $X_3$ as external inputs (which are numerical values depending upon the input dataset). As discussed above, no computation is performed in the Input layer, so the outputs from nodes in the Input layer are $X_0$, $X_1$, $X_2$ and $X_3$ respectively, which are fed into the Hidden Layer.
+
+**Hidden Layer:** The Hidden layer also has four nodes with the bias node $a_0^{(2)}$. The output of the other two nodes in the Hidden layer depends on the outputs from the Input layer $(X_0, X_1, X_2, X_3)$ as well as the weights associated with the connections (edges). Figure 4 shows the output calculation for one of the hidden nodes (highlighted). Similarly, the output from other hidden node can be calculated. Remember that $f$ refers to the activation function. These outputs are then fed to the nodes in the Output layer.
+
+**Output Layer:** The Output layer has one nodes which takes inputs from the Hidden layer and perform similar computations as shown for the highlighted hidden node. The value calculated $a_1^{(3)}$ as a result of these computations act as the output.
+
+```{r NN2, out.width = "75%", echo=FALSE, fig.align = "center", fig.cap="a neural network with one hidden layer."}
+knitr::include_graphics("figures/NN2.png")
+```
+
+In Figure \@ref(fig:NN2), 
+
+* $a^{(j)}_i$: activation of unit $i$ in layer $j$.
+* $\boldsymbol{\beta}^{(j)}$: weight matrix stores parameters from layer $j$ to layer $j+1$.
+* If network has $s_j$ units in layer $j$ and $s_{j+1}$ units in layer $j+1$, then $\boldsymbol{\beta}^{(j)}$ has dimension $s_{j+1} \times (s_j+1)$.
+
+\[
+\mathbf{X}= \begin{bmatrix}
+X_0 \\ 
+X_1 \\
+X_2 \\ 
+X_3 \\ 
+\end{bmatrix},
+\mathbf{A}= \begin{bmatrix}
+a_0^{(2)} \\ 
+a_1^{(2)} \\
+a_2^{(2)} \\ 
+a_3^{(2)} \\ 
+\end{bmatrix},
+\]
+
+In the regression, our objective function is
+\[
+\ell(\boldsymbol{\beta}^{(1)}, \ldots, \boldsymbol{\beta}^{(L)})= \sum_{i=1}^{N}(Y_i - \widehat{Y}_i)^2
+\]
+
+Gradient Descent:
+
+\[
+\boldsymbol{\beta}^{(j)} \leftarrow \boldsymbol{\beta}^{(j)} - \alpha \nabla_{\boldsymbol{\beta}^{(j)}} \ell(\boldsymbol{\beta}^{(1)}, \ldots, \boldsymbol{\beta}^{(L)}), 
+\]
+
+for all $j$.
+
+
+### Forward propagation
+
+```{r NN3, out.width = "60%", echo=FALSE, fig.align = "center", fig.cap="A neural network with one hidden layer."}
+knitr::include_graphics("figures/NN3.png")
+```
+
+We start with one single observation point $(Y_i, X_i)$.
+
+* $a^{(1)} = X_i$
+* $z^{(2)} = \boldsymbol{\beta}^{(1)}a^{(1)}$
+* $a^{(2)} = g(z^{(2)})$, (add $a^{(2)}_0$)
+* $z^{(3)} = \boldsymbol{\beta}^{(2)}a^{(2)}$
+* $a^{(3)} = g(z^{(3)})$, (add $a^{(3)}_0$)
+* $z^{(4)} = \boldsymbol{\beta}^{(3)}a^{(3)}$
+* $a^{(4)} = g(z^{(4)})$
+
+**Backpropagation: top layer**
+
+```{r back1, out.width = "50%", echo=FALSE, fig.align = "center", fig.cap="A neural network with one hidden layer."}
+knitr::include_graphics("figures/back1.png")
+```
+
+We want to find 
+\[
+\frac{\partial \ell}{\partial \beta_{01}^{(2)}}, \ldots, \frac{\partial \ell}{\partial \beta_{31}^{(2)}},
+\]
+\begin{align*}
+\frac{\partial \ell}{\partial \beta_{01}^{(2)}} & = \frac{\partial \ell}{\partial a_1^{(3)}}
+\frac{\partial a_1^{(3)}}{\partial z_1^{(3)}} \frac{\partial z_1^{(3)}}{\partial \beta_{01}^{(2)}}\\
+& = 2(Y-a_1^{(3)})g'_0(z_1^{(3)})a_0^{(2)},
+\end{align*}
+where $g'_0$ is the derivative fo the activation function in the output layer.
+
+Update $\beta_{01}^{(2)}$ by 
+\[
+\beta_{01}^{(2)} = \beta_{01}^{(2)} - \alpha \frac{\partial \ell}{\partial \beta_{01}^{(2)}}.
+\]
+
+**Backpropagation: next layer**
+
+```{r back2, out.width = "50%", echo=FALSE, fig.align = "center", fig.cap="a neural network with one hidden layer."}
+knitr::include_graphics("figures/back2.png")
+```
+
+We want to find 
+\[
+\frac{\partial \ell}{\partial \beta_{01}^{(1)}}, \cdots, \frac{\partial \ell}{\partial \beta_{03}^{(1)}},
+\]
+\begin{align*}
+\frac{\partial \ell}{\partial \beta_{01}^{(2)}} & = \frac{\partial \ell}{\partial a_1^{(3)}}
+\frac{\partial a_1^{(3)}}{\partial z_1^{(3)}} \frac{\partial z_1^{(3)}}{\partial \partial a_1^{(2)}} \frac{\partial a_1^{(2)}}{\partial z_1^{(2)}} \frac{\partial z_1^{(2)}}{\partial \beta_{01}^{(2)}}\\
+& = 2(Y-a_1^{(3)})g'_0(z_1^{(3)}) \beta^{(2)}_{11} g'_1(z_1^{(2)}) X_0,
+\end{align*}
+where $g'_0$ is the derivative fo the activation function in the output layer and $g'_1$ is the derivative fo the activation function in the Layer 2.
+
+Update $\beta_{01}^{(1)}$ by
+\[
+\beta_{01}^{(1)} = \beta_{01}^{(1)} - \alpha \frac{\partial \ell}{\partial \beta_{01}^{(1)}}.
+\]
+
+**Back Propagation: Jacobian Matrix**
+
+* The Jacobian matrix of a vector-valued function in several variables is the matrix of all its first-order partial derivatives. 
+
+* Suppose $\boldsymbol{f}: R^{n} \to R^{m}$, the Jacobian matrix of function $\boldsymbol{f}$ is
+\[
+\boldsymbol{J} = \frac{\partial \boldsymbol{f}}{\partial \boldsymbol{x}}
+ = \begin{bmatrix}
+\frac{\partial f_1}{\partial x_1}  & \ldots  &  \frac{\partial f_1}{\partial x_n} \\
+\vdots  & \ddots & \vdots \\
+\frac{\partial f_m}{\partial x_1}  & \ldots  &  \frac{\partial f_m}{\partial x_n} 
+\end{bmatrix}.
+\]
+
+* Chain rule:
+\[
+\frac{\partial \boldsymbol{f}\{{\boldsymbol{g}(\boldsymbol{x})\}}}{\partial \boldsymbol{x}} = \frac{\partial \boldsymbol{f}\{{\boldsymbol{g}(\boldsymbol{x})\}}}{\partial \boldsymbol{g}(\boldsymbol{x})}  \times 
+\frac{\boldsymbol{g}(\boldsymbol{x}) }{\partial \boldsymbol{x}} 
+\]
+
+
+## Overfitting
+
+Often neural networks have too many weights and will overfit the data, so we add a penalty to the error function: 
+\[
+\sum_{j = 1}^{L} \|\boldsymbol{\beta}^{(j)}\|_F,~\|\boldsymbol{\beta}^{(j)}\|_F= \sum_{k=1}^{s_j} \sum_{k=1}^{s_{j+1}}(\beta^{(j)}_{k,k'})^2,
+\]
+where $\|\boldsymbol{\beta}^{(j)}\|_F$ is the Frobenius norm of matrix $\boldsymbol{\beta}^{(j)}$.
+
+We minimize the following objective function
+\[
+\ell(\boldsymbol{\beta}^{(1)}, \ldots, \boldsymbol{\beta}^{(L)}) + \lambda \sum_{j = 1}^{L} \|\boldsymbol{\beta}^{(j)}\|_F,
+\]
+where $\|\cdot\|_F$ denotes the Frobenius norm.
+
+
+## Neural Network Auto-Regressive (NNAR) models
+
+Lagged values of the time series can be used as inputs to a neural network. In this section, we only consider feed-forward networks with one hidden layer, and we use the notation NNAR$(p,k)$ to indicate there are $p$ lagged inputs and $k$ nodes in the hidden layer. For example, a NNAR(9,5) model is a neural network with the last nine observations $(y_{t-1}, y_{t-2}, \ldots, y_{t-9})$ used as inputs for forecasting the output $y_t$, and with five neurons in the hidden layer. 
+
+NNAR$(p,0)$ model is equivalent to an ARIMA$(p,0,0)$ model but without stationarity restrictions, but without the restrictions on the parameters to ensure stationarity.
+
+For seasonal data, we can consider seasonal NNAR$(p,P,k)$, which use inputs $(Y_{t-1},Y_{t-2},\ldots, Y_{t-p}, Y_{t-m}, Y_{t-2m},\ldots, Y_{t-Pm})$ and $k$ neurons in the hidden layer. For example, an NNAR$(3,1,2)_{7}$ model has inputs $(Y_{t-1},Y_{t-2}, Y_{t-3}, Y_{t-7})$, and two neurons in the hidden layer. An NNAR$(p,P,0)_m$ model is equivalent to an ARIMA$(p,0,0)(P,0,0)_m$ model but without stationarity restrictions.
+
+**NNAR models in R**
+
+The `nnetar()` function fits an NNAR$(p,P,k)_m$ model. If $p$ and $P$ are not specified, they are automatically selected. For non-seasonal time series, default $p =$ optimal number of lags (according to the AIC) for a linear AR$(p)$ model. For seasonal time series, defaults are $P = 1$ and $P$ is chosen from the optimal linear model fitted to the seasonally adjusted data. Default $k = (p + P + 1)=2$ (rounded to the nearest integer).
+
+When it comes to forecasting, the network is applied iteratively. For forecasting one step ahead, we simply use the available historical inputs. For forecasting two steps ahead, we use the one-step forecast as an input, along with the historical data. This process proceeds until we have computed all the required forecasts.
+
+## COVID-19 Forecasting
+
+The number of cases, we define $x_n = (y_{n-w+1}, ..., y_{n-1}, y_n)^{\top}\in R^{w}$ and $t_n = y_{n+h}\in R$. We use cross-validation to find the proper window size $w$, number of hidden neurons $L$, and the regularization hyperparameter $\lambda$.
+
+The `nnetar` function in the `forecast` package for R fits a feed-forward neural networks model with a single hidden layer and lagged inputs for forecasting univariate time series. It uses lagged values of the time series as inputs (and possibly some other exogenous inputs). 
+
+To use the `forecast` package, it is better to store the time series as a `ts` object in R. Let us consider the time series of daily new death counts for Florida, and we first turn this into a `ts` object using the `ts` function. Since we have observed the 7-day cycle for this data, we can simply add a `frequency = 7` argument. 
+
+```{r, collapse=TRUE, message=FALSE, warning=FALSE}
+library(slid)
+library(dplyr)
+data(state.ts)
+
+Florida.ts <- state.ts %>%
+    dplyr::filter(State == "Florida")  
+
+y <- ts(Florida.ts$Y.Death, start = 2020-01-23, frequency = 7)
+```
+
+Simply applying the default `nnetar()` function, we obtain feed-forward neural networks model NNAR$(21,1,11)_7$. It is based on an average of 20 networks, each of which is NNAR$(21,1,11)_7$ with 254 weights.
+
+```{r nnetar1, warning=FALSE, message=FALSE, fig.height=3, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily new death count for Florida using nnetar."}
+library(forecast)
+set.seed(2020)
+fit <- nnetar(y)
+fit
+autoplot(forecast(fit, h = 14), xlab = "Days", 
+         ylab = "Daily new deaths")
+```
+
+We can also specify the `repeats` and `size` options in the `nnetar` function.
+
+* The `repeats` option of `nnetar` shows the number of networks (`default = 20`) to fit with different random starting weights. These networks are then averaged when producing forecasts.
+
+* The `size` option provides number of nodes in the hidden layer. Default is half of the number of input nodes (including external regressors, if given) plus 1.
+
+We can consider a Box-Cox transformation for the data. For example, if we want to restrict to positive values, we can consider a Box-Cox transformation parameter `lambda`. 
+
+If `lambda = auto`, then a transformation is automatically selected using `BoxCox.lambda`. The transformation is ignored if `NULL`. Otherwise, data transformed before model is estimated.
+
+```{r nnetar2, warning=FALSE, message=FALSE, fig.height=3, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily new death count for Florida using nnetar with predictions constrained to positive values."}
+fit <- nnetar(y + 1, lambda = 0, size = 5)
+autoplot(forecast(fit, h = 14), xlab = "Days", 
+         ylab = "Daily new deaths")
+```
+
+Note that the NNAR model is a nonlinear autogressive model, and it is not possible to analytically derive prediction intervals.
+
+```{r nnetar3, warning=FALSE, message=FALSE, fig.height=3, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast and prediction intervals of the daily new death count for Florida using nnetar with predictions constrained to positive values."}
+fcast <- forecast(fit, PI = TRUE, h = 14, npaths = 500)
+autoplot(fcast, xlab = "Days", ylab = "Daily new deaths")
+```
+
+Because it is a little slow, `PI = FALSE` is the default, so prediction intervals are not computed unless requested. The `npaths` argument in `forecast.nnetar` controls how many simulations are done (default 1000). By default, the errors are drawn from a normal distribution. The bootstrap argument allows the errors to be “bootstrapped” (i.e., randomly drawn from the historical errors).
+
 
 
 

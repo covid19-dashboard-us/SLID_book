@@ -90,6 +90,7 @@ fig:predlms
 fig:MA15
 fig:predses1
 fig:predses2
+fig:etssobs
 fig:dcmp1
 fig:dcmp2
 fig:predmean
@@ -109,6 +110,15 @@ fig:predetsarima
 fig:predetslog
 fig:predetslog2
 fig:predcum
+fig:NN1
+fig:active
+fig:NN2
+fig:NN3
+fig:back1
+fig:back2
+fig:nnetar1
+fig:nnetar2
+fig:nnetar3
 fig:Ricon
 fig:Rconsole1
 fig:Rconsole2
@@ -280,8 +290,9 @@ autocorrelation-1
 time-series-decomposition
 box-cox-transformations
 methods-for-estimating-the-trend
-seasonal-and-trend-decomposition-using-loess-stl
+seasonal-component
 trend-and-seasonal-estimation
+seasonal-and-trend-decomposition-using-loess-stl
 simple-time-series-forecasting-approaches
 average-method
 random-walk-forecasts
@@ -314,6 +325,10 @@ variable-selection
 NN
 a-single-neuron
 neural-network-structure
+forward-propagation
+overfitting
+neural-network-auto-regressive-nnar-models
+covid-19-forecasting
 ensemble
 ensembling-time-series-models
 model-diagnostics
