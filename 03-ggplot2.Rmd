@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The first thing to do in the epidemiologic data analysis task is to plot the data. Data visualization enables many features of the data to be displayed or summarized in a graphical format, including patterns, unusual observations, changes over time, spatial variations, and relationships among variables. The features that are seen in graphs of the data must then be incorporated, as much as possible, into the modeling or forecasting methods. 
+The first thing to do is to plot the data in the epidemiologic data analysis task. Data visualization enables many features of the data to be displayed or summarized in a graphical format, including patterns, changes over time, unusual observations, relationships among variables, and spatial variations. The features that are seen in graphs of the data must then be incorporated as much as possible into the modeling or forecasting methods. 
 
 There are many types of graphs available, each with its own strengths and use cases. One of the challenges in the statistical learning process is choosing the appropriate visualization method to represent the data. Before constructing any display of epidemiologic data, it is important to understand the type of task that we want to perform and determine the information to convey. Some common roles for data visualization include:
 
@@ -13,7 +13,7 @@ There are many types of graphs available, each with its own strengths and use ca
 * displaying the spatial variation in geographical data;
 * illustrating relationships among variables.
 
-When the data are more complex, graphs can help visualize broader patterns and trends and identify variations from those trends. Variations in data may represent important new findings or only errors in typing or coding which need to be corrected. Thus, graphs can be helpful tools to aid in verifying and analyzing the data. Once an analysis is complete, graphs further serve as useful visual aids for describing the data to others. 
+When the data is more complex, visualize broader patterns with graphs. Graphs can also visualize trends as well as identify variations from those trends. Variations in data may represent important new findings or could just be errors in typing or coding that need to be corrected. Thus, graphs can be helpful tools to aid in verifying and analyzing the data. Once an analysis is complete, graphs further serve as useful visual aids for describing the data to others. 
 
 This chapter will introduce the `ggplot2`, and we will gain insight and practical skills for visualization of infectious disease data.
 
@@ -33,17 +33,17 @@ In this chapter, we will introduce the basics of `ggplot2` grammar and some of t
 
 ## Types of Variables and Preparation
 
-When preparing graphs, keep in mind that the primary purpose is to communicate information. The types of variables we are analyzing and the media for the visualization can also affect your graphics practice.
+Keep in mind that the primary purpose of preparing graphs is to communicate information. The types of variables we are analyzing and the media for the visualization can also affect your graphics practice.
 
 ### Types of Variables
 
-In examining data, you must know which data type you are dealing with to choose the appropriate display format. The data are ususally in one of the following categories:
+When examining data, you must know which data type you are working with in order to choose an appropriate display format. The data are most likely going to be in one of the following categories:
 
 1. Categorical (Qualitative) variables
 
-* A **nominal** variable is one whose values are categories without any numerical ranking. Good examples are occupation, place of birth, county of residence and diagnosis. Nominal variable is called **dichotomous** when it is characterised by only two classes. In epidemiology, it is common to see  dichotomous variables: sex (male/female), exposure history (yes/no), alive or dead, ill or well, vaccinated or unvaccinated. 
+* A **nominal** variable is one whose values are categories without any numerical ranking. Good examples are occupation, place of birth, county of residence and diagnosis. Nominal variable is called **dichotomous** when it is characterised by only two classes. In epidemiology, it is common to see  dichotomous variables: sex (male/female), exposure history (yes/no), alive or dead, ill or well, vaccinated or un-vaccinated. 
 
-* An **ordinale** variable has values that can be ranked but are not necessarily evenly spaced. For example, severity of illness may be categorised and ordered as "mild", "moderate" or "severe".
+* An **ordinale** variable has values that can be ranked but are not necessarily evenly spaced. For example, severity of illness may be categorized and ordered as "mild", "moderate" or "severe".
 
 2. Numerical (Quantitative) variables
 
@@ -62,17 +62,17 @@ For example, the number of new cases of a certain disease in a given year.
 
 When designing graphs, we need to follow some rules to achieve the best practices, and @dicker1992principles suggests the following:
 
-* Ensure that a graphic can stand alone by clear labeling of title, source, axes, scales, and legends;
+* Check to ensure that a graphic can stand alone by clearly labeling the title, sources, axes, scales, and legends;
 
-* Clearly identify variables portrayed (legends or keys), including units of measure;
+* Identify variables portrayed (legends or keys), which includes units of measure;
 
-* Minimize number of lines on a graph;
+* Minimize the number of lines on a graph;
 
-* Generally, portray frequency on the vertical scale, starting at zero, and classification variable on horizontal scale;
+* Generally, we portray frequency on the vertical scale, starting at zero while we portray classification variable on the horizontal scale;
 
-* Ensure that scales for each axis are appropriate for data presented;
+* Check to ensure that the scales for each axis are appropriate for data presented;
 
-* Define any abbreviations or symbols; and
+* Define any abbreviations or symbols
 
 * Specify any data excluded.
 
@@ -101,9 +101,15 @@ library(ggplot2)
 library(dplyr)
 ```
 
-In the rest of this section, we demonstrate how to create a basic scatter plot and output the figure in “png” and “rds” format. To create a `ggplot2` plot, we need to know three key components: (1) A dataframe with each column being an attribute/variable, each row being an individual; (2) A set of aesthetic mappings between variables in the data and visual properties, and (3) At least one layer which describes how to render each observation. Layers are usually created with a `geom` function.
+In the rest of this section, we demonstrate how to create a basic scatter plot and output the figure in “png” and “rds” format. To create a `ggplot2` plot, we need to know three key components:
 
-“ggplot” generally likes data in the “long” format: i.e., a column for every dimension, and a row for every observation. For illustration, we are going to use the `state.long` dataset in the R package `slid`. To prepare the data, install the R package `slid` from Github using the following command, which includes the datasets that we use for this book. 
+* (1) A dataframe with each column being an attribute/variable, each row being an individual; 
+
+* (2) A set of aesthetic mappings between variables in the data and visual properties. 
+
+* (3) At least one layer which describes how to render each observation. Layers are usually created with a `geom` function.
+
+“ggplot” generally prefers data in the “long” format: i.e., a column for every dimension, and a row for every observation. For illustration, we are going to use the `state.long` data set in the R package `slid`. To prepare the data, install the R package `slid` from Github using the following command, which includes the data sets that we use for this book. 
 
 ```{r data_prep, echo = F, include=F, warning=FALSE, message=FALSE}
 # Obtain the data demonstrated in the chapter
@@ -391,9 +397,9 @@ p + guides(fill = guide_legend(reverse = TRUE))
 
 Conditioning on a categorical feature, or conditioning on groups, we may want to conduct a side-by-side comparison for a certain variable. We can use the following tools.
 
-> - Jittering, `geom_jitter()`, adds a little random noise to the data, which can help avoid overplotting.
-> - Boxplots, `geom_boxplot()`, summarize the shape of the distribution with a handful of summary statistics.
-> - Violin plots, `geom_violin()`, show a compact representation of the “density” of the distribution, highlighting the areas where more points are found.
+> - Jittering, `geom_jitter()`, adds a small amount of random noise to the data, which can help avoid over-plotting.
+> - Boxplots, `geom_boxplot()`, summarizes the shape of the distribution with summary statistics.
+> - Violin plots, `geom_violin()`, shows a compact representation of the “density” of the distribution and highlights the areas where more points are found.
 
 ```{r Boxplot3, fig.show="hold", out.width="50%", fig.cap='Points, jittering, boxplot, and violin plot examples'}
 df <- slid::state.long %>% 
@@ -410,8 +416,8 @@ p + geom_violin()
 
 ## Collective geoms
 
-An individual “geom” draws a distinct graphical object for each observation (row). For example, the “point geom” draws one point per row. 
-Several geoms can be added to the same ggplot object, which allows you to build up layers to create complex graphs and displays multiple observations with one geometric object. For example, we previously have created a scatter plot, and we can add regressed lines on the top of the scatter plot layer. You can add more information from a statistical summary, or add a text geom to annotate your plot. 
+An individual “geom” can draw a distinct graphical object for each observation (row). For example, the “point geom” draws one point per row. 
+Several "geoms" may be added to the same ggplot object, which will let you build layers to design complex graphs as well as displays multiple observations with one geometric object. For example, we have previously created a scatter plot, and then we can add regressed lines on the top of the scatter plot layer. You can add more information from a statistical summary, or add a text geom to annotate your plot. 
 
 ### Smoother
 
@@ -530,7 +536,7 @@ p
 
 ### Adjust the scale of time axis
 
-There are several ways to define the axis ticks of dates and times. There are the labeled **major breaks** and further the **minor breaks**, which are not labeled but marked by grid lines. These can be customized with the arguments `date_breaks` and `date_minor_breaks`, respectively. 
+There are multiple ways to define the ticks on the axis of dates and times. There are the labeled **major breaks** and further the **minor breaks**, which are not labeled but marked by grid lines. These can be customized with the arguments `date_breaks` and `date_minor_breaks`, respectively. 
 
 ```{r, out.width='100%', fig.align='center', warning=FALSE, message=FALSE, fig.cap='Time series plot with adjusted time range and format'}
 # Adjust the scale of time axis
@@ -553,7 +559,7 @@ In the above syntax, `date_labels` set to a string of formatting codes, defining
 
 ### Add annotations
 
-When constructing a data visualization, it is often necessary to make annotations to the data displayed. An annotation supplies additional information about the data being displayed. For example, adding text to a plot is one of the most common forms of annotation. The primary tool for labeling plots is `geom_text()`, which adds label text at the specified `x` and `y` positions. We can also add reference lines to the plot using `geom_vline` or `geom_hline`. Figure \@ref(annotate1) shows an annotated time series plot with shades and reference lines for each quarter.
+It is often necessary to make annotations to the data displayed when constructing a data visualization. An annotation provides additional information around what data is being displayed. For example, adding text to a plot is one of the most common forms of annotation. The primary tool for labeling plots is `geom_text()`, which adds label text at the specified `x` and `y` positions. We can also add reference lines to the plot using `geom_vline` or `geom_hline`. Figure \@ref(annotate1) shows an annotated time series plot with shades and reference lines for each quarter.
 
 ```{r annotate1, out.width='100%', fig.align='center', fig.cap='Time series plot with shades and reference lines.'}
 # Prepare the data

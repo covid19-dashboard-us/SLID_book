@@ -310,12 +310,13 @@ differencing
 arma-models
 simple-examples-of-arma-models
 arima-models-1
-seasonal-arima-model
+seasonal-arima-sarima-model
+building-sarima-models
 model-comparison
 ensuring-forecasts-stay-within-limits
 positive-forecasts
 forecasts-constrained-to-an-interval
-prediction-intervals-for-aggregates
+prediction-and-prediction-intervals-for-aggregates
 exercises-5
 references
 regression

@@ -24,7 +24,7 @@
 <meta name="author" content="Lily Wang" />
 
 
-<meta name="date" content="2021-03-22" />
+<meta name="date" content="2021-03-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="compartment.html"/>
 <link rel="next" href="regression.html"/>
-<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-3.5.1/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -52,7 +52,7 @@
 
 
 <script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
-<script src="libs/plotly-binding-4.9.3/plotly.js"></script>
+<script src="libs/plotly-binding-4.9.3.9000/plotly.js"></script>
 <script src="libs/typedarray-0.1/typedarray.min.js"></script>
 <link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
 <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
@@ -416,15 +416,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.6.2" data-path="timeseries.html"><a href="timeseries.html#arma-models"><i class="fa fa-check"></i><b>10.6.2</b> ARMA models</a></li>
 <li class="chapter" data-level="10.6.3" data-path="timeseries.html"><a href="timeseries.html#simple-examples-of-arma-models"><i class="fa fa-check"></i><b>10.6.3</b> Simple examples of ARMA models</a></li>
 <li class="chapter" data-level="10.6.4" data-path="timeseries.html"><a href="timeseries.html#arima-models-1"><i class="fa fa-check"></i><b>10.6.4</b> ARIMA models</a></li>
-<li class="chapter" data-level="10.6.5" data-path="timeseries.html"><a href="timeseries.html#seasonal-arima-model"><i class="fa fa-check"></i><b>10.6.5</b> Seasonal ARIMA model</a></li>
+<li class="chapter" data-level="10.6.5" data-path="timeseries.html"><a href="timeseries.html#seasonal-arima-sarima-model"><i class="fa fa-check"></i><b>10.6.5</b> Seasonal ARIMA (SARIMA) model</a></li>
+<li class="chapter" data-level="10.6.6" data-path="timeseries.html"><a href="timeseries.html#building-sarima-models"><i class="fa fa-check"></i><b>10.6.6</b> Building SARIMA Models</a></li>
 </ul></li>
 <li class="chapter" data-level="10.7" data-path="timeseries.html"><a href="timeseries.html#model-comparison"><i class="fa fa-check"></i><b>10.7</b> Model Comparison</a></li>
-<li class="chapter" data-level="10.8" data-path="timeseries.html"><a href="timeseries.html#ensuring-forecasts-stay-within-limits"><i class="fa fa-check"></i><b>10.8</b> Ensuring forecasts stay within limits</a>
+<li class="chapter" data-level="10.8" data-path="timeseries.html"><a href="timeseries.html#ensuring-forecasts-stay-within-limits"><i class="fa fa-check"></i><b>10.8</b> Ensuring Forecasts Stay Within Limits</a>
 <ul>
 <li class="chapter" data-level="10.8.1" data-path="timeseries.html"><a href="timeseries.html#positive-forecasts"><i class="fa fa-check"></i><b>10.8.1</b> Positive forecasts</a></li>
 <li class="chapter" data-level="10.8.2" data-path="timeseries.html"><a href="timeseries.html#forecasts-constrained-to-an-interval"><i class="fa fa-check"></i><b>10.8.2</b> Forecasts constrained to an interval</a></li>
 </ul></li>
-<li class="chapter" data-level="10.9" data-path="timeseries.html"><a href="timeseries.html#prediction-intervals-for-aggregates"><i class="fa fa-check"></i><b>10.9</b> Prediction Intervals for Aggregates</a></li>
+<li class="chapter" data-level="10.9" data-path="timeseries.html"><a href="timeseries.html#prediction-and-prediction-intervals-for-aggregates"><i class="fa fa-check"></i><b>10.9</b> Prediction and Prediction Intervals for Aggregates</a></li>
 <li class="chapter" data-level="10.10" data-path="timeseries.html"><a href="timeseries.html#exercises-5"><i class="fa fa-check"></i><b>10.10</b> Exercises</a></li>
 <li class="chapter" data-level="10.11" data-path="timeseries.html"><a href="timeseries.html#references"><i class="fa fa-check"></i><b>10.11</b> References</a></li>
 </ul></li>
@@ -1689,9 +1690,9 @@ decays
 </tbody>
 </table>
 </div>
-<div id="seasonal-arima-model" class="section level3" number="10.6.5">
-<h3><span class="header-section-number">10.6.5</span> Seasonal ARIMA model</h3>
-<p>A seasonal ARIMA model is formed by including additional seasonal terms in the ARIMA models we have seen so far.</p>
+<div id="seasonal-arima-sarima-model" class="section level3" number="10.6.5">
+<h3><span class="header-section-number">10.6.5</span> Seasonal ARIMA (SARIMA) model</h3>
+<p>A SARIMA model is formed by including additional seasonal terms in the ARIMA models we have seen so far.</p>
 <p>If <span class="math inline">\(d\)</span> and <span class="math inline">\(D\)</span> are nonnegative integers, then <span class="math inline">\(\{X_t\}\)</span> is a seasonal ARIMA<span class="math inline">\((p, d, q)\times (P, D, Q)_s\)</span> process with period <span class="math inline">\(s\)</span> if the differenced series
 <span class="math display">\[
 Y_t =(1-B)^d(1-B^s)^DX_t
@@ -1792,24 +1793,40 @@ decays
  + The `PDQ` special is used to specify seasonal components of the model. 
  + To force a nonseasonal fit, specify `PDQ(0, 0, 0)` in the RHS of the model formula.
  + The `period` argument is used in `PDQ` to specify the periodic nature of the seasonality.</code></pre>
-<p>Below, we fit different ARIMA models for the daily death count, and conduct the two weeks ahead forecast.</p>
-<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="timeseries.html#cb283-1" aria-hidden="true" tabindex="-1"></a>death_arima <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
-<span id="cb283-2"><a href="timeseries.html#cb283-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(</span>
-<span id="cb283-3"><a href="timeseries.html#cb283-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">arima210 =</span> <span class="fu">ARIMA</span>(Y.Death <span class="sc">~</span> <span class="fu">pdq</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">0</span>)),</span>
-<span id="cb283-4"><a href="timeseries.html#cb283-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">arima013 =</span> <span class="fu">ARIMA</span>(Y.Death <span class="sc">~</span> <span class="fu">pdq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">3</span>)),</span>
-<span id="cb283-5"><a href="timeseries.html#cb283-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">stepwise =</span> <span class="fu">ARIMA</span>(Y.Death),</span>
-<span id="cb283-6"><a href="timeseries.html#cb283-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">search =</span> <span class="fu">ARIMA</span>(Y.Death, <span class="at">stepwise=</span><span class="cn">FALSE</span>)</span>
-<span id="cb283-7"><a href="timeseries.html#cb283-7" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb283-8"><a href="timeseries.html#cb283-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate forecasts for the next 2 weeks</span></span>
-<span id="cb283-9"><a href="timeseries.html#cb283-9" aria-hidden="true" tabindex="-1"></a>death_fc <span class="ot">&lt;-</span> death_arima <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">14</span>)</span>
-<span id="cb283-10"><a href="timeseries.html#cb283-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot forecasts against actual values</span></span>
-<span id="cb283-11"><a href="timeseries.html#cb283-11" aria-hidden="true" tabindex="-1"></a>death_fc <span class="sc">%&gt;%</span></span>
-<span id="cb283-12"><a href="timeseries.html#cb283-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(train, <span class="at">level =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb283-13"><a href="timeseries.html#cb283-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(<span class="fu">filter_index</span>(dplyr<span class="sc">::</span><span class="fu">select</span>(Florida.ts, Y.Death), </span>
-<span id="cb283-14"><a href="timeseries.html#cb283-14" aria-hidden="true" tabindex="-1"></a>                         <span class="st">&quot;2020-11-28&quot;</span> <span class="sc">~</span> .), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
-<span id="cb283-15"><a href="timeseries.html#cb283-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Death count&quot;</span>, <span class="at">title =</span> <span class="st">&quot;Different ARIMA Forecasts&quot;</span>) <span class="sc">+</span></span>
-<span id="cb283-16"><a href="timeseries.html#cb283-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="st">&quot;Methods&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb283-17"><a href="timeseries.html#cb283-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
+</div>
+<div id="building-sarima-models" class="section level3" number="10.6.6">
+<h3><span class="header-section-number">10.6.6</span> Building SARIMA Models</h3>
+<p>The seasonal part of an AR or MA model can be seen in the seasonal lags of the PACF and ACF. For <code>Florida.ts</code>, after a lag 7 differencing, Figure <a href="timeseries.html#fig:acfpacf">10.9</a> shows the sample ACF and PACF plots. From Figure <a href="timeseries.html#fig:acfpacf">10.9</a>, we observe a spike at lag 7 in the ACF anda spike at lag 7 at the PACF but no other significant spikes. Therefore, we can specify <code>PDQ(1, 1, 1)</code> in the RHS of the model formula as below.</p>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="timeseries.html#cb283-1" aria-hidden="true" tabindex="-1"></a>sarima111 <span class="ot">&lt;-</span> Florida.ts <span class="sc">%&gt;%</span></span>
+<span id="cb283-2"><a href="timeseries.html#cb283-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="fu">ARIMA</span>(Y.Death <span class="sc">~</span> <span class="fu">PDQ</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>)))</span></code></pre></div>
+<p>We can use the function <code>report()</code> to obtain the formatted model-specific display.</p>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="timeseries.html#cb284-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">report</span>(sarima111)</span></code></pre></div>
+<pre><code>## Series: Y.Death 
+## Model: ARIMA(1,0,2)(1,1,1)[7] 
+## 
+## Coefficients:
+##          ar1      ma1      ma2    sar1     sma1
+##       0.9733  -0.7395  -0.0746  0.2611  -0.8071
+## s.e.  0.0166   0.0631   0.0598  0.1197   0.0946
+## 
+## sigma^2 estimated as 873.1:  log likelihood=-1522.67
+## AIC=3057.33   AICc=3057.6   BIC=3079.89</code></pre>
+<p>Below, we fit different SARIMA models for <code>Florida.ts</code>, and conduct the two weeks ahead forecast.</p>
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="timeseries.html#cb286-1" aria-hidden="true" tabindex="-1"></a>death_sarima <span class="ot">&lt;-</span> Florida.ts <span class="sc">%&gt;%</span></span>
+<span id="cb286-2"><a href="timeseries.html#cb286-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(</span>
+<span id="cb286-3"><a href="timeseries.html#cb286-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">sarima011 =</span> <span class="fu">ARIMA</span>(Y.Death <span class="sc">~</span> <span class="fu">PDQ</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>)),</span>
+<span id="cb286-4"><a href="timeseries.html#cb286-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sarima111 =</span> <span class="fu">ARIMA</span>(Y.Death <span class="sc">~</span> <span class="fu">PDQ</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>)),</span>
+<span id="cb286-5"><a href="timeseries.html#cb286-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">stepwise =</span> <span class="fu">ARIMA</span>(Y.Death),</span>
+<span id="cb286-6"><a href="timeseries.html#cb286-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">search =</span> <span class="fu">ARIMA</span>(Y.Death, <span class="at">stepwise=</span><span class="cn">FALSE</span>)</span>
+<span id="cb286-7"><a href="timeseries.html#cb286-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb286-8"><a href="timeseries.html#cb286-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate forecasts for the next 2 weeks</span></span>
+<span id="cb286-9"><a href="timeseries.html#cb286-9" aria-hidden="true" tabindex="-1"></a>death_fc <span class="ot">&lt;-</span> death_sarima <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">14</span>)</span>
+<span id="cb286-10"><a href="timeseries.html#cb286-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot forecasts against actual values</span></span>
+<span id="cb286-11"><a href="timeseries.html#cb286-11" aria-hidden="true" tabindex="-1"></a>death_fc <span class="sc">%&gt;%</span></span>
+<span id="cb286-12"><a href="timeseries.html#cb286-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(Florida.ts, <span class="at">level =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb286-13"><a href="timeseries.html#cb286-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Death count&quot;</span>, <span class="at">title =</span> <span class="st">&quot;Different ARIMA Forecasts&quot;</span>) <span class="sc">+</span></span>
+<span id="cb286-14"><a href="timeseries.html#cb286-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="st">&quot;Methods&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb286-15"><a href="timeseries.html#cb286-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:predarima"></span>
 <img src="SLID_book_files/figure-html/predarima-1.png" alt="Two weeks ahead forecast of the daily death count for Florida using different ARIMA models." width="672" />
 <p class="caption">
@@ -1817,48 +1834,34 @@ Figure 10.28: Two weeks ahead forecast of the daily death count for Florida usin
 </p>
 </div>
 <p>The <code>glance()</code> function provides a one-row summary of each model, and commonly includes descriptions of the model’s fit, such as the residual variance and information criteria. It is worth noticing that the information criteria (AIC, AICc, BIC) are only comparable between the same model class and only if those models share the same response (after transformations and differencing).</p>
-<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="timeseries.html#cb284-1" aria-hidden="true" tabindex="-1"></a>death_arima <span class="sc">%&gt;%</span></span>
-<span id="cb284-2"><a href="timeseries.html#cb284-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glance</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb284-3"><a href="timeseries.html#cb284-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(AICc)</span></code></pre></div>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="timeseries.html#cb287-1" aria-hidden="true" tabindex="-1"></a>death_sarima <span class="sc">%&gt;%</span></span>
+<span id="cb287-2"><a href="timeseries.html#cb287-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glance</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb287-3"><a href="timeseries.html#cb287-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(AICc)</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 9
-##   State   .model   sigma2 log_lik   AIC  AICc   BIC ar_roots
-##   &lt;fct&gt;   &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;list&gt;  
-## 1 Florida search     859.  -1453. 2919. 2920. 2945. &lt;cpl [3…
-## 2 Florida arima013   913.  -1458. 2926. 2926. 2945. &lt;cpl [0…
-## 3 Florida stepwise   903.  -1461. 2929. 2929. 2944. &lt;cpl [1…
-## 4 Florida arima210  1069.  -1482. 2973. 2973. 2992. &lt;cpl [2…
+##   State .model sigma2 log_lik   AIC  AICc   BIC ar_roots
+##   &lt;fct&gt; &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;list&gt;  
+## 1 Flor… search   841.  -1517. 3047. 3048. 3074. &lt;cpl [3…
+## 2 Flor… sarim…   873.  -1523. 3057. 3058. 3080. &lt;cpl [8…
+## 3 Flor… sarim…   884.  -1525. 3058. 3058. 3073. &lt;cpl [1…
+## 4 Flor… stepw…   884.  -1525. 3058. 3058. 3073. &lt;cpl [1…
 ## # … with 1 more variable: ma_roots &lt;list&gt;</code></pre>
-<p>If you’re working with a single model (or want to look at one model in particular), the <code>report()</code> function gives a familiar and nicely formatted model-specific display.</p>
-<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="timeseries.html#cb286-1" aria-hidden="true" tabindex="-1"></a>death_arima <span class="sc">%&gt;%</span></span>
-<span id="cb286-2"><a href="timeseries.html#cb286-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(arima210) <span class="sc">%&gt;%</span></span>
-<span id="cb286-3"><a href="timeseries.html#cb286-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">report</span>()</span></code></pre></div>
-<pre><code>## Series: Y.Death 
-## Model: ARIMA(2,1,0)(0,1,2)[7] 
-## 
-## Coefficients:
-##           ar1      ar2     sma1     sma2
-##       -0.5481  -0.3398  -0.5747  -0.0837
-## s.e.   0.0570   0.0552   0.0601   0.0615
-## 
-## sigma^2 estimated as 1069:  log likelihood=-1481.63
-## AIC=2973.27   AICc=2973.47   BIC=2991.82</code></pre>
 </div>
 </div>
 <div id="model-comparison" class="section level2" number="10.7">
 <h2><span class="header-section-number">10.7</span> Model Comparison</h2>
 <p>Exponential smoothing and ARIMA models are the two most widely used approaches to time series forecasting, and provide complementary approaches to the problem. While exponential smoothing models are based on a description of the trend and seasonality in the data, ARIMA models aim to describe the autocorrelations in the data.</p>
 <p>To compare how well the models fit the data, we can consider some common accuracy measures. It seems that on the training set the ETS model out-performs ARIMA for the series where travellers are on holiday, business, and visiting friends and relatives.</p>
-<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="timeseries.html#cb288-1" aria-hidden="true" tabindex="-1"></a>death_fit <span class="ot">&lt;-</span>  train <span class="sc">%&gt;%</span></span>
-<span id="cb288-2"><a href="timeseries.html#cb288-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(</span>
-<span id="cb288-3"><a href="timeseries.html#cb288-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">ETS</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">ETS</span>(Y.Death </span>
-<span id="cb288-4"><a href="timeseries.html#cb288-4" aria-hidden="true" tabindex="-1"></a>                <span class="sc">~</span> <span class="fu">error</span>(<span class="st">&quot;A&quot;</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">&quot;A&quot;</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">&quot;A&quot;</span>)),  </span>
-<span id="cb288-5"><a href="timeseries.html#cb288-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">ARIMA</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">ARIMA</span>(Y.Death, <span class="at">stepwise=</span><span class="cn">FALSE</span>)</span>
-<span id="cb288-6"><a href="timeseries.html#cb288-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb288-7"><a href="timeseries.html#cb288-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb288-8"><a href="timeseries.html#cb288-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Model fitting results of ARIMA</span></span>
-<span id="cb288-9"><a href="timeseries.html#cb288-9" aria-hidden="true" tabindex="-1"></a>death_fit <span class="sc">%&gt;%</span></span>
-<span id="cb288-10"><a href="timeseries.html#cb288-10" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(ARIMA) <span class="sc">%&gt;%</span></span>
-<span id="cb288-11"><a href="timeseries.html#cb288-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">report</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="timeseries.html#cb289-1" aria-hidden="true" tabindex="-1"></a>death_fit <span class="ot">&lt;-</span>  train <span class="sc">%&gt;%</span></span>
+<span id="cb289-2"><a href="timeseries.html#cb289-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(</span>
+<span id="cb289-3"><a href="timeseries.html#cb289-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">ETS</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">ETS</span>(Y.Death </span>
+<span id="cb289-4"><a href="timeseries.html#cb289-4" aria-hidden="true" tabindex="-1"></a>                <span class="sc">~</span> <span class="fu">error</span>(<span class="st">&quot;A&quot;</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">&quot;A&quot;</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">&quot;A&quot;</span>)),  </span>
+<span id="cb289-5"><a href="timeseries.html#cb289-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">ARIMA</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">ARIMA</span>(Y.Death, <span class="at">stepwise=</span><span class="cn">FALSE</span>)</span>
+<span id="cb289-6"><a href="timeseries.html#cb289-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb289-7"><a href="timeseries.html#cb289-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb289-8"><a href="timeseries.html#cb289-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Model fitting results of ARIMA</span></span>
+<span id="cb289-9"><a href="timeseries.html#cb289-9" aria-hidden="true" tabindex="-1"></a>death_fit <span class="sc">%&gt;%</span></span>
+<span id="cb289-10"><a href="timeseries.html#cb289-10" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(ARIMA) <span class="sc">%&gt;%</span></span>
+<span id="cb289-11"><a href="timeseries.html#cb289-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">report</span>()</span></code></pre></div>
 <pre><code>## Series: Y.Death 
 ## Model: ARIMA(3,0,2)(0,1,1)[7] 
 ## 
@@ -1869,27 +1872,27 @@ Figure 10.28: Two weeks ahead forecast of the daily death count for Florida usin
 ## 
 ## sigma^2 estimated as 858.6:  log likelihood=-1452.72
 ## AIC=2919.44   AICc=2919.82   BIC=2945.43</code></pre>
-<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="timeseries.html#cb290-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate the modeling and forecasting accuracy</span></span>
-<span id="cb290-2"><a href="timeseries.html#cb290-2" aria-hidden="true" tabindex="-1"></a>death_fit <span class="sc">%&gt;%</span> </span>
-<span id="cb290-3"><a href="timeseries.html#cb290-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">accuracy</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb290-4"><a href="timeseries.html#cb290-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(MASE)</span></code></pre></div>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="timeseries.html#cb291-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate the modeling and forecasting accuracy</span></span>
+<span id="cb291-2"><a href="timeseries.html#cb291-2" aria-hidden="true" tabindex="-1"></a>death_fit <span class="sc">%&gt;%</span> </span>
+<span id="cb291-3"><a href="timeseries.html#cb291-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">accuracy</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb291-4"><a href="timeseries.html#cb291-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(MASE)</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 11
 ##   State   .model .type      ME  RMSE   MAE   MPE  MAPE  MASE
 ##   &lt;fct&gt;   &lt;chr&gt;  &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ## 1 Florida ARIMA  Traini… 1.00   28.7  17.7   NaN   Inf 0.813
 ## 2 Florida ETS    Traini… 0.138  29.9  18.2   NaN   Inf 0.835
 ## # … with 2 more variables: RMSSE &lt;dbl&gt;, ACF1 &lt;dbl&gt;</code></pre>
-<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="timeseries.html#cb292-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate forecasts for the next 2 weeks</span></span>
-<span id="cb292-2"><a href="timeseries.html#cb292-2" aria-hidden="true" tabindex="-1"></a>death_fc <span class="ot">&lt;-</span> death_fit <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">14</span>)</span>
-<span id="cb292-3"><a href="timeseries.html#cb292-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb292-4"><a href="timeseries.html#cb292-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot forecasts against actual values</span></span>
-<span id="cb292-5"><a href="timeseries.html#cb292-5" aria-hidden="true" tabindex="-1"></a>death_fc <span class="sc">%&gt;%</span></span>
-<span id="cb292-6"><a href="timeseries.html#cb292-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(train, <span class="at">level =</span> <span class="dv">95</span>) <span class="sc">+</span></span>
-<span id="cb292-7"><a href="timeseries.html#cb292-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(<span class="fu">filter_index</span>(dplyr<span class="sc">::</span><span class="fu">select</span>(Florida.ts, Y.Death), </span>
-<span id="cb292-8"><a href="timeseries.html#cb292-8" aria-hidden="true" tabindex="-1"></a>                         <span class="st">&quot;2020-11-28&quot;</span> <span class="sc">~</span> .), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
-<span id="cb292-9"><a href="timeseries.html#cb292-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Death count&quot;</span>, <span class="at">title =</span> <span class="st">&quot;ETS vs ARIMA Forecasts&quot;</span>) <span class="sc">+</span></span>
-<span id="cb292-10"><a href="timeseries.html#cb292-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="st">&quot;Forecasts&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb292-11"><a href="timeseries.html#cb292-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="timeseries.html#cb293-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate forecasts for the next 2 weeks</span></span>
+<span id="cb293-2"><a href="timeseries.html#cb293-2" aria-hidden="true" tabindex="-1"></a>death_fc <span class="ot">&lt;-</span> death_fit <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">14</span>)</span>
+<span id="cb293-3"><a href="timeseries.html#cb293-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb293-4"><a href="timeseries.html#cb293-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot forecasts against actual values</span></span>
+<span id="cb293-5"><a href="timeseries.html#cb293-5" aria-hidden="true" tabindex="-1"></a>death_fc <span class="sc">%&gt;%</span></span>
+<span id="cb293-6"><a href="timeseries.html#cb293-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(train, <span class="at">level =</span> <span class="dv">95</span>) <span class="sc">+</span></span>
+<span id="cb293-7"><a href="timeseries.html#cb293-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(<span class="fu">filter_index</span>(dplyr<span class="sc">::</span><span class="fu">select</span>(Florida.ts, Y.Death), </span>
+<span id="cb293-8"><a href="timeseries.html#cb293-8" aria-hidden="true" tabindex="-1"></a>                         <span class="st">&quot;2020-11-28&quot;</span> <span class="sc">~</span> .), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb293-9"><a href="timeseries.html#cb293-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Death count&quot;</span>, <span class="at">title =</span> <span class="st">&quot;ETS vs ARIMA Forecasts&quot;</span>) <span class="sc">+</span></span>
+<span id="cb293-10"><a href="timeseries.html#cb293-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="st">&quot;Forecasts&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb293-11"><a href="timeseries.html#cb293-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:predetsarima"></span>
 <img src="SLID_book_files/figure-html/predetsarima-1.png" alt="Two weeks ahead forecast of the daily death count for Florida using ETS and ARIMA models." width="672" />
 <p class="caption">
@@ -1898,15 +1901,15 @@ Figure 10.29: Two weeks ahead forecast of the daily death count for Florida usin
 </div>
 </div>
 <div id="ensuring-forecasts-stay-within-limits" class="section level2" number="10.8">
-<h2><span class="header-section-number">10.8</span> Ensuring forecasts stay within limits</h2>
+<h2><span class="header-section-number">10.8</span> Ensuring Forecasts Stay Within Limits</h2>
 <p>It is common to want forecasts to be positive, or to require them to be within some specified range <span class="math inline">\([a,b]\)</span>. Both of these situations are relatively easy to handle using transformations.</p>
 <div id="positive-forecasts" class="section level3" number="10.8.1">
 <h3><span class="header-section-number">10.8.1</span> Positive forecasts</h3>
 <p>To impose a positivity constraint, we can simply work on the log scale. Here is an example using ETS models applied to the daily new death count time series for Florida.</p>
-<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="timeseries.html#cb293-1" aria-hidden="true" tabindex="-1"></a>train <span class="sc">%&gt;%</span> <span class="fu">model</span>(<span class="st">`</span><span class="at">ETS</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">ETS</span>(<span class="fu">log</span>(Y.Death<span class="sc">+</span><span class="dv">1</span>) </span>
-<span id="cb293-2"><a href="timeseries.html#cb293-2" aria-hidden="true" tabindex="-1"></a>                <span class="sc">~</span> <span class="fu">error</span>(<span class="st">&quot;A&quot;</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">&quot;A&quot;</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">&quot;A&quot;</span>))) <span class="sc">%&gt;%</span> </span>
-<span id="cb293-3"><a href="timeseries.html#cb293-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">14</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb293-4"><a href="timeseries.html#cb293-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(train, <span class="at">level =</span> <span class="dv">95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="timeseries.html#cb294-1" aria-hidden="true" tabindex="-1"></a>train <span class="sc">%&gt;%</span> <span class="fu">model</span>(<span class="st">`</span><span class="at">ETS</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">ETS</span>(<span class="fu">log</span>(Y.Death<span class="sc">+</span><span class="dv">1</span>) </span>
+<span id="cb294-2"><a href="timeseries.html#cb294-2" aria-hidden="true" tabindex="-1"></a>                <span class="sc">~</span> <span class="fu">error</span>(<span class="st">&quot;A&quot;</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">&quot;A&quot;</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">&quot;A&quot;</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb294-3"><a href="timeseries.html#cb294-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">14</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb294-4"><a href="timeseries.html#cb294-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(train, <span class="at">level =</span> <span class="dv">95</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:predetslog"></span>
 <img src="SLID_book_files/figure-html/predetslog-1.png" alt="Two weeks ahead forecast of the daily death count for Florida using ETS, constrained to be positive." width="672" />
 <p class="caption">
@@ -1925,19 +1928,19 @@ where <span class="math inline">\(x\)</span> is on the original scale and <span 
 x=\frac{(b-a)e^y}{1+e^y}+a.
 \]</span>
 This is not a built-in transformation, so we will need to first setup the transformation functions.</p>
-<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="timeseries.html#cb294-1" aria-hidden="true" tabindex="-1"></a>scaled_logit <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">1</span>){</span>
-<span id="cb294-2"><a href="timeseries.html#cb294-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">log</span>((x <span class="sc">-</span> lower) <span class="sc">/</span> (upper <span class="sc">-</span> x))</span>
-<span id="cb294-3"><a href="timeseries.html#cb294-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb294-4"><a href="timeseries.html#cb294-4" aria-hidden="true" tabindex="-1"></a>inv_scaled_logit <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">1</span>){</span>
-<span id="cb294-5"><a href="timeseries.html#cb294-5" aria-hidden="true" tabindex="-1"></a>  (upper <span class="sc">-</span> lower) <span class="sc">*</span> <span class="fu">exp</span>(x) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(x)) <span class="sc">+</span> lower</span>
-<span id="cb294-6"><a href="timeseries.html#cb294-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb294-7"><a href="timeseries.html#cb294-7" aria-hidden="true" tabindex="-1"></a>my_scaled_logit <span class="ot">&lt;-</span> <span class="fu">new_transformation</span>(scaled_logit, inv_scaled_logit)</span></code></pre></div>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="timeseries.html#cb295-1" aria-hidden="true" tabindex="-1"></a>scaled_logit <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">1</span>){</span>
+<span id="cb295-2"><a href="timeseries.html#cb295-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">log</span>((x <span class="sc">-</span> lower) <span class="sc">/</span> (upper <span class="sc">-</span> x))</span>
+<span id="cb295-3"><a href="timeseries.html#cb295-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb295-4"><a href="timeseries.html#cb295-4" aria-hidden="true" tabindex="-1"></a>inv_scaled_logit <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">1</span>){</span>
+<span id="cb295-5"><a href="timeseries.html#cb295-5" aria-hidden="true" tabindex="-1"></a>  (upper <span class="sc">-</span> lower) <span class="sc">*</span> <span class="fu">exp</span>(x) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(x)) <span class="sc">+</span> lower</span>
+<span id="cb295-6"><a href="timeseries.html#cb295-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb295-7"><a href="timeseries.html#cb295-7" aria-hidden="true" tabindex="-1"></a>my_scaled_logit <span class="ot">&lt;-</span> <span class="fu">new_transformation</span>(scaled_logit, inv_scaled_logit)</span></code></pre></div>
 <p>Now, we can make the prediction based on the transfromed time series. Let us consider the forecast within <span class="math inline">\([0,300]\)</span>.</p>
-<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="timeseries.html#cb295-1" aria-hidden="true" tabindex="-1"></a>train <span class="sc">%&gt;%</span></span>
-<span id="cb295-2"><a href="timeseries.html#cb295-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="fu">ETS</span>(<span class="fu">my_scaled_logit</span>(Y.Death <span class="sc">+</span> <span class="dv">1</span>, <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">300</span>) <span class="sc">~</span> </span>
-<span id="cb295-3"><a href="timeseries.html#cb295-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">error</span>(<span class="st">&quot;A&quot;</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">&quot;A&quot;</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">&quot;A&quot;</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb295-4"><a href="timeseries.html#cb295-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">14</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb295-5"><a href="timeseries.html#cb295-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(train, <span class="at">level =</span> <span class="dv">95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="timeseries.html#cb296-1" aria-hidden="true" tabindex="-1"></a>train <span class="sc">%&gt;%</span></span>
+<span id="cb296-2"><a href="timeseries.html#cb296-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="fu">ETS</span>(<span class="fu">my_scaled_logit</span>(Y.Death <span class="sc">+</span> <span class="dv">1</span>, <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">300</span>) <span class="sc">~</span> </span>
+<span id="cb296-3"><a href="timeseries.html#cb296-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">error</span>(<span class="st">&quot;A&quot;</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">&quot;A&quot;</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">&quot;A&quot;</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb296-4"><a href="timeseries.html#cb296-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">14</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb296-5"><a href="timeseries.html#cb296-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(train, <span class="at">level =</span> <span class="dv">95</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:predetslog2"></span>
 <img src="SLID_book_files/figure-html/predetslog2-1.png" alt="Two weeks ahead forecast of the daily death count for Florida using ETS, constrained to be within [0,300]." width="672" />
 <p class="caption">
@@ -1946,57 +1949,57 @@ Figure 10.31: Two weeks ahead forecast of the daily death count for Florida usin
 </div>
 </div>
 </div>
-<div id="prediction-intervals-for-aggregates" class="section level2" number="10.9">
-<h2><span class="header-section-number">10.9</span> Prediction Intervals for Aggregates</h2>
+<div id="prediction-and-prediction-intervals-for-aggregates" class="section level2" number="10.9">
+<h2><span class="header-section-number">10.9</span> Prediction and Prediction Intervals for Aggregates</h2>
 <p>We considered the daily new death count in the above sections, but we may want to forecast the cumulative count.</p>
 <p>If the point forecasts are means, then adding them up will give a reasonable estimate of the total. But prediction intervals are more tricky due to the correlations between forecast errors. A general solution is to use simulations. For example, we consider the forecast of the cumulative death count in the next two weeks.</p>
-<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="timeseries.html#cb296-1" aria-hidden="true" tabindex="-1"></a>d_ets_fit <span class="ot">&lt;-</span>  train <span class="sc">%&gt;%</span> <span class="fu">model</span>(</span>
-<span id="cb296-2"><a href="timeseries.html#cb296-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">ETS</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">ETS</span>(Y.Death </span>
-<span id="cb296-3"><a href="timeseries.html#cb296-3" aria-hidden="true" tabindex="-1"></a>                <span class="sc">~</span> <span class="fu">error</span>(<span class="st">&quot;A&quot;</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">&quot;A&quot;</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">&quot;A&quot;</span>)) </span>
-<span id="cb296-4"><a href="timeseries.html#cb296-4" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb296-5"><a href="timeseries.html#cb296-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb296-6"><a href="timeseries.html#cb296-6" aria-hidden="true" tabindex="-1"></a>d.pred.paths <span class="ot">&lt;-</span> d_ets_fit <span class="sc">%&gt;%</span></span>
-<span id="cb296-7"><a href="timeseries.html#cb296-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Simulate 10000 future sample paths, each of length 14</span></span>
-<span id="cb296-8"><a href="timeseries.html#cb296-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generate</span>(<span class="at">times =</span> <span class="dv">10000</span>, <span class="at">h =</span> <span class="dv">14</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb296-9"><a href="timeseries.html#cb296-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Sum the results for each sample path</span></span>
-<span id="cb296-10"><a href="timeseries.html#cb296-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb296-11"><a href="timeseries.html#cb296-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(.rep) <span class="sc">%&gt;%</span></span>
-<span id="cb296-12"><a href="timeseries.html#cb296-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">.sim =</span> <span class="fu">as.integer</span>(.sim)) <span class="sc">%&gt;%</span></span>
-<span id="cb296-13"><a href="timeseries.html#cb296-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">.sim =</span> <span class="fu">replace</span>(.sim, <span class="fu">which</span>(.sim <span class="sc">&lt;</span> <span class="dv">0</span>), <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb296-14"><a href="timeseries.html#cb296-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">.csum =</span> <span class="fu">cumsum</span>(.sim))</span></code></pre></div>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="timeseries.html#cb297-1" aria-hidden="true" tabindex="-1"></a>d_ets_fit <span class="ot">&lt;-</span>  train <span class="sc">%&gt;%</span> <span class="fu">model</span>(</span>
+<span id="cb297-2"><a href="timeseries.html#cb297-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">ETS</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">ETS</span>(Y.Death </span>
+<span id="cb297-3"><a href="timeseries.html#cb297-3" aria-hidden="true" tabindex="-1"></a>                <span class="sc">~</span> <span class="fu">error</span>(<span class="st">&quot;A&quot;</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">&quot;A&quot;</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">&quot;A&quot;</span>)) </span>
+<span id="cb297-4"><a href="timeseries.html#cb297-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb297-5"><a href="timeseries.html#cb297-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb297-6"><a href="timeseries.html#cb297-6" aria-hidden="true" tabindex="-1"></a>d.pred.paths <span class="ot">&lt;-</span> d_ets_fit <span class="sc">%&gt;%</span></span>
+<span id="cb297-7"><a href="timeseries.html#cb297-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Simulate 10000 future sample paths, each of length 14</span></span>
+<span id="cb297-8"><a href="timeseries.html#cb297-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generate</span>(<span class="at">times =</span> <span class="dv">10000</span>, <span class="at">h =</span> <span class="dv">14</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb297-9"><a href="timeseries.html#cb297-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Sum the results for each sample path</span></span>
+<span id="cb297-10"><a href="timeseries.html#cb297-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb297-11"><a href="timeseries.html#cb297-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(.rep) <span class="sc">%&gt;%</span></span>
+<span id="cb297-12"><a href="timeseries.html#cb297-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">.sim =</span> <span class="fu">as.integer</span>(.sim)) <span class="sc">%&gt;%</span></span>
+<span id="cb297-13"><a href="timeseries.html#cb297-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">.sim =</span> <span class="fu">replace</span>(.sim, <span class="fu">which</span>(.sim <span class="sc">&lt;</span> <span class="dv">0</span>), <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb297-14"><a href="timeseries.html#cb297-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">.csum =</span> <span class="fu">cumsum</span>(.sim))</span></code></pre></div>
 <p>We can compute the mean of the simulations, and extract a specified prediction interval at a particular confidence level. For example,</p>
-<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="timeseries.html#cb297-1" aria-hidden="true" tabindex="-1"></a>d.pred.report <span class="ot">&lt;-</span> d.pred.paths <span class="sc">%&gt;%</span> </span>
-<span id="cb297-2"><a href="timeseries.html#cb297-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(DATE) <span class="sc">%&gt;%</span></span>
-<span id="cb297-3"><a href="timeseries.html#cb297-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">.mean =</span> <span class="fu">mean</span>(.csum),</span>
-<span id="cb297-4"><a href="timeseries.html#cb297-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">.lpi95 =</span> <span class="fu">quantile</span>(.csum, .<span class="dv">025</span>), </span>
-<span id="cb297-5"><a href="timeseries.html#cb297-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">.upi95 =</span> <span class="fu">quantile</span>(.csum, .<span class="dv">975</span>),</span>
-<span id="cb297-6"><a href="timeseries.html#cb297-6" aria-hidden="true" tabindex="-1"></a>            ) <span class="sc">%&gt;%</span></span>
-<span id="cb297-7"><a href="timeseries.html#cb297-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">.mean =</span> .mean <span class="sc">+</span> <span class="fu">tail</span>(train<span class="sc">$</span>Death,<span class="dv">1</span>),</span>
-<span id="cb297-8"><a href="timeseries.html#cb297-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">.lpi95 =</span> .lpi95 <span class="sc">+</span> <span class="fu">tail</span>(train<span class="sc">$</span>Death,<span class="dv">1</span>),</span>
-<span id="cb297-9"><a href="timeseries.html#cb297-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">.upi95 =</span> .upi95 <span class="sc">+</span> <span class="fu">tail</span>(train<span class="sc">$</span>Death,<span class="dv">1</span>)</span>
-<span id="cb297-10"><a href="timeseries.html#cb297-10" aria-hidden="true" tabindex="-1"></a>         )</span></code></pre></div>
-<p>Figure @(fig:predcum) shows the two weeks ahead forecast of the cumulative death count for Florida using ETS.</p>
-<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="timeseries.html#cb298-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(train, <span class="fu">aes</span>(DATE, Death)) <span class="sc">+</span> </span>
-<span id="cb298-2"><a href="timeseries.html#cb298-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
-<span id="cb298-3"><a href="timeseries.html#cb298-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Days&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>, </span>
-<span id="cb298-4"><a href="timeseries.html#cb298-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&#39;Daily new Death cases and prediction&#39;</span>) <span class="sc">+</span> </span>
-<span id="cb298-5"><a href="timeseries.html#cb298-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add prediction intervals</span></span>
-<span id="cb298-6"><a href="timeseries.html#cb298-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> DATE, </span>
-<span id="cb298-7"><a href="timeseries.html#cb298-7" aria-hidden="true" tabindex="-1"></a>                            <span class="at">y =</span> .mean, </span>
-<span id="cb298-8"><a href="timeseries.html#cb298-8" aria-hidden="true" tabindex="-1"></a>                            <span class="at">ymin =</span> .lpi95, </span>
-<span id="cb298-9"><a href="timeseries.html#cb298-9" aria-hidden="true" tabindex="-1"></a>                            <span class="at">ymax =</span> .upi95,</span>
-<span id="cb298-10"><a href="timeseries.html#cb298-10" aria-hidden="true" tabindex="-1"></a>                            <span class="at">fill =</span> <span class="st">&#39;95% Prediction Band&#39;</span>), </span>
-<span id="cb298-11"><a href="timeseries.html#cb298-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> d.pred.report, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb298-12"><a href="timeseries.html#cb298-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add line for predicted values</span></span>
-<span id="cb298-13"><a href="timeseries.html#cb298-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> DATE, </span>
-<span id="cb298-14"><a href="timeseries.html#cb298-14" aria-hidden="true" tabindex="-1"></a>                          <span class="at">y =</span> .mean,</span>
-<span id="cb298-15"><a href="timeseries.html#cb298-15" aria-hidden="true" tabindex="-1"></a>                          <span class="at">colour =</span> <span class="st">&#39;Predicted Value&#39;</span>),</span>
-<span id="cb298-16"><a href="timeseries.html#cb298-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">data =</span> d.pred.report,</span>
-<span id="cb298-17"><a href="timeseries.html#cb298-17" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Set the line type in legend</span></span>
-<span id="cb298-18"><a href="timeseries.html#cb298-18" aria-hidden="true" tabindex="-1"></a>            <span class="at">key_glyph =</span> <span class="st">&quot;timeseries&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb298-19"><a href="timeseries.html#cb298-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="st">&quot;&quot;</span>, <span class="at">values =</span> <span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
-<span id="cb298-20"><a href="timeseries.html#cb298-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="st">&quot;&quot;</span>, <span class="at">values =</span> <span class="st">&quot;pink&quot;</span>) </span>
-<span id="cb298-21"><a href="timeseries.html#cb298-21" aria-hidden="true" tabindex="-1"></a>p </span></code></pre></div>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="timeseries.html#cb298-1" aria-hidden="true" tabindex="-1"></a>d.pred.report <span class="ot">&lt;-</span> d.pred.paths <span class="sc">%&gt;%</span> </span>
+<span id="cb298-2"><a href="timeseries.html#cb298-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(DATE) <span class="sc">%&gt;%</span></span>
+<span id="cb298-3"><a href="timeseries.html#cb298-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">.mean =</span> <span class="fu">mean</span>(.csum),</span>
+<span id="cb298-4"><a href="timeseries.html#cb298-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">.lpi95 =</span> <span class="fu">quantile</span>(.csum, .<span class="dv">025</span>), </span>
+<span id="cb298-5"><a href="timeseries.html#cb298-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">.upi95 =</span> <span class="fu">quantile</span>(.csum, .<span class="dv">975</span>),</span>
+<span id="cb298-6"><a href="timeseries.html#cb298-6" aria-hidden="true" tabindex="-1"></a>            ) <span class="sc">%&gt;%</span></span>
+<span id="cb298-7"><a href="timeseries.html#cb298-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">.mean =</span> .mean <span class="sc">+</span> <span class="fu">tail</span>(train<span class="sc">$</span>Death,<span class="dv">1</span>),</span>
+<span id="cb298-8"><a href="timeseries.html#cb298-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">.lpi95 =</span> .lpi95 <span class="sc">+</span> <span class="fu">tail</span>(train<span class="sc">$</span>Death,<span class="dv">1</span>),</span>
+<span id="cb298-9"><a href="timeseries.html#cb298-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">.upi95 =</span> .upi95 <span class="sc">+</span> <span class="fu">tail</span>(train<span class="sc">$</span>Death,<span class="dv">1</span>)</span>
+<span id="cb298-10"><a href="timeseries.html#cb298-10" aria-hidden="true" tabindex="-1"></a>         )</span></code></pre></div>
+<p>Figure <a href="timeseries.html#fig:predcum">10.32</a> shows the two weeks ahead forecast of the cumulative death count for Florida using ETS.</p>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="timeseries.html#cb299-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(train, <span class="fu">aes</span>(DATE, Death)) <span class="sc">+</span> </span>
+<span id="cb299-2"><a href="timeseries.html#cb299-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb299-3"><a href="timeseries.html#cb299-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Days&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>, </span>
+<span id="cb299-4"><a href="timeseries.html#cb299-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&#39;Cumulative deaths and prediction&#39;</span>) <span class="sc">+</span> </span>
+<span id="cb299-5"><a href="timeseries.html#cb299-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add prediction intervals</span></span>
+<span id="cb299-6"><a href="timeseries.html#cb299-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> DATE, </span>
+<span id="cb299-7"><a href="timeseries.html#cb299-7" aria-hidden="true" tabindex="-1"></a>                            <span class="at">y =</span> .mean, </span>
+<span id="cb299-8"><a href="timeseries.html#cb299-8" aria-hidden="true" tabindex="-1"></a>                            <span class="at">ymin =</span> .lpi95, </span>
+<span id="cb299-9"><a href="timeseries.html#cb299-9" aria-hidden="true" tabindex="-1"></a>                            <span class="at">ymax =</span> .upi95,</span>
+<span id="cb299-10"><a href="timeseries.html#cb299-10" aria-hidden="true" tabindex="-1"></a>                            <span class="at">fill =</span> <span class="st">&#39;95% Prediction intervals&#39;</span>), </span>
+<span id="cb299-11"><a href="timeseries.html#cb299-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> d.pred.report, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb299-12"><a href="timeseries.html#cb299-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add line for predicted values</span></span>
+<span id="cb299-13"><a href="timeseries.html#cb299-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> DATE, </span>
+<span id="cb299-14"><a href="timeseries.html#cb299-14" aria-hidden="true" tabindex="-1"></a>                          <span class="at">y =</span> .mean,</span>
+<span id="cb299-15"><a href="timeseries.html#cb299-15" aria-hidden="true" tabindex="-1"></a>                          <span class="at">colour =</span> <span class="st">&#39;Predicted Value&#39;</span>),</span>
+<span id="cb299-16"><a href="timeseries.html#cb299-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">data =</span> d.pred.report,</span>
+<span id="cb299-17"><a href="timeseries.html#cb299-17" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Set the line type in legend</span></span>
+<span id="cb299-18"><a href="timeseries.html#cb299-18" aria-hidden="true" tabindex="-1"></a>            <span class="at">key_glyph =</span> <span class="st">&quot;timeseries&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb299-19"><a href="timeseries.html#cb299-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="st">&quot;&quot;</span>, <span class="at">values =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb299-20"><a href="timeseries.html#cb299-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="st">&quot;&quot;</span>, <span class="at">values =</span> <span class="st">&quot;pink&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb299-21"><a href="timeseries.html#cb299-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:predcum"></span>
 <img src="SLID_book_files/figure-html/predcum-1.png" alt="Two weeks ahead forecast of the cumulative death count for Florida using ETS." width="672" />
 <p class="caption">
@@ -2010,22 +2013,22 @@ Figure 10.32: Two weeks ahead forecast of the cumulative death count for Florida
 <li>Download the file <code>tute1.csv</code> from the book website, open it in Excel (or some other spreadsheet application), and review its contents. You should find four columns of information. Columns B through D each contain a quarterly series, labelled Sales, AdBudget and GDP.</li>
 </ol>
 <p>You can read the data into R with the following script:</p>
-<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="timeseries.html#cb299-1" aria-hidden="true" tabindex="-1"></a>tute1 <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">&quot;tute1.csv&quot;</span>)</span>
-<span id="cb299-2"><a href="timeseries.html#cb299-2" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(tute1)</span></code></pre></div>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="timeseries.html#cb300-1" aria-hidden="true" tabindex="-1"></a>tute1 <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">&quot;tute1.csv&quot;</span>)</span>
+<span id="cb300-2"><a href="timeseries.html#cb300-2" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(tute1)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
 <li>Convert the data to time series</li>
 </ol>
-<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="timeseries.html#cb300-1" aria-hidden="true" tabindex="-1"></a>mytimeseries <span class="ot">&lt;-</span> tute1 <span class="sc">%&gt;%</span></span>
-<span id="cb300-2"><a href="timeseries.html#cb300-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Quarter =</span> <span class="fu">yearmonth</span>(Quarter)) <span class="sc">%&gt;%</span></span>
-<span id="cb300-3"><a href="timeseries.html#cb300-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> Quarter)</span></code></pre></div>
+<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="timeseries.html#cb301-1" aria-hidden="true" tabindex="-1"></a>mytimeseries <span class="ot">&lt;-</span> tute1 <span class="sc">%&gt;%</span></span>
+<span id="cb301-2"><a href="timeseries.html#cb301-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Quarter =</span> <span class="fu">yearmonth</span>(Quarter)) <span class="sc">%&gt;%</span></span>
+<span id="cb301-3"><a href="timeseries.html#cb301-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> Quarter)</span></code></pre></div>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>Construct time series plots of each of the three series</li>
 </ol>
-<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="timeseries.html#cb301-1" aria-hidden="true" tabindex="-1"></a>mytimeseries <span class="sc">%&gt;%</span></span>
-<span id="cb301-2"><a href="timeseries.html#cb301-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>Quarter, <span class="at">names_to=</span><span class="st">&quot;Key&quot;</span>, <span class="at">values_to=</span><span class="st">&quot;Value&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb301-3"><a href="timeseries.html#cb301-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Quarter, <span class="at">y =</span> Value, <span class="at">colour =</span> Key)) <span class="sc">+</span></span>
-<span id="cb301-4"><a href="timeseries.html#cb301-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb301-5"><a href="timeseries.html#cb301-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_grid</span>(<span class="fu">vars</span>(Key), <span class="at">scales =</span> <span class="st">&quot;free_y&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="timeseries.html#cb302-1" aria-hidden="true" tabindex="-1"></a>mytimeseries <span class="sc">%&gt;%</span></span>
+<span id="cb302-2"><a href="timeseries.html#cb302-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>Quarter, <span class="at">names_to=</span><span class="st">&quot;Key&quot;</span>, <span class="at">values_to=</span><span class="st">&quot;Value&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb302-3"><a href="timeseries.html#cb302-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Quarter, <span class="at">y =</span> Value, <span class="at">colour =</span> Key)) <span class="sc">+</span></span>
+<span id="cb302-4"><a href="timeseries.html#cb302-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb302-5"><a href="timeseries.html#cb302-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_grid</span>(<span class="fu">vars</span>(Key), <span class="at">scales =</span> <span class="st">&quot;free_y&quot;</span>)</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Use the following graphics functions: <code>autoplot()</code>, <code>gg_season()</code>, <code>gg_subseries()</code>, <code>gg_lag()</code>, <code>ACF()</code> and explore features from the following time series:</li>
 </ol>
@@ -2041,30 +2044,30 @@ Figure 10.32: Two weeks ahead forecast of the cumulative death count for Florida
 <ol style="list-style-type: lower-alpha">
 <li>Create a training dataset consisting of observations before 2011 using</li>
 </ol>
-<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="timeseries.html#cb302-1" aria-hidden="true" tabindex="-1"></a>myts_train <span class="ot">&lt;-</span> myts <span class="sc">%&gt;%</span></span>
-<span id="cb302-2"><a href="timeseries.html#cb302-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Month <span class="sc">&lt;=</span> <span class="fu">yearmonth</span>(<span class="st">&quot;2010 Dec&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="timeseries.html#cb303-1" aria-hidden="true" tabindex="-1"></a>myts_train <span class="ot">&lt;-</span> myts <span class="sc">%&gt;%</span></span>
+<span id="cb303-2"><a href="timeseries.html#cb303-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Month <span class="sc">&lt;=</span> <span class="fu">yearmonth</span>(<span class="st">&quot;2010 Dec&quot;</span>))</span></code></pre></div>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>Check that your data have been split appropriately by producing the following plot.</li>
 </ol>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="timeseries.html#cb303-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(myts) <span class="sc">+</span></span>
-<span id="cb303-2"><a href="timeseries.html#cb303-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(myts_train, <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="timeseries.html#cb304-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(myts) <span class="sc">+</span></span>
+<span id="cb304-2"><a href="timeseries.html#cb304-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(myts_train, <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>Calculate seasonal naïve forecasts using SNAIVE() applied to your training data (myts_train).</li>
 </ol>
-<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="timeseries.html#cb304-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> myts_train <span class="sc">%&gt;%</span></span>
-<span id="cb304-2"><a href="timeseries.html#cb304-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="fu">SNAIVE</span>())</span>
-<span id="cb304-3"><a href="timeseries.html#cb304-3" aria-hidden="true" tabindex="-1"></a>fc <span class="ot">&lt;-</span> fit <span class="sc">%&gt;%</span></span>
-<span id="cb304-4"><a href="timeseries.html#cb304-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="timeseries.html#cb305-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> myts_train <span class="sc">%&gt;%</span></span>
+<span id="cb305-2"><a href="timeseries.html#cb305-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="fu">SNAIVE</span>())</span>
+<span id="cb305-3"><a href="timeseries.html#cb305-3" aria-hidden="true" tabindex="-1"></a>fc <span class="ot">&lt;-</span> fit <span class="sc">%&gt;%</span></span>
+<span id="cb305-4"><a href="timeseries.html#cb305-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>()</span></code></pre></div>
 <ol start="4" style="list-style-type: lower-alpha">
 <li>Compare the accuracy of your forecasts against the actual values.</li>
 </ol>
-<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="timeseries.html#cb305-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span> <span class="fu">accuracy</span>()</span>
-<span id="cb305-2"><a href="timeseries.html#cb305-2" aria-hidden="true" tabindex="-1"></a>fc <span class="sc">%&gt;%</span> <span class="fu">accuracy</span>(myts)</span></code></pre></div>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="timeseries.html#cb306-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span> <span class="fu">accuracy</span>()</span>
+<span id="cb306-2"><a href="timeseries.html#cb306-2" aria-hidden="true" tabindex="-1"></a>fc <span class="sc">%&gt;%</span> <span class="fu">accuracy</span>(myts)</span></code></pre></div>
 <ol start="5" style="list-style-type: lower-alpha">
 <li>Check the residuals.</li>
 </ol>
-<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="timeseries.html#cb306-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span> <span class="fu">gg_tsresiduals</span>()</span>
-<span id="cb306-2"><a href="timeseries.html#cb306-2" aria-hidden="true" tabindex="-1"></a>Do the residuals appear to be uncorrelated and normally distributed?</span></code></pre></div>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="timeseries.html#cb307-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span> <span class="fu">gg_tsresiduals</span>()</span>
+<span id="cb307-2"><a href="timeseries.html#cb307-2" aria-hidden="true" tabindex="-1"></a>Do the residuals appear to be uncorrelated and normally distributed?</span></code></pre></div>
 <ol start="6" style="list-style-type: lower-alpha">
 <li>How sensitive are the accuracy measures to the amount of training data used?</li>
 </ol>

@@ -24,7 +24,7 @@
 <meta name="author" content="Lily Wang" />
 
 
-<meta name="date" content="2021-03-22" />
+<meta name="date" content="2021-03-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="dplyr.html"/>
 <link rel="next" href="plotly.html"/>
-<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-3.5.1/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -52,7 +52,7 @@
 
 
 <script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
-<script src="libs/plotly-binding-4.9.3/plotly.js"></script>
+<script src="libs/plotly-binding-4.9.3.9000/plotly.js"></script>
 <script src="libs/typedarray-0.1/typedarray.min.js"></script>
 <link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
 <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
@@ -416,15 +416,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.6.2" data-path="timeseries.html"><a href="timeseries.html#arma-models"><i class="fa fa-check"></i><b>10.6.2</b> ARMA models</a></li>
 <li class="chapter" data-level="10.6.3" data-path="timeseries.html"><a href="timeseries.html#simple-examples-of-arma-models"><i class="fa fa-check"></i><b>10.6.3</b> Simple examples of ARMA models</a></li>
 <li class="chapter" data-level="10.6.4" data-path="timeseries.html"><a href="timeseries.html#arima-models-1"><i class="fa fa-check"></i><b>10.6.4</b> ARIMA models</a></li>
-<li class="chapter" data-level="10.6.5" data-path="timeseries.html"><a href="timeseries.html#seasonal-arima-model"><i class="fa fa-check"></i><b>10.6.5</b> Seasonal ARIMA model</a></li>
+<li class="chapter" data-level="10.6.5" data-path="timeseries.html"><a href="timeseries.html#seasonal-arima-sarima-model"><i class="fa fa-check"></i><b>10.6.5</b> Seasonal ARIMA (SARIMA) model</a></li>
+<li class="chapter" data-level="10.6.6" data-path="timeseries.html"><a href="timeseries.html#building-sarima-models"><i class="fa fa-check"></i><b>10.6.6</b> Building SARIMA Models</a></li>
 </ul></li>
 <li class="chapter" data-level="10.7" data-path="timeseries.html"><a href="timeseries.html#model-comparison"><i class="fa fa-check"></i><b>10.7</b> Model Comparison</a></li>
-<li class="chapter" data-level="10.8" data-path="timeseries.html"><a href="timeseries.html#ensuring-forecasts-stay-within-limits"><i class="fa fa-check"></i><b>10.8</b> Ensuring forecasts stay within limits</a>
+<li class="chapter" data-level="10.8" data-path="timeseries.html"><a href="timeseries.html#ensuring-forecasts-stay-within-limits"><i class="fa fa-check"></i><b>10.8</b> Ensuring Forecasts Stay Within Limits</a>
 <ul>
 <li class="chapter" data-level="10.8.1" data-path="timeseries.html"><a href="timeseries.html#positive-forecasts"><i class="fa fa-check"></i><b>10.8.1</b> Positive forecasts</a></li>
 <li class="chapter" data-level="10.8.2" data-path="timeseries.html"><a href="timeseries.html#forecasts-constrained-to-an-interval"><i class="fa fa-check"></i><b>10.8.2</b> Forecasts constrained to an interval</a></li>
 </ul></li>
-<li class="chapter" data-level="10.9" data-path="timeseries.html"><a href="timeseries.html#prediction-intervals-for-aggregates"><i class="fa fa-check"></i><b>10.9</b> Prediction Intervals for Aggregates</a></li>
+<li class="chapter" data-level="10.9" data-path="timeseries.html"><a href="timeseries.html#prediction-and-prediction-intervals-for-aggregates"><i class="fa fa-check"></i><b>10.9</b> Prediction and Prediction Intervals for Aggregates</a></li>
 <li class="chapter" data-level="10.10" data-path="timeseries.html"><a href="timeseries.html#exercises-5"><i class="fa fa-check"></i><b>10.10</b> Exercises</a></li>
 <li class="chapter" data-level="10.11" data-path="timeseries.html"><a href="timeseries.html#references"><i class="fa fa-check"></i><b>10.11</b> References</a></li>
 </ul></li>
@@ -522,7 +523,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 4</span> Data Visualization with ggplot2</h1>
 <div id="introduction" class="section level2" number="4.1">
 <h2><span class="header-section-number">4.1</span> Introduction</h2>
-<p>The first thing to do in the epidemiologic data analysis task is to plot the data. Data visualization enables many features of the data to be displayed or summarized in a graphical format, including patterns, unusual observations, changes over time, spatial variations, and relationships among variables. The features that are seen in graphs of the data must then be incorporated, as much as possible, into the modeling or forecasting methods.</p>
+<p>The first thing to do is to plot the data in the epidemiologic data analysis task. Data visualization enables many features of the data to be displayed or summarized in a graphical format, including patterns, changes over time, unusual observations, relationships among variables, and spatial variations. The features that are seen in graphs of the data must then be incorporated as much as possible into the modeling or forecasting methods.</p>
 <p>There are many types of graphs available, each with its own strengths and use cases. One of the challenges in the statistical learning process is choosing the appropriate visualization method to represent the data. Before constructing any display of epidemiologic data, it is important to understand the type of task that we want to perform and determine the information to convey. Some common roles for data visualization include:</p>
 <ul>
 <li>highlighting a change from past patterns in the data;</li>
@@ -532,7 +533,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>displaying the spatial variation in geographical data;</li>
 <li>illustrating relationships among variables.</li>
 </ul>
-<p>When the data are more complex, graphs can help visualize broader patterns and trends and identify variations from those trends. Variations in data may represent important new findings or only errors in typing or coding which need to be corrected. Thus, graphs can be helpful tools to aid in verifying and analyzing the data. Once an analysis is complete, graphs further serve as useful visual aids for describing the data to others.</p>
+<p>When the data is more complex, visualize broader patterns with graphs. Graphs can also visualize trends as well as identify variations from those trends. Variations in data may represent important new findings or could just be errors in typing or coding that need to be corrected. Thus, graphs can be helpful tools to aid in verifying and analyzing the data. Once an analysis is complete, graphs further serve as useful visual aids for describing the data to others.</p>
 <p>This chapter will introduce the <code>ggplot2</code>, and we will gain insight and practical skills for visualization of infectious disease data.</p>
 <p>Recommended Reading:</p>
 <ol style="list-style-type: decimal">
@@ -548,16 +549,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="types-of-variables-and-preparation" class="section level2" number="4.2">
 <h2><span class="header-section-number">4.2</span> Types of Variables and Preparation</h2>
-<p>When preparing graphs, keep in mind that the primary purpose is to communicate information. The types of variables we are analyzing and the media for the visualization can also affect your graphics practice.</p>
+<p>Keep in mind that the primary purpose of preparing graphs is to communicate information. The types of variables we are analyzing and the media for the visualization can also affect your graphics practice.</p>
 <div id="types-of-variables" class="section level3" number="4.2.1">
 <h3><span class="header-section-number">4.2.1</span> Types of Variables</h3>
-<p>In examining data, you must know which data type you are dealing with to choose the appropriate display format. The data are ususally in one of the following categories:</p>
+<p>When examining data, you must know which data type you are working with in order to choose an appropriate display format. The data are most likely going to be in one of the following categories:</p>
 <ol style="list-style-type: decimal">
 <li>Categorical (Qualitative) variables</li>
 </ol>
 <ul>
-<li><p>A <strong>nominal</strong> variable is one whose values are categories without any numerical ranking. Good examples are occupation, place of birth, county of residence and diagnosis. Nominal variable is called <strong>dichotomous</strong> when it is characterised by only two classes. In epidemiology, it is common to see dichotomous variables: sex (male/female), exposure history (yes/no), alive or dead, ill or well, vaccinated or unvaccinated.</p></li>
-<li><p>An <strong>ordinale</strong> variable has values that can be ranked but are not necessarily evenly spaced. For example, severity of illness may be categorised and ordered as “mild,” “moderate” or “severe.”</p></li>
+<li><p>A <strong>nominal</strong> variable is one whose values are categories without any numerical ranking. Good examples are occupation, place of birth, county of residence and diagnosis. Nominal variable is called <strong>dichotomous</strong> when it is characterised by only two classes. In epidemiology, it is common to see dichotomous variables: sex (male/female), exposure history (yes/no), alive or dead, ill or well, vaccinated or un-vaccinated.</p></li>
+<li><p>An <strong>ordinale</strong> variable has values that can be ranked but are not necessarily evenly spaced. For example, severity of illness may be categorized and ordered as “mild,” “moderate” or “severe.”</p></li>
 </ul>
 <ol start="2" style="list-style-type: decimal">
 <li>Numerical (Quantitative) variables</li>
@@ -575,12 +576,12 @@ For example, the number of new cases of a certain disease in a given year.</p></
 <h3><span class="header-section-number">4.2.2</span> Rules for Graph Designing</h3>
 <p>When designing graphs, we need to follow some rules to achieve the best practices, and <span class="citation"><a href="appendix-b.html#ref-dicker1992principles" role="doc-biblioref">Dicker and Gathany</a> (<a href="appendix-b.html#ref-dicker1992principles" role="doc-biblioref">1992</a>)</span> suggests the following:</p>
 <ul>
-<li><p>Ensure that a graphic can stand alone by clear labeling of title, source, axes, scales, and legends;</p></li>
-<li><p>Clearly identify variables portrayed (legends or keys), including units of measure;</p></li>
-<li><p>Minimize number of lines on a graph;</p></li>
-<li><p>Generally, portray frequency on the vertical scale, starting at zero, and classification variable on horizontal scale;</p></li>
-<li><p>Ensure that scales for each axis are appropriate for data presented;</p></li>
-<li><p>Define any abbreviations or symbols; and</p></li>
+<li><p>Check to ensure that a graphic can stand alone by clearly labeling the title, sources, axes, scales, and legends;</p></li>
+<li><p>Identify variables portrayed (legends or keys), which includes units of measure;</p></li>
+<li><p>Minimize the number of lines on a graph;</p></li>
+<li><p>Generally, we portray frequency on the vertical scale, starting at zero while we portray classification variable on the horizontal scale;</p></li>
+<li><p>Check to ensure that the scales for each axis are appropriate for data presented;</p></li>
+<li><p>Define any abbreviations or symbols</p></li>
 <li><p>Specify any data excluded.</p></li>
 </ul>
 </div>
@@ -598,8 +599,19 @@ For example, the number of new cases of a certain disease in a given year.</p></
 <span id="cb66-9"><a href="ggplot2.html#cb66-9" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;tidyverse/ggplot2&quot;</span>)</span></code></pre></div>
 <p><strong>Note:</strong> <code>devtools</code> downloads and installs the package from GitHub. By default, <code>install.packages()</code> is only able to install packages that are available in Comprehensive R Archive Network (CRAN). In that case, the developer’s tool, <code>devtools::install_github()</code> enables users to install packages that have not been submitted to CRAN, but is available in GitHub.</p>
 <p>In addition, we need to library the required packages as following.</p>
-<p>In the rest of this section, we demonstrate how to create a basic scatter plot and output the figure in “png” and “rds” format. To create a <code>ggplot2</code> plot, we need to know three key components: (1) A dataframe with each column being an attribute/variable, each row being an individual; (2) A set of aesthetic mappings between variables in the data and visual properties, and (3) At least one layer which describes how to render each observation. Layers are usually created with a <code>geom</code> function.</p>
-<p>“ggplot” generally likes data in the “long” format: i.e., a column for every dimension, and a row for every observation. For illustration, we are going to use the <code>state.long</code> dataset in the R package <code>slid</code>. To prepare the data, install the R package <code>slid</code> from Github using the following command, which includes the datasets that we use for this book.</p>
+<p>In the rest of this section, we demonstrate how to create a basic scatter plot and output the figure in “png” and “rds” format. To create a <code>ggplot2</code> plot, we need to know three key components:</p>
+<ul>
+<li><ol style="list-style-type: decimal">
+<li>A dataframe with each column being an attribute/variable, each row being an individual;</li>
+</ol></li>
+<li><ol start="2" style="list-style-type: decimal">
+<li>A set of aesthetic mappings between variables in the data and visual properties.</li>
+</ol></li>
+<li><ol start="3" style="list-style-type: decimal">
+<li>At least one layer which describes how to render each observation. Layers are usually created with a <code>geom</code> function.</li>
+</ol></li>
+</ul>
+<p>“ggplot” generally prefers data in the “long” format: i.e., a column for every dimension, and a row for every observation. For illustration, we are going to use the <code>state.long</code> data set in the R package <code>slid</code>. To prepare the data, install the R package <code>slid</code> from Github using the following command, which includes the data sets that we use for this book.</p>
 <p>Open the <code>state.long</code> dataset, which includes the variables, cumulative infected cases (<code>Infected</code>), cumulative death counts (<code>Death</code>), <code>Region</code>, <code>Division</code>, <code>State</code>, population (<code>pop</code>), and <code>DATE</code>, starting from Jan 22, 2020. Take a look at the first few lines using <code>head()</code>.</p>
 <div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="ggplot2.html#cb67-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> slid<span class="sc">::</span>state.long</span>
 <span id="cb67-2"><a href="ggplot2.html#cb67-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -832,18 +844,18 @@ Figure 4.9: Scatterplot with customized point color and point size
 <span id="cb79-8"><a href="ggplot2.html#cb79-8" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
 <pre><code>## # A tibble: 1,470 x 8
 ## # Groups:   State [49]
-##    State  Region Division      pop DATE       Infected Death
-##    &lt;fct&gt;  &lt;fct&gt;  &lt;fct&gt;       &lt;int&gt; &lt;date&gt;        &lt;int&gt; &lt;int&gt;
-##  1 Alaba… South  East Sout… 4.89e6 2020-12-11   288775  4086
-##  2 Alaba… South  East Sout… 4.89e6 2020-12-10   284922  4034
-##  3 Alaba… South  East Sout… 4.89e6 2020-12-09   280187  3985
-##  4 Alaba… South  East Sout… 4.89e6 2020-12-08   276665  3940
-##  5 Alaba… South  East Sout… 4.89e6 2020-12-07   272228  3891
-##  6 Alaba… South  East Sout… 4.89e6 2020-12-06   269877  3888
-##  7 Alaba… South  East Sout… 4.89e6 2020-12-05   267589  3876
-##  8 Alaba… South  East Sout… 4.89e6 2020-12-04   264199  3831
-##  9 Alaba… South  East Sout… 4.89e6 2020-12-03   260359  3776
-## 10 Alaba… South  East Sout… 4.89e6 2020-12-02   256828  3711
+##    State Region Division    pop DATE       Infected Death
+##    &lt;fct&gt; &lt;fct&gt;  &lt;fct&gt;     &lt;int&gt; &lt;date&gt;        &lt;int&gt; &lt;int&gt;
+##  1 Alab… South  East So… 4.89e6 2020-12-11   288775  4086
+##  2 Alab… South  East So… 4.89e6 2020-12-10   284922  4034
+##  3 Alab… South  East So… 4.89e6 2020-12-09   280187  3985
+##  4 Alab… South  East So… 4.89e6 2020-12-08   276665  3940
+##  5 Alab… South  East So… 4.89e6 2020-12-07   272228  3891
+##  6 Alab… South  East So… 4.89e6 2020-12-06   269877  3888
+##  7 Alab… South  East So… 4.89e6 2020-12-05   267589  3876
+##  8 Alab… South  East So… 4.89e6 2020-12-04   264199  3831
+##  9 Alab… South  East So… 4.89e6 2020-12-03   260359  3776
+## 10 Alab… South  East So… 4.89e6 2020-12-02   256828  3711
 ## # … with 1,460 more rows, and 1 more variable:
 ## #   Y.Infected &lt;dbl&gt;</code></pre>
 <div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="ggplot2.html#cb81-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="fu">log</span>(Y.Infected <span class="sc">+</span> <span class="dv">1</span>))) </span>
@@ -936,9 +948,9 @@ Figure 4.15: Bar plots of number of states in each region
 <p>Conditioning on a categorical feature, or conditioning on groups, we may want to conduct a side-by-side comparison for a certain variable. We can use the following tools.</p>
 <blockquote>
 <ul>
-<li>Jittering, <code>geom_jitter()</code>, adds a little random noise to the data, which can help avoid overplotting.</li>
-<li>Boxplots, <code>geom_boxplot()</code>, summarize the shape of the distribution with a handful of summary statistics.</li>
-<li>Violin plots, <code>geom_violin()</code>, show a compact representation of the “density” of the distribution, highlighting the areas where more points are found.</li>
+<li>Jittering, <code>geom_jitter()</code>, adds a small amount of random noise to the data, which can help avoid over-plotting.</li>
+<li>Boxplots, <code>geom_boxplot()</code>, summarizes the shape of the distribution with summary statistics.</li>
+<li>Violin plots, <code>geom_violin()</code>, shows a compact representation of the “density” of the distribution and highlights the areas where more points are found.</li>
 </ul>
 </blockquote>
 <div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="ggplot2.html#cb87-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> slid<span class="sc">::</span>state.long <span class="sc">%&gt;%</span> </span>
@@ -960,8 +972,8 @@ Figure 4.16: Points, jittering, boxplot, and violin plot examples
 </div>
 <div id="collective-geoms" class="section level2" number="4.6">
 <h2><span class="header-section-number">4.6</span> Collective geoms</h2>
-<p>An individual “geom” draws a distinct graphical object for each observation (row). For example, the “point geom” draws one point per row.
-Several geoms can be added to the same ggplot object, which allows you to build up layers to create complex graphs and displays multiple observations with one geometric object. For example, we previously have created a scatter plot, and we can add regressed lines on the top of the scatter plot layer. You can add more information from a statistical summary, or add a text geom to annotate your plot.</p>
+<p>An individual “geom” can draw a distinct graphical object for each observation (row). For example, the “point geom” draws one point per row.
+Several “geoms” may be added to the same ggplot object, which will let you build layers to design complex graphs as well as displays multiple observations with one geometric object. For example, we have previously created a scatter plot, and then we can add regressed lines on the top of the scatter plot layer. You can add more information from a statistical summary, or add a text geom to annotate your plot.</p>
 <div id="smoother" class="section level3" number="4.6.1">
 <h3><span class="header-section-number">4.6.1</span> Smoother</h3>
 <p>On top of the scatter plot, we can add regressed lines and prediction band to it using <code>geom_smooth()</code>.</p>
@@ -1081,7 +1093,7 @@ Figure 4.21: Time series with ribbons and second line
 </div>
 <div id="adjust-the-scale-of-time-axis" class="section level3" number="4.7.4">
 <h3><span class="header-section-number">4.7.4</span> Adjust the scale of time axis</h3>
-<p>There are several ways to define the axis ticks of dates and times. There are the labeled <strong>major breaks</strong> and further the <strong>minor breaks</strong>, which are not labeled but marked by grid lines. These can be customized with the arguments <code>date_breaks</code> and <code>date_minor_breaks</code>, respectively.</p>
+<p>There are multiple ways to define the ticks on the axis of dates and times. There are the labeled <strong>major breaks</strong> and further the <strong>minor breaks</strong>, which are not labeled but marked by grid lines. These can be customized with the arguments <code>date_breaks</code> and <code>date_minor_breaks</code>, respectively.</p>
 <div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="ggplot2.html#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust the scale of time axis</span></span>
 <span id="cb96-2"><a href="ggplot2.html#cb96-2" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">scale_x_date</span>(</span>
 <span id="cb96-3"><a href="ggplot2.html#cb96-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">limits =</span> <span class="fu">as.Date</span>(<span class="fu">c</span>(<span class="st">&quot;2020-10-01&quot;</span>, <span class="st">&quot;2021-01-01&quot;</span>)),</span>
@@ -1107,7 +1119,7 @@ Figure 4.22: Time series plot with adjusted time range and format
 </div>
 <div id="add-annotations" class="section level3" number="4.7.5">
 <h3><span class="header-section-number">4.7.5</span> Add annotations</h3>
-<p>When constructing a data visualization, it is often necessary to make annotations to the data displayed. An annotation supplies additional information about the data being displayed. For example, adding text to a plot is one of the most common forms of annotation. The primary tool for labeling plots is <code>geom_text()</code>, which adds label text at the specified <code>x</code> and <code>y</code> positions. We can also add reference lines to the plot using <code>geom_vline</code> or <code>geom_hline</code>. Figure <a href="#annotate1"><strong>??</strong></a> shows an annotated time series plot with shades and reference lines for each quarter.</p>
+<p>It is often necessary to make annotations to the data displayed when constructing a data visualization. An annotation provides additional information around what data is being displayed. For example, adding text to a plot is one of the most common forms of annotation. The primary tool for labeling plots is <code>geom_text()</code>, which adds label text at the specified <code>x</code> and <code>y</code> positions. We can also add reference lines to the plot using <code>geom_vline</code> or <code>geom_hline</code>. Figure <a href="#annotate1"><strong>??</strong></a> shows an annotated time series plot with shades and reference lines for each quarter.</p>
 <div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="ggplot2.html#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare the data</span></span>
 <span id="cb97-2"><a href="ggplot2.html#cb97-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
 <span id="cb97-3"><a href="ggplot2.html#cb97-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">start =</span> <span class="fu">floor_date</span>(DATE, <span class="st">&quot;quarter&quot;</span>)) <span class="sc">%&gt;%</span></span>
@@ -1189,18 +1201,18 @@ Figure 4.23: Time series plot with shades and reference lines.
 <span id="cb105-4"><a href="ggplot2.html#cb105-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>state)</span>
 <span id="cb105-5"><a href="ggplot2.html#cb105-5" aria-hidden="true" tabindex="-1"></a>state.long.shape</span></code></pre></div>
 <pre><code>## # A tibble: 5,049,525 x 11
-##    State  Region Division      pop DATE       Infected Death
-##    &lt;fct&gt;  &lt;fct&gt;  &lt;fct&gt;       &lt;int&gt; &lt;date&gt;        &lt;int&gt; &lt;int&gt;
-##  1 Alaba… South  East Sout… 4.89e6 2020-12-11   288775  4086
-##  2 Alaba… South  East Sout… 4.89e6 2020-12-11   288775  4086
-##  3 Alaba… South  East Sout… 4.89e6 2020-12-11   288775  4086
-##  4 Alaba… South  East Sout… 4.89e6 2020-12-11   288775  4086
-##  5 Alaba… South  East Sout… 4.89e6 2020-12-11   288775  4086
-##  6 Alaba… South  East Sout… 4.89e6 2020-12-11   288775  4086
-##  7 Alaba… South  East Sout… 4.89e6 2020-12-11   288775  4086
-##  8 Alaba… South  East Sout… 4.89e6 2020-12-11   288775  4086
-##  9 Alaba… South  East Sout… 4.89e6 2020-12-11   288775  4086
-## 10 Alaba… South  East Sout… 4.89e6 2020-12-11   288775  4086
+##    State Region Division    pop DATE       Infected Death
+##    &lt;fct&gt; &lt;fct&gt;  &lt;fct&gt;     &lt;int&gt; &lt;date&gt;        &lt;int&gt; &lt;int&gt;
+##  1 Alab… South  East So… 4.89e6 2020-12-11   288775  4086
+##  2 Alab… South  East So… 4.89e6 2020-12-11   288775  4086
+##  3 Alab… South  East So… 4.89e6 2020-12-11   288775  4086
+##  4 Alab… South  East So… 4.89e6 2020-12-11   288775  4086
+##  5 Alab… South  East So… 4.89e6 2020-12-11   288775  4086
+##  6 Alab… South  East So… 4.89e6 2020-12-11   288775  4086
+##  7 Alab… South  East So… 4.89e6 2020-12-11   288775  4086
+##  8 Alab… South  East So… 4.89e6 2020-12-11   288775  4086
+##  9 Alab… South  East So… 4.89e6 2020-12-11   288775  4086
+## 10 Alab… South  East So… 4.89e6 2020-12-11   288775  4086
 ## # … with 5,049,515 more rows, and 4 more variables:
 ## #   long &lt;dbl&gt;, lat &lt;dbl&gt;, group &lt;dbl&gt;, order &lt;int&gt;</code></pre>
 <div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="ggplot2.html#cb107-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> state.long.shape <span class="sc">%&gt;%</span> </span>
