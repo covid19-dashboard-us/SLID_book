@@ -1374,81 +1374,43 @@ ggplot(train, aes(DATE, Death)) +
 
 ## Exercises
 
-1. Download the file `tute1.csv` from the book website, open it in Excel (or some other spreadsheet application), and review its contents. You should find four columns of information. Columns B through D each contain a quarterly series, labelled Sales, AdBudget and GDP. 
+1. From `state.long` in the R package `slid`, choose a state and convert the data to time series. 
 
-You can read the data into R with the following script:
+  a. Construct time series plots for the daily new death, daily new infection, cumulative deaths and cumulative infection. 
 
-```{r eval=FALSE}
-tute1 <- readr::read_csv("tute1.csv")
-View(tute1)
-```
+  b. For the daily new death series and daily new infection series, use the following graphics functions: `autoplot()`, `gg_season()`, `gg_subseries()`, `gg_lag()`, `ACF()` and explore features from the following time series: 
+    + Can you spot any seasonality and trend?
+    + What do you learn about the series?
+    + What can you say about the seasonal patterns?
+    + Can you identify any unusual pattern?
+    
+  c. Conduct an STL decomposition for the daily new death series.
 
-  a. Convert the data to time series
+  d. For the daily new death series, create a training dataset consisting of observations from JAN 23 to NOV 27. Calculate 14-day ahead forecasts using `SNAIVE()` and `ETS` applied to your training data.
 
-```{r eval=FALSE}
-mytimeseries <- tute1 %>%
-  mutate(Quarter = yearmonth(Quarter)) %>%
-  as_tsibble(index = Quarter)
-```
+  e. Compare the accuracy of your forecasts against the actual values.
 
-  b. Construct time series plots of each of the three series
+  f. Check the residuals. Do the residuals appear to be uncorrelated and normally distributed?
 
-```{r eval=FALSE}
-mytimeseries %>%
-  pivot_longer(-Quarter, names_to="Key", values_to="Value") %>%
-  ggplot(aes(x = Quarter, y = Value, colour = Key)) +
-    geom_line() +
-    facet_grid(vars(Key), scales = "free_y")
-```
 
-2. Use the following graphics functions: `autoplot()`, `gg_season()`, `gg_subseries()`, `gg_lag()`, `ACF()` and explore features from the following time series: 
+2. Let $\{Z_t\}$ be a sequence of independent normal random variables, each with
+mean 0 and variance $\sigma^2$, and let $a$, $b$, and $c$ be constants. Which, if any, of the following processes are stationary? For each stationary process specify the mean and autocovariance function.
+  a. $Y_t = a + bZ_t + cZ_{t-2}$
+  b. $Y_t = Z_1 \cos(ct) + Z_2 \sin(ct)$
+  c. $Y_t = Z_t \cos(ct) + Z_{t−1} \sin(ct)$
+  d. $Y_t = a + bZ_0$
+  e. $Y_t = Z_0 \cos(ct)$
+  f. $Y_t = Z_tZ_{t−1}$
 
-  a. Can you spot any seasonality and trend?
-  b. What do you learn about the series?
-  c. What can you say about the seasonal patterns?
-  d. Can you identify any unusual years?
+3. Use the `tsibble()` function to generate a time series of length 200 of the following simple ARIMA models. Produce a time plot for each simulated series, and draw the sample ACF and PACF for the simulated time series. 
 
-3. For your retail time series (???):
+  a. AR(1) model with $\phi_1=0.9$ and $\sigma^2=1$. 
 
-  a. Create a training dataset consisting of observations before 2011 using
+  b. MA(1) model with $\theta_1=0.8$ and and $\sigma^2=1$.
 
-```{r eval=FALSE}
-myts_train <- myts %>%
-  filter(Month <= yearmonth("2010 Dec"))
-```
+  c. MA(2) model with $\theta_1=0.3$, $\theta_2=-0.4$ and $\sigma^2=1$.
 
-  b. Check that your data have been split appropriately by producing the following plot.
-
-```{r eval=FALSE}
-autoplot(myts) +
-  autolayer(myts_train, colour = "red")
-```
-
-  c. Calculate seasonal naïve forecasts using SNAIVE() applied to your training data (myts_train).
-
-```{r eval=FALSE}
-fit <- myts_train %>%
-  model(SNAIVE())
-fc <- fit %>%
-  forecast()
-```
-
-  d. Compare the accuracy of your forecasts against the actual values.
-
-```{r eval=FALSE}
-fit %>% accuracy()
-fc %>% accuracy(myts)
-```
-
-  e. Check the residuals.
-
-```{r eval=FALSE}
-fit %>% gg_tsresiduals()
-Do the residuals appear to be uncorrelated and normally distributed?
-```
-
-  f. How sensitive are the accuracy measures to the amount of training data used?
-
+4. From `state.long` in the R package `slid`, choose a state and convert the data to time series. Use the automatic search in `ARIMA()` to find an ARIMA model. What model was selected? Write the model in terms of the backshift operator.
 
 ## References
 

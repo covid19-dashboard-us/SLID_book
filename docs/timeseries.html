@@ -24,7 +24,7 @@
 <meta name="author" content="Lily Wang" />
 
 
-<meta name="date" content="2021-03-24" />
+<meta name="date" content="2021-03-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -450,7 +450,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="13.1" data-path="ensemble.html"><a href="ensemble.html#ensembling-time-series-models"><i class="fa fa-check"></i><b>13.1</b> Ensembling Time Series Models</a></li>
 <li class="chapter" data-level="13.2" data-path="ensemble.html"><a href="ensemble.html#model-diagnostics"><i class="fa fa-check"></i><b>13.2</b> Model Diagnostics</a></li>
-<li class="chapter" data-level="13.3" data-path="ensemble.html"><a href="ensemble.html#weights-selection-using-cross-validation"><i class="fa fa-check"></i><b>13.3</b> Weights Selection Using Cross Validation</a></li>
+<li class="chapter" data-level="13.3" data-path="ensemble.html"><a href="ensemble.html#forecasting"><i class="fa fa-check"></i><b>13.3</b> Forecasting</a>
+<ul>
+<li class="chapter" data-level="13.3.1" data-path="ensemble.html"><a href="ensemble.html#perform-cross-validation-on-a-time-series"><i class="fa fa-check"></i><b>13.3.1</b> Perform cross validation on a time series</a></li>
+</ul></li>
+<li class="chapter" data-level="13.4" data-path="ensemble.html"><a href="ensemble.html#weights-selection-using-cross-validation"><i class="fa fa-check"></i><b>13.4</b> Weights Selection Using Cross Validation</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
 <li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i>Appendix</a></li>
@@ -2010,66 +2014,42 @@ Figure 10.32: Two weeks ahead forecast of the cumulative death count for Florida
 <div id="exercises-5" class="section level2" number="10.10">
 <h2><span class="header-section-number">10.10</span> Exercises</h2>
 <ol style="list-style-type: decimal">
-<li>Download the file <code>tute1.csv</code> from the book website, open it in Excel (or some other spreadsheet application), and review its contents. You should find four columns of information. Columns B through D each contain a quarterly series, labelled Sales, AdBudget and GDP.</li>
+<li>From <code>state.long</code> in the R package <code>slid</code>, choose a state and convert the data to time series.</li>
 </ol>
-<p>You can read the data into R with the following script:</p>
-<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="timeseries.html#cb300-1" aria-hidden="true" tabindex="-1"></a>tute1 <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">&quot;tute1.csv&quot;</span>)</span>
-<span id="cb300-2"><a href="timeseries.html#cb300-2" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(tute1)</span></code></pre></div>
 <ol style="list-style-type: lower-alpha">
-<li>Convert the data to time series</li>
+<li><p>Construct time series plots for the daily new death, daily new infection, cumulative deaths and cumulative infection.</p></li>
+<li><p>For the daily new death series and daily new infection series, use the following graphics functions: <code>autoplot()</code>, <code>gg_season()</code>, <code>gg_subseries()</code>, <code>gg_lag()</code>, <code>ACF()</code> and explore features from the following time series:
++ Can you spot any seasonality and trend?
++ What do you learn about the series?
++ What can you say about the seasonal patterns?
++ Can you identify any unusual pattern?</p></li>
+<li><p>Conduct an STL decomposition for the daily new death series.</p></li>
+<li><p>For the daily new death series, create a training dataset consisting of observations from JAN 23 to NOV 27. Calculate 14-day ahead forecasts using <code>SNAIVE()</code> and <code>ETS</code> applied to your training data.</p></li>
+<li><p>Compare the accuracy of your forecasts against the actual values.</p></li>
+<li><p>Check the residuals. Do the residuals appear to be uncorrelated and normally distributed?</p></li>
 </ol>
-<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="timeseries.html#cb301-1" aria-hidden="true" tabindex="-1"></a>mytimeseries <span class="ot">&lt;-</span> tute1 <span class="sc">%&gt;%</span></span>
-<span id="cb301-2"><a href="timeseries.html#cb301-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Quarter =</span> <span class="fu">yearmonth</span>(Quarter)) <span class="sc">%&gt;%</span></span>
-<span id="cb301-3"><a href="timeseries.html#cb301-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> Quarter)</span></code></pre></div>
-<ol start="2" style="list-style-type: lower-alpha">
-<li>Construct time series plots of each of the three series</li>
-</ol>
-<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="timeseries.html#cb302-1" aria-hidden="true" tabindex="-1"></a>mytimeseries <span class="sc">%&gt;%</span></span>
-<span id="cb302-2"><a href="timeseries.html#cb302-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>Quarter, <span class="at">names_to=</span><span class="st">&quot;Key&quot;</span>, <span class="at">values_to=</span><span class="st">&quot;Value&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb302-3"><a href="timeseries.html#cb302-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Quarter, <span class="at">y =</span> Value, <span class="at">colour =</span> Key)) <span class="sc">+</span></span>
-<span id="cb302-4"><a href="timeseries.html#cb302-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb302-5"><a href="timeseries.html#cb302-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_grid</span>(<span class="fu">vars</span>(Key), <span class="at">scales =</span> <span class="st">&quot;free_y&quot;</span>)</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
-<li>Use the following graphics functions: <code>autoplot()</code>, <code>gg_season()</code>, <code>gg_subseries()</code>, <code>gg_lag()</code>, <code>ACF()</code> and explore features from the following time series:</li>
+<li>Let <span class="math inline">\(\{Z_t\}\)</span> be a sequence of independent normal random variables, each with
+mean 0 and variance <span class="math inline">\(\sigma^2\)</span>, and let <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, and <span class="math inline">\(c\)</span> be constants. Which, if any, of the following processes are stationary? For each stationary process specify the mean and autocovariance function.</li>
 </ol>
 <ol style="list-style-type: lower-alpha">
-<li>Can you spot any seasonality and trend?</li>
-<li>What do you learn about the series?</li>
-<li>What can you say about the seasonal patterns?</li>
-<li>Can you identify any unusual years?</li>
+<li><span class="math inline">\(Y_t = a + bZ_t + cZ_{t-2}\)</span></li>
+<li><span class="math inline">\(Y_t = Z_1 \cos(ct) + Z_2 \sin(ct)\)</span></li>
+<li><span class="math inline">\(Y_t = Z_t \cos(ct) + Z_{t−1} \sin(ct)\)</span></li>
+<li><span class="math inline">\(Y_t = a + bZ_0\)</span></li>
+<li><span class="math inline">\(Y_t = Z_0 \cos(ct)\)</span></li>
+<li><span class="math inline">\(Y_t = Z_tZ_{t−1}\)</span></li>
 </ol>
 <ol start="3" style="list-style-type: decimal">
-<li>For your retail time series (???):</li>
+<li>Use the <code>tsibble()</code> function to generate a time series of length 200 of the following simple ARIMA models. Produce a time plot for each simulated series, and draw the sample ACF and PACF for the simulated time series.</li>
 </ol>
 <ol style="list-style-type: lower-alpha">
-<li>Create a training dataset consisting of observations before 2011 using</li>
+<li><p>AR(1) model with <span class="math inline">\(\phi_1=0.9\)</span> and <span class="math inline">\(\sigma^2=1\)</span>.</p></li>
+<li><p>MA(1) model with <span class="math inline">\(\theta_1=0.8\)</span> and and <span class="math inline">\(\sigma^2=1\)</span>.</p></li>
+<li><p>MA(2) model with <span class="math inline">\(\theta_1=0.3\)</span>, <span class="math inline">\(\theta_2=-0.4\)</span> and <span class="math inline">\(\sigma^2=1\)</span>.</p></li>
 </ol>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="timeseries.html#cb303-1" aria-hidden="true" tabindex="-1"></a>myts_train <span class="ot">&lt;-</span> myts <span class="sc">%&gt;%</span></span>
-<span id="cb303-2"><a href="timeseries.html#cb303-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Month <span class="sc">&lt;=</span> <span class="fu">yearmonth</span>(<span class="st">&quot;2010 Dec&quot;</span>))</span></code></pre></div>
-<ol start="2" style="list-style-type: lower-alpha">
-<li>Check that your data have been split appropriately by producing the following plot.</li>
-</ol>
-<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="timeseries.html#cb304-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(myts) <span class="sc">+</span></span>
-<span id="cb304-2"><a href="timeseries.html#cb304-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(myts_train, <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
-<ol start="3" style="list-style-type: lower-alpha">
-<li>Calculate seasonal naïve forecasts using SNAIVE() applied to your training data (myts_train).</li>
-</ol>
-<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="timeseries.html#cb305-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> myts_train <span class="sc">%&gt;%</span></span>
-<span id="cb305-2"><a href="timeseries.html#cb305-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="fu">SNAIVE</span>())</span>
-<span id="cb305-3"><a href="timeseries.html#cb305-3" aria-hidden="true" tabindex="-1"></a>fc <span class="ot">&lt;-</span> fit <span class="sc">%&gt;%</span></span>
-<span id="cb305-4"><a href="timeseries.html#cb305-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>()</span></code></pre></div>
-<ol start="4" style="list-style-type: lower-alpha">
-<li>Compare the accuracy of your forecasts against the actual values.</li>
-</ol>
-<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="timeseries.html#cb306-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span> <span class="fu">accuracy</span>()</span>
-<span id="cb306-2"><a href="timeseries.html#cb306-2" aria-hidden="true" tabindex="-1"></a>fc <span class="sc">%&gt;%</span> <span class="fu">accuracy</span>(myts)</span></code></pre></div>
-<ol start="5" style="list-style-type: lower-alpha">
-<li>Check the residuals.</li>
-</ol>
-<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="timeseries.html#cb307-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span> <span class="fu">gg_tsresiduals</span>()</span>
-<span id="cb307-2"><a href="timeseries.html#cb307-2" aria-hidden="true" tabindex="-1"></a>Do the residuals appear to be uncorrelated and normally distributed?</span></code></pre></div>
-<ol start="6" style="list-style-type: lower-alpha">
-<li>How sensitive are the accuracy measures to the amount of training data used?</li>
+<ol start="4" style="list-style-type: decimal">
+<li>From <code>state.long</code> in the R package <code>slid</code>, choose a state and convert the data to time series. Use the automatic search in <code>ARIMA()</code> to find an ARIMA model. What model was selected? Write the model in terms of the backshift operator.</li>
 </ol>
 </div>
 <div id="references" class="section level2" number="10.11">

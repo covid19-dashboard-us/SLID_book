@@ -24,7 +24,7 @@
 <meta name="author" content="Lily Wang" />
 
 
-<meta name="date" content="2021-03-24" />
+<meta name="date" content="2021-03-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -450,7 +450,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="13.1" data-path="ensemble.html"><a href="ensemble.html#ensembling-time-series-models"><i class="fa fa-check"></i><b>13.1</b> Ensembling Time Series Models</a></li>
 <li class="chapter" data-level="13.2" data-path="ensemble.html"><a href="ensemble.html#model-diagnostics"><i class="fa fa-check"></i><b>13.2</b> Model Diagnostics</a></li>
-<li class="chapter" data-level="13.3" data-path="ensemble.html"><a href="ensemble.html#weights-selection-using-cross-validation"><i class="fa fa-check"></i><b>13.3</b> Weights Selection Using Cross Validation</a></li>
+<li class="chapter" data-level="13.3" data-path="ensemble.html"><a href="ensemble.html#forecasting"><i class="fa fa-check"></i><b>13.3</b> Forecasting</a>
+<ul>
+<li class="chapter" data-level="13.3.1" data-path="ensemble.html"><a href="ensemble.html#perform-cross-validation-on-a-time-series"><i class="fa fa-check"></i><b>13.3.1</b> Perform cross validation on a time series</a></li>
+</ul></li>
+<li class="chapter" data-level="13.4" data-path="ensemble.html"><a href="ensemble.html#weights-selection-using-cross-validation"><i class="fa fa-check"></i><b>13.4</b> Weights Selection Using Cross Validation</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
 <li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i>Appendix</a></li>
@@ -521,14 +525,280 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="ensemble" class="section level1" number="13">
 <h1><span class="header-section-number">Chapter 13</span> Hybrid Mdels</h1>
+<p>In the previous chapters, we introduced some time series models, an autoregressive model (ARIMA), an exponential smoothing state space model (ETS), a neural network autoregression model (NNAR).</p>
+<p>Hybrid models are identified by using the <code>hybridModel</code> function included in the package <a href="https://cran.r-project.org/web/packages/forecastHybrid/forecastHybrid.pdf">forecastHybrid</a> (in R environment).</p>
+<p><strong>Installation</strong></p>
+<p>The stable release of the package is hosted on CRAN and can be installed as usual.</p>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="ensemble.html#cb306-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;forecastHybrid&quot;)</span></span>
+<span id="cb306-2"><a href="ensemble.html#cb306-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the package</span></span>
+<span id="cb306-3"><a href="ensemble.html#cb306-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecastHybrid)</span></code></pre></div>
 <div id="ensembling-time-series-models" class="section level2" number="13.1">
 <h2><span class="header-section-number">13.1</span> Ensembling Time Series Models</h2>
+<p>In statistics and machine learning, ensemble methods use multiple forecasting algorithms to improve the predictive performance. Ensemble forecasting can overcome accuracy of simple prediction and to avoid possible overfit. The idea is that, when there is much uncertainty in finding the best model as is the case in many applications, combining may reduce the instability of the forecast and therefore improve prediction accuracy.</p>
+<p>In a linear combination technique, the combined forecast for the associated time series is calculated through a linear function of the individual forecasts from the contributing models. Let, <span class="math inline">\(\{y_1, y_2, \ldots, y_n\}\)</span> be the actual time series, which is to be forecasted using <span class="math inline">\(K\)</span> different models and <span class="math inline">\(\{\hat{y}_{n+1}^{(k)}, \hat{y}_{n+2}^{(k)}, \ldots, \hat{y}_{h}^{(k)}\}\)</span> be its forecast obtained from the <span class="math inline">\(k\)</span>th model (<span class="math inline">\(k=1, 2,\ldots, K\)</span>). Then, a linear combination of these <span class="math inline">\(K\)</span> forecasted series of the original time series produces
+<span class="math inline">\(\{\hat{y}_{n+1}^{*}, \hat{y}_{n+2}^{*}, \ldots, \hat{y}_{h}^{*}\}\)</span>, where
+<span class="math display">\[
+\hat{y}_{n+j}^{*}=f\left(\hat{y}_{n+j}^{(1)},\ldots,\hat{y}_{n+j}^{(K)}\right)
+\]</span>
+for <span class="math inline">\(j=1,2,\ldots,h\)</span>. If <span class="math inline">\(f\)</span> is some linear function, then we have
+<span class="math display">\[
+\hat{y}_{n+j}^{*}=w_1\hat{y}_{n+j}^{(1)}+w_2\hat{y}_{n+j}^{(2)}+\cdots+w_K\hat{y}_{n+j}^{(K)}
+=\sum_{k=1}^{K}w_k\hat{y}_{n+j}^{(k)}, 
+\]</span>
+for <span class="math inline">\(j=1,2,\ldots,h\)</span>. Here, <span class="math inline">\(w_k\)</span> is the weight assigned to the <span class="math inline">\(k\)</span>th forecasting method. To ensure unbiasedness, it is often assumed that the weights add up to unity. Some widely used linear combination techniques are briefly described below:</p>
+<ul>
+<li>In the simple average, all models are assigned equal weights, i.e., <span class="math inline">\(w_k=1⁄K\)</span>, for <span class="math inline">\(k=1, 2,\ldots, K\)</span>.</li>
+<li>In the trimmed average, individual forecasts are combined by a simple arithmetic mean, excluding the worst performing <span class="math inline">\(\alpha\)</span>% of the models. A trimming of 10% ~ 30% is usually recommended.</li>
+<li>In the Winsorized average, the <span class="math inline">\(m\)</span> smallest and <span class="math inline">\(m\)</span> largest forecasts are selected and respectively set as the <span class="math inline">\((m+1)\)</span>th smallest and <span class="math inline">\((m+1)\)</span>th largest forecasts.</li>
+<li>In the median-based combining, the combination function <span class="math inline">\(f\)</span> is the median of the individual forecasts. Median is sometimes preferred over simple average as it is less sensitive to extreme values.</li>
+<li>In the error-based combining, the weight to each model is assigned to be the inverse of the past forecast error (e.g. MSE, MAE, MAPE, etc.) of the corresponding model.</li>
+</ul>
+<p>The <code>hybridModel</code> function in the “forecastHybrid” R package ensembles forecasts in R combining approaches from the ‘forecast’ package. Forecasts generated from the following models:</p>
+<ul>
+<li><p><code>auto.arima()</code>: the best ARIMA model according to either AIC, AICc or BIC value;</p></li>
+<li><p><code>ets()</code>: exponential smoothing state space model;</p></li>
+<li><p><code>stlm()</code>: applies an STL decomposition, and models the seasonally adjusted data using the model passed as modelfunction or specified using method;</p></li>
+<li><p><code>nnetar()</code>: feed-forward neural networks with a single hidden layer and lagged inputs;</p></li>
+<li><p><code>tbats()</code>: TBATS model (exponential smoothing state space model with Box-Cox transformation, ARMA errors, trend and seasonal components) proposed by <span class="citation"><a href="appendix-b.html#ref-de2011forecasting" role="doc-biblioref">De Livera, Hyndman, and Snyder</a> (<a href="appendix-b.html#ref-de2011forecasting" role="doc-biblioref">2011</a>)</span>;</p></li>
+<li><p><code>thetaf()</code>: the theta method proposed by <span class="citation"><a href="appendix-b.html#ref-assimakopoulos2000theta" role="doc-biblioref">Assimakopoulos and Nikolopoulos</a> (<a href="appendix-b.html#ref-assimakopoulos2000theta" role="doc-biblioref">2000</a>)</span>, which is equivalent to simple exponential smoothing with drift.</p></li>
+<li><p><code>snaive()</code>: Seasonal naive method (random walk method)</p></li>
+</ul>
+<p>These models can be combined with equal weights, weights based on in-sample errors introduced by <span class="citation"><a href="appendix-b.html#ref-bates1969combination" role="doc-biblioref">Bates and Granger</a> (<a href="appendix-b.html#ref-bates1969combination" role="doc-biblioref">1969</a>)</span> or cross-validated weights. Cross validation for time series data with user-supplied models and forecasting functions is also supported to evaluate model accuracy.</p>
+<p>We consider the daily new death count for Forida. To use the “forecastHybrid” package, it is better to store the time series as a “ts” object in R. Let us consider the time series of daily new death counts for Florida, and we first turn this into a “ts” object using the <code>ts()</code> function. Since we have observed the 7-day cycle for this data, we can simply add a <code>frequency = 7</code> argument.</p>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="ensemble.html#cb307-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(slid)</span>
+<span id="cb307-2"><a href="ensemble.html#cb307-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb307-3"><a href="ensemble.html#cb307-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(state.ts)</span>
+<span id="cb307-4"><a href="ensemble.html#cb307-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb307-5"><a href="ensemble.html#cb307-5" aria-hidden="true" tabindex="-1"></a>Florida.ts <span class="ot">&lt;-</span> state.ts <span class="sc">%&gt;%</span></span>
+<span id="cb307-6"><a href="ensemble.html#cb307-6" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(State <span class="sc">==</span> <span class="st">&quot;Florida&quot;</span>)  </span>
+<span id="cb307-7"><a href="ensemble.html#cb307-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb307-8"><a href="ensemble.html#cb307-8" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">ts</span>(Florida.ts<span class="sc">$</span>Y.Death, <span class="at">start =</span> <span class="dv">2020-01-23</span>, <span class="at">frequency =</span> <span class="dv">7</span>)</span></code></pre></div>
+<p>Using the default setting, we simply apply the <code>hybridModel()</code> function, and obtain the combined forecast from <code>auto.arima</code>, <code>ets</code>, <code>thetam</code>, <code>nnetar</code>, <code>stlm</code>, and <code>tbats</code> model.</p>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="ensemble.html#cb308-1" aria-hidden="true" tabindex="-1"></a>hmod <span class="ot">&lt;-</span> <span class="fu">hybridModel</span>(y)</span>
+<span id="cb308-2"><a href="ensemble.html#cb308-2" aria-hidden="true" tabindex="-1"></a><span class="fu">forecast</span>(hmod)</span></code></pre></div>
+<pre><code>##          Point Forecast    Lo 80    Hi 80      Lo 95
+## 2042.286      106.59821 59.99658 154.8136  39.379958
+## 2042.429       92.79875 25.58865 136.8427   4.158083
+## 2042.571      104.66484 16.99737 149.2371  -4.861073
+## 2042.714      132.91459 76.29264 177.2457  55.328106
+## 2042.857      128.86821 66.55646 176.3123  45.370109
+## 2043.000      133.53789 72.11097 182.2055  50.721112
+## 2043.143      145.27774 76.98625 213.7300  53.494111
+## 2043.286      127.33009 56.08554 202.2511  32.202438
+## 2043.429      109.45873 21.00009 180.0201  -3.267690
+## 2043.571      122.95030 12.40980 218.9806 -12.236645
+## 2043.714      149.76991 72.15436 236.0417  46.834814
+## 2043.857      143.77561 62.19004 224.8698  36.608705
+## 2044.000      148.34727 67.52823 231.8187  41.706667
+## 2044.143      157.04804 73.45265 248.4459  47.346402
+##             Hi 95
+## 2042.286 174.3183
+## 2042.429 156.7485
+## 2042.571 169.5050
+## 2042.714 194.6245
+## 2042.857 192.1269
+## 2043.000 203.3384
+## 2043.143 215.3923
+## 2043.286 204.3949
+## 2043.429 182.9325
+## 2043.571 221.2806
+## 2043.714 238.1171
+## 2043.857 226.8261
+## 2044.000 234.0601
+## 2044.143 250.3336</code></pre>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="ensemble.html#cb310-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">forecast</span>(hmod), <span class="at">xlab =</span> <span class="st">&quot;Days&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Daily new deaths&quot;</span>,</span>
+<span id="cb310-2"><a href="ensemble.html#cb310-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Ensembled forecast from different models&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:hmod1"></span>
+<img src="SLID_book_files/figure-html/hmod1-1.png" alt="Forecast from auto.arima, ets, thetam, nnetar, stlm, and tbats model." width="672" />
+<p class="caption">
+Figure 13.1: Forecast from auto.arima, ets, thetam, nnetar, stlm, and tbats model.
+</p>
+</div>
+<p>The individual component models are stored inside the <code>hybridModel</code> objects and be can viewed in their respective slots, and all the regular methods from the <code>forecast</code> package could be applied to these individual component models.</p>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="ensemble.html#cb311-1" aria-hidden="true" tabindex="-1"></a><span class="co">#View the individual models </span></span>
+<span id="cb311-2"><a href="ensemble.html#cb311-2" aria-hidden="true" tabindex="-1"></a>hmod<span class="sc">$</span>auto.arima</span></code></pre></div>
+<pre><code>## Series: y 
+## ARIMA(1,0,1)(0,1,1)[7] 
+## 
+## Coefficients:
+##          ar1      ma1     sma1
+##       0.9627  -0.7927  -0.5724
+## s.e.  0.0198   0.0396   0.0614
+## 
+## sigma^2 estimated as 883.9:  log likelihood=-1524.9
+## AIC=3057.8   AICc=3057.93   BIC=3072.83</code></pre>
+<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="ensemble.html#cb313-1" aria-hidden="true" tabindex="-1"></a><span class="co"># See forecasts from the auto.arima model</span></span>
+<span id="cb313-2"><a href="ensemble.html#cb313-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">forecast</span>(hmod<span class="sc">$</span>auto.arima), <span class="at">xlab =</span> <span class="st">&quot;Days&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Daily new deaths&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:hmod2"></span>
+<img src="SLID_book_files/figure-html/hmod2-1.png" alt="Forecast from auto.arima model." width="672" />
+<p class="caption">
+Figure 13.2: Forecast from auto.arima model.
+</p>
+</div>
 </div>
 <div id="model-diagnostics" class="section level2" number="13.2">
 <h2><span class="header-section-number">13.2</span> Model Diagnostics</h2>
+<p>The <code>hybridModel()</code> function produces an S3 object of class forecastHybrid.</p>
+<p>The <code>print()</code> and <code>summary()</code> methods print information about the ensemble model including the weights assigned to each individual component model.</p>
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="ensemble.html#cb314-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(hmod) </span>
+<span id="cb314-2"><a href="ensemble.html#cb314-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Hybrid forecast model comprised of the following models: auto.arima, ets, thetam, nnetar, stlm, tbats</span></span>
+<span id="cb314-3"><a href="ensemble.html#cb314-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ############</span></span>
+<span id="cb314-4"><a href="ensemble.html#cb314-4" aria-hidden="true" tabindex="-1"></a><span class="do">## auto.arima with weight 0.167 </span></span>
+<span id="cb314-5"><a href="ensemble.html#cb314-5" aria-hidden="true" tabindex="-1"></a><span class="do">## ############</span></span>
+<span id="cb314-6"><a href="ensemble.html#cb314-6" aria-hidden="true" tabindex="-1"></a><span class="do">## ets with weight 0.167 </span></span>
+<span id="cb314-7"><a href="ensemble.html#cb314-7" aria-hidden="true" tabindex="-1"></a><span class="do">## ############</span></span>
+<span id="cb314-8"><a href="ensemble.html#cb314-8" aria-hidden="true" tabindex="-1"></a><span class="do">## thetam with weight 0.167 </span></span>
+<span id="cb314-9"><a href="ensemble.html#cb314-9" aria-hidden="true" tabindex="-1"></a><span class="do">## ############</span></span>
+<span id="cb314-10"><a href="ensemble.html#cb314-10" aria-hidden="true" tabindex="-1"></a><span class="do">## nnetar with weight 0.167 </span></span>
+<span id="cb314-11"><a href="ensemble.html#cb314-11" aria-hidden="true" tabindex="-1"></a><span class="do">## ############</span></span>
+<span id="cb314-12"><a href="ensemble.html#cb314-12" aria-hidden="true" tabindex="-1"></a><span class="do">## stlm with weight 0.167 </span></span>
+<span id="cb314-13"><a href="ensemble.html#cb314-13" aria-hidden="true" tabindex="-1"></a><span class="do">## ############</span></span>
+<span id="cb314-14"><a href="ensemble.html#cb314-14" aria-hidden="true" tabindex="-1"></a><span class="do">## tbats with weight 0.167</span></span>
+<span id="cb314-15"><a href="ensemble.html#cb314-15" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(hmod)</span>
+<span id="cb314-16"><a href="ensemble.html#cb314-16" aria-hidden="true" tabindex="-1"></a><span class="do">##            Length Class          Mode     </span></span>
+<span id="cb314-17"><a href="ensemble.html#cb314-17" aria-hidden="true" tabindex="-1"></a><span class="do">## auto.arima  18    forecast_ARIMA list     </span></span>
+<span id="cb314-18"><a href="ensemble.html#cb314-18" aria-hidden="true" tabindex="-1"></a><span class="do">## ets         19    ets            list     </span></span>
+<span id="cb314-19"><a href="ensemble.html#cb314-19" aria-hidden="true" tabindex="-1"></a><span class="do">## thetam      23    thetam         list     </span></span>
+<span id="cb314-20"><a href="ensemble.html#cb314-20" aria-hidden="true" tabindex="-1"></a><span class="do">## nnetar      15    nnetar         list     </span></span>
+<span id="cb314-21"><a href="ensemble.html#cb314-21" aria-hidden="true" tabindex="-1"></a><span class="do">## stlm         9    stlm           list     </span></span>
+<span id="cb314-22"><a href="ensemble.html#cb314-22" aria-hidden="true" tabindex="-1"></a><span class="do">## tbats       25    tbats          list     </span></span>
+<span id="cb314-23"><a href="ensemble.html#cb314-23" aria-hidden="true" tabindex="-1"></a><span class="do">## weights      6    -none-         numeric  </span></span>
+<span id="cb314-24"><a href="ensemble.html#cb314-24" aria-hidden="true" tabindex="-1"></a><span class="do">## frequency    1    -none-         numeric  </span></span>
+<span id="cb314-25"><a href="ensemble.html#cb314-25" aria-hidden="true" tabindex="-1"></a><span class="do">## x          324    ts             numeric  </span></span>
+<span id="cb314-26"><a href="ensemble.html#cb314-26" aria-hidden="true" tabindex="-1"></a><span class="do">## xreg         3    -none-         list     </span></span>
+<span id="cb314-27"><a href="ensemble.html#cb314-27" aria-hidden="true" tabindex="-1"></a><span class="do">## models       6    -none-         character</span></span>
+<span id="cb314-28"><a href="ensemble.html#cb314-28" aria-hidden="true" tabindex="-1"></a><span class="do">## fitted     324    -none-         numeric  </span></span>
+<span id="cb314-29"><a href="ensemble.html#cb314-29" aria-hidden="true" tabindex="-1"></a><span class="do">## residuals  324    ts             numeric</span></span></code></pre></div>
+<p>Two types of plots can be created for the created ensemble model: either a plot showing the actual and fitted value of each component model on the data or individual plots of the component models as created by their regular S3 <code>plot()</code> methods. Note that a <code>plot()</code> method does not exist in the “forecast” package for objects generated with <code>stlm()</code>, so this component model will be ignored when <code>type = "models"</code>, but the other component models will be plotted regardless.</p>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="ensemble.html#cb315-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hmod, <span class="at">type =</span> <span class="st">&quot;fit&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:hmod3"></span>
+<img src="SLID_book_files/figure-html/hmod3-1.png" alt="Actual and fitted value of each component model." width="672" />
+<p class="caption">
+Figure 13.3: Actual and fitted value of each component model.
+</p>
 </div>
-<div id="weights-selection-using-cross-validation" class="section level2" number="13.3">
-<h2><span class="header-section-number">13.3</span> Weights Selection Using Cross Validation</h2>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="ensemble.html#cb316-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hmod, <span class="at">type =</span> <span class="st">&quot;models&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:hmod4-1"></span>
+<img src="SLID_book_files/figure-html/hmod4-1.png" alt="the actual and fitted value of each component model." width="672" />
+<p class="caption">
+Figure 13.4: the actual and fitted value of each component model.
+</p>
+</div>
+<div class="figure" style="text-align: center"><span id="fig:hmod4-2"></span>
+<img src="SLID_book_files/figure-html/hmod4-2.png" alt="the actual and fitted value of each component model." width="672" />
+<p class="caption">
+Figure 13.5: the actual and fitted value of each component model.
+</p>
+</div>
+<div class="figure" style="text-align: center"><span id="fig:hmod4-3"></span>
+<img src="SLID_book_files/figure-html/hmod4-3.png" alt="the actual and fitted value of each component model." width="672" />
+<p class="caption">
+Figure 13.6: the actual and fitted value of each component model.
+</p>
+</div>
+<div class="figure" style="text-align: center"><span id="fig:hmod4-4"></span>
+<img src="SLID_book_files/figure-html/hmod4-4.png" alt="the actual and fitted value of each component model." width="672" />
+<p class="caption">
+Figure 13.7: the actual and fitted value of each component model.
+</p>
+</div>
+</div>
+<div id="forecasting" class="section level2" number="13.3">
+<h2><span class="header-section-number">13.3</span> Forecasting</h2>
+<p>Now’s let’s forecast future values. The <code>forecast()</code> function produce an S3 class forecast object for the next 14 days from the ensemble model. The prediction intervals are preserved from the individual component models and currently use the most extreme value from an individual model, producing a conservative estimate for the ensemble’s performance.</p>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="ensemble.html#cb317-1" aria-hidden="true" tabindex="-1"></a>hfc <span class="ot">&lt;-</span> <span class="fu">forecast</span>(hmod, <span class="at">h =</span> <span class="dv">14</span>) </span>
+<span id="cb317-2"><a href="ensemble.html#cb317-2" aria-hidden="true" tabindex="-1"></a><span class="co"># View the point forecasts</span></span>
+<span id="cb317-3"><a href="ensemble.html#cb317-3" aria-hidden="true" tabindex="-1"></a>hfc<span class="sc">$</span>mean</span>
+<span id="cb317-4"><a href="ensemble.html#cb317-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Time Series:</span></span>
+<span id="cb317-5"><a href="ensemble.html#cb317-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Start = c(2042, 3) </span></span>
+<span id="cb317-6"><a href="ensemble.html#cb317-6" aria-hidden="true" tabindex="-1"></a><span class="do">## End = c(2044, 2) </span></span>
+<span id="cb317-7"><a href="ensemble.html#cb317-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Frequency = 7 </span></span>
+<span id="cb317-8"><a href="ensemble.html#cb317-8" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] 106.59821  92.79875 104.66484 132.91459 128.86821</span></span>
+<span id="cb317-9"><a href="ensemble.html#cb317-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6] 133.53789 145.27774 127.33009 109.45873 122.95030</span></span>
+<span id="cb317-10"><a href="ensemble.html#cb317-10" aria-hidden="true" tabindex="-1"></a><span class="do">## [11] 149.76991 143.77561 148.34727 157.04804</span></span>
+<span id="cb317-11"><a href="ensemble.html#cb317-11" aria-hidden="true" tabindex="-1"></a><span class="co"># View the upper prediction interval</span></span>
+<span id="cb317-12"><a href="ensemble.html#cb317-12" aria-hidden="true" tabindex="-1"></a>hfc<span class="sc">$</span>upper</span>
+<span id="cb317-13"><a href="ensemble.html#cb317-13" aria-hidden="true" tabindex="-1"></a><span class="do">##            80%      95%</span></span>
+<span id="cb317-14"><a href="ensemble.html#cb317-14" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,] 154.8136 174.3183</span></span>
+<span id="cb317-15"><a href="ensemble.html#cb317-15" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,] 136.8427 156.7485</span></span>
+<span id="cb317-16"><a href="ensemble.html#cb317-16" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,] 149.4553 169.5050</span></span>
+<span id="cb317-17"><a href="ensemble.html#cb317-17" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,] 176.9789 194.6245</span></span>
+<span id="cb317-18"><a href="ensemble.html#cb317-18" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,] 176.0517 192.1269</span></span>
+<span id="cb317-19"><a href="ensemble.html#cb317-19" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,] 181.4409 203.3384</span></span>
+<span id="cb317-20"><a href="ensemble.html#cb317-20" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,] 213.5458 216.2529</span></span>
+<span id="cb317-21"><a href="ensemble.html#cb317-21" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,] 201.9121 204.1527</span></span>
+<span id="cb317-22"><a href="ensemble.html#cb317-22" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,] 180.0530 182.6926</span></span>
+<span id="cb317-23"><a href="ensemble.html#cb317-23" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,] 218.6720 221.5546</span></span>
+<span id="cb317-24"><a href="ensemble.html#cb317-24" aria-hidden="true" tabindex="-1"></a><span class="do">## [11,] 235.7841 237.3367</span></span>
+<span id="cb317-25"><a href="ensemble.html#cb317-25" aria-hidden="true" tabindex="-1"></a><span class="do">## [12,] 225.0711 227.1369</span></span>
+<span id="cb317-26"><a href="ensemble.html#cb317-26" aria-hidden="true" tabindex="-1"></a><span class="do">## [13,] 231.8018 234.0672</span></span>
+<span id="cb317-27"><a href="ensemble.html#cb317-27" aria-hidden="true" tabindex="-1"></a><span class="do">## [14,] 248.0386 250.0807</span></span>
+<span id="cb317-28"><a href="ensemble.html#cb317-28" aria-hidden="true" tabindex="-1"></a><span class="co"># View the lower prediction interval</span></span>
+<span id="cb317-29"><a href="ensemble.html#cb317-29" aria-hidden="true" tabindex="-1"></a>hfc<span class="sc">$</span>lower</span>
+<span id="cb317-30"><a href="ensemble.html#cb317-30" aria-hidden="true" tabindex="-1"></a><span class="do">##            80%        95%</span></span>
+<span id="cb317-31"><a href="ensemble.html#cb317-31" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1,] 59.99658  39.379958</span></span>
+<span id="cb317-32"><a href="ensemble.html#cb317-32" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2,] 25.58865   4.158083</span></span>
+<span id="cb317-33"><a href="ensemble.html#cb317-33" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3,] 16.99737  -4.861073</span></span>
+<span id="cb317-34"><a href="ensemble.html#cb317-34" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4,] 76.29264  55.328106</span></span>
+<span id="cb317-35"><a href="ensemble.html#cb317-35" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5,] 66.55646  45.370109</span></span>
+<span id="cb317-36"><a href="ensemble.html#cb317-36" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6,] 72.11097  50.721112</span></span>
+<span id="cb317-37"><a href="ensemble.html#cb317-37" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7,] 76.98625  53.494111</span></span>
+<span id="cb317-38"><a href="ensemble.html#cb317-38" aria-hidden="true" tabindex="-1"></a><span class="do">##  [8,] 56.08554  32.202438</span></span>
+<span id="cb317-39"><a href="ensemble.html#cb317-39" aria-hidden="true" tabindex="-1"></a><span class="do">##  [9,] 21.00009  -3.267690</span></span>
+<span id="cb317-40"><a href="ensemble.html#cb317-40" aria-hidden="true" tabindex="-1"></a><span class="do">## [10,] 12.40980 -12.236645</span></span>
+<span id="cb317-41"><a href="ensemble.html#cb317-41" aria-hidden="true" tabindex="-1"></a><span class="do">## [11,] 72.15436  46.834814</span></span>
+<span id="cb317-42"><a href="ensemble.html#cb317-42" aria-hidden="true" tabindex="-1"></a><span class="do">## [12,] 62.19004  36.608705</span></span>
+<span id="cb317-43"><a href="ensemble.html#cb317-43" aria-hidden="true" tabindex="-1"></a><span class="do">## [13,] 67.52823  41.706667</span></span>
+<span id="cb317-44"><a href="ensemble.html#cb317-44" aria-hidden="true" tabindex="-1"></a><span class="do">## [14,] 73.45265  47.346402</span></span></code></pre></div>
+<p>Now, we plot the forecast for the next 14 days with the prediction intervals.</p>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="ensemble.html#cb318-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the forecast</span></span>
+<span id="cb318-2"><a href="ensemble.html#cb318-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hfc, <span class="at">xlab =</span> <span class="st">&quot;Days&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Daily new deaths&quot;</span>, </span>
+<span id="cb318-3"><a href="ensemble.html#cb318-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Ensembled forecast from different methods&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:hmod5"></span>
+<img src="SLID_book_files/figure-html/hmod5-1.png" alt="Two weeks ahead ensemble forecast from different methods." width="672" />
+<p class="caption">
+Figure 13.8: Two weeks ahead ensemble forecast from different methods.
+</p>
+</div>
+<p>After the model is fit, these weights are stored in the weights attribute of the model. The user can view and manipulated these weights after the fit is complete. Note that the <code>hybridModel()</code> function automatically scales weights to sum to one, so a user should similar scale the weights to ensure the forecasts remain unbiased. Furthermore, the vector that replaces weights must retain names specifying the component model it corresponds to since weights are not assigned by position but rather by component name. Similarly, individual components may also be replaced.</p>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="ensemble.html#cb319-1" aria-hidden="true" tabindex="-1"></a>hmod<span class="sc">$</span>weights</span>
+<span id="cb319-2"><a href="ensemble.html#cb319-2" aria-hidden="true" tabindex="-1"></a><span class="do">## auto.arima        ets     thetam     nnetar       stlm </span></span>
+<span id="cb319-3"><a href="ensemble.html#cb319-3" aria-hidden="true" tabindex="-1"></a><span class="do">##  0.1666667  0.1666667  0.1666667  0.1666667  0.1666667 </span></span>
+<span id="cb319-4"><a href="ensemble.html#cb319-4" aria-hidden="true" tabindex="-1"></a><span class="do">##      tbats </span></span>
+<span id="cb319-5"><a href="ensemble.html#cb319-5" aria-hidden="true" tabindex="-1"></a><span class="do">##  0.1666667</span></span></code></pre></div>
+<div id="perform-cross-validation-on-a-time-series" class="section level3" number="13.3.1">
+<h3><span class="header-section-number">13.3.1</span> Perform cross validation on a time series</h3>
+<p>It can be useful to perform cross validation on a forecasting model to estimate a model’s out-of-sample forecasting performance. Cross validation of time series data is more complicated than regular k-folds or leave-one-out cross validation of datasets without serial correlation since observations <span class="math inline">\(x_t\)</span> and <span class="math inline">\(x_{t+n}\)</span> are not independent.</p>
+<p>The <code>cvts()</code> function overcomes this obstacle using two methods: 1) rolling cross validation where an initial training window is used along with a forecast horizon and the initial window used for training grows by one observation each round until the training window and the forecast horizon capture the entire series; or 2) a non-rolling approach where a fixed training length is used that is shifted forward by the forecast horizon after each iteration.</p>
+<p>For example, let’s perform cross validation for a <code>stlm()</code> model and a <code>naive()</code> model on the woolyrnq time series. The most important <code>cvts()</code> arguments that commonly need adjusting are rolling (if <code>TRUE</code>, the model will always be fit on a fixed <code>windowSize</code> instead of growing by one new observation for each new model fit during cross validation), <code>windowSize</code> (starting length of time series to fit a model), and <code>maxHorizon</code> (the forecast horizon for predictions from each model). Since a naive forecast is a good baseline that any decent model should surpass, let’s see how the <code>stlm()</code> model compares.</p>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="ensemble.html#cb320-1" aria-hidden="true" tabindex="-1"></a>stlmMod <span class="ot">&lt;-</span> <span class="fu">cvts</span>(y, <span class="at">FUN =</span> stlm, <span class="at">windowSize =</span> <span class="dv">100</span>, <span class="at">maxHorizon =</span> <span class="dv">7</span>)</span>
+<span id="cb320-2"><a href="ensemble.html#cb320-2" aria-hidden="true" tabindex="-1"></a>naiveMod <span class="ot">&lt;-</span> <span class="fu">cvts</span>(y, <span class="at">FUN =</span> naive, <span class="at">windowSize =</span> <span class="dv">100</span>, <span class="at">maxHorizon =</span> <span class="dv">7</span>)</span>
+<span id="cb320-3"><a href="ensemble.html#cb320-3" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(stlmMod)</span>
+<span id="cb320-4"><a href="ensemble.html#cb320-4" aria-hidden="true" tabindex="-1"></a><span class="do">##                             ME     RMSE      MAE</span></span>
+<span id="cb320-5"><a href="ensemble.html#cb320-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Forecast Horizon  1 -0.9068629 31.27580 23.69878</span></span>
+<span id="cb320-6"><a href="ensemble.html#cb320-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Forecast Horizon  2 -2.6490705 43.91947 27.06993</span></span>
+<span id="cb320-7"><a href="ensemble.html#cb320-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Forecast Horizon  3 -1.2864292 37.85213 28.29804</span></span>
+<span id="cb320-8"><a href="ensemble.html#cb320-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Forecast Horizon  4 -2.2917024 36.27865 27.61824</span></span>
+<span id="cb320-9"><a href="ensemble.html#cb320-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Forecast Horizon  5 -2.9254922 30.23136 22.62086</span></span>
+<span id="cb320-10"><a href="ensemble.html#cb320-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Forecast Horizon  6 -6.4138820 51.77928 35.64043</span></span>
+<span id="cb320-11"><a href="ensemble.html#cb320-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Forecast Horizon  7 -1.7238578 38.63659 29.09958</span></span>
+<span id="cb320-12"><a href="ensemble.html#cb320-12" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(naiveMod)</span>
+<span id="cb320-13"><a href="ensemble.html#cb320-13" aria-hidden="true" tabindex="-1"></a><span class="do">##                            ME     RMSE      MAE</span></span>
+<span id="cb320-14"><a href="ensemble.html#cb320-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Forecast Horizon  1 -20.78125 39.26791 28.46875</span></span>
+<span id="cb320-15"><a href="ensemble.html#cb320-15" aria-hidden="true" tabindex="-1"></a><span class="do">## Forecast Horizon  2 -58.06250 74.62448 61.87500</span></span>
+<span id="cb320-16"><a href="ensemble.html#cb320-16" aria-hidden="true" tabindex="-1"></a><span class="do">## Forecast Horizon  3 -52.71875 68.61054 54.09375</span></span>
+<span id="cb320-17"><a href="ensemble.html#cb320-17" aria-hidden="true" tabindex="-1"></a><span class="do">## Forecast Horizon  4   5.06250 35.96526 27.18750</span></span>
+<span id="cb320-18"><a href="ensemble.html#cb320-18" aria-hidden="true" tabindex="-1"></a><span class="do">## Forecast Horizon  5   6.09375 34.76394 27.09375</span></span>
+<span id="cb320-19"><a href="ensemble.html#cb320-19" aria-hidden="true" tabindex="-1"></a><span class="do">## Forecast Horizon  6   6.37500 52.37246 37.00000</span></span>
+<span id="cb320-20"><a href="ensemble.html#cb320-20" aria-hidden="true" tabindex="-1"></a><span class="do">## Forecast Horizon  7   2.37500 39.79871 27.31250</span></span></code></pre></div>
+</div>
+</div>
+<div id="weights-selection-using-cross-validation" class="section level2" number="13.4">
+<h2><span class="header-section-number">13.4</span> Weights Selection Using Cross Validation</h2>
+<p>Previously we explored fitting <code>hybridModel()</code> objects with <code>weights = "equal"</code> or <code>weights = "insample.errors"</code>, but we can now leverage the process conducted in <code>cvts()</code> to select the appropriate weights intelligently based on the expected out-of-sample forecast accuracy of each component model. While this is the methodologically-sound weight procedure, it also comes at significant computational cost since the cross validation procedure necessitates fitting each model several times for each cross validation fold in addition to the final fit on the whole dataset. Fortunately this process can be conducted in parallel if multiple cores are available. Some of the arguments explained above in <code>cvts()</code> such as <code>windowSize</code> and the <code>cvHorizon</code> can also be controlled here.</p>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="ensemble.html#cb321-1" aria-hidden="true" tabindex="-1"></a>cvMod <span class="ot">&lt;-</span> <span class="fu">hybridModel</span>(y, <span class="at">weights =</span> <span class="st">&quot;cv.errors&quot;</span>, <span class="at">windowSize =</span> <span class="dv">100</span>,</span>
+<span id="cb321-2"><a href="ensemble.html#cb321-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">cvHorizon =</span> <span class="dv">8</span>, <span class="at">num.cores =</span> <span class="dv">4</span>)</span>
+<span id="cb321-3"><a href="ensemble.html#cb321-3" aria-hidden="true" tabindex="-1"></a>cvMod</span></code></pre></div>
 
 </div>
 </div>
