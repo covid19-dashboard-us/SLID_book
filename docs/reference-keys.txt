@@ -107,6 +107,9 @@ tab:unnamed-chunk-171
 tab:unnamed-chunk-172
 fig:predarima
 fig:predetsarima
+fig:kfoldCV
+fig:nestedCV
+fig:cvetsarima
 fig:predetslog
 fig:predetslog2
 fig:predcum
@@ -321,6 +324,8 @@ arima-models-1
 seasonal-arima-sarima-model
 building-sarima-models
 model-comparison
+exponential-smoothing-and-arima-models
+cross-validation-for-time-series-analysis
 ensuring-forecasts-stay-within-limits
 positive-forecasts
 forecasts-constrained-to-an-interval

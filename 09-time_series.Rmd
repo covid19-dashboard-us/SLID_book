@@ -1165,17 +1165,14 @@ kable(df, col.names = c("Model", "ACF", "PACF"),
 
 We can estimate an ARIMA model using the `ARIMA` function, which searches through the model space specified in the specials to identify the best ARIMA model which has lowest AIC, AICc or BIC value. We can specify an ARIMA model via the `formula` argument.
 
-* If the RHS of formula is left blank, the default search space is given by `pdq() + PDQ()`: that is, a model with candidate seasonal and nonseasonal terms, but no exogenous regressors.
+* If the right hand side of the formula is left blank, the default search space is given by `pdq() + PDQ()`: that is, a model with candidate seasonal and nonseasonal terms, but no exogenous regressors.
 
 * To specify a model fully (avoid automatic selection), the intercept and `pdq()`, `PDQ()` values must be specified: for example,
 ```{r eval=FALSE}
 formula = response ~ 1 + pdq(1, 1, 1) + PDQ(1, 0, 0)
 ```
-    
-     + The `pdq` special is used to specify non-seasonal components of the model.
-     + The `PDQ` special is used to specify seasonal components of the model. 
-     + To force a nonseasonal fit, specify `PDQ(0, 0, 0)` in the RHS of the model formula.
-     + The `period` argument is used in `PDQ` to specify the periodic nature of the seasonality.
+
+In the above, the `pdq` special is used to specify non-seasonal components of the model, and the `PDQ` special is used to specify seasonal components of the model. To force a nonseasonal fit, specify `PDQ(0, 0, 0)` in the right hand side of the model formula. The `period` argument is used in `PDQ` to specify the periodic nature of the seasonality.
     
 ### Building SARIMA Models
 
@@ -1192,7 +1189,13 @@ We can use the function `report()` to obtain the formatted model-specific displa
   report(sarima111)
 ```
 
-Below, we fit different SARIMA models for `Florida.ts`, and conduct the two weeks ahead forecast.
+Thus, the fitted SARIMA$(1,0,2)(1,1,1)_7$ can be written as
+\[
+(1-\phi_1B)(1-\Phi_1B^7)(1-B^7)X_t=(1+\theta_1B+\theta_2B^2)(1+\Theta_1B^7)Z_t,
+\]
+where $Z_t\sim WN(0,873.1)$, and $\phi_1=0.9733$, $\theta_1=-0.7395$,  $\theta_2=-0.0746$, $\Phi_1=0.2611$, $\Theta_1=-0.8071$.
+
+Below, we try to fit more SARIMA models for `Florida.ts`, and conduct the two weeks ahead forecast.
 
 ```{r predarima, warning=FALSE, message=FALSE, fig.height=4, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using different ARIMA models."}
 death_sarima <- Florida.ts %>%
@@ -1223,9 +1226,11 @@ death_sarima %>%
 
 ## Model Comparison
 
-Exponential smoothing and ARIMA models are the two most widely used approaches to time series forecasting, and provide complementary approaches to the problem. While exponential smoothing models are based on a description of the trend and seasonality in the data, ARIMA models aim to describe the autocorrelations in the data.
+### Exponential smoothing and ARIMA models 
 
-To compare how well the models fit the data, we can consider some common accuracy measures. It seems that on the training set the ETS model out-performs ARIMA for the series where travellers are on holiday, business, and visiting friends and relatives. 
+Exponential smoothing and ARIMA models are the two most widely used approaches to time series forecasting, and provide complementary approaches to the problem. While exponential smoothing models are based on a description of the trend and seasonality in the data, ARIMA models aim to describe the autocorrelations in the data. As discussed in @Hyndman2018, the ETS model describes how unobserved components of the data (error, trend, and seasonality) change over time, while ARIMA focuses on the autocorrelations in the data. Furthermore, the additive ETS models are all special cases of ARIMA models, while the non-additive ETS models do not have any equivalent ARIMA counterparts. On the other hand, many ARIMA models have no exponential smoothing counterparts. Thirdly, all ETS models are non-stationary, but some ARIMA models are stationary. 
+
+Note that we can not use AIC or AICc to compare ETS and ARIMA because they are in different model classes, and the likelihood is computed in different ways. Instead, we can use the validation comparison by dividing the data into two parts: a training set (JAN 23 to NOV 27) and a validation set or test set (NOV 28 to DEC 11). To compare how well the models fit the data, we can consider some common accuracy measures.  
 
 ```{r}
 death_fit <-  train %>%
@@ -1246,6 +1251,8 @@ death_fit %>%
   arrange(MASE)
 ```
 
+It seems that the ARIMA model slightly out-performs the ETS for the series based on the MASE of the training set.
+
 ```{r predetsarima, warning=FALSE, message=FALSE, fig.height=4, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using ETS and ARIMA models."}
 # Generate forecasts for the next 2 weeks
 death_fc <- death_fit %>% forecast(h = 14)
@@ -1253,26 +1260,146 @@ death_fc <- death_fit %>% forecast(h = 14)
 # Plot forecasts against actual values
 death_fc %>%
   autoplot(train, level = 95) +
-  autolayer(filter_index(dplyr::select(Florida.ts, Y.Death), 
-                         "2020-11-28" ~ .), color = "black") +
-  labs(y = "Death count", title = "ETS vs ARIMA Forecasts") +
+  autolayer(filter_index(
+    dplyr::select(Florida.ts, Y.Death), 
+    "2020-11-28" ~ .), color = "black") +
+  labs(y = "Death count", 
+       title = "ETS vs ARIMA Forecasts") +
   guides(colour = guide_legend(title = "Forecasts")) +
   theme(legend.position="bottom")
+
+# Evaluate the forecasting accuracy based on test set
+death_fc %>% 
+  accuracy(Florida.ts) %>%
+  arrange(MASE)
+```
+
+Based on the MASE of the test set and Figure \@ref(fig:predetsarima), it seems that the ETS model slightly out-performs the ARIMA.
+
+
+### Cross-validation for Time series analysis
+
+Cross-validation (CV) is a popular technique for tuning hyperparameters and producing robust measurements of model performance. Two of the most common types of cross-validation are leave-one out cross-validation and $k$-fold cross-validation.
+
+Figure \@ref(fig:kfoldCV) illustrates the idea of $k$-fold cross-validation. First, we split the dataset into $k$ folds, a subset called the training set, which contains $k-1$ folds, and another subset called the test set based on one fold. If any parameters need to be tuned, we split the training set into a training subset and a validation set. The model is trained on the training subset and the parameters that minimize error on the validation set are chosen. Finally, the model is trained on the full training set using the chosen parameters, and the error on the test set is recorded.
+
+```{r kfoldCV, out.width = "75%", echo=FALSE, fig.align = "center", fig.cap="An illustration of k-fold cross-validation."}
+knitr::include_graphics("figures/kfold-CV.png")
+```
+
+When dealing with time series data, traditional cross-validation (like $k$-fold) should not be used for two reasons:
+
+* Temporal dependencies
+
+With time series data, particular care must be taken in splitting the data in order to prevent data leakage. In order to accurately simulate the “real world forecasting environment, in which we stand in the present and forecast the future” [@tashman2000out], the forecaster must withhold all data about events that occur chronologically after the events used for fitting the model. 
+
+* Arbitrary choice of test set
+
+You may notice that the choice of the test set in Figure \@ref(fig:kfoldCV) is fairly arbitrary, and that choice may mean that our test set error is a poor estimate of error on an independent test set.
+
+So, rather than use $k$-fold cross-validation, for time series data we utilize hold-out cross-validation where a subset of the data (split temporally) is reserved for validating the model performance. For example, see Figure \@ref(fig:nestedCV) where the test set data comes chronologically after the training set. Similarly, the validation set comes chronologically after the training subset. The inner loop works exactly as discussed before: the training set is split into a training subset and a validation set, the model is trained on the training subset, and the parameters that minimize error on the validation set are chosen. However, in the outer loop which splits the dataset into multiple different training and test sets chronologically, and the forecast accuracy is computed by averaging over the test sets.
+
+```{r nestedCV, out.width = "75%", echo=FALSE, fig.align = "center", fig.cap="An illustration of cross-validation for time series."}
+knitr::include_graphics("figures/nested-CV.png")
+```
+
+There are three main rolling types which can be used.
+
+* Stretch: extends a growing length window with new data.
+* Slide: shifts a fixed length window through the data.
+* Tile: moves a fixed length window without overlap.
+
+and we can apply the following functions to roll a “tsibble”: 
+
+* `stretch_tsibble()`
+* `slide_tsibble()`
+* `tile_tsibble()`
+
+These functions provide fast and shorthand for rolling over a tsibble by observations. They all return a tsibble including a new column `.id` as part of the key. The output dimension will increase considerably with `slide_tsibble()` and `stretch_tsibble()`, which is likely to run out of memory when the data is large.
+
+For time series cross-validation, stretching windows are most commonly used.
+
+```{r warning=FALSE, message=FALSE}
+# Time series cross-validation accuracy
+Florida.train <- Florida.ts %>%
+  filter_index("2020-04-01" ~ "2020-11-27") %>%
+  # Stretch with a minimum length of 60
+  # growing by 7 each step  
+  stretch_tsibble(.init = 60, .step = 7) %>%
+  relocate(DATE, State, .id)
+
+Florida.train
+
+# Training set model fit
+FL.fit <- Florida.train %>%
+  model(
+      `ETS` = ETS(Y.Death 
+                  ~ error("A") + trend("A") + season("A")),  
+      `ARIMA` = ARIMA(Y.Death ~ 1 + pdq(1,0,1) + PDQ(0,1,1))
+    )  
+
+# Training set accuracy
+FL.fit %>% accuracy()
+
+# 7-day forecast accuracy
+period.fc <- 7
+FL.fc <- FL.fit %>%
+  forecast(h = period.fc) %>%
+  group_by(.id) %>%
+  mutate(h = row_number()) %>%
+  ungroup()
+
+FL.accuracy <- FL.fc %>%
+  accuracy(Florida.ts, by = c("h", ".model")) 
+FL.accuracy$h <- rep(1:period.fc, 2)
+```
+
+```{r cvetsarima, warning=FALSE, message=FALSE, fig.height=4, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using ETS and ARIMA models."}
+FL.accuracy %>%
+  ggplot(aes(x = h, y = RMSE)) +
+  geom_line(aes(color = .model)) +
+  geom_point(aes(color = .model))
 ```
 
 ## Ensuring Forecasts Stay Within Limits
 
-It is common to want forecasts to be positive, or to require them to be within some specified range $[a,b]$. Both of these situations are relatively easy to handle using transformations.
+In epidemic forecasting, it is common to set forecasts to be positive, especially when forecasting count time series, or to require them to be within some specified range $[a,b]$. Both of these situations are relatively easy to handle using transformations.
 
 ### Positive forecasts
 
-To impose a positivity constraint, we can simply work on the log scale. Here is an example using ETS models applied to the daily new death count time series for Florida. 
+To impose a positivity constraint, we can simply work on the log scale. The following is an example using ETS models applied to the daily new death count time series for Florida. 
 
-```{r predetslog, warning=FALSE, message=FALSE, fig.height=4, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using ETS, constrained to be positive."} 
-train %>% model(`ETS` = ETS(log(Y.Death+1) 
-                ~ error("A") + trend("A") + season("A"))) %>% 
-  forecast(h = 14) %>%
-  autoplot(train, level = 95)
+```{r predetslog, warning=FALSE, message=FALSE, fig.height=4, fig.width=7, fig.align = "center", fig.cap="Two weeks ahead forecast of the daily death count for Florida using ETS with/without log transformation."} 
+# Obtain the ETS fit with/without log transformation
+ETS.fit <- train %>% 
+  model(
+    `ETS` = ETS(Y.Death ~ error("A") + trend("A") + season("A")),
+    `logETS` = ETS(log(Y.Death+1) ~ error("A") + trend("A") + season("A"))
+  ) 
+
+# Generate forecasts for the next 2 weeks
+ETS_fc <- ETS.fit %>% forecast(h = 14)
+  
+# Plot forecasts against actual values
+ETS_fc %>%
+  autoplot(train, level = 95) +
+  autolayer(
+    filter_index(dplyr::select(Florida.ts, Y.Death), 
+                 "2020-11-28" ~ .), color = "black") +
+  labs(y = "Death count", 
+       title = "ETS Forecasts with/without log transformation") +
+  guides(colour = guide_legend(title = "Forecasts")) +
+  theme(legend.position="bottom")
+```
+
+```{r, warning=FALSE, message=FALSE} 
+# Residual plot for the ETS without the log transformation
+ETS.fit %>%
+  select(ETS) %>% gg_tsresiduals(lag=36)
+
+# Residual plot for the log transformed EST method
+ETS.fit %>%
+  select(logETS) %>% gg_tsresiduals(lag=36)
 ```
 
 ### Forecasts constrained to an interval
@@ -1294,7 +1421,8 @@ scaled_logit <- function(x, lower = 0, upper = 1){
 inv_scaled_logit <- function(x, lower = 0, upper = 1){
   (upper - lower) * exp(x) / (1 + exp(x)) + lower
 }
-my_scaled_logit <- new_transformation(scaled_logit, inv_scaled_logit)
+my_scaled_logit <- new_transformation(scaled_logit, 
+                                      inv_scaled_logit)
 ```
 
 Now, we can make the prediction based on the transfromed time series. Let us consider the forecast within $[0,300]$.
@@ -1309,9 +1437,7 @@ train %>%
 
 ## Prediction and Prediction Intervals for Aggregates
 
-We considered the daily new death count in the above sections, but we may want to forecast the cumulative count.
-
-If the point forecasts are means, then adding them up will give a reasonable estimate of the total. But prediction intervals are more tricky due to the correlations between forecast errors. A general solution is to use simulations. For example, we consider the forecast of the cumulative death count in the next two weeks.
+We considered the daily new death count in the above sections, but we may want to forecast the cumulative count. If the point forecasts are means, then adding them up will give a reasonable estimate of the cumulative count. However, prediction intervals are more tricky due to the correlations between forecast errors. A general solution is to use simulations. For example, we consider the forecast of the cumulative death count in the next two weeks.
 
 ```{r, warning=FALSE, message=FALSE}
 d_ets_fit <-  train %>% model(
@@ -1330,7 +1456,7 @@ d.pred.paths <- d_ets_fit %>%
   mutate(.csum = cumsum(.sim))
 ```
 
-We can compute the mean of the simulations, and extract a specified prediction interval at a particular confidence level. For example, 
+We can compute the mean of the simulations, and extract a specified prediction interval at a particular level. For example, 
 
 ```{r, warning=FALSE, message=FALSE}
 d.pred.report <- d.pred.paths %>% 

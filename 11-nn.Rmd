@@ -51,7 +51,7 @@ Figure \@ref(fig:NN2) shows a neural network constructed from 3 type of layers:
 
 **Output Layer:** The Output layer has one nodes which takes inputs from the Hidden layer and perform similar computations as shown for the highlighted hidden node. The value calculated $a_1^{(3)}$ as a result of these computations act as the output.
 
-```{r NN2, out.width = "75%", echo=FALSE, fig.align = "center", fig.cap="a neural network with one hidden layer."}
+```{r NN2, out.width = "50%", echo=FALSE, fig.align = "center", fig.cap="A neural network with one hidden layer."}
 knitr::include_graphics("figures/NN2.png")
 ```
 
@@ -82,11 +82,9 @@ In the regression, our objective function is
 \]
 
 Gradient Descent:
-
 \[
 \boldsymbol{\beta}^{(j)} \leftarrow \boldsymbol{\beta}^{(j)} - \alpha \nabla_{\boldsymbol{\beta}^{(j)}} \ell(\boldsymbol{\beta}^{(1)}, \ldots, \boldsymbol{\beta}^{(L)}), 
 \]
-
 for all $j$.
 
 
