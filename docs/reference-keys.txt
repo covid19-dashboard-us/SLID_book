@@ -107,8 +107,11 @@ tab:unnamed-chunk-171
 tab:unnamed-chunk-172
 fig:predarima
 fig:predetsarima
+fig:valid
 fig:kfoldCV
-fig:nestedCV
+fig:stretchCV
+fig:slideCV
+fig:tileCV
 fig:cvetsarima
 fig:predetslog
 fig:predetslog2
@@ -291,13 +294,13 @@ herd-immunity
 exercises-4
 timeseries
 datasets-and-r-packages
-time-series-plots
+an-introduction-to-time-series-analysis
 tsibble-objects
 working-with-tsibble-objects
 drawing-time-series-plots
 objectives-of-time-series-analysis
+stationarity
 autocorrelation
-autocorrelation-1
 time-series-decomposition
 box-cox-transformations
 methods-for-estimating-the-trend
@@ -331,7 +334,6 @@ positive-forecasts
 forecasts-constrained-to-an-interval
 prediction-and-prediction-intervals-for-aggregates
 exercises-5
-references
 regression
 principles-of-regression-modeling
 area-level-data

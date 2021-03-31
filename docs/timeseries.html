@@ -24,7 +24,7 @@
 <meta name="author" content="Lily Wang" />
 
 
-<meta name="date" content="2021-03-28" />
+<meta name="date" content="2021-03-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -379,14 +379,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10" data-path="timeseries.html"><a href="timeseries.html"><i class="fa fa-check"></i><b>10</b> Time Series Analysis of Infectious Disease Data</a>
 <ul>
 <li class="chapter" data-level="10.1" data-path="timeseries.html"><a href="timeseries.html#datasets-and-r-packages"><i class="fa fa-check"></i><b>10.1</b> Datasets and R Packages</a></li>
-<li class="chapter" data-level="10.2" data-path="timeseries.html"><a href="timeseries.html#time-series-plots"><i class="fa fa-check"></i><b>10.2</b> Time series plots</a>
+<li class="chapter" data-level="10.2" data-path="timeseries.html"><a href="timeseries.html#an-introduction-to-time-series-analysis"><i class="fa fa-check"></i><b>10.2</b> An Introduction to Time Series Analysis</a>
 <ul>
 <li class="chapter" data-level="10.2.1" data-path="timeseries.html"><a href="timeseries.html#tsibble-objects"><i class="fa fa-check"></i><b>10.2.1</b> “tsibble” objects</a></li>
 <li class="chapter" data-level="10.2.2" data-path="timeseries.html"><a href="timeseries.html#working-with-tsibble-objects"><i class="fa fa-check"></i><b>10.2.2</b> Working with “tsibble” objects</a></li>
 <li class="chapter" data-level="10.2.3" data-path="timeseries.html"><a href="timeseries.html#drawing-time-series-plots"><i class="fa fa-check"></i><b>10.2.3</b> Drawing time series plots</a></li>
 <li class="chapter" data-level="10.2.4" data-path="timeseries.html"><a href="timeseries.html#objectives-of-time-series-analysis"><i class="fa fa-check"></i><b>10.2.4</b> Objectives of Time Series Analysis</a></li>
-<li class="chapter" data-level="10.2.5" data-path="timeseries.html"><a href="timeseries.html#autocorrelation"><i class="fa fa-check"></i><b>10.2.5</b> Autocorrelation</a></li>
-<li class="chapter" data-level="10.2.6" data-path="timeseries.html"><a href="timeseries.html#autocorrelation-1"><i class="fa fa-check"></i><b>10.2.6</b> Autocorrelation</a></li>
+<li class="chapter" data-level="10.2.5" data-path="timeseries.html"><a href="timeseries.html#stationarity"><i class="fa fa-check"></i><b>10.2.5</b> Stationarity</a></li>
+<li class="chapter" data-level="10.2.6" data-path="timeseries.html"><a href="timeseries.html#autocorrelation"><i class="fa fa-check"></i><b>10.2.6</b> Autocorrelation</a></li>
 </ul></li>
 <li class="chapter" data-level="10.3" data-path="timeseries.html"><a href="timeseries.html#time-series-decomposition"><i class="fa fa-check"></i><b>10.3</b> Time Series Decomposition</a>
 <ul>
@@ -431,7 +431,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10.9" data-path="timeseries.html"><a href="timeseries.html#prediction-and-prediction-intervals-for-aggregates"><i class="fa fa-check"></i><b>10.9</b> Prediction and Prediction Intervals for Aggregates</a></li>
 <li class="chapter" data-level="10.10" data-path="timeseries.html"><a href="timeseries.html#exercises-5"><i class="fa fa-check"></i><b>10.10</b> Exercises</a></li>
-<li class="chapter" data-level="10.11" data-path="timeseries.html"><a href="timeseries.html#references"><i class="fa fa-check"></i><b>10.11</b> References</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>11</b> Regression Modeling</a>
 <ul>
@@ -460,7 +459,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="13.4" data-path="ensemble.html"><a href="ensemble.html#weights-selection-using-cross-validation"><i class="fa fa-check"></i><b>13.4</b> Weights Selection Using Cross Validation</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i>Appendix</a></li>
 <li class="chapter" data-level="14" data-path="appendix-a.html"><a href="appendix-a.html"><i class="fa fa-check"></i><b>14</b> Appendix A</a>
 <ul>
@@ -547,8 +546,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The R package “fable” provides a collection of commonly used univariate and multivariate time series forecasting models including exponential smoothing via state space models and autoregressive integrated moving average (ARIMA) modeling. The “fable” package provides the tools to evaluate, visualize, and combine models in a workflow consistent with the “tidyverse.”</p>
 <p>The <a href="https://otexts.com/fpp3/">Forecasting: Principles and Practices</a> online textbook provides an introduction to time series forecasting using <code>fable</code>.</p>
 </div>
-<div id="time-series-plots" class="section level2" number="10.2">
-<h2><span class="header-section-number">10.2</span> Time series plots</h2>
+<div id="an-introduction-to-time-series-analysis" class="section level2" number="10.2">
+<h2><span class="header-section-number">10.2</span> An Introduction to Time Series Analysis</h2>
 <p>Time series is a set of observations recorded sequentially. The first thing to do in any time series analysis task is to plot the data. Graphs enable many features of the data to be visualized, including patterns, unusual observations, changes over time, and relationships between variables. The features that are seen in plots of the data must then be incorporated, as much as possible, into the forecasting methods to be used. Just as the type of data determines what forecasting method to use, it also determines what graphs are appropriate. But before we produce graphs, we need to set up our time series in R.</p>
 <div id="tsibble-objects" class="section level3" number="10.2.1">
 <h3><span class="header-section-number">10.2.1</span> “tsibble” objects</h3>
@@ -790,8 +789,8 @@ Figure 10.7: The lag plot of the daily new death count for Florida.
 </ul></li>
 </ul>
 </div>
-<div id="autocorrelation" class="section level3" number="10.2.5">
-<h3><span class="header-section-number">10.2.5</span> Autocorrelation</h3>
+<div id="stationarity" class="section level3" number="10.2.5">
+<h3><span class="header-section-number">10.2.5</span> Stationarity</h3>
 <p>Let <span class="math inline">\(\{X_t\}\)</span> be a time series with <span class="math inline">\(E(X_t^2)&lt;\infty\)</span>.</p>
 <ul>
 <li>The <strong>mean function</strong> of <span class="math inline">\(\{X_t\}\)</span> is
@@ -848,7 +847,7 @@ where ``<span class="math inline">\(\overset{d}{=}\)</span>’’ denotes equali
   * much weaker than strict stationarity </code></pre></li>
 </ul>
 </div>
-<div id="autocorrelation-1" class="section level3" number="10.2.6">
+<div id="autocorrelation" class="section level3" number="10.2.6">
 <h3><span class="header-section-number">10.2.6</span> Autocorrelation</h3>
 <ol style="list-style-type: decimal">
 <li><strong>Autocovariance Function (ACVF)</strong></li>
@@ -1901,11 +1900,13 @@ Figure 10.28: Two weeks ahead forecast of the daily death count for Florida usin
 <span id="cb292-4"><a href="timeseries.html#cb292-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot forecasts against actual values</span></span>
 <span id="cb292-5"><a href="timeseries.html#cb292-5" aria-hidden="true" tabindex="-1"></a>death_fc <span class="sc">%&gt;%</span></span>
 <span id="cb292-6"><a href="timeseries.html#cb292-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(train, <span class="at">level =</span> <span class="dv">95</span>) <span class="sc">+</span></span>
-<span id="cb292-7"><a href="timeseries.html#cb292-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(<span class="fu">filter_index</span>(dplyr<span class="sc">::</span><span class="fu">select</span>(Florida.ts, Y.Death), </span>
-<span id="cb292-8"><a href="timeseries.html#cb292-8" aria-hidden="true" tabindex="-1"></a>                         <span class="st">&quot;2020-11-28&quot;</span> <span class="sc">~</span> .), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
-<span id="cb292-9"><a href="timeseries.html#cb292-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Death count&quot;</span>, <span class="at">title =</span> <span class="st">&quot;ETS vs ARIMA Forecasts&quot;</span>) <span class="sc">+</span></span>
-<span id="cb292-10"><a href="timeseries.html#cb292-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="st">&quot;Forecasts&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb292-11"><a href="timeseries.html#cb292-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
+<span id="cb292-7"><a href="timeseries.html#cb292-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(<span class="fu">filter_index</span>(</span>
+<span id="cb292-8"><a href="timeseries.html#cb292-8" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(Florida.ts, Y.Death), </span>
+<span id="cb292-9"><a href="timeseries.html#cb292-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;2020-11-28&quot;</span> <span class="sc">~</span> .), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb292-10"><a href="timeseries.html#cb292-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Death count&quot;</span>, </span>
+<span id="cb292-11"><a href="timeseries.html#cb292-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;ETS vs ARIMA Forecasts&quot;</span>) <span class="sc">+</span></span>
+<span id="cb292-12"><a href="timeseries.html#cb292-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="st">&quot;Forecasts&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb292-13"><a href="timeseries.html#cb292-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:predetsarima"></span>
 <img src="SLID_book_files/figure-html/predetsarima-1.png" alt="Two weeks ahead forecast of the daily death count for Florida using ETS and ARIMA models." width="672" />
 <p class="caption">
@@ -1926,35 +1927,36 @@ Figure 10.29: Two weeks ahead forecast of the daily death count for Florida usin
 </div>
 <div id="cross-validation-for-time-series-analysis" class="section level3" number="10.7.2">
 <h3><span class="header-section-number">10.7.2</span> Cross-validation for Time series analysis</h3>
+<p>As described in the previous sections, we can use the validation approach for model comparison. If any parameters need to be tuned, we split the training set into a training subset and a validation set. The model is trained on the training subset and the parameters that minimize error on the validation set are chosen. Finally, the model is trained on the full training set using the chosen parameters, and the error on the test set is recorded.</p>
+<div class="figure" style="text-align: center"><span id="fig:valid"></span>
+<img src="figures/validation.png" alt="An illustration of traditional time series validation." width="75%" />
+<p class="caption">
+Figure 10.30: An illustration of traditional time series validation.
+</p>
+</div>
+<p>However, you may notice that the choice of the test set in Figure <a href="timeseries.html#fig:kfoldCV">10.31</a> is fairly arbitrary, and that choice may mean that our test set error is a poor estimate of error on an independent test set.</p>
 <p>Cross-validation (CV) is a popular technique for tuning hyperparameters and producing robust measurements of model performance. Two of the most common types of cross-validation are leave-one out cross-validation and <span class="math inline">\(k\)</span>-fold cross-validation.</p>
-<p>Figure <a href="timeseries.html#fig:kfoldCV">10.30</a> illustrates the idea of <span class="math inline">\(k\)</span>-fold cross-validation. First, we split the dataset into <span class="math inline">\(k\)</span> folds, a subset called the training set, which contains <span class="math inline">\(k-1\)</span> folds, and another subset called the test set based on one fold. If any parameters need to be tuned, we split the training set into a training subset and a validation set. The model is trained on the training subset and the parameters that minimize error on the validation set are chosen. Finally, the model is trained on the full training set using the chosen parameters, and the error on the test set is recorded.</p>
+<p>Figure <a href="timeseries.html#fig:kfoldCV">10.31</a> illustrates the idea of <span class="math inline">\(k\)</span>-fold cross-validation. First, we split randomly data into <span class="math inline">\(k\)</span> folds, a subset called the training set, and another subset called the test set based on one fold. Focus on train set, which contains <span class="math inline">\(k-1\)</span> folds, to train the model and test on the <span class="math inline">\(k\)</span>th fold. Repeat the above <span class="math inline">\(k\)</span> times to get <span class="math inline">\(k\)</span> accuracy measures on 10 different and separate folds. Compute the average of the <span class="math inline">\(k\)</span> accuracies which is the final reliable number telling us how the model is performing.</p>
 <div class="figure" style="text-align: center"><span id="fig:kfoldCV"></span>
 <img src="figures/kfold-CV.png" alt="An illustration of k-fold cross-validation." width="75%" />
 <p class="caption">
-Figure 10.30: An illustration of k-fold cross-validation.
+Figure 10.31: An illustration of k-fold cross-validation.
 </p>
 </div>
-<p>When dealing with time series data, traditional cross-validation (like <span class="math inline">\(k\)</span>-fold) should not be used for two reasons:</p>
-<ul>
-<li>Temporal dependencies</li>
-</ul>
-<p>With time series data, particular care must be taken in splitting the data in order to prevent data leakage. In order to accurately simulate the “real world forecasting environment, in which we stand in the present and forecast the future” (Tashman 2000), the forecaster must withhold all data about events that occur chronologically after the events used for fitting the model.</p>
-<ul>
-<li>Arbitrary choice of test set</li>
-</ul>
-<p>You may notice that the choice of the test set in Figure <a href="timeseries.html#fig:kfoldCV">10.30</a> is fairly arbitrary, and that choice may mean that our test set error is a poor estimate of error on an independent test set.</p>
-<p>So, rather than use <span class="math inline">\(k\)</span>-fold cross-validation, for time series data we utilize hold-out cross-validation where a subset of the data (split temporally) is reserved for validating the model performance. For example, see Figure <a href="timeseries.html#fig:nestedCV">10.31</a> where the test set data comes chronologically after the training set. Similarly, the validation set comes chronologically after the training subset. The inner loop works exactly as discussed before: the training set is split into a training subset and a validation set, the model is trained on the training subset, and the parameters that minimize error on the validation set are chosen. However, in the outer loop which splits the dataset into multiple different training and test sets chronologically, and the forecast accuracy is computed by averaging over the test sets.</p>
-<div class="figure" style="text-align: center"><span id="fig:nestedCV"></span>
-<img src="figures/nested-CV.png" alt="An illustration of nested cross-validation." width="75%" />
+<p>When dealing with time series data, traditional cross-validation (like <span class="math inline">\(k\)</span>-fold) should not be used because of the temporal dependencies.</p>
+<p>In the case of time series, the cross-validation is not trivial. We cannot choose random samples and assign them to either the test set or the train set because it makes no sense to use the values from the future to forecast values in the past. In order to accurately simulate the “real world forecasting environment, in which we stand in the present and forecast the future” <span class="citation">(<a href="appendix-b.html#ref-tashman2000out" role="doc-biblioref">Tashman 2000</a>)</span>, the forecaster must withhold all data about events that occur chronologically after the events used for fitting the model.</p>
+<p>So, rather than use <span class="math inline">\(k\)</span>-fold cross-validation, for time series data we utilize hold-out cross-validation where a subset of the data (split temporally) is reserved for validating the model performance. For example, see Figure <a href="timeseries.html#fig:stretchCV">10.32</a> where the test set data comes chronologically after the training set. Similarly, the validation set comes chronologically after the training subset. The inner loop works exactly as discussed before: the training set is split into a training subset and a validation set, the model is trained on the training subset, and the parameters that minimize error on the validation set are chosen. However, in the outer loop which splits the dataset into multiple different training and test sets chronologically, and the forecast accuracy is computed by averaging over the test sets.</p>
+<div class="figure" style="text-align: center"><span id="fig:stretchCV"></span>
+<img src="figures/stretchcv.png" alt="An illustration of strech rolling cross-validation for time series." width="75%" />
 <p class="caption">
-Figure 10.31: An illustration of nested cross-validation.
+Figure 10.32: An illustration of strech rolling cross-validation for time series.
 </p>
 </div>
 <p>There are three main rolling types which can be used.</p>
 <ul>
-<li>Stretch: extends a growing length window with new data.</li>
-<li>Slide: shifts a fixed length window through the data.</li>
-<li>Tile: moves a fixed length window without overlap.</li>
+<li>Stretch: extends a growing length window with new data; see Figure <a href="timeseries.html#fig:stretchCV">10.32</a>.</li>
+<li>Slide: shifts a fixed length window through the data; see Figure <a href="timeseries.html#fig:slideCV">10.33</a>.</li>
+<li>Tile: moves a fixed length window without overlap; see Figure <a href="timeseries.html#fig:tileCV">10.34</a>.</li>
 </ul>
 <p>and we can apply the following functions to roll a “tsibble”:</p>
 <ul>
@@ -1962,9 +1964,21 @@ Figure 10.31: An illustration of nested cross-validation.
 <li><code>slide_tsibble()</code></li>
 <li><code>tile_tsibble()</code></li>
 </ul>
+<div class="figure" style="text-align: center"><span id="fig:slideCV"></span>
+<img src="figures/slidecv.png" alt="An illustration of slide rolling cross-validation for time series." width="75%" />
+<p class="caption">
+Figure 10.33: An illustration of slide rolling cross-validation for time series.
+</p>
+</div>
+<div class="figure" style="text-align: center"><span id="fig:tileCV"></span>
+<img src="figures/slidecv.png" alt="An illustration of tile rolling cross-validation for time series." width="75%" />
+<p class="caption">
+Figure 10.34: An illustration of tile rolling cross-validation for time series.
+</p>
+</div>
 <p>These functions provide fast and shorthand for rolling over a tsibble by observations. They all return a tsibble including a new column <code>.id</code> as part of the key. The output dimension will increase considerably with <code>slide_tsibble()</code> and <code>stretch_tsibble()</code>, which is likely to run out of memory when the data is large.</p>
 <p>For time series cross-validation, stretching windows are most commonly used.</p>
-<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="timeseries.html#cb295-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Time series cross-validation accuracy</span></span>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="timeseries.html#cb295-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split training and test using stretching window</span></span>
 <span id="cb295-2"><a href="timeseries.html#cb295-2" aria-hidden="true" tabindex="-1"></a>Florida.train <span class="ot">&lt;-</span> Florida.ts <span class="sc">%&gt;%</span></span>
 <span id="cb295-3"><a href="timeseries.html#cb295-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter_index</span>(<span class="st">&quot;2020-04-01&quot;</span> <span class="sc">~</span> <span class="st">&quot;2020-11-27&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb295-4"><a href="timeseries.html#cb295-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Stretch with a minimum length of 60</span></span>
@@ -2032,7 +2046,7 @@ Figure 10.31: An illustration of nested cross-validation.
 <div class="figure" style="text-align: center"><span id="fig:cvetsarima"></span>
 <img src="SLID_book_files/figure-html/cvetsarima-1.png" alt="Two weeks ahead forecast of the daily death count for Florida using ETS and ARIMA models." width="672" />
 <p class="caption">
-Figure 10.32: Two weeks ahead forecast of the daily death count for Florida using ETS and ARIMA models.
+Figure 10.35: Two weeks ahead forecast of the daily death count for Florida using ETS and ARIMA models.
 </p>
 </div>
 </div>
@@ -2056,15 +2070,17 @@ Figure 10.32: Two weeks ahead forecast of the daily death count for Florida usin
 <span id="cb301-11"><a href="timeseries.html#cb301-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot forecasts against actual values</span></span>
 <span id="cb301-12"><a href="timeseries.html#cb301-12" aria-hidden="true" tabindex="-1"></a>ETS_fc <span class="sc">%&gt;%</span></span>
 <span id="cb301-13"><a href="timeseries.html#cb301-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(train, <span class="at">level =</span> <span class="dv">95</span>) <span class="sc">+</span></span>
-<span id="cb301-14"><a href="timeseries.html#cb301-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(<span class="fu">filter_index</span>(dplyr<span class="sc">::</span><span class="fu">select</span>(Florida.ts, Y.Death), </span>
-<span id="cb301-15"><a href="timeseries.html#cb301-15" aria-hidden="true" tabindex="-1"></a>                         <span class="st">&quot;2020-11-28&quot;</span> <span class="sc">~</span> .), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
-<span id="cb301-16"><a href="timeseries.html#cb301-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Death count&quot;</span>, <span class="at">title =</span> <span class="st">&quot;ETS Forecasts with/without log transformation&quot;</span>) <span class="sc">+</span></span>
-<span id="cb301-17"><a href="timeseries.html#cb301-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="st">&quot;Forecasts&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb301-18"><a href="timeseries.html#cb301-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
+<span id="cb301-14"><a href="timeseries.html#cb301-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(</span>
+<span id="cb301-15"><a href="timeseries.html#cb301-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter_index</span>(dplyr<span class="sc">::</span><span class="fu">select</span>(Florida.ts, Y.Death), </span>
+<span id="cb301-16"><a href="timeseries.html#cb301-16" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;2020-11-28&quot;</span> <span class="sc">~</span> .), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb301-17"><a href="timeseries.html#cb301-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Death count&quot;</span>, </span>
+<span id="cb301-18"><a href="timeseries.html#cb301-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;ETS Forecasts with/without log transformation&quot;</span>) <span class="sc">+</span></span>
+<span id="cb301-19"><a href="timeseries.html#cb301-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="st">&quot;Forecasts&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb301-20"><a href="timeseries.html#cb301-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:predetslog"></span>
 <img src="SLID_book_files/figure-html/predetslog-1.png" alt="Two weeks ahead forecast of the daily death count for Florida using ETS with/without log transformation." width="672" />
 <p class="caption">
-Figure 10.33: Two weeks ahead forecast of the daily death count for Florida using ETS with/without log transformation.
+Figure 10.36: Two weeks ahead forecast of the daily death count for Florida using ETS with/without log transformation.
 </p>
 </div>
 <div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="timeseries.html#cb302-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Residual plot for the ETS without the log transformation</span></span>
@@ -2093,7 +2109,8 @@ This is not a built-in transformation, so we will need to first setup the transf
 <span id="cb304-4"><a href="timeseries.html#cb304-4" aria-hidden="true" tabindex="-1"></a>inv_scaled_logit <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">1</span>){</span>
 <span id="cb304-5"><a href="timeseries.html#cb304-5" aria-hidden="true" tabindex="-1"></a>  (upper <span class="sc">-</span> lower) <span class="sc">*</span> <span class="fu">exp</span>(x) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(x)) <span class="sc">+</span> lower</span>
 <span id="cb304-6"><a href="timeseries.html#cb304-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb304-7"><a href="timeseries.html#cb304-7" aria-hidden="true" tabindex="-1"></a>my_scaled_logit <span class="ot">&lt;-</span> <span class="fu">new_transformation</span>(scaled_logit, inv_scaled_logit)</span></code></pre></div>
+<span id="cb304-7"><a href="timeseries.html#cb304-7" aria-hidden="true" tabindex="-1"></a>my_scaled_logit <span class="ot">&lt;-</span> <span class="fu">new_transformation</span>(scaled_logit, </span>
+<span id="cb304-8"><a href="timeseries.html#cb304-8" aria-hidden="true" tabindex="-1"></a>                                      inv_scaled_logit)</span></code></pre></div>
 <p>Now, we can make the prediction based on the transfromed time series. Let us consider the forecast within <span class="math inline">\([0,300]\)</span>.</p>
 <div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="timeseries.html#cb305-1" aria-hidden="true" tabindex="-1"></a>train <span class="sc">%&gt;%</span></span>
 <span id="cb305-2"><a href="timeseries.html#cb305-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="fu">ETS</span>(<span class="fu">my_scaled_logit</span>(Y.Death <span class="sc">+</span> <span class="dv">1</span>, <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">300</span>) <span class="sc">~</span> </span>
@@ -2103,7 +2120,7 @@ This is not a built-in transformation, so we will need to first setup the transf
 <div class="figure" style="text-align: center"><span id="fig:predetslog2"></span>
 <img src="SLID_book_files/figure-html/predetslog2-1.png" alt="Two weeks ahead forecast of the daily death count for Florida using ETS, constrained to be within [0,300]." width="672" />
 <p class="caption">
-Figure 10.34: Two weeks ahead forecast of the daily death count for Florida using ETS, constrained to be within [0,300].
+Figure 10.37: Two weeks ahead forecast of the daily death count for Florida using ETS, constrained to be within [0,300].
 </p>
 </div>
 </div>
@@ -2136,7 +2153,7 @@ Figure 10.34: Two weeks ahead forecast of the daily death count for Florida usin
 <span id="cb307-8"><a href="timeseries.html#cb307-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">.lpi95 =</span> .lpi95 <span class="sc">+</span> <span class="fu">tail</span>(train<span class="sc">$</span>Death,<span class="dv">1</span>),</span>
 <span id="cb307-9"><a href="timeseries.html#cb307-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">.upi95 =</span> .upi95 <span class="sc">+</span> <span class="fu">tail</span>(train<span class="sc">$</span>Death,<span class="dv">1</span>)</span>
 <span id="cb307-10"><a href="timeseries.html#cb307-10" aria-hidden="true" tabindex="-1"></a>         )</span></code></pre></div>
-<p>Figure <a href="timeseries.html#fig:predcum">10.35</a> shows the two weeks ahead forecast of the cumulative death count for Florida using ETS.</p>
+<p>Figure <a href="timeseries.html#fig:predcum">10.38</a> shows the two weeks ahead forecast of the cumulative death count for Florida using ETS.</p>
 <div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="timeseries.html#cb308-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(train, <span class="fu">aes</span>(DATE, Death)) <span class="sc">+</span> </span>
 <span id="cb308-2"><a href="timeseries.html#cb308-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
 <span id="cb308-3"><a href="timeseries.html#cb308-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Days&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>, </span>
@@ -2161,7 +2178,7 @@ Figure 10.34: Two weeks ahead forecast of the daily death count for Florida usin
 <div class="figure" style="text-align: center"><span id="fig:predcum"></span>
 <img src="SLID_book_files/figure-html/predcum-1.png" alt="Two weeks ahead forecast of the cumulative death count for Florida using ETS." width="672" />
 <p class="caption">
-Figure 10.35: Two weeks ahead forecast of the cumulative death count for Florida using ETS.
+Figure 10.38: Two weeks ahead forecast of the cumulative death count for Florida using ETS.
 </p>
 </div>
 </div>
@@ -2205,10 +2222,6 @@ mean 0 and variance <span class="math inline">\(\sigma^2\)</span>, and let <span
 <ol start="4" style="list-style-type: decimal">
 <li>From <code>state.long</code> in the R package <code>slid</code>, choose a state and convert the data to time series. Use the automatic search in <code>ARIMA()</code> to find an ARIMA model. What model was selected? Write the model in terms of the backshift operator.</li>
 </ol>
-</div>
-<div id="references" class="section level2" number="10.11">
-<h2><span class="header-section-number">10.11</span> References</h2>
-<p><span class="citation"><a href="appendix-b.html#ref-Hyndman2018" role="doc-biblioref">Hyndman and Athanasopoulos</a> (<a href="appendix-b.html#ref-Hyndman2018" role="doc-biblioref">2018b</a>)</span></p>
 
 </div>
 </div>

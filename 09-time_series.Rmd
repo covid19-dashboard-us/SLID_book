@@ -32,7 +32,7 @@ The R package “fable” provides a collection of commonly used univariate and 
 
 The [Forecasting: Principles and Practices](https://otexts.com/fpp3/) online textbook provides an introduction to time series forecasting using `fable`. 
 
-## Time series plots
+## An Introduction to Time Series Analysis
 
 Time series is a set of observations recorded sequentially. The first thing to do in any time series analysis task is to plot the data. Graphs enable many features of the data to be visualized, including patterns, unusual observations, changes over time, and relationships between variables. The features that are seen in plots of the data must then be incorporated, as much as possible, into the forecasting methods to be used. Just as the type of data determines what forecasting method to use, it also determines what graphs are appropriate. But before we produce graphs, we need to set up our time series in R.
 
@@ -219,7 +219,7 @@ It is often colored the seasonal period (here weekly cycle) to identify how each
     + eliminate trend and seasonality
     + model remainder as dependent but identically distributed
 
-### Autocorrelation
+### Stationarity
 
 Let $\{X_t\}$ be a time series with $E(X_t^2)<\infty$. 
 
@@ -1279,35 +1279,37 @@ Based on the MASE of the test set and Figure \@ref(fig:predetsarima), it seems t
 
 ### Cross-validation for Time series analysis
 
+As described in the previous sections, we can use the validation approach for model comparison. If any parameters need to be tuned, we split the training set into a training subset and a validation set. The model is trained on the training subset and the parameters that minimize error on the validation set are chosen. Finally, the model is trained on the full training set using the chosen parameters, and the error on the test set is recorded.
+
+```{r valid, out.width = "75%", echo=FALSE, fig.align = "center", fig.cap="An illustration of traditional time series validation."}
+knitr::include_graphics("figures/validation.png")
+```
+
+However, you may notice that the choice of the test set in Figure \@ref(fig:kfoldCV) is fairly arbitrary, and that choice may mean that our test set error is a poor estimate of error on an independent test set.
+
 Cross-validation (CV) is a popular technique for tuning hyperparameters and producing robust measurements of model performance. Two of the most common types of cross-validation are leave-one out cross-validation and $k$-fold cross-validation.
 
-Figure \@ref(fig:kfoldCV) illustrates the idea of $k$-fold cross-validation. First, we split the dataset into $k$ folds, a subset called the training set, which contains $k-1$ folds, and another subset called the test set based on one fold. If any parameters need to be tuned, we split the training set into a training subset and a validation set. The model is trained on the training subset and the parameters that minimize error on the validation set are chosen. Finally, the model is trained on the full training set using the chosen parameters, and the error on the test set is recorded.
+Figure \@ref(fig:kfoldCV) illustrates the idea of $k$-fold cross-validation. First, we split randomly data into $k$ folds, a subset called the training set,  and another subset called the test set based on one fold. Focus on train set, which contains $k-1$ folds, to train the model and test on the $k$th fold. Repeat the above $k$ times to get $k$ accuracy measures on 10 different and separate folds. Compute the average of the $k$ accuracies which is the final reliable number telling us how the model is performing. 
 
 ```{r kfoldCV, out.width = "75%", echo=FALSE, fig.align = "center", fig.cap="An illustration of k-fold cross-validation."}
 knitr::include_graphics("figures/kfold-CV.png")
 ```
 
-When dealing with time series data, traditional cross-validation (like $k$-fold) should not be used for two reasons:
+When dealing with time series data, traditional cross-validation (like $k$-fold) should not be used because of the temporal dependencies. 
 
-* Temporal dependencies
+In the case of time series, the cross-validation is not trivial. We cannot choose random samples and assign them to either the test set or the train set because it makes no sense to use the values from the future to forecast values in the past. In order to accurately simulate the “real world forecasting environment, in which we stand in the present and forecast the future” [@tashman2000out], the forecaster must withhold all data about events that occur chronologically after the events used for fitting the model.  
 
-With time series data, particular care must be taken in splitting the data in order to prevent data leakage. In order to accurately simulate the “real world forecasting environment, in which we stand in the present and forecast the future” [@tashman2000out], the forecaster must withhold all data about events that occur chronologically after the events used for fitting the model. 
+So, rather than use $k$-fold cross-validation, for time series data we utilize hold-out cross-validation where a subset of the data (split temporally) is reserved for validating the model performance. For example, see Figure \@ref(fig:stretchCV) where the test set data comes chronologically after the training set. Similarly, the validation set comes chronologically after the training subset. The inner loop works exactly as discussed before: the training set is split into a training subset and a validation set, the model is trained on the training subset, and the parameters that minimize error on the validation set are chosen. However, in the outer loop which splits the dataset into multiple different training and test sets chronologically, and the forecast accuracy is computed by averaging over the test sets.
 
-* Arbitrary choice of test set
-
-You may notice that the choice of the test set in Figure \@ref(fig:kfoldCV) is fairly arbitrary, and that choice may mean that our test set error is a poor estimate of error on an independent test set.
-
-So, rather than use $k$-fold cross-validation, for time series data we utilize hold-out cross-validation where a subset of the data (split temporally) is reserved for validating the model performance. For example, see Figure \@ref(fig:nestedCV) where the test set data comes chronologically after the training set. Similarly, the validation set comes chronologically after the training subset. The inner loop works exactly as discussed before: the training set is split into a training subset and a validation set, the model is trained on the training subset, and the parameters that minimize error on the validation set are chosen. However, in the outer loop which splits the dataset into multiple different training and test sets chronologically, and the forecast accuracy is computed by averaging over the test sets.
-
-```{r nestedCV, out.width = "75%", echo=FALSE, fig.align = "center", fig.cap="An illustration of cross-validation for time series."}
-knitr::include_graphics("figures/nested-CV.png")
+```{r stretchCV, out.width = "75%", echo=FALSE, fig.align = "center", fig.cap="An illustration of strech rolling cross-validation for time series."}
+knitr::include_graphics("figures/stretchcv.png")
 ```
 
 There are three main rolling types which can be used.
 
-* Stretch: extends a growing length window with new data.
-* Slide: shifts a fixed length window through the data.
-* Tile: moves a fixed length window without overlap.
+* Stretch: extends a growing length window with new data; see Figure \@ref(fig:stretchCV).
+* Slide: shifts a fixed length window through the data; see Figure \@ref(fig:slideCV).
+* Tile: moves a fixed length window without overlap; see Figure \@ref(fig:tileCV).
 
 and we can apply the following functions to roll a “tsibble”: 
 
@@ -1315,12 +1317,22 @@ and we can apply the following functions to roll a “tsibble”:
 * `slide_tsibble()`
 * `tile_tsibble()`
 
+```{r slideCV, out.width = "75%", echo=FALSE, fig.align = "center", fig.cap="An illustration of slide rolling cross-validation for time series."}
+knitr::include_graphics("figures/slidecv.png")
+```
+
+
+```{r tileCV, out.width = "75%", echo=FALSE, fig.align = "center", fig.cap="An illustration of tile rolling cross-validation for time series."}
+knitr::include_graphics("figures/slidecv.png")
+```
+
+
 These functions provide fast and shorthand for rolling over a tsibble by observations. They all return a tsibble including a new column `.id` as part of the key. The output dimension will increase considerably with `slide_tsibble()` and `stretch_tsibble()`, which is likely to run out of memory when the data is large.
 
 For time series cross-validation, stretching windows are most commonly used.
 
 ```{r warning=FALSE, message=FALSE}
-# Time series cross-validation accuracy
+# Split training and test using stretching window
 Florida.train <- Florida.ts %>%
   filter_index("2020-04-01" ~ "2020-11-27") %>%
   # Stretch with a minimum length of 60
@@ -1538,6 +1550,3 @@ mean 0 and variance $\sigma^2$, and let $a$, $b$, and $c$ be constants. Which, i
 
 4. From `state.long` in the R package `slid`, choose a state and convert the data to time series. Use the automatic search in `ARIMA()` to find an ARIMA model. What model was selected? Write the model in terms of the backshift operator.
 
-## References
-
-@Hyndman2018
