@@ -1,12 +1,12 @@
 # Interactive Geospatial Visualization {#map}
 
-Many spatial and spatiotemporal methods have been developed for early outbreak detection, cluster detection, risk areas, and factors identification, and disease transmission pattern evaluation in the past two decades, thus boosted the investigation of *spatial epidemiology*. By definition, the focus of *spatial epidemiology* is the study of the geographical or spatial distribution of health outcomes. It is sometimes interchangeably known as disease mapping. Usually, it has the incidence of disease or prevalence of disease as its main focus. It is a commonplace to consider a geographic dimension included within a research design in infectious disease studies. This may involve initial visualization of the distribution and some simple summary measures. The application of *spatial epidemiology* methods is fortunately facilitated by the growing development of the open-source community, among which the most widespread and popular is certainly R, a programming language and free software environment for statistical computing and graphics.
+In the last two decades, many spatial and spatiotemporal methods for early outbreak detection, cluster detection, risk area and factor identification, and disease transmission pattern evaluation have been developed, boosting the study of *spatial epidemiology*. By definition, the focus of *spatial epidemiology* is the study of the geographical or spatial distribution of health outcomes. It is sometimes interchangeably known as disease mapping. Usually, it has the incidence of disease or prevalence of disease as its main focus. It is a commonplace to consider a geographic dimension included within a research design in infectious disease studies. This may involve initial visualization of the distribution and some simple summary measures. The growing development of the open-source community has aided the application of *spatial epidemiology* methods, with R, a programming language and free software environment for statistical computing and graphics, being the most widely used and popular.
 
 For the display of COVID-19 data, interactive geospatial visualization is used by websites ranging from the New York Times and the Washington Post to GitHub and Flickr. In this chapter, we focus on the interactive geospatial visualization of the data. 
 
 ## An Introduction to Leaflet
 
-The “leaflet” is one of the most popular open-source JavaScript libraries for interactive maps. It is commonly used by GIS specialists like OpenStreetMap, Mapbox, and CartoDB. This R package makes it easy to integrate and control map objects in R.
+One of the most popular open-source JavaScript libraries for interactive maps is "leaflet." GIS specialists such as OpenStreetMap, Mapbox, and CartoDB use it frequently. This R package makes integrating and controlling map objects in R simple.
 
 ### More References
 
@@ -24,11 +24,10 @@ The “leaflet” is one of the most popular open-source JavaScript libraries fo
 
 ### Features and installation
 
-Unlike static visualization packages such as “ggplot2” or “ggmap”,  “leaflet” maps are fully interactive and can include features, such as interactive panning or zooming pop-up tooltips and labels, highlighting or selecting regions.
-
+Unlike static visualization packages like "ggplot2" or "ggmap," "leaflet" maps are fully interactive and can include features like interactive panning and zooming pop-up tooltips and labels, and highlighting and selecting regions.
 **Features**
 
-* Create and customize interactive maps using the “Leaflet” JavaScript library and the “htmlwidgets” package. 
+* Use the JavaScript library "Leaflet" and the "htmlwidgets" package to create and customize interactive maps. 
 
 * Compose maps using arbitrary combinations of:
     + Map tiles
@@ -37,11 +36,10 @@ Unlike static visualization packages such as “ggplot2” or “ggmap”,  “l
     + Lines
     + Popups
     + GeoJSON
-* The created maps can be used directly from the R console, from “RStudio”, in Shiny applications and R Markdown documents.
-* Easily render spatial objects from the `sp` or `sf` packages, or data frames with latitude/longitude columns.
+* The maps created can be used directly from the R console, “RStudio,” Shiny apps, and R Markdown documents.
+* Render spatial objects from the `sp` and `sf` packages, as well as data frames with latitude and longitude columns, with ease.
 * Use map bounds and mouse events to drive “Shiny” logic.
-* Augment map features using chosen plugins from the “leaflet” plugins repository.
-
+* Enhance map features using plugins from the "leaflet" plugins repository
 
 **Installation**
 
@@ -61,7 +59,7 @@ Similar to “ggplot2”, leaflet maps are built using layers. We can create a L
 
 Step 1. Create a base map widget by calling `leaflet()`;
 
-Step 2. Add features to the map by using layer functions (`addTiles()`, `addMarkers()` etc.) to customize the map widget;
+Step 2. Customize the map widget by using layer functions (addTiles(), addMarkers(), etc.) to add features to the map
 
 Step 3. Print the map widget to display it and save it.
 
@@ -78,7 +76,7 @@ m  # Print the map
 
 ## The Data Object
 
-Both `leaflet()` and the map layer functions have an optional `data` parameter that is designed to receive spatial data in one of several forms from:
+The data parameter in both the `leaflet()` and map layer functions is designed to receive spatial data in one of several formats from:
 
 * the base R
     + lng-lat matrix
@@ -95,7 +93,7 @@ The `data` argument is used to pass spatial data to functions that need it; for 
 
 * Specifying latitude/longitude in the base R
 
-We can always explicitly identify latitude/longitude columns by providing `lng` and `lat` arguments to the layer function.
+By providing `lng` and `lat` arguments to the layer function, we can always explicitly identify latitude/longitude columns.
 
 Alternatively, we can provide a data frame that consists of the latitude/longitude information. For example, in the `addCircles()` below, we directly pass a data frame, `df`, with variables `Lat` and `Long` in the data frame:
 
@@ -152,9 +150,9 @@ addPolygons(fillColor = topo.colors(10), opacity = 0.5, stroke = FALSE)
 
 ## Choropleth map
 
-A **choropleth map** is a map in which a set of pre-defined areas is colored or patterned in proportion to a statistical variable representing an aggregate summary of a geographic characteristic within each area, such as population, different numbers, or rates of disease.
+A **choropleth map** is a map that colors or patterns a set of pre-defined areas in proportion to a statistical variable that represents an aggregate summary of a geographic characteristic within each area, such as population, different numbers, or disease rates.
 
-To draw a choropleth map, let us start by loading the data into `sp` objects from JSON using the `geojsonio` package. This will allow us to easily manipulate the geographic features, and their properties, in R.
+Let us start by loading data from JSON into `sp` objects using the `geojsonio` package to create a choropleth map. This will make manipulating geographic features and their properties in R much easier.
 
 ```{r eval=FALSE, message=FALSE, warning=FALSE}
 library(geojsonio)
@@ -190,7 +188,7 @@ dmap <- leaflet(states1) %>%
       addTiles()
 ```      
 
-Here, the `setView` function set the view of the map (center and zoom level) with the following arguments:
+Here, the `setView` function sets the view of the map (center and zoom level) with the following arguments:
 
 * `lng`: the longitude of the map center;
 * `lat`: the latitude of the map center;
@@ -200,7 +198,7 @@ Besides the `setView()` function, there are other methods to manipulate the map 
 
 * `fitBounds(map, lng1, lat1, lng2, lat2)`: sets the bounds of a map
 * `setMaxBounds(map, lng1, lat1, lng2, lat2)`: restricts the map view to the given bounds
-* `clearBounds(map)`: clears the bounds of a map, and the bounds will be automatically determined from latitudes and longitudes of the map elements if available (otherwise the full world view is used)
+* `clearBounds(map)`: clears the bounds of a map, which are automatically determined, if available, from the latitudes and longitudes of the map elements (otherwise the full world view is used)
 
 Next, if we use the function `addPolygons` with no additional arguments, then we will obtain the uniform polygons with default styling without any customization.
 
@@ -210,7 +208,7 @@ dmap %>% addPolygons()
 
 ### Color the map
 
-Next, we design the color palette for the map. The function `colorFactor()` maps data values (numeric or factor/character) to colors according to a given palette, which can be provided in a variety of formats. Two often-used arguments are
+Next, we design the color palette for the map. The function `colorFactor()` converts numeric or factor/character data values to colors using a palette that can be provided in a variety of formats. Two often-used arguments are
 
 * `palette`:	the colors or color function that values will be mapped to;
 * `domain`:	the possible values that can be mapped.
@@ -234,9 +232,9 @@ dmap %>% addPolygons(
 
 ### Interactive map
 
-On the interactive choropleth map, it is possible to zoom and hover a state to get more details about it. The next thing we’ll want is to make the polygons highlight as the mouse passes over them. The `addPolygon()` function has a highlight argument that makes this simple. 
+On the interactive choropleth map, it is possible to zoom and hover a state to get more details about it. The next step will be to highlight the polygons as the mouse passes over them. The highlight argument in the `addPolygon()` function makes this simple.
 
-We will generate the highlight labels using the `sprintf()` function, a wrapper for the C library function with the same name. `sprintf()` returns a character vector containing a formatted combination of text and variable values. 
+We will generate the highlight labels using the `sprintf()` function, a wrapper for the C library function with the same name. `sprintf()` returns a character vector with a formatted mix of text and variable values.
 
 ```{r, eval=T}
 labels_cases <- sprintf(
@@ -253,7 +251,7 @@ labels_cases[[1]]
 
 In the above `sprintf()` function, each `%` is referred to as a slot, which is basically a placeholder for a variable that will be formatted. The letter `s` indicates that the formatted variable is specified as a string. `%g` indicates the formatted variable uses compact decimal or scientific notation. 
 
-You can customize marker labels using the labelOptions argument of the `addPolygons` function. We will use the `highlightOptions` function to emphasize the currently moused-over polygon. The `labelOptions` argument can be populated using the `labelOptions()` function. Now let’s display the state names and values to the user. 
+The labelOptions argument of the `addPolygons` function allows you to customize marker labels. To emphasize the currently moused-over polygon, we will use the `highlightOptions` function. The `labelOptions` argument can be populated using the `labelOptions()` function. Now let us display the state names and values to the user. 
 
 ```{r, eval=T}     
 dmap <- dmap %>% addPolygons(
@@ -272,7 +270,7 @@ dmap <- dmap %>% addPolygons(
 dmap
 ```
 
-When you hover the mouse over a state, the label is displayed. The `bringToFront = TRUE` in the `highlightOptions` function is used to prevent the thicker, white border of the active polygon from being hidden behind the borders of other polygons that happen to be higher in the z-order.
+When you hover the mouse over a state, the label is displayed. The `bringToFront = TRUE` in the `highlightOptions` function is used to prevent the active polygon's thicker, white border from being hidden behind the borders of other polygons higher in the z-order.
 
 Finally, let us add the legend using the function `addLegend()`.
 
@@ -287,9 +285,9 @@ dmap
 
 ### Classification schemes
 
-We can use the map legend to list the features used on the map and what they depict. Symbols should appear in the legend precisely as they appear in the body of the map. Spatial attribute data can be classified as:
+The map legend can be used to list the features on the map and what they represent. Symbols in the legend should be the same as they are in the body of the map. The following types of spatial attribute data exist:
 
-* Nominal: attributes are nominal if they are given names or titles in order to distinguish one entity from another, for example, the name of a place, urban or rural.
+* Nominal: attributes are nominal if they are given names or titles to differentiate one entity from another, such as the name of a place, whether urban or rural.
 
 * Ordinal: attributes are ordinal if their values take on natural order; for instance, the risk level of a disease may be classified with Level 1 representing the lowest risk, level 2 second-lowest, and so on).
 
@@ -297,17 +295,17 @@ We can use the map legend to list the features used on the map and what they dep
 
 According to @pfeiffer2008spatial, the continuous attribute data can be divided into six basic classification schemes:
 
-1. Natural breaks: Classes are defined according to apparently natural groupings of data values. The breaks may be defined by breakpoints that are known to be relevant to a particular application, such as fractions and multiples of mobility levels or risk thresholds.
+1. Natural groupings of data values: Classes are defined based on what appear to be natural groupings of data values. Breakpoints that are known to be relevant to a particular application, such as fractions and multiples of mobility levels or risk thresholds, may be used to define the breaks.
 
-2. Quantile breaks: The data are divided into a pre-determined number of classes that contain an equal number of observations. For example, quintile (five categories) classifications are well suited to displaying linearly distributed data.
+2. Quantile breaks: The data is divided into a set of classes, each with an equal number of observations. Quintile (five-category) classifications, for example, are ideal for displaying data that is linearly distributed.
 
-3. Equal-interval breaks: The range of the attribute value is calculated and divided into evenly spaced intervals. This method is useful for mapping uniformly distributed data, or if the data ranges are familiar to the user of the map (e.g., herd sizes or temperature bands).
+3. Breaks with equal intervals: The attribute value's range is calculated and divided into evenly spaced intervals. This method is useful for mapping data that is uniformly distributed or if the user of the map is familiar with the data ranges (e.g., herd sizes or temperature bands).
 
-4. Standard deviation classifications: This method takes the distance of the observation from the mean in terms of the number of standard deviations above and below the mean. It is most useful for normally distributed data.
+4. Standard deviation classifications: This method uses the number of standard deviations above and below the mean to calculate the distance between the observation and the mean. It's best for data that's normally distributed.
 
-5. Arithmetic progressions: The widths of category intervals are increased in size at an arithmetic (additive) rate. For example, if the first category is one unit wide and it is decided to increment the width by one unit, the second category would be two units wide, the third three units wide, and so on (1, 3, 6, ...). This method is beneficial for data from **skewed** distributions.
+5. Arithmetic progressions: At an arithmetic (additive) rate, the widths of category intervals increase in size. If the first category is one unit wide and the width is increased by one unit, the second category becomes two units wide, the third three units wide, and so on (1, 3, 6, ...). This method is particularly useful when dealing with data from **skewed** distributions.
 
-6. Geometric progressions: The widths of the category intervals are increased in size at a geometric (that is, multiplicative) rate. For example, if the interval width for the first category is two units, the second category would be $2 \times 2 = 4$ units wide, the third category would be $2 \times 2 \times 2 = 8$ units wide, and so on. This method is also very useful for data from **skewed** distributions.
+6. Geometric progressions: The widths of the category intervals are multiplicatively increased at a geometric rate. For example, if the first category's interval width is two units, the second category will be $2 times 2 = 4$ units wide, the third $2 times 2 times 2 = 8$ units wide, and so on. This method can also be used to analyze data from **skewed** distributions.
 
 
 ### Mapping variables to colors
@@ -461,7 +459,7 @@ labels_cases.county <- sprintf(
 ) %>% lapply(htmltools::HTML)
 ```
 
-Next, we will draw the county-level map. In Leaflet, **map panes** group layers together implicitly, which allows web browsers to work with several layers at once in a more efficient way than working with layers individually. Map panes use the **z-index** CSS property to always show some layers on top of others. The default order is:
+Next, we will draw the county-level map. In Leaflet, **map panes** group layers together implicitly, which allows web browsers to work with multiple layers at once, saving time over working with layers individually. The **z-index** CSS property is used in map panes to always show some layers on top of others. The following is the default order:
 
 * TileLayers and GridLayers
 * Paths, like lines, polylines, circles, or GeoJSON layers.
@@ -469,12 +467,12 @@ Next, we will draw the county-level map. In Leaflet, **map panes** group layers 
 * Marker icons
 * Popups
 
-You can customize map panes for a leaflet map to control layer order using the function `addMapPane`, in which you can specify:
+You can use the function `addMapPane` to customize map panes for a leaflet map to control layer order, and you can specify:
 
 * `name`: the name of the new pane.
-* `zIndex`: the zIndex of the pane. Panes with higher index are rendered above panes with lower indices.
+* `zIndex`: the zIndex of the pane. Panes with a higher index are rendered first, followed by panes with a lower index.
 
-You can then use this pane to render overlays (points, lines, polygons) by setting the `pane` argument in `leafletOptions`. This will give you control over the order of the layers; for example, points are always on top of polygons, and states are on top of counties.
+By setting the pane argument in leafletOptions, you can use this pane to render overlays (points, lines, and polygons). This will allow you to control the layer order; for example, points will always be on top of polygons, and states will always be on top of counties.
 
 ```{r, eval= TRUE}
 # Draw the county-level map
@@ -516,7 +514,7 @@ dmap2
 
 ## Spot Maps
 
-A **spot map** is a map showing the geographic location of people with a specific attribute, such as the number of cases of an infectious disease. Spot maps generally are used for clusters or outbreaks with a limited number of cases.
+A **spot map** is a map that depicts the geographic location of people who share a common characteristic, such as the number of infectious disease cases. Spot maps are typically used to visualize clusters or outbreaks with a small number of cases.
 
 Next, we draw a spot map and highlight the top 10 counties with the largest cumulative infected count on December 11, 2020. 
 
@@ -565,9 +563,9 @@ Each point can have text added to it using either a popup (appears only on click
 
 ### Add popups
 
-**Popups** are small boxes containing some HTML outputs that may include texts or hyperlinks, and it points to a specific point or place on the map.
+**Popups** are small boxes that contain HTML outputs such as texts or hyperlinks and point to a specific point or location on the map.
 
-A common use for popups is to have them appear when markers or shapes are clicked. Marker and shape functions in the Leaflet package take a popup argument, where we can pass in HTML commands to attach a simple popup easily.
+Popups are frequently used so that they appear when markers or shapes are clicked. The Leaflet package's marker and shape functions take a popup argument, where we can pass in HTML commands to easily attach a simple popup.
 
 For instance, we can label each county with the name of the county and state, and the reported cumulative infected cases.
 
@@ -591,7 +589,7 @@ dmap3 %>%
 
 ### Add labels
 
-A **label** is textual or HTML content attached to markers and shapes to be always displayed or displayed on mouseover. You don’t need to click a marker/polygon for the label to be shown, unlike popups.
+A **label** is textual or HTML content that is attached to markers and shapes and is visible at all times or when the mouse is moved over it. You don't have to click a marker/polygon to see the label, unlike popups.
 
 ```{r, eval=T}
 dmap3 %>% 
@@ -602,9 +600,9 @@ dmap3 %>%
 
 ## Integrating Leaflet with R Shiny 
 
-The Leaflet package includes powerful and convenient features for integrating with Shiny applications.
+For integrating with Shiny applications, the Leaflet package includes powerful and convenient features.
 
-Most Shiny output widgets are incorporated into an app by including an output for the widget in the UI definition, and using a render function in the server function. For Leaflet maps, you can call `leafletOutput` in the UI side, and you assign a `renderLeaflet` call to the output on the server side, and return a Leaflet map object.
+Most Shiny output widgets are integrated into an app by including a render function in the server function and including an output for the widget in the UI definition. You can call `leafletOutput` in the UI and assign a `renderLeaflet` call to the output on the server side to return a Leaflet map object for Leaflet maps.
 
 ```{r, eval=F}
 shinyServer(function (input, output) {

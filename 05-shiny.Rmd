@@ -1,9 +1,9 @@
 
 # R Shiny {#shiny}
 
-In infectious disease data learning, interactive visualization makes complex data digestible and useful for users. Shiny offers the ability to develop a graphical user interface (GUI) that can be run locally or deployed online. It has the potential to simplify users' access to interactive, web-based visualizations greatly. For example, it with multiple views or panels, enabling the users to review their data from different perspectives. Also, Shiny is beneficial to show and communicate updated findings to a broad audience.
+In infectious disease data learning, users can understand and use complex data thanks to interactive visualization. Shiny allows you to create a graphical user interface (GUI) that can be used locally or remotely. It has a lot of potential for making interactive, web-based visualizations much more accessible to users. For example, it provides multiple views or panels, allowing users to examine their data from various angles. Shiny is also useful for displaying and communicating updated findings to a large audience.
 
-In this chapter, we focus on linking Plotly graphs with shiny, an open-source R package that provides an elegant and powerful web framework for building web applications using R. Shiny helps you turn your analyses into interactive web applications without requiring HTML, CSS, or JavaScript knowledge.
+In this chapter, we will look at how to connect Plotly graphs to shiny, an open-source R package that provides an elegant and powerful web framework for creating R-based web applications. Shiny allows you to turn your data into interactive web applications without having to know HTML, CSS, or JavaScript.
 
 **Installation**
 
@@ -17,10 +17,9 @@ install.packages("shiny")
 
 A shiny app has two main parts:
 
-1. The user interface, `ui`, defines how inputs and output widgets are displayed on the page. The UI is customizable, and packages such as “shinydashboard” make it easy to leverage more sophisticated layout frameworks.
+1. The user interface, or ui, determines how input and output widgets appear on a page. The UI can be customized, and packages like "shinydashboard" make it simple to use more advanced layout frameworks.
 
-2. The server function, server, defines a mapping from input values to output widgets. More specifically, the shiny server is an R function between input values on the client and outputs generated on the webserver.
-
+2. The server function, server, establishes a link between input and output widgets. More specifically, the shiny server is a R function that connects client input values to webserver outputs.
 
 ```{r shiny1, out.width = "50%", echo=FALSE, fig.align = "center", fig.cap="An illustration of Shiny Structure."}
 knitr::include_graphics("figures/shiny.png")
@@ -82,11 +81,11 @@ In practice, we prefer the first method over the second to manage multiple shiny
 
 ### Your first shiny app
 
-A Shiny application is simply a directory containing a user-interface definition, a server script, and any additional data, scripts, or other resources required to support the application.
+A Shiny application is simply a directory that contains a user-interface definition, a server script, and any additional data, scripts, or other resources that are needed to support the application.
 
-To get started building the application, create a new empty directory wherever you’d like, then create empty `ui.R` and `server.R` files within in.
+To begin developing the app, create a new empty directory wherever you want, then create empty ui.R and server.R files within it.
 
-The user interface is defined in a source file named **ui.R**:
+The user interface is defined in the **ui.R** source file:
 
 ```{r, eval=F}
 library(shiny)
@@ -113,7 +112,7 @@ shinyUI(pageWithSidebar(
 ))
 ```
 
-The server-side of the application is shown below. It's very simple -- a random distribution with the requested number of observations is generated, and then plotted as a histogram. However, you may also notice that the function which returns the plot is wrapped in a call to `renderPlot`. See the source file named **server.R** below.
+The application's server-side is depicted below. It's very straightforward: a random distribution with the desired number of observations is generated, and the histogram is plotted. You may also notice that the function that returns the plot is wrapped in a renderPlot call. See the source file named **server.R** below.
 
 ```{r, eval=F}
 library(shiny)
@@ -139,13 +138,13 @@ shinyServer(function(input, output) {
 })
 ```
 
-If everything is working correctly you’ll see the application appear in your browser looking something like this:
+If everything is working properly, the application should look something like this in your browser:
 
 ![The Hello Shiny example.](figures/hist.png)
 
 ### Create a new shiny app in RStudio
 
-In RStudio, you can create a new directory and an `app.R` file containing a basic app in one step by clicking File -> New File -> Shiny Web App, then providing Application Name and select Application Type.
+In RStudio, you can create a new directory and an `app.R` file containing a basic app in one step by clicking File -> New File -> Shiny Web App, then providing “Application Name” and select “Application Type”.
 
 ![The RStudio New Shiny Web App Window.](figures/ShinyApp.png)
 
@@ -166,9 +165,9 @@ rsconnect::deployApp("<path to directory>")
 
 ## Useful Input Widgets
 
-Shiny also comes pre-packaged with a handful of other useful input widgets, web elements that your users can interact with. Widgets provide a way for your users to send messages to the Shiny app. Shiny widgets collect a value from your user. When a user changes the widget, the value will change as well. 
+Shiny also includes a number of other useful input widgets, or web elements, with which your users can interact. Your users can use widgets to send messages to the Shiny app. Shiny widgets ask your user for a value. When a user modifies a widget, the value modifies as well.
 
-Although many shiny apps use them straight "out-of-the-box", input widgets can easily be stylized with CSS and/or SASS, and even custom input widgets can be integrated. From https://shiny.rstudio.com/, we can explore and select the appropriate input widgets for your interactive visualization.  
+Input widgets can be easily stylized with CSS and/or SASS, and even custom input widgets can be integrated, despite the fact that many shiny apps use them "out of the box." From https://shiny.rstudio.com/, we can explore and select the appropriate input widgets for your interactive visualization.  
 
 ![The Basic widgets.](figures/Input.png)
 
@@ -181,8 +180,7 @@ Although many shiny apps use them straight "out-of-the-box", input widgets can e
 * `fileInput()` for uploading files.
 * `checkboxInput()`, or `checkboxGroupInput()` or `radioButtons()` for choosing a list of options.
 
-Going forward our focus is to link multiple graphs in shiny through direct manipulation, so we focus less on using these input widgets, and more on using plotly and static R graphics as inputs to other output widgets. 
-
+In the future, we will concentrate on using plotly and static R graphics as inputs to other output widgets, rather than using these input widgets to link multiple graphs in shiny through direct manipulation.
 
 ## Displaying Reactive Output
 
@@ -213,13 +211,13 @@ Placing a function in `ui` tells Shiny where to display your object. Next, you n
 
 We do this by providing the R code that builds the object in the server function.
 
-The server function plays a special role in the Shiny process; it builds a list-like object named output that contains all of the code needed to update the R objects in your app. Each R object needs to have its own entry in the list.
+In the Shiny process, the server function creates a list-like object called output that contains all of the code needed to update the R objects in your app. In the list, each R object must have its own entry.
 
-You can create an entry by defining a new element for output within the server function, like below. The element name should match the name of the reactive element that you created in the `ui`.
+You can make an entry by defining a new output element in the server function, as shown below. The name of the element should be the same as the name of the reactive element you created in the ui.
 
-You do not need to explicitly state in the server function to return output in its last line of code. R will automatically update output through reference class semantics.
+You do not need to explicitly state in the server function's last line of code that it should return output. R uses reference class semantics to update output automatically.
 
-Each entry to output should contain the output of one of Shiny’s `render*` functions. These functions capture an R expression and do some light pre-processing on the expression. You use the `render*` function that corresponds to the type of reactive object you are making. Specifically, the render function creates: 
+The output of one of Shiny's `render*` functions should be included in each entry to output. These functions take a R expression and perform some basic pre-processing on it. The render* function that corresponds to the type of reactive object you're creating is used. The render function generates the following:
 
 * `renderDataTable`: DataTable
 * `renderImage`: images (saved as a link to a source file)
@@ -229,9 +227,9 @@ Each entry to output should contain the output of one of Shiny’s `render*` fun
 * `renderText`: character strings
 * `renderUI`: a Shiny tag object or HTML
 
-Each `render*` function takes a single argument: an R expression surrounded by `{}`, which can be one simple line of text, or it can involve many lines of code as if it were a complicated function call.
+Each `render*` function takes a single argument: an R expression surrounded by `{}` and it can be as simple as a single line of text or as complex as a function call with many lines of code.
 
-You can consider this R expression a set of instructions that you give Shiny to store for later. Shiny will run the instructions when you first launch your app, and then Shiny will re-run the instructions every time it needs to update your object.
+This R expression can be thought of as a set of instructions that you give Shiny to remember. When you first launch your app, Shiny will run the instructions, and then it will run them again every time your object needs to be updated.
 
 [The Shiny Cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf) provides nice summary of the  `render*()` and `*Output()` functions.
 
@@ -386,7 +384,7 @@ If everything is working correctly you’ll see the application appear in your b
 
 ![The time series plot of the daily new infected cases of Iowa.](figures/dailynew_IA.png)
 
-Remark: There are currently four different modes for mouse click+drag behavior (i.e., `dragmode`) in plotly.js: zoom, pan, rectangular selection, and lasso selection. 
+Remark: In plotly.js, there are four different mouse click+drag behavior modes (i.e., `dragmode`): zoom, pan, rectangular selection, and lasso selection.
 
 
 **Example 3.**

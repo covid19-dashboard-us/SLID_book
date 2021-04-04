@@ -24,7 +24,7 @@
 <meta name="author" content="Lily Wang" />
 
 
-<meta name="date" content="2021-03-30" />
+<meta name="date" content="2021-04-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -432,11 +432,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.9" data-path="timeseries.html"><a href="timeseries.html#prediction-and-prediction-intervals-for-aggregates"><i class="fa fa-check"></i><b>10.9</b> Prediction and Prediction Intervals for Aggregates</a></li>
 <li class="chapter" data-level="10.10" data-path="timeseries.html"><a href="timeseries.html#exercises-5"><i class="fa fa-check"></i><b>10.10</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>11</b> Regression Modeling</a>
+<li class="chapter" data-level="11" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>11</b> Regression Methods</a>
 <ul>
-<li class="chapter" data-level="11.1" data-path="regression.html"><a href="regression.html#principles-of-regression-modeling"><i class="fa fa-check"></i><b>11.1</b> Principles of Regression Modeling</a></li>
-<li class="chapter" data-level="11.2" data-path="regression.html"><a href="regression.html#area-level-data"><i class="fa fa-check"></i><b>11.2</b> Area-level Data</a></li>
-<li class="chapter" data-level="11.3" data-path="regression.html"><a href="regression.html#variable-selection"><i class="fa fa-check"></i><b>11.3</b> Variable Selection</a></li>
+<li class="chapter" data-level="11.1" data-path="regression.html"><a href="regression.html#parametric-regression-methods"><i class="fa fa-check"></i><b>11.1</b> Parametric Regression Methods</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="regression.html"><a href="regression.html#examples"><i class="fa fa-check"></i><b>11.1.1</b> Examples</a></li>
+<li class="chapter" data-level="11.1.2" data-path="regression.html"><a href="regression.html#model-adequacy-checking"><i class="fa fa-check"></i><b>11.1.2</b> Model adequacy checking</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="regression.html"><a href="regression.html#nonparametric-regression-methods"><i class="fa fa-check"></i><b>11.2</b> Nonparametric Regression Methods</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="regression.html"><a href="regression.html#piecewise-constant-splines"><i class="fa fa-check"></i><b>11.2.1</b> Piecewise constant splines</a></li>
+<li class="chapter" data-level="11.2.2" data-path="regression.html"><a href="regression.html#truncated-power-splines"><i class="fa fa-check"></i><b>11.2.2</b> Truncated power splines</a></li>
+<li class="chapter" data-level="11.2.3" data-path="regression.html"><a href="regression.html#b-splines-and-natural-splines"><i class="fa fa-check"></i><b>11.2.3</b> B-splines and natural splines</a></li>
+<li class="chapter" data-level="11.2.4" data-path="regression.html"><a href="regression.html#smoothing-splines"><i class="fa fa-check"></i><b>11.2.4</b> Smoothing splines</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="regression.html"><a href="regression.html#example-cdc-fluview-portal-data"><i class="fa fa-check"></i><b>11.3</b> Example: CDC FluView Portal Data</a></li>
+<li class="chapter" data-level="11.4" data-path="regression.html"><a href="regression.html#poisson-regression"><i class="fa fa-check"></i><b>11.4</b> Poisson regression</a></li>
+<li class="chapter" data-level="11.5" data-path="regression.html"><a href="regression.html#logistic-regression"><i class="fa fa-check"></i><b>11.5</b> Logistic regression</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="NN.html"><a href="NN.html"><i class="fa fa-check"></i><b>12</b> Neural Networks</a>
 <ul>
@@ -709,19 +721,19 @@ where <span class="math inline">\(\|\cdot\|_F\)</span> denotes the Frobenius nor
 <p>The number of cases, we define <span class="math inline">\(x_n = (y_{n-w+1}, ..., y_{n-1}, y_n)^{\top}\in R^{w}\)</span> and <span class="math inline">\(t_n = y_{n+h}\in R\)</span>. We use cross-validation to find the proper window size <span class="math inline">\(w\)</span>, number of hidden neurons <span class="math inline">\(L\)</span>, and the regularization hyperparameter <span class="math inline">\(\lambda\)</span>.</p>
 <p>The <code>nnetar</code> function in the <code>forecast</code> package for R fits a feed-forward neural networks model with a single hidden layer and lagged inputs for forecasting univariate time series. It uses lagged values of the time series as inputs (and possibly some other exogenous inputs).</p>
 <p>To use the <code>forecast</code> package, it is better to store the time series as a <code>ts</code> object in R. Let us consider the time series of daily new death counts for Florida, and we first turn this into a <code>ts</code> object using the <code>ts</code> function. Since we have observed the 7-day cycle for this data, we can simply add a <code>frequency = 7</code> argument.</p>
-<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="NN.html#cb309-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(slid)</span>
-<span id="cb309-2"><a href="NN.html#cb309-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb309-3"><a href="NN.html#cb309-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(state.ts)</span>
-<span id="cb309-4"><a href="NN.html#cb309-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb309-5"><a href="NN.html#cb309-5" aria-hidden="true" tabindex="-1"></a>Florida.ts <span class="ot">&lt;-</span> state.ts <span class="sc">%&gt;%</span></span>
-<span id="cb309-6"><a href="NN.html#cb309-6" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(State <span class="sc">==</span> <span class="st">&quot;Florida&quot;</span>)  </span>
-<span id="cb309-7"><a href="NN.html#cb309-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb309-8"><a href="NN.html#cb309-8" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">ts</span>(Florida.ts<span class="sc">$</span>Y.Death, <span class="at">start =</span> <span class="dv">2020-01-23</span>, <span class="at">frequency =</span> <span class="dv">7</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="NN.html#cb328-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(slid)</span>
+<span id="cb328-2"><a href="NN.html#cb328-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb328-3"><a href="NN.html#cb328-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(state.ts)</span>
+<span id="cb328-4"><a href="NN.html#cb328-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb328-5"><a href="NN.html#cb328-5" aria-hidden="true" tabindex="-1"></a>Florida.ts <span class="ot">&lt;-</span> state.ts <span class="sc">%&gt;%</span></span>
+<span id="cb328-6"><a href="NN.html#cb328-6" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(State <span class="sc">==</span> <span class="st">&quot;Florida&quot;</span>)  </span>
+<span id="cb328-7"><a href="NN.html#cb328-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb328-8"><a href="NN.html#cb328-8" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">ts</span>(Florida.ts<span class="sc">$</span>Y.Death, <span class="at">start =</span> <span class="dv">2020-01-23</span>, <span class="at">frequency =</span> <span class="dv">7</span>)</span></code></pre></div>
 <p>Simply applying the default <code>nnetar()</code> function, we obtain feed-forward neural networks model NNAR<span class="math inline">\((21,1,11)_7\)</span>. It is based on an average of 20 networks, each of which is NNAR<span class="math inline">\((21,1,11)_7\)</span> with 254 weights.</p>
-<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="NN.html#cb310-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
-<span id="cb310-2"><a href="NN.html#cb310-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2020</span>)</span>
-<span id="cb310-3"><a href="NN.html#cb310-3" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">nnetar</span>(y)</span>
-<span id="cb310-4"><a href="NN.html#cb310-4" aria-hidden="true" tabindex="-1"></a>fit</span></code></pre></div>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="NN.html#cb329-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb329-2"><a href="NN.html#cb329-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2020</span>)</span>
+<span id="cb329-3"><a href="NN.html#cb329-3" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">nnetar</span>(y)</span>
+<span id="cb329-4"><a href="NN.html#cb329-4" aria-hidden="true" tabindex="-1"></a>fit</span></code></pre></div>
 <pre><code>## Series: y 
 ## Model:  NNAR(21,1,11)[7] 
 ## Call:   nnetar(y = y)
@@ -731,8 +743,8 @@ where <span class="math inline">\(\|\cdot\|_F\)</span> denotes the Frobenius nor
 ## options were - linear output units 
 ## 
 ## sigma^2 estimated as 6.598</code></pre>
-<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="NN.html#cb312-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(<span class="fu">forecast</span>(fit, <span class="at">h =</span> <span class="dv">14</span>), <span class="at">xlab =</span> <span class="st">&quot;Days&quot;</span>, </span>
-<span id="cb312-2"><a href="NN.html#cb312-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">ylab =</span> <span class="st">&quot;Daily new deaths&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="NN.html#cb331-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(<span class="fu">forecast</span>(fit, <span class="at">h =</span> <span class="dv">14</span>), <span class="at">xlab =</span> <span class="st">&quot;Days&quot;</span>, </span>
+<span id="cb331-2"><a href="NN.html#cb331-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">ylab =</span> <span class="st">&quot;Daily new deaths&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:nnetar1"></span>
 <img src="SLID_book_files/figure-html/nnetar1-1.png" alt="Two weeks ahead forecast of the daily new death count for Florida using nnetar." width="672" />
 <p class="caption">
@@ -746,9 +758,9 @@ Figure 12.7: Two weeks ahead forecast of the daily new death count for Florida u
 </ul>
 <p>We can consider a Box-Cox transformation for the data. For example, if we want to restrict to positive values, we can consider a Box-Cox transformation parameter <code>lambda</code>.</p>
 <p>If <code>lambda = auto</code>, then a transformation is automatically selected using <code>BoxCox.lambda</code>. The transformation is ignored if <code>NULL</code>. Otherwise, data transformed before model is estimated.</p>
-<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="NN.html#cb313-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">nnetar</span>(y <span class="sc">+</span> <span class="dv">1</span>, <span class="at">lambda =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">5</span>)</span>
-<span id="cb313-2"><a href="NN.html#cb313-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(<span class="fu">forecast</span>(fit, <span class="at">h =</span> <span class="dv">14</span>), <span class="at">xlab =</span> <span class="st">&quot;Days&quot;</span>, </span>
-<span id="cb313-3"><a href="NN.html#cb313-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">ylab =</span> <span class="st">&quot;Daily new deaths&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="NN.html#cb332-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">nnetar</span>(y <span class="sc">+</span> <span class="dv">1</span>, <span class="at">lambda =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">5</span>)</span>
+<span id="cb332-2"><a href="NN.html#cb332-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(<span class="fu">forecast</span>(fit, <span class="at">h =</span> <span class="dv">14</span>), <span class="at">xlab =</span> <span class="st">&quot;Days&quot;</span>, </span>
+<span id="cb332-3"><a href="NN.html#cb332-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">ylab =</span> <span class="st">&quot;Daily new deaths&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:nnetar2"></span>
 <img src="SLID_book_files/figure-html/nnetar2-1.png" alt="Two weeks ahead forecast of the daily new death count for Florida using nnetar with predictions constrained to positive values." width="672" />
 <p class="caption">
@@ -756,8 +768,8 @@ Figure 12.8: Two weeks ahead forecast of the daily new death count for Florida u
 </p>
 </div>
 <p>Note that the NNAR model is a nonlinear autogressive model, and it is not possible to analytically derive prediction intervals.</p>
-<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="NN.html#cb314-1" aria-hidden="true" tabindex="-1"></a>fcast <span class="ot">&lt;-</span> <span class="fu">forecast</span>(fit, <span class="at">PI =</span> <span class="cn">TRUE</span>, <span class="at">h =</span> <span class="dv">14</span>, <span class="at">npaths =</span> <span class="dv">500</span>)</span>
-<span id="cb314-2"><a href="NN.html#cb314-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(fcast, <span class="at">xlab =</span> <span class="st">&quot;Days&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Daily new deaths&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="NN.html#cb333-1" aria-hidden="true" tabindex="-1"></a>fcast <span class="ot">&lt;-</span> <span class="fu">forecast</span>(fit, <span class="at">PI =</span> <span class="cn">TRUE</span>, <span class="at">h =</span> <span class="dv">14</span>, <span class="at">npaths =</span> <span class="dv">500</span>)</span>
+<span id="cb333-2"><a href="NN.html#cb333-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(fcast, <span class="at">xlab =</span> <span class="st">&quot;Days&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Daily new deaths&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:nnetar3"></span>
 <img src="SLID_book_files/figure-html/nnetar3-1.png" alt="Two weeks ahead forecast and prediction intervals of the daily new death count for Florida using nnetar with predictions constrained to positive values." width="672" />
 <p class="caption">

@@ -24,7 +24,7 @@
 <meta name="author" content="Lily Wang" />
 
 
-<meta name="date" content="2021-03-30" />
+<meta name="date" content="2021-04-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -432,11 +432,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.9" data-path="timeseries.html"><a href="timeseries.html#prediction-and-prediction-intervals-for-aggregates"><i class="fa fa-check"></i><b>10.9</b> Prediction and Prediction Intervals for Aggregates</a></li>
 <li class="chapter" data-level="10.10" data-path="timeseries.html"><a href="timeseries.html#exercises-5"><i class="fa fa-check"></i><b>10.10</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>11</b> Regression Modeling</a>
+<li class="chapter" data-level="11" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>11</b> Regression Methods</a>
 <ul>
-<li class="chapter" data-level="11.1" data-path="regression.html"><a href="regression.html#principles-of-regression-modeling"><i class="fa fa-check"></i><b>11.1</b> Principles of Regression Modeling</a></li>
-<li class="chapter" data-level="11.2" data-path="regression.html"><a href="regression.html#area-level-data"><i class="fa fa-check"></i><b>11.2</b> Area-level Data</a></li>
-<li class="chapter" data-level="11.3" data-path="regression.html"><a href="regression.html#variable-selection"><i class="fa fa-check"></i><b>11.3</b> Variable Selection</a></li>
+<li class="chapter" data-level="11.1" data-path="regression.html"><a href="regression.html#parametric-regression-methods"><i class="fa fa-check"></i><b>11.1</b> Parametric Regression Methods</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="regression.html"><a href="regression.html#examples"><i class="fa fa-check"></i><b>11.1.1</b> Examples</a></li>
+<li class="chapter" data-level="11.1.2" data-path="regression.html"><a href="regression.html#model-adequacy-checking"><i class="fa fa-check"></i><b>11.1.2</b> Model adequacy checking</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="regression.html"><a href="regression.html#nonparametric-regression-methods"><i class="fa fa-check"></i><b>11.2</b> Nonparametric Regression Methods</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="regression.html"><a href="regression.html#piecewise-constant-splines"><i class="fa fa-check"></i><b>11.2.1</b> Piecewise constant splines</a></li>
+<li class="chapter" data-level="11.2.2" data-path="regression.html"><a href="regression.html#truncated-power-splines"><i class="fa fa-check"></i><b>11.2.2</b> Truncated power splines</a></li>
+<li class="chapter" data-level="11.2.3" data-path="regression.html"><a href="regression.html#b-splines-and-natural-splines"><i class="fa fa-check"></i><b>11.2.3</b> B-splines and natural splines</a></li>
+<li class="chapter" data-level="11.2.4" data-path="regression.html"><a href="regression.html#smoothing-splines"><i class="fa fa-check"></i><b>11.2.4</b> Smoothing splines</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="regression.html"><a href="regression.html#example-cdc-fluview-portal-data"><i class="fa fa-check"></i><b>11.3</b> Example: CDC FluView Portal Data</a></li>
+<li class="chapter" data-level="11.4" data-path="regression.html"><a href="regression.html#poisson-regression"><i class="fa fa-check"></i><b>11.4</b> Poisson regression</a></li>
+<li class="chapter" data-level="11.5" data-path="regression.html"><a href="regression.html#logistic-regression"><i class="fa fa-check"></i><b>11.5</b> Logistic regression</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="NN.html"><a href="NN.html"><i class="fa fa-check"></i><b>12</b> Neural Networks</a>
 <ul>
@@ -528,8 +540,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="shiny" class="section level1" number="6">
 <h1><span class="header-section-number">Chapter 6</span> R Shiny</h1>
-<p>In infectious disease data learning, interactive visualization makes complex data digestible and useful for users. Shiny offers the ability to develop a graphical user interface (GUI) that can be run locally or deployed online. It has the potential to simplify users’ access to interactive, web-based visualizations greatly. For example, it with multiple views or panels, enabling the users to review their data from different perspectives. Also, Shiny is beneficial to show and communicate updated findings to a broad audience.</p>
-<p>In this chapter, we focus on linking Plotly graphs with shiny, an open-source R package that provides an elegant and powerful web framework for building web applications using R. Shiny helps you turn your analyses into interactive web applications without requiring HTML, CSS, or JavaScript knowledge.</p>
+<p>In infectious disease data learning, users can understand and use complex data thanks to interactive visualization. Shiny allows you to create a graphical user interface (GUI) that can be used locally or remotely. It has a lot of potential for making interactive, web-based visualizations much more accessible to users. For example, it provides multiple views or panels, allowing users to examine their data from various angles. Shiny is also useful for displaying and communicating updated findings to a large audience.</p>
+<p>In this chapter, we will look at how to connect Plotly graphs to shiny, an open-source R package that provides an elegant and powerful web framework for creating R-based web applications. Shiny allows you to turn your data into interactive web applications without having to know HTML, CSS, or JavaScript.</p>
 <p><strong>Installation</strong></p>
 <p>Shiny is available on CRAN, so you can install it in the usual way from your R console:</p>
 <div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="shiny.html#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;shiny&quot;</span>)</span></code></pre></div>
@@ -537,8 +549,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">6.1</span> An Introduction to Shiny</h2>
 <p>A shiny app has two main parts:</p>
 <ol style="list-style-type: decimal">
-<li><p>The user interface, <code>ui</code>, defines how inputs and output widgets are displayed on the page. The UI is customizable, and packages such as “shinydashboard” make it easy to leverage more sophisticated layout frameworks.</p></li>
-<li><p>The server function, server, defines a mapping from input values to output widgets. More specifically, the shiny server is an R function between input values on the client and outputs generated on the webserver.</p></li>
+<li><p>The user interface, or ui, determines how input and output widgets appear on a page. The UI can be customized, and packages like “shinydashboard” make it simple to use more advanced layout frameworks.</p></li>
+<li><p>The server function, server, establishes a link between input and output widgets. More specifically, the shiny server is a R function that connects client input values to webserver outputs.</p></li>
 </ol>
 <div class="figure" style="text-align: center"><span id="fig:shiny1"></span>
 <img src="figures/shiny.png" alt="An illustration of Shiny Structure." width="50%" />
@@ -587,9 +599,9 @@ Figure 6.1: An illustration of Shiny Structure.
 <p>In practice, we prefer the first method over the second to manage multiple shiny apps.</p>
 <div id="your-first-shiny-app" class="section level3" number="6.1.1">
 <h3><span class="header-section-number">6.1.1</span> Your first shiny app</h3>
-<p>A Shiny application is simply a directory containing a user-interface definition, a server script, and any additional data, scripts, or other resources required to support the application.</p>
-<p>To get started building the application, create a new empty directory wherever you’d like, then create empty <code>ui.R</code> and <code>server.R</code> files within in.</p>
-<p>The user interface is defined in a source file named <strong>ui.R</strong>:</p>
+<p>A Shiny application is simply a directory that contains a user-interface definition, a server script, and any additional data, scripts, or other resources that are needed to support the application.</p>
+<p>To begin developing the app, create a new empty directory wherever you want, then create empty ui.R and server.R files within it.</p>
+<p>The user interface is defined in the <strong>ui.R</strong> source file:</p>
 <div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="shiny.html#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
 <span id="cb165-2"><a href="shiny.html#cb165-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb165-3"><a href="shiny.html#cb165-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define UI for application that plots random distributions </span></span>
@@ -612,7 +624,7 @@ Figure 6.1: An illustration of Shiny Structure.
 <span id="cb165-20"><a href="shiny.html#cb165-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plotOutput</span>(<span class="st">&quot;distPlot&quot;</span>)</span>
 <span id="cb165-21"><a href="shiny.html#cb165-21" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb165-22"><a href="shiny.html#cb165-22" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
-<p>The server-side of the application is shown below. It’s very simple – a random distribution with the requested number of observations is generated, and then plotted as a histogram. However, you may also notice that the function which returns the plot is wrapped in a call to <code>renderPlot</code>. See the source file named <strong>server.R</strong> below.</p>
+<p>The application’s server-side is depicted below. It’s very straightforward: a random distribution with the desired number of observations is generated, and the histogram is plotted. You may also notice that the function that returns the plot is wrapped in a renderPlot call. See the source file named <strong>server.R</strong> below.</p>
 <div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="shiny.html#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
 <span id="cb166-2"><a href="shiny.html#cb166-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb166-3"><a href="shiny.html#cb166-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define server logic required to generate and plot a random </span></span>
@@ -634,7 +646,7 @@ Figure 6.1: An illustration of Shiny Structure.
 <span id="cb166-19"><a href="shiny.html#cb166-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hist</span>(dist)</span>
 <span id="cb166-20"><a href="shiny.html#cb166-20" aria-hidden="true" tabindex="-1"></a>  })</span>
 <span id="cb166-21"><a href="shiny.html#cb166-21" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
-<p>If everything is working correctly you’ll see the application appear in your browser looking something like this:</p>
+<p>If everything is working properly, the application should look something like this in your browser:</p>
 <div class="figure">
 <img src="figures/hist.png" alt="" />
 <p class="caption">The Hello Shiny example.</p>
@@ -642,7 +654,7 @@ Figure 6.1: An illustration of Shiny Structure.
 </div>
 <div id="create-a-new-shiny-app-in-rstudio" class="section level3" number="6.1.2">
 <h3><span class="header-section-number">6.1.2</span> Create a new shiny app in RStudio</h3>
-<p>In RStudio, you can create a new directory and an <code>app.R</code> file containing a basic app in one step by clicking File -&gt; New File -&gt; Shiny Web App, then providing Application Name and select Application Type.</p>
+<p>In RStudio, you can create a new directory and an <code>app.R</code> file containing a basic app in one step by clicking File -&gt; New File -&gt; Shiny Web App, then providing “Application Name” and select “Application Type.”</p>
 <div class="figure">
 <img src="figures/ShinyApp.png" alt="" />
 <p class="caption">The RStudio New Shiny Web App Window.</p>
@@ -663,8 +675,8 @@ Figure 6.1: An illustration of Shiny Structure.
 </div>
 <div id="useful-input-widgets" class="section level2" number="6.2">
 <h2><span class="header-section-number">6.2</span> Useful Input Widgets</h2>
-<p>Shiny also comes pre-packaged with a handful of other useful input widgets, web elements that your users can interact with. Widgets provide a way for your users to send messages to the Shiny app. Shiny widgets collect a value from your user. When a user changes the widget, the value will change as well.</p>
-<p>Although many shiny apps use them straight “out-of-the-box,” input widgets can easily be stylized with CSS and/or SASS, and even custom input widgets can be integrated. From <a href="https://shiny.rstudio.com/" class="uri">https://shiny.rstudio.com/</a>, we can explore and select the appropriate input widgets for your interactive visualization.</p>
+<p>Shiny also includes a number of other useful input widgets, or web elements, with which your users can interact. Your users can use widgets to send messages to the Shiny app. Shiny widgets ask your user for a value. When a user modifies a widget, the value modifies as well.</p>
+<p>Input widgets can be easily stylized with CSS and/or SASS, and even custom input widgets can be integrated, despite the fact that many shiny apps use them “out of the box.” From <a href="https://shiny.rstudio.com/" class="uri">https://shiny.rstudio.com/</a>, we can explore and select the appropriate input widgets for your interactive visualization.</p>
 <div class="figure">
 <img src="figures/Input.png" alt="" />
 <p class="caption">The Basic widgets.</p>
@@ -679,7 +691,7 @@ Figure 6.1: An illustration of Shiny Structure.
 <li><code>fileInput()</code> for uploading files.</li>
 <li><code>checkboxInput()</code>, or <code>checkboxGroupInput()</code> or <code>radioButtons()</code> for choosing a list of options.</li>
 </ul>
-<p>Going forward our focus is to link multiple graphs in shiny through direct manipulation, so we focus less on using these input widgets, and more on using plotly and static R graphics as inputs to other output widgets.</p>
+<p>In the future, we will concentrate on using plotly and static R graphics as inputs to other output widgets, rather than using these input widgets to link multiple graphs in shiny through direct manipulation.</p>
 </div>
 <div id="displaying-reactive-output" class="section level2" number="6.3">
 <h2><span class="header-section-number">6.3</span> Displaying Reactive Output</h2>
@@ -704,10 +716,10 @@ Figure 6.1: An illustration of Shiny Structure.
 <p><strong>Step 2: Provide R code to build the object.</strong></p>
 <p>Placing a function in <code>ui</code> tells Shiny where to display your object. Next, you need to tell Shiny how to build the object.</p>
 <p>We do this by providing the R code that builds the object in the server function.</p>
-<p>The server function plays a special role in the Shiny process; it builds a list-like object named output that contains all of the code needed to update the R objects in your app. Each R object needs to have its own entry in the list.</p>
-<p>You can create an entry by defining a new element for output within the server function, like below. The element name should match the name of the reactive element that you created in the <code>ui</code>.</p>
-<p>You do not need to explicitly state in the server function to return output in its last line of code. R will automatically update output through reference class semantics.</p>
-<p>Each entry to output should contain the output of one of Shiny’s <code>render*</code> functions. These functions capture an R expression and do some light pre-processing on the expression. You use the <code>render*</code> function that corresponds to the type of reactive object you are making. Specifically, the render function creates:</p>
+<p>In the Shiny process, the server function creates a list-like object called output that contains all of the code needed to update the R objects in your app. In the list, each R object must have its own entry.</p>
+<p>You can make an entry by defining a new output element in the server function, as shown below. The name of the element should be the same as the name of the reactive element you created in the ui.</p>
+<p>You do not need to explicitly state in the server function’s last line of code that it should return output. R uses reference class semantics to update output automatically.</p>
+<p>The output of one of Shiny’s <code>render*</code> functions should be included in each entry to output. These functions take a R expression and perform some basic pre-processing on it. The render* function that corresponds to the type of reactive object you’re creating is used. The render function generates the following:</p>
 <ul>
 <li><code>renderDataTable</code>: DataTable</li>
 <li><code>renderImage</code>: images (saved as a link to a source file)</li>
@@ -717,8 +729,8 @@ Figure 6.1: An illustration of Shiny Structure.
 <li><code>renderText</code>: character strings</li>
 <li><code>renderUI</code>: a Shiny tag object or HTML</li>
 </ul>
-<p>Each <code>render*</code> function takes a single argument: an R expression surrounded by <code>{}</code>, which can be one simple line of text, or it can involve many lines of code as if it were a complicated function call.</p>
-<p>You can consider this R expression a set of instructions that you give Shiny to store for later. Shiny will run the instructions when you first launch your app, and then Shiny will re-run the instructions every time it needs to update your object.</p>
+<p>Each <code>render*</code> function takes a single argument: an R expression surrounded by <code>{}</code> and it can be as simple as a single line of text or as complex as a function call with many lines of code.</p>
+<p>This R expression can be thought of as a set of instructions that you give Shiny to remember. When you first launch your app, Shiny will run the instructions, and then it will run them again every time your object needs to be updated.</p>
 <p><a href="https://shiny.rstudio.com/images/shiny-cheatsheet.pdf">The Shiny Cheatsheet</a> provides nice summary of the <code>render*()</code> and <code>*Output()</code> functions.</p>
 <div class="figure">
 <img src="figures/Output.png" alt="" />
@@ -851,7 +863,7 @@ Figure 6.1: An illustration of Shiny Structure.
 <img src="figures/dailynew_IA.png" alt="" />
 <p class="caption">The time series plot of the daily new infected cases of Iowa.</p>
 </div>
-<p>Remark: There are currently four different modes for mouse click+drag behavior (i.e., <code>dragmode</code>) in plotly.js: zoom, pan, rectangular selection, and lasso selection.</p>
+<p>Remark: In plotly.js, there are four different mouse click+drag behavior modes (i.e., <code>dragmode</code>): zoom, pan, rectangular selection, and lasso selection.</p>
 <p><strong>Example 3.</strong></p>
 <p><strong>ui.R</strong></p>
 <div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="shiny.html#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyUI</span>(<span class="fu">fluidPage</span>(</span>

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 11 Regression Modeling | Statistical Learning of Infectious Disease Data Analytics</title>
+  <title>Chapter 11 Regression Methods | Statistical Learning of Infectious Disease Data Analytics</title>
   <meta name="description" content="The use of statistical models to understand infectious disease dynamics has a very rich history in epidemiology. This book introduces modern statistical models and state-of-the-art learning methods to analyze infectious disease data. Many of the key approaches, examples and case studies will be presented. The primary emphasis will be interpretation, inference and hands-on data analyses. This course also provides practical concepts and R computing skills to perform infectious disease data analysis and visualization." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 11 Regression Modeling | Statistical Learning of Infectious Disease Data Analytics" />
+  <meta property="og:title" content="Chapter 11 Regression Methods | Statistical Learning of Infectious Disease Data Analytics" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 11 Regression Modeling | Statistical Learning of Infectious Disease Data Analytics" />
+  <meta name="twitter:title" content="Chapter 11 Regression Methods | Statistical Learning of Infectious Disease Data Analytics" />
   
   <meta name="twitter:description" content="The use of statistical models to understand infectious disease dynamics has a very rich history in epidemiology. This book introduces modern statistical models and state-of-the-art learning methods to analyze infectious disease data. Many of the key approaches, examples and case studies will be presented. The primary emphasis will be interpretation, inference and hands-on data analyses. This course also provides practical concepts and R computing skills to perform infectious disease data analysis and visualization." />
   
@@ -24,7 +24,7 @@
 <meta name="author" content="Lily Wang" />
 
 
-<meta name="date" content="2021-03-30" />
+<meta name="date" content="2021-04-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -432,11 +432,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.9" data-path="timeseries.html"><a href="timeseries.html#prediction-and-prediction-intervals-for-aggregates"><i class="fa fa-check"></i><b>10.9</b> Prediction and Prediction Intervals for Aggregates</a></li>
 <li class="chapter" data-level="10.10" data-path="timeseries.html"><a href="timeseries.html#exercises-5"><i class="fa fa-check"></i><b>10.10</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>11</b> Regression Modeling</a>
+<li class="chapter" data-level="11" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>11</b> Regression Methods</a>
 <ul>
-<li class="chapter" data-level="11.1" data-path="regression.html"><a href="regression.html#principles-of-regression-modeling"><i class="fa fa-check"></i><b>11.1</b> Principles of Regression Modeling</a></li>
-<li class="chapter" data-level="11.2" data-path="regression.html"><a href="regression.html#area-level-data"><i class="fa fa-check"></i><b>11.2</b> Area-level Data</a></li>
-<li class="chapter" data-level="11.3" data-path="regression.html"><a href="regression.html#variable-selection"><i class="fa fa-check"></i><b>11.3</b> Variable Selection</a></li>
+<li class="chapter" data-level="11.1" data-path="regression.html"><a href="regression.html#parametric-regression-methods"><i class="fa fa-check"></i><b>11.1</b> Parametric Regression Methods</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="regression.html"><a href="regression.html#examples"><i class="fa fa-check"></i><b>11.1.1</b> Examples</a></li>
+<li class="chapter" data-level="11.1.2" data-path="regression.html"><a href="regression.html#model-adequacy-checking"><i class="fa fa-check"></i><b>11.1.2</b> Model adequacy checking</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="regression.html"><a href="regression.html#nonparametric-regression-methods"><i class="fa fa-check"></i><b>11.2</b> Nonparametric Regression Methods</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="regression.html"><a href="regression.html#piecewise-constant-splines"><i class="fa fa-check"></i><b>11.2.1</b> Piecewise constant splines</a></li>
+<li class="chapter" data-level="11.2.2" data-path="regression.html"><a href="regression.html#truncated-power-splines"><i class="fa fa-check"></i><b>11.2.2</b> Truncated power splines</a></li>
+<li class="chapter" data-level="11.2.3" data-path="regression.html"><a href="regression.html#b-splines-and-natural-splines"><i class="fa fa-check"></i><b>11.2.3</b> B-splines and natural splines</a></li>
+<li class="chapter" data-level="11.2.4" data-path="regression.html"><a href="regression.html#smoothing-splines"><i class="fa fa-check"></i><b>11.2.4</b> Smoothing splines</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="regression.html"><a href="regression.html#example-cdc-fluview-portal-data"><i class="fa fa-check"></i><b>11.3</b> Example: CDC FluView Portal Data</a></li>
+<li class="chapter" data-level="11.4" data-path="regression.html"><a href="regression.html#poisson-regression"><i class="fa fa-check"></i><b>11.4</b> Poisson regression</a></li>
+<li class="chapter" data-level="11.5" data-path="regression.html"><a href="regression.html#logistic-regression"><i class="fa fa-check"></i><b>11.5</b> Logistic regression</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="NN.html"><a href="NN.html"><i class="fa fa-check"></i><b>12</b> Neural Networks</a>
 <ul>
@@ -527,15 +539,575 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="regression" class="section level1" number="11">
-<h1><span class="header-section-number">Chapter 11</span> Regression Modeling</h1>
-<div id="principles-of-regression-modeling" class="section level2" number="11.1">
-<h2><span class="header-section-number">11.1</span> Principles of Regression Modeling</h2>
+<h1><span class="header-section-number">Chapter 11</span> Regression Methods</h1>
+<p>In Chapter <a href="timeseries.html#timeseries">10</a> we introduces the time series analysis tools, which treat the value of a target variable at each time point as a random variable and uses the covariance function between these random variables to represent the correlation; another approach uses a deterministic smooth surface function to describe the variations and connections among values at different locations. This chapter introduces the latter approach.</p>
+<p>In this chapter the analytical techniques of regression and discrimination are introduced as a means of quantifying the effect of a set of explanatory variables on the spatial distribution of a particular outcome. The material presented here is similar to that which might be presented in standard statistical texts, but includes an overview of the modifications needed to account for the temporal dependency frequently associated with disease data.</p>
+<p>The use of nonparametric techniques has a long tradition in time series analysis. We present some nonparametric methods to forecast a seasonal univariate time series, and propose some dynamic updating methods to improve point forecast accuracy.</p>
+<p>Perhaps the first aspect to consider is the type of outcome variable under investigation. In epidemiology interest lies in understanding patterns of disease in populations, so it is often the case that the outcome variable is either a count of disease events for area units, or more simply a binary response indicating the presence or absence of disease at a given location. Knowledge of the type of outcome variable is important since it determines the regression technique to be used and the options available to account for spatial dependence.</p>
+<div id="parametric-regression-methods" class="section level2" number="11.1">
+<h2><span class="header-section-number">11.1</span> Parametric Regression Methods</h2>
+<p>Linear regression is a technique that can be used to model the broad-scale (first-order) trend. It allows the mean value of a continuous response variable (also known as a dependent variable) <span class="math inline">\(Y_t\)</span> to be represented as a function of <span class="math inline">\(d\)</span> explanatory (also known as covariate, predictor, or independent) variables:
+<span class="math display">\[
+Y_{t}=\beta_0+\beta_1X_{1t}+\beta_2X_{2t}+\cdots+\beta_dX_{dt}+\epsilon_t,
+\]</span>
+where <span class="math inline">\(\beta_{0}, \beta_{1},\ldots, \beta_d\)</span> are unknown parameters or coefficients, and <span class="math inline">\(\varepsilon\)</span> is the error term.</p>
+<p>Note the following key assumptions behind this type of regression analysis:</p>
+<ol style="list-style-type: lower-roman">
+<li>The relationship between the response and the regressors is linear, at least approximately.</li>
+<li>The errors all have the same variance: <span class="math inline">\(\mathrm{Var}(\epsilon_t) = \sigma^2\)</span> for all <span class="math inline">\(t\)</span>.</li>
+<li>The errors are independent of each other. That is, the value of the observation at any point is not affected by the value of observations at any other point.</li>
+<li>The residuals <span class="math inline">\(\epsilon_t\)</span> are normally distributed with a mean of zero.</li>
+</ol>
+<div id="examples" class="section level3" number="11.1.1">
+<h3><span class="header-section-number">11.1.1</span> Examples</h3>
+<p>To predict the number of deaths for COVID-19, <span class="citation"><a href="appendix-b.html#ref-Altieri:etal:21" role="doc-biblioref">Altieri et al.</a> (<a href="appendix-b.html#ref-Altieri:etal:21" role="doc-biblioref">2021</a>)</span> considered various regression models for modeling the death count at the county level in the US. The death count is assumed to follow a linear or exponential relationship with time or the current death count.</p>
+<ol style="list-style-type: decimal">
+<li><p>A separate-county exponential predictor: a series of predictors built for predicting cumulative death counts for each county using only past death counts from that county.
+<span class="math display">\[
+E(D_{t+1}|t) = \exp{\left\{\beta_0 +\beta_1(t+1)\right\}}.
+\]</span></p></li>
+<li><p>A separate-county linear predictor: a predictor similar to the separate county exponential predictors, but uses a simple linear format, rather than the exponential format.
+<span class="math display">\[
+E(D_{t+1}|t) = \beta_0 + \beta_1\times(t + 1).
+\]</span></p></li>
+<li><p>A shared-county exponential predictor: a single predictor built using death counts from all counties, used to predict death counts for individual counties.
+<span class="math display">\[
+E(D_{t+1}|t) = \exp\left\{\beta_0 + \beta_1 \log\left(D_t + 1\right)\right\}.
+\]</span></p></li>
+<li><p>An expanded shared-county exponential predictor: a predictor similar to the shared-county exponential predictor, which also includes COVID-19 case numbers and neighboring county cases and deaths as predictive features.
+<span class="math display">\[
+E(D_{t+1}|t) = \exp\left\{\beta_0 + \beta_1 \log\left(D_t + 1\right)\right\}.
+\]</span></p></li>
+<li><p>A demographics shared-county exponential predictor: a predictor also similar to the shared-county exponential predictor, but which also includes various county demographic and health-related predictive features.</p></li>
+</ol>
+<p><span class="math display">\[\begin{eqnarray*}
+E(D_{t+1}|t) =&amp; \exp\left\{\beta_0 + \beta_1 \log\left(D_t + 1\right) + \beta_2\log\left(I_{t-k+1}+1\right)\right. \\
+&amp; \left. + \beta_3\log\left(D_{t-k+1}^\mathrm{neighbor}\right) + \beta_4\log\left(I_{t-k+1}^\mathrm{neighbor}\right) \right\}.
+\end{eqnarray*}\]</span></p>
+<p>In the following, we illustrate Methods 1 and 2 using the data <code>Florida.ts</code>. We are interested in making predictions for the period December 05-December 11, 2020, and we use a training set from the past week (November 28 to December 04, 2020). The linear regression model and exponential model will be fitted on the training set, and the fitted model is used to make predictions. Figure <a href="regression.html#fig:celt">11.1</a> shows the forecasts of the daily death count.</p>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="regression.html#cb309-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set training data from NOV 28 to DEC 04</span></span>
+<span id="cb309-2"><a href="regression.html#cb309-2" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> Florida.ts <span class="sc">%&gt;%</span> </span>
+<span id="cb309-3"><a href="regression.html#cb309-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter_index</span>(<span class="st">&quot;2020-11-28&quot;</span> <span class="sc">~</span> <span class="st">&quot;2020-12-04&quot;</span>)</span>
+<span id="cb309-4"><a href="regression.html#cb309-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb309-5"><a href="regression.html#cb309-5" aria-hidden="true" tabindex="-1"></a><span class="co"># both linear and exponential trend</span></span>
+<span id="cb309-6"><a href="regression.html#cb309-6" aria-hidden="true" tabindex="-1"></a>fit_trends <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
+<span id="cb309-7"><a href="regression.html#cb309-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(</span>
+<span id="cb309-8"><a href="regression.html#cb309-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">linear =</span> <span class="fu">TSLM</span>(Y.Death <span class="sc">~</span> <span class="fu">trend</span>()),</span>
+<span id="cb309-9"><a href="regression.html#cb309-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">exponential =</span> <span class="fu">TSLM</span>(<span class="fu">log</span>(Y.Death <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">~</span> <span class="fu">trend</span>()),</span>
+<span id="cb309-10"><a href="regression.html#cb309-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb309-11"><a href="regression.html#cb309-11" aria-hidden="true" tabindex="-1"></a>fc_trends <span class="ot">&lt;-</span> fit_trends <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">7</span>)</span>
+<span id="cb309-12"><a href="regression.html#cb309-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb309-13"><a href="regression.html#cb309-13" aria-hidden="true" tabindex="-1"></a><span class="co"># make predictions for the next week</span></span>
+<span id="cb309-14"><a href="regression.html#cb309-14" aria-hidden="true" tabindex="-1"></a>Florida.ts <span class="sc">%&gt;%</span></span>
+<span id="cb309-15"><a href="regression.html#cb309-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(Y.Death) <span class="sc">+</span></span>
+<span id="cb309-16"><a href="regression.html#cb309-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> <span class="fu">fitted</span>(fit_trends),</span>
+<span id="cb309-17"><a href="regression.html#cb309-17" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">y =</span> .fitted, <span class="at">color =</span> .model)) <span class="sc">+</span></span>
+<span id="cb309-18"><a href="regression.html#cb309-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(fc_trends, <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">level =</span> <span class="dv">95</span>) <span class="sc">+</span></span>
+<span id="cb309-19"><a href="regression.html#cb309-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Death Count&quot;</span>,</span>
+<span id="cb309-20"><a href="regression.html#cb309-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Florida daily new deaths&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:celt"></span>
+<img src="SLID_book_files/figure-html/celt-1.png" alt="Reported death count vs linear and exponential fit." width="672" />
+<p class="caption">
+Figure 11.1: Reported death count vs linear and exponential fit.
+</p>
 </div>
-<div id="area-level-data" class="section level2" number="11.2">
-<h2><span class="header-section-number">11.2</span> Area-level Data</h2>
 </div>
-<div id="variable-selection" class="section level2" number="11.3">
-<h2><span class="header-section-number">11.3</span> Variable Selection</h2>
+<div id="model-adequacy-checking" class="section level3" number="11.1.2">
+<h3><span class="header-section-number">11.1.2</span> Model adequacy checking</h3>
+<p>We should consider the validity of the assumptions mentioned before. Violations of the assumptions may yield an unstable model in the sense that a different sample could lead to a totally different model with opposite conclusions. Graphical analysis of residuals (original or scaled) is a very effective way to investigate the adequacy of the fit.</p>
+<ul>
+<li>Normal probability plot of residuals;</li>
+<li>Plot of residuals against the fitted values;</li>
+<li>Plot of residuals against each regressor variable;</li>
+<li>Plot of residuals in time series (if time series data were collected).</li>
+</ul>
+<p><strong>Goodness of Fit</strong></p>
+<p>How well does the model fit the data? One measure is <span class="math inline">\(R^2\)</span>, the so-called coefficient of determination or percentage of variance explained
+<span class="math display">\[
+R^2 = 1- \frac{\Sigma (Y_i-\hat{Y}_i)^2}{\Sigma (Y_i-\bar{Y}^2)} = 1-
+\frac{\mbox{RSS}}{\mbox{Total SS (corrected for mean)}}.
+\]</span></p>
+<p>The range is <span class="math inline">\(0 \le R^2 \le 1\)</span>, and values closer to 1 indicates better fits. For simple linear regression <span class="math inline">\(R^2=r^2\)</span> where <span class="math inline">\(r\)</span> is the correlation between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. An equivalent definition is
+<span class="math display">\[
+R^2 = \frac{\Sigma (\hat{Y}_i-\bar{Y})^2}{\Sigma (Y_i-\bar{Y})^2} = \frac{\mbox{Regression Sum of Squares}}{\mbox{Total SS (corrected for mean)}}.
+\]</span></p>
+<p>After selecting the regression variables and fitting a regression model, it is necessary to plot the residuals to check that the assumptions of the model have been satisfied. There are a series of plots that should be produced in order to check different aspects of the fitted model and the underlying assumptions. We will now discuss each of them in turn.</p>
+<p><strong>ACF plot of residuals</strong></p>
+<p>With time series data, it is highly likely that the value of a variable observed in the current time period will be similar to its value in the previous period, or even the period before that, and so on. Therefore when fitting a regression model to time series data, it is common to find autocorrelation in the residuals. In this case, the estimated model violates the assumption of no autocorrelation in the errors, and our forecasts may be inefficient — there is some information left over which should be accounted for in the model in order to obtain better forecasts. The forecasts from a model with autocorrelated errors are still unbiased, and so are not “wrong,” but they will usually have larger prediction intervals than they need to. Therefore we should always look at an ACF plot of the residuals.</p>
+<p><strong>Histogram of residuals</strong></p>
+<p>It is always a good idea to check whether the residuals are normally distributed. As we explained earlier, this is not essential for forecasting, but it does make the calculation of prediction intervals much easier.</p>
+<p><strong>Residual plots against predictors</strong></p>
+<p>We would expect the residuals to be randomly scattered without showing any systematic patterns. A simple and quick way to check this is to examine scatterplots of the residuals against each of the predictor variables. If these scatterplots show a pattern, then the relationship may be nonlinear and the model will need to be modified accordingly.</p>
+<p>It is also necessary to plot the residuals against any predictors that are not in the model. If any of these show a pattern, then the corresponding predictor may need to be added to the model (possibly in a nonlinear form).</p>
+</div>
+</div>
+<div id="nonparametric-regression-methods" class="section level2" number="11.2">
+<h2><span class="header-section-number">11.2</span> Nonparametric Regression Methods</h2>
+<p>It is common for time series data to be trending. A linear trend can be modelled by simply using <span class="math inline">\(x_{1t}=t\)</span> as a predictor,
+<span class="math display">\[
+Y_t=\beta_0+\beta_1 t+\varepsilon_t,
+\]</span>
+where <span class="math inline">\(t=1,\ldots,n\)</span>. A trend variable can be specified in the <code>TSLM()</code> function using the <code>trend()</code> special.</p>
+<p>In this section, we further extend the linear regression to model the nonlinear trends.</p>
+<p>A nonparametric regression model assumes
+<span class="math display">\[
+y_{t}=m\left(t\right)+\varepsilon_{t}, \ \ t=1,\cdots,n,
+\]</span>
+where <span class="math inline">\(\varepsilon_{t}\)</span> are assumed to be i.i.d. with mean <span class="math inline">\(0\)</span> and variance <span class="math inline">\(\sigma^{2}\)</span>, <span class="math inline">\(m(\cdot)\)</span> is a nonparametric regression function. Linear regression is a special case:
+<span class="math display">\[
+m(t)=\beta_{0}+\beta_{1}t.
+\]</span></p>
+<div id="piecewise-constant-splines" class="section level3" number="11.2.1">
+<h3><span class="header-section-number">11.2.1</span> Piecewise constant splines</h3>
+<p>We break the time domain into bins, and fit a different constant in each bin. We create cut-off points <span class="math inline">\(k_1\)</span>, <span class="math inline">\(k_2\)</span>, , <span class="math inline">\(k_{N}\)</span> in the time domain, and then construct <span class="math inline">\(N + 1\)</span> piecewise constant basis functions:</p>
+<p><span class="math display">\[\begin{eqnarray*}
+  B_0(t) &amp;=&amp; I(t &lt;k_1) \\
+  B_1(t) &amp;=&amp; I(k_1 \leq t &lt;k_2) \\
+  B_2(t) &amp;=&amp; I(k_2 \leq t &lt;k_3) \\
+  \cdots &amp;=&amp;  \cdots \\
+  B_{N-1}(t) &amp;=&amp; I(k_{N-1} \leq t &lt;k_N) \\
+  B_N(t) &amp;=&amp; I(k_N \leq t)
+\end{eqnarray*}\]</span>
+where <span class="math inline">\(I(\cdot)\)</span> is an indicator function that returns a <span class="math inline">\(1\)</span> if the condition is true, indicator and returns a <span class="math inline">\(0\)</span> otherwise.</p>
+<p>Figure <a href="regression.html#fig:pcs">11.2</a> shows a fit for the daily new death count for Florida using piecewise constant splines.</p>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="regression.html#cb310-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(Florida.ts)</span>
+<span id="cb310-2"><a href="regression.html#cb310-2" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>n</span>
+<span id="cb310-3"><a href="regression.html#cb310-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> Florida.ts<span class="sc">$</span>Y.Death</span>
+<span id="cb310-4"><a href="regression.html#cb310-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb310-5"><a href="regression.html#cb310-5" aria-hidden="true" tabindex="-1"></a><span class="co"># knots</span></span>
+<span id="cb310-6"><a href="regression.html#cb310-6" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">21</span></span>
+<span id="cb310-7"><a href="regression.html#cb310-7" aria-hidden="true" tabindex="-1"></a>knots <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> (n<span class="dv">-1</span>)<span class="sc">/</span>(N<span class="sc">+</span><span class="dv">1</span>) <span class="sc">*</span> (<span class="dv">0</span><span class="sc">:</span>N)</span>
+<span id="cb310-8"><a href="regression.html#cb310-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb310-9"><a href="regression.html#cb310-9" aria-hidden="true" tabindex="-1"></a><span class="co"># piecewise constant spline basis</span></span>
+<span id="cb310-10"><a href="regression.html#cb310-10" aria-hidden="true" tabindex="-1"></a>t.rep <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rep</span>(t, N), n, N)</span>
+<span id="cb310-11"><a href="regression.html#cb310-11" aria-hidden="true" tabindex="-1"></a>knot.L <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rep</span>(knots[<span class="sc">-</span>(N <span class="sc">+</span> <span class="dv">1</span>)], <span class="at">each =</span> n), n, N)</span>
+<span id="cb310-12"><a href="regression.html#cb310-12" aria-hidden="true" tabindex="-1"></a>knot.R <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rep</span>(knots[<span class="sc">-</span><span class="dv">1</span>], <span class="at">each =</span> n), n, N)</span>
+<span id="cb310-13"><a href="regression.html#cb310-13" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span>((knot.L <span class="sc">&lt;=</span> t.rep) <span class="sc">&amp;</span> (t.rep <span class="sc">&lt;</span> knot.R))</span>
+<span id="cb310-14"><a href="regression.html#cb310-14" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">cbind</span>(B, knots[N] <span class="sc">&lt;</span> t <span class="sc">&amp;</span> t <span class="sc">&lt;=</span> n)</span>
+<span id="cb310-15"><a href="regression.html#cb310-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb310-16"><a href="regression.html#cb310-16" aria-hidden="true" tabindex="-1"></a><span class="co"># piecewise constant spline fit</span></span>
+<span id="cb310-17"><a href="regression.html#cb310-17" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">t</span>(X) <span class="sc">%*%</span> X</span>
+<span id="cb310-18"><a href="regression.html#cb310-18" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="fu">solve</span>(M) <span class="sc">%*%</span> <span class="fu">t</span>(X) <span class="sc">%*%</span> y</span>
+<span id="cb310-19"><a href="regression.html#cb310-19" aria-hidden="true" tabindex="-1"></a>yhat <span class="ot">&lt;-</span> X <span class="sc">%*%</span> beta</span>
+<span id="cb310-20"><a href="regression.html#cb310-20" aria-hidden="true" tabindex="-1"></a>Florida.ts<span class="sc">$</span>pcs_preds <span class="ot">&lt;-</span> yhat</span>
+<span id="cb310-21"><a href="regression.html#cb310-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb310-22"><a href="regression.html#cb310-22" aria-hidden="true" tabindex="-1"></a><span class="co"># plot of reported vs piecewise constant spline fit</span></span>
+<span id="cb310-23"><a href="regression.html#cb310-23" aria-hidden="true" tabindex="-1"></a>Florida.ts <span class="sc">%&gt;%</span></span>
+<span id="cb310-24"><a href="regression.html#cb310-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> DATE)) <span class="sc">+</span></span>
+<span id="cb310-25"><a href="regression.html#cb310-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Y.Death, <span class="at">color =</span> <span class="st">&quot;Reported&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb310-26"><a href="regression.html#cb310-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> pcs_preds, <span class="at">color =</span> <span class="st">&quot;Fitted&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb310-27"><a href="regression.html#cb310-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(</span>
+<span id="cb310-28"><a href="regression.html#cb310-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="at">Reported =</span> <span class="st">&quot;black&quot;</span>, <span class="at">Fitted =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb310-29"><a href="regression.html#cb310-29" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb310-30"><a href="regression.html#cb310-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Death count&quot;</span>,</span>
+<span id="cb310-31"><a href="regression.html#cb310-31" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Reported vs piecewise constant spline fit&quot;</span>) <span class="sc">+</span></span>
+<span id="cb310-32"><a href="regression.html#cb310-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="st">&quot;Series&quot;</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:pcs"></span>
+<img src="SLID_book_files/figure-html/pcs-1.png" alt="Piecewise constant spline smoothing for the daily new death count for Florida." width="672" />
+<p class="caption">
+Figure 11.2: Piecewise constant spline smoothing for the daily new death count for Florida.
+</p>
+</div>
+</div>
+<div id="truncated-power-splines" class="section level3" number="11.2.2">
+<h3><span class="header-section-number">11.2.2</span> Truncated power splines</h3>
+<p>For univariate data, polynomial splines of degree <span class="math inline">\(p\)</span> can be represented by an appropriate sequence of <span class="math inline">\(N+p+1\)</span> spline basis functions, determined in turn by <span class="math inline">\(N\)</span> interior knots. These produce functions that are piecewise polynomials of degree <span class="math inline">\(p\)</span> between the knots, and joined up with continuity of degree
+<span class="math inline">\(p-1\)</span> at the knots. As an example consider linear splines, or piecewise linear functions.</p>
+<p>Let <span class="math inline">\(k_1 &lt; k_2 &lt; \ldots &lt; k_N\)</span> be <strong>knots</strong> in the time domain, for example, <span class="math inline">\([1, n]\)</span>. Let <span class="math inline">\(\phi_0(t) = 1\)</span>, <span class="math inline">\(\phi_1(t) = t\)</span>, <span class="math inline">\(\phi_j(t) = (t-k_{j-1})_{+}\)</span> for <span class="math inline">\(j = 2, \ldots, N+1\)</span> be the basis functions, where <span class="math inline">\(x_{+}\)</span> denotes positive part of <span class="math inline">\(x\)</span>. Then, the regression is piecewise linear with bends at the knots.</p>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="regression.html#cb311-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> Florida.ts<span class="sc">$</span>Y.Death</span>
+<span id="cb311-2"><a href="regression.html#cb311-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(Florida.ts)</span>
+<span id="cb311-3"><a href="regression.html#cb311-3" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>n</span>
+<span id="cb311-4"><a href="regression.html#cb311-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb311-5"><a href="regression.html#cb311-5" aria-hidden="true" tabindex="-1"></a><span class="co"># knots</span></span>
+<span id="cb311-6"><a href="regression.html#cb311-6" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb311-7"><a href="regression.html#cb311-7" aria-hidden="true" tabindex="-1"></a>knots <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> (n<span class="dv">-1</span>)<span class="sc">/</span>(N<span class="sc">+</span><span class="dv">1</span>) <span class="sc">*</span> (<span class="dv">0</span><span class="sc">:</span>N)</span>
+<span id="cb311-8"><a href="regression.html#cb311-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb311-9"><a href="regression.html#cb311-9" aria-hidden="true" tabindex="-1"></a><span class="co"># truncated power spline basis functions</span></span>
+<span id="cb311-10"><a href="regression.html#cb311-10" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span>, n, N <span class="sc">+</span> <span class="dv">2</span>)    </span>
+<span id="cb311-11"><a href="regression.html#cb311-11" aria-hidden="true" tabindex="-1"></a>X[, <span class="dv">2</span>] <span class="ot">&lt;-</span> t</span>
+<span id="cb311-12"><a href="regression.html#cb311-12" aria-hidden="true" tabindex="-1"></a>t.rep <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rep</span>(t, N), n, N) </span>
+<span id="cb311-13"><a href="regression.html#cb311-13" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> t.rep <span class="sc">-</span> <span class="fu">matrix</span>(<span class="fu">rep</span>(knots[<span class="dv">2</span><span class="sc">:</span>(N <span class="sc">+</span> <span class="dv">1</span>)], <span class="at">each =</span> n), n, N)</span>
+<span id="cb311-14"><a href="regression.html#cb311-14" aria-hidden="true" tabindex="-1"></a>X[, <span class="dv">3</span><span class="sc">:</span>(N<span class="sc">+</span><span class="dv">2</span>)] <span class="ot">&lt;-</span> tmp <span class="sc">*</span> (tmp <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb311-15"><a href="regression.html#cb311-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb311-16"><a href="regression.html#cb311-16" aria-hidden="true" tabindex="-1"></a><span class="co"># truncated power spline fit</span></span>
+<span id="cb311-17"><a href="regression.html#cb311-17" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">t</span>(X) <span class="sc">%*%</span> X</span>
+<span id="cb311-18"><a href="regression.html#cb311-18" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="fu">solve</span>(M) <span class="sc">%*%</span> <span class="fu">t</span>(X) <span class="sc">%*%</span> y</span>
+<span id="cb311-19"><a href="regression.html#cb311-19" aria-hidden="true" tabindex="-1"></a>yhat <span class="ot">&lt;-</span> X <span class="sc">%*%</span> beta</span>
+<span id="cb311-20"><a href="regression.html#cb311-20" aria-hidden="true" tabindex="-1"></a>Florida.ts<span class="sc">$</span>tps_preds <span class="ot">&lt;-</span> yhat</span>
+<span id="cb311-21"><a href="regression.html#cb311-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb311-22"><a href="regression.html#cb311-22" aria-hidden="true" tabindex="-1"></a><span class="co"># plot of reported vs truncated power spline fit</span></span>
+<span id="cb311-23"><a href="regression.html#cb311-23" aria-hidden="true" tabindex="-1"></a>Florida.ts <span class="sc">%&gt;%</span></span>
+<span id="cb311-24"><a href="regression.html#cb311-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> DATE)) <span class="sc">+</span></span>
+<span id="cb311-25"><a href="regression.html#cb311-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Y.Death, <span class="at">color =</span> <span class="st">&quot;Reported&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb311-26"><a href="regression.html#cb311-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> tps_preds, <span class="at">color =</span> <span class="st">&quot;Fitted&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb311-27"><a href="regression.html#cb311-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(</span>
+<span id="cb311-28"><a href="regression.html#cb311-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="at">Reported =</span> <span class="st">&quot;black&quot;</span>, <span class="at">Fitted =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb311-29"><a href="regression.html#cb311-29" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb311-30"><a href="regression.html#cb311-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Death count&quot;</span>,</span>
+<span id="cb311-31"><a href="regression.html#cb311-31" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Reported vs truncated power spline fit&quot;</span>) <span class="sc">+</span></span>
+<span id="cb311-32"><a href="regression.html#cb311-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="st">&quot;Series&quot;</span>))</span></code></pre></div>
+<p><img src="SLID_book_files/figure-html/unnamed-chunk-184-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>In general, let
+<span class="math display">\[
+(t-k_{j})_{+}^{p}=\left\{\begin{array}{cc}(t-k_{j})^{p} &amp; \mathrm{for} \ t\geq k_{j}\\ 0 &amp; \mathrm{for} \ t&lt;k_{j}\end{array}\right.
+\]</span>
+Then, the <span class="math inline">\(N+p+1\)</span> truncated power basis functions are:
+<span class="math display">\[\begin{eqnarray*}
+\phi_{1}(t)&amp;=&amp;1, \\
+\phi_{2}(t)&amp;=&amp;t, \\
+&amp;\vdots&amp; \\
+\phi_{p}(t)&amp;=&amp;t^{p},\\
+\phi_{p+1}(t)&amp;=&amp;(t-k_{1})_{+}^{p},\\
+&amp;\vdots&amp; \\
+\phi_{p+N}(t)&amp;=&amp;(t-k_{N})_{+}^{p}.
+\end{eqnarray*}\]</span></p>
+<p>We define the spline estimator for the regression function <span class="math inline">\(m(x)\)</span> as
+<span class="math display">\[
+\hat{m}\left(t\right) =\sum_{k=0}^{p} \hat{\beta}_{k}
+t^{k}+\sum_{j=1}^{N}\hat{\gamma}_{j}\left(t-\kappa_{j}\right)_{+}^{p},
+\]</span>
+where <span class="math inline">\(\{\hat{\beta}_{0},\ldots,\hat{\beta}_{p},\hat{\gamma}_{1},\ldots,\hat{\gamma}_{N}\}\)</span> are the least square estimators of <span class="math inline">\(\{\beta_{0},\ldots,\beta_{p},\gamma_{1},\ldots,\gamma_{N}\}\)</span> based on the data. The shape of the basis functions is determined by the position of the knots <span class="math inline">\(k_{1}&lt;\ldots&lt;k_{N}\)</span>, which can, for example, be uniformly spread over the time domain.</p>
+</div>
+<div id="b-splines-and-natural-splines" class="section level3" number="11.2.3">
+<h3><span class="header-section-number">11.2.3</span> B-splines and natural splines</h3>
+<p>Both B-splines and natural splines similarly define a basis over the time domain. They are made up of piecewise polynomials of a given degree, and have defined derivatives similarly to the piecewise defined functions.</p>
+<p>To introduce the space of splines, we pre-select an integer <span class="math inline">\(N\)</span>, and divide the time domain <span class="math inline">\([a,b]\)</span> into <span class="math inline">\((N+1)\)</span> subintervals <span class="math inline">\(J_{j}=[k_{j},k_{j+1})\)</span>, <span class="math inline">\(j=0,\ldots,N-1\)</span>, <span class="math inline">\(J_{N}=[k_{N},b]\)</span>, where <span class="math inline">\(\{k_{j}\}_{j=1}^{N}\)</span> is a sequence of equally-spaced points, called interior knots, given as
+<span class="math display">\[
+k_{1-p}=...=k_{-1}=k_{0}=a&lt;k_{1}&lt;\ldots&lt;k_{N}&lt;b=k_{N+1}=\ldots=k_{N+p},
+\]</span>
+in which <span class="math inline">\(k_{j}=j(b-a)/(N+1)\)</span>, <span class="math inline">\(j=0,1,\ldots,N+1\)</span>. The <span class="math inline">\(j\)</span>-th B-spline of order <span class="math inline">\(r\)</span> denoted by <span class="math inline">\(b_{j,r}\)</span> is recursively defined by de Boor (2001) as follows:</p>
+<ul>
+<li><p>For <span class="math inline">\(r=1\)</span>, basis <span class="math inline">\(b_{1,1},\ldots, b_{N,1}\)</span>:
+<span class="math display">\[
+b_{j,1}(t)=I\left\{t\in[k_{j},k_{j+1})\right\}.
+\]</span></p></li>
+<li><p>Given <span class="math inline">\(b_{j,r-1},j=-(r-1),\ldots,N\)</span>, construct <span class="math inline">\(b_{j,r}\)</span>
+<span class="math display">\[
+b_{j,r}(t)=\frac{t-k_{j}}{k_{j+r-1}-k_{j}}b_{j,r-1}(t)+\frac{k_{j+r}-t}{k_{j+r}-k_{j+1}}b_{j+1,r-1}(t)
+\]</span></p></li>
+<li><p>E.g., <span class="math inline">\(r=2\)</span>, basis <span class="math inline">\(b_{-1,2},\ldots, b_{N,2}\)</span>:
+<span class="math display">\[
+b_{j,2}(t)=\frac{t-k_{j}}{k_{j+1}-k_{j}}b_{j,1}(t)+\frac{k_{j+2}-t}{k_{j+2}-k_{j+1}}b_{j+1,1}(t).
+\]</span></p></li>
+</ul>
+<p>It is well known that the behavior of polynomials fit to data tends to be erratic near the boundaries, and extrapolation can be dangerous. These problems are exacerbated with splines. The polynomials fit beyond the boundary knots behave even more wildly than the corresponding global polynomials in that region. This can be conveniently summarized in terms of the pointwise
+variance of spline functions fit by least squares.</p>
+<p>A <strong>natural cubic spline</strong> adds additional constraints, namely that the function is linear beyond the boundary knots. This frees up four degrees of
+freedom (two constraints each in both boundary regions), which can be
+spent more profitably by sprinkling more knots in the interior region.</p>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="regression.html#cb312-1" aria-hidden="true" tabindex="-1"></a><span class="co"># natural spline fit</span></span>
+<span id="cb312-2"><a href="regression.html#cb312-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(splines)</span>
+<span id="cb312-3"><a href="regression.html#cb312-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(Florida.ts)</span>
+<span id="cb312-4"><a href="regression.html#cb312-4" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>n</span>
+<span id="cb312-5"><a href="regression.html#cb312-5" aria-hidden="true" tabindex="-1"></a>ns_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y.Death <span class="sc">~</span> <span class="fu">ns</span>(t, <span class="at">df =</span> <span class="dv">6</span>), <span class="at">data =</span> Florida.ts)</span>
+<span id="cb312-6"><a href="regression.html#cb312-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ns_fit)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Y.Death ~ ns(t, df = 6), data = Florida.ts)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -129.894  -14.531   -1.122   14.886  136.643 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      -4.947     10.467  -0.473 0.636843    
+## ns(t, df = 6)1   50.740     13.185   3.848 0.000144 ***
+## ns(t, df = 6)2   41.051     16.893   2.430 0.015649 *  
+## ns(t, df = 6)3  214.442     15.009  14.288  &lt; 2e-16 ***
+## ns(t, df = 6)4   11.851     13.081   0.906 0.365637    
+## ns(t, df = 6)5   88.438     26.606   3.324 0.000992 ***
+## ns(t, df = 6)6  104.854     11.976   8.756  &lt; 2e-16 ***
+## ---
+## Signif. codes:  
+## 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 38.72 on 317 degrees of freedom
+## Multiple R-squared:  0.5771, Adjusted R-squared:  0.5691 
+## F-statistic: 72.09 on 6 and 317 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="regression.html#cb314-1" aria-hidden="true" tabindex="-1"></a>Florida.ts<span class="sc">$</span>ns_preds <span class="ot">&lt;-</span> <span class="fu">predict</span>(ns_fit)</span>
+<span id="cb314-2"><a href="regression.html#cb314-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb314-3"><a href="regression.html#cb314-3" aria-hidden="true" tabindex="-1"></a><span class="co"># natural spline prediction and prediction intervals</span></span>
+<span id="cb314-4"><a href="regression.html#cb314-4" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="dv">14</span></span>
+<span id="cb314-5"><a href="regression.html#cb314-5" aria-hidden="true" tabindex="-1"></a>t.new <span class="ot">&lt;-</span> t[n] <span class="sc">+</span> (<span class="dv">1</span><span class="sc">:</span>h)</span>
+<span id="cb314-6"><a href="regression.html#cb314-6" aria-hidden="true" tabindex="-1"></a>ns_PI <span class="ot">&lt;-</span> <span class="fu">predict</span>(ns_fit, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">t =</span> t.new), </span>
+<span id="cb314-7"><a href="regression.html#cb314-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">interval =</span> <span class="st">&quot;prediction&quot;</span>,</span>
+<span id="cb314-8"><a href="regression.html#cb314-8" aria-hidden="true" tabindex="-1"></a>                           <span class="at">level =</span> <span class="fl">0.95</span>)</span>
+<span id="cb314-9"><a href="regression.html#cb314-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb314-10"><a href="regression.html#cb314-10" aria-hidden="true" tabindex="-1"></a>ns_PI <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(ns_PI) <span class="sc">%&gt;%</span></span>
+<span id="cb314-11"><a href="regression.html#cb314-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">DATE =</span> (Florida.ts<span class="sc">$</span>DATE)[n] <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span>h)</span>
+<span id="cb314-12"><a href="regression.html#cb314-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb314-13"><a href="regression.html#cb314-13" aria-hidden="true" tabindex="-1"></a><span class="co"># reported values vs fitted values</span></span>
+<span id="cb314-14"><a href="regression.html#cb314-14" aria-hidden="true" tabindex="-1"></a>Florida.ts <span class="sc">%&gt;%</span></span>
+<span id="cb314-15"><a href="regression.html#cb314-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ns_preds, <span class="at">y =</span> Y.Death)) <span class="sc">+</span></span>
+<span id="cb314-16"><a href="regression.html#cb314-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb314-17"><a href="regression.html#cb314-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Fitted (predicted values)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb314-18"><a href="regression.html#cb314-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Data (reported values)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb314-19"><a href="regression.html#cb314-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Observed vs fitted&quot;</span>) <span class="sc">+</span></span>
+<span id="cb314-20"><a href="regression.html#cb314-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept=</span><span class="dv">0</span>, <span class="at">slope=</span><span class="dv">1</span>)</span></code></pre></div>
+<p><img src="SLID_book_files/figure-html/unnamed-chunk-185-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="regression.html#cb315-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot of reported vs natural spline fit</span></span>
+<span id="cb315-2"><a href="regression.html#cb315-2" aria-hidden="true" tabindex="-1"></a>ns_p <span class="ot">&lt;-</span> Florida.ts <span class="sc">%&gt;%</span></span>
+<span id="cb315-3"><a href="regression.html#cb315-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> DATE)) <span class="sc">+</span></span>
+<span id="cb315-4"><a href="regression.html#cb315-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Y.Death, <span class="at">color =</span> <span class="st">&quot;Reported&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb315-5"><a href="regression.html#cb315-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> ns_preds, <span class="at">color =</span> <span class="st">&quot;Fitted&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb315-6"><a href="regression.html#cb315-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(</span>
+<span id="cb315-7"><a href="regression.html#cb315-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="at">Reported =</span> <span class="st">&quot;black&quot;</span>, <span class="at">Fitted =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb315-8"><a href="regression.html#cb315-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb315-9"><a href="regression.html#cb315-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Death count&quot;</span>,</span>
+<span id="cb315-10"><a href="regression.html#cb315-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Reported vs natural spline regression fit&quot;</span>) <span class="sc">+</span></span>
+<span id="cb315-11"><a href="regression.html#cb315-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="st">&quot;Series&quot;</span>))</span>
+<span id="cb315-12"><a href="regression.html#cb315-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb315-13"><a href="regression.html#cb315-13" aria-hidden="true" tabindex="-1"></a>ns_p</span></code></pre></div>
+<p><img src="SLID_book_files/figure-html/unnamed-chunk-185-2.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="regression.html#cb316-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot of natural spline fit and its prediction intervals</span></span>
+<span id="cb316-2"><a href="regression.html#cb316-2" aria-hidden="true" tabindex="-1"></a>ns_p <span class="ot">&lt;-</span> ns_p <span class="sc">+</span> <span class="fu">geom_ribbon</span>(</span>
+<span id="cb316-3"><a href="regression.html#cb316-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> fit, </span>
+<span id="cb316-4"><a href="regression.html#cb316-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">ymin =</span> lwr, </span>
+<span id="cb316-5"><a href="regression.html#cb316-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">ymax =</span> upr,</span>
+<span id="cb316-6"><a href="regression.html#cb316-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">fill =</span> <span class="st">&#39;95% Prediction Intervals&#39;</span>), </span>
+<span id="cb316-7"><a href="regression.html#cb316-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> ns_PI, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span> </span>
+<span id="cb316-8"><a href="regression.html#cb316-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> fit, <span class="at">color =</span> <span class="st">&quot;Fitted&quot;</span>),</span>
+<span id="cb316-9"><a href="regression.html#cb316-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> ns_PI,</span>
+<span id="cb316-10"><a href="regression.html#cb316-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">key_glyph =</span> <span class="st">&quot;timeseries&quot;</span>) </span>
+<span id="cb316-11"><a href="regression.html#cb316-11" aria-hidden="true" tabindex="-1"></a>ns_p</span></code></pre></div>
+<p><img src="SLID_book_files/figure-html/unnamed-chunk-185-3.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="smoothing-splines" class="section level3" number="11.2.4">
+<h3><span class="header-section-number">11.2.4</span> Smoothing splines</h3>
+<p>A different idea to estimate the regression function <span class="math inline">\(m(\cdot)\)</span> by
+<span class="math display">\[
+\min_{m}\frac{1}{n}\sum_{t=1}^{n}\left(Y_{t}-m(x_{t})\right)^{2}+\lambda \int \left(m^{\prime\prime}(t)\right)^{2}dt,
+\]</span>
+where <span class="math inline">\(\lambda&gt;0\)</span> is a smoothing parameter, and it controls large values of the second derivative of <span class="math inline">\(m\)</span>. For <span class="math inline">\(\lambda = 0\)</span> no penalty is imposed, and any interpolating function will do, while for <span class="math inline">\(\lambda = \infty\)</span> only functions linear in <span class="math inline">\(t\)</span> are permitted.</p>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="regression.html#cb317-1" aria-hidden="true" tabindex="-1"></a><span class="co"># smoothing spline fit</span></span>
+<span id="cb317-2"><a href="regression.html#cb317-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mgcv)</span>
+<span id="cb317-3"><a href="regression.html#cb317-3" aria-hidden="true" tabindex="-1"></a>ss_fit <span class="ot">&lt;-</span> <span class="fu">gam</span>(Y.Death <span class="sc">~</span> <span class="fu">s</span>(t, <span class="at">bs =</span> <span class="st">&quot;cr&quot;</span>), <span class="at">data =</span> Florida.ts)</span>
+<span id="cb317-4"><a href="regression.html#cb317-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ss_fit)</span></code></pre></div>
+<pre><code>## 
+## Family: gaussian 
+## Link function: identity 
+## 
+## Formula:
+## Y.Death ~ s(t, bs = &quot;cr&quot;)
+## 
+## Parametric coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   60.846      2.038   29.86   &lt;2e-16 ***
+## ---
+## Signif. codes:  
+## 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Approximate significance of smooth terms:
+##        edf Ref.df     F p-value    
+## s(t) 8.715  8.976 57.55  &lt;2e-16 ***
+## ---
+## Signif. codes:  
+## 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## R-sq.(adj) =  0.613   Deviance explained = 62.4%
+## GCV = 1387.4  Scale est. = 1345.8    n = 324</code></pre>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="regression.html#cb319-1" aria-hidden="true" tabindex="-1"></a>Florida.ts<span class="sc">$</span>ss_preds <span class="ot">&lt;-</span> <span class="fu">predict</span>(ss_fit)</span>
+<span id="cb319-2"><a href="regression.html#cb319-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb319-3"><a href="regression.html#cb319-3" aria-hidden="true" tabindex="-1"></a><span class="co"># plot of reported vs smoothing spline fit</span></span>
+<span id="cb319-4"><a href="regression.html#cb319-4" aria-hidden="true" tabindex="-1"></a>Florida.ts <span class="sc">%&gt;%</span></span>
+<span id="cb319-5"><a href="regression.html#cb319-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> DATE)) <span class="sc">+</span></span>
+<span id="cb319-6"><a href="regression.html#cb319-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Y.Death, <span class="at">color =</span> <span class="st">&quot;Reported&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb319-7"><a href="regression.html#cb319-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> ss_preds, <span class="at">color =</span> <span class="st">&quot;Fitted&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb319-8"><a href="regression.html#cb319-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(</span>
+<span id="cb319-9"><a href="regression.html#cb319-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="at">Reported =</span> <span class="st">&quot;black&quot;</span>, <span class="at">Fitted =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb319-10"><a href="regression.html#cb319-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb319-11"><a href="regression.html#cb319-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Death count&quot;</span>,</span>
+<span id="cb319-12"><a href="regression.html#cb319-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Reported vs smoothing spline fit&quot;</span>) <span class="sc">+</span></span>
+<span id="cb319-13"><a href="regression.html#cb319-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="st">&quot;Series&quot;</span>))</span></code></pre></div>
+<p><img src="SLID_book_files/figure-html/unnamed-chunk-186-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="example-cdc-fluview-portal-data" class="section level2" number="11.3">
+<h2><span class="header-section-number">11.3</span> Example: CDC FluView Portal Data</h2>
+<p>The CDC FluView Portal provides in-season and past seasons’ national, regional, and state-level outpatient illness and viral surveillance data from both ILINet (Influenza-like Illness Surveillance Network) and WHO/NREVSS (National Respiratory and Enteric Virus Surveillance System).</p>
+<p>FluView, a weekly influenza surveillance report, and FluView Interactive, an online application which allows for more in-depth exploration of influenza surveillance data, are updated each week.</p>
+<p>R Package “cdcfluview” retrieves Flu Season Data from the CDC “FluView” Portal. We can use the function <code>ilinet()</code> to retrieve state, regional or national influenza statistics from the CDC.</p>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="regression.html#cb320-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cdcfluview)</span>
+<span id="cb320-2"><a href="regression.html#cb320-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb320-3"><a href="regression.html#cb320-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb320-4"><a href="regression.html#cb320-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb320-5"><a href="regression.html#cb320-5" aria-hidden="true" tabindex="-1"></a><span class="co"># prepare data</span></span>
+<span id="cb320-6"><a href="regression.html#cb320-6" aria-hidden="true" tabindex="-1"></a>usflu.raw <span class="ot">&lt;-</span> <span class="fu">ilinet</span>(<span class="st">&quot;national&quot;</span>, <span class="at">years =</span> <span class="dv">2010</span><span class="sc">:</span><span class="dv">2018</span>)</span>
+<span id="cb320-7"><a href="regression.html#cb320-7" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(usflu.raw)</span></code></pre></div>
+<pre><code>##  [1] &quot;region_type&quot;      &quot;region&quot;          
+##  [3] &quot;year&quot;             &quot;week&quot;            
+##  [5] &quot;weighted_ili&quot;     &quot;unweighted_ili&quot;  
+##  [7] &quot;age_0_4&quot;          &quot;age_25_49&quot;       
+##  [9] &quot;age_25_64&quot;        &quot;age_5_24&quot;        
+## [11] &quot;age_50_64&quot;        &quot;age_65&quot;          
+## [13] &quot;ilitotal&quot;         &quot;num_of_providers&quot;
+## [15] &quot;total_patients&quot;   &quot;week_start&quot;</code></pre>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="regression.html#cb322-1" aria-hidden="true" tabindex="-1"></a>usflu <span class="ot">&lt;-</span> usflu.raw <span class="sc">%&gt;%</span> </span>
+<span id="cb322-2"><a href="regression.html#cb322-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb322-3"><a href="regression.html#cb322-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">as.Date</span>(<span class="fu">paste0</span>(year, <span class="fu">sprintf</span>(<span class="st">&quot;%02d&quot;</span>, week), <span class="st">&quot;00&quot;</span>),</span>
+<span id="cb322-4"><a href="regression.html#cb322-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">format=</span><span class="st">&quot;%Y%W%w&quot;</span>), </span>
+<span id="cb322-5"><a href="regression.html#cb322-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">dec_date =</span> <span class="fu">decimal_date</span>(week_start),</span>
+<span id="cb322-6"><a href="regression.html#cb322-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">week =</span> <span class="fu">yearweek</span>(week_start),</span>
+<span id="cb322-7"><a href="regression.html#cb322-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">time_in_year =</span> dec_date<span class="sc">%%</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb322-8"><a href="regression.html#cb322-8" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(dec_date))</span>
+<span id="cb322-9"><a href="regression.html#cb322-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb322-10"><a href="regression.html#cb322-10" aria-hidden="true" tabindex="-1"></a>usflu.ts <span class="ot">&lt;-</span> <span class="fu">as_tsibble</span>(usflu, <span class="at">index =</span> week) </span></code></pre></div>
+<p>Figure <a href="regression.html#fig:ilits">11.3</a> displays the weekly time series of <code>weighted_ili</code> from 2010 to 2019.</p>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="regression.html#cb323-1" aria-hidden="true" tabindex="-1"></a>usflu.ts <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(weighted_ili) <span class="sc">+</span></span>
+<span id="cb323-2"><a href="regression.html#cb323-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;week&quot;</span>,</span>
+<span id="cb323-3"><a href="regression.html#cb323-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;National influenza-like illness&quot;</span>) <span class="sc">+</span></span>
+<span id="cb323-4"><a href="regression.html#cb323-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="st">&quot;Series&quot;</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:ilits"></span>
+<img src="SLID_book_files/figure-html/ilits-1.png" alt="National influenza-like illness weekly time series." width="672" />
+<p class="caption">
+Figure 11.3: National influenza-like illness weekly time series.
+</p>
+</div>
+<p><strong>Trigonometric regression</strong></p>
+<p>For the <span class="math inline">\(i\)</span>th year and <span class="math inline">\(j\)</span>th reported time point <span class="math inline">\(t_{ij}\)</span>, <span class="math inline">\(i=1,2,\ldots,n\)</span>, we have
+<span class="math display">\[
+Y_{ij} = \beta_0 + \beta_1\sin(2\pi t_{ij}) + \beta_2\cos(2\pi t_{ij}) + \varepsilon_{ij}, 
+\]</span>
+where <span class="math inline">\(t_{ij} \in [0,1]\)</span>, <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> are unknown coefficients. We will consider linear regression method to estimate <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>.</p>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="regression.html#cb324-1" aria-hidden="true" tabindex="-1"></a>trig_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(weighted_ili <span class="sc">~</span> <span class="fu">sin</span>(dec_date<span class="sc">*</span><span class="dv">2</span><span class="sc">*</span>pi) </span>
+<span id="cb324-2"><a href="regression.html#cb324-2" aria-hidden="true" tabindex="-1"></a>               <span class="sc">+</span> <span class="fu">cos</span>(dec_date<span class="sc">*</span><span class="dv">2</span><span class="sc">*</span>pi),</span>
+<span id="cb324-3"><a href="regression.html#cb324-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> usflu)</span>
+<span id="cb324-4"><a href="regression.html#cb324-4" aria-hidden="true" tabindex="-1"></a>usflu<span class="sc">$</span>trig_preds <span class="ot">&lt;-</span> <span class="fu">predict</span>(trig_fit)</span></code></pre></div>
+<p>Figure <a href="regression.html#fig:trigonom">11.4</a> displays the reported and trigonometric regression fit of <code>weighted_ili</code> from 2010 to 2019.</p>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="regression.html#cb325-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(usflu, <span class="fu">aes</span>(<span class="at">x =</span> week)) <span class="sc">+</span> </span>
+<span id="cb325-2"><a href="regression.html#cb325-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> weighted_ili, <span class="at">color =</span> <span class="st">&quot;Reported&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb325-3"><a href="regression.html#cb325-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> trig_preds, <span class="at">color =</span> <span class="st">&quot;Trigonometric&quot;</span>)) <span class="sc">+</span> </span>
+<span id="cb325-4"><a href="regression.html#cb325-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(</span>
+<span id="cb325-5"><a href="regression.html#cb325-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="at">Reported =</span> <span class="st">&quot;black&quot;</span>, <span class="at">Trigonometric =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb325-6"><a href="regression.html#cb325-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb325-7"><a href="regression.html#cb325-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;week&quot;</span>, </span>
+<span id="cb325-8"><a href="regression.html#cb325-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Reported vs trigonometric regression fit&quot;</span>) <span class="sc">+</span></span>
+<span id="cb325-9"><a href="regression.html#cb325-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="st">&quot;Series&quot;</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:trigonom"></span>
+<img src="SLID_book_files/figure-html/trigonom-1.png" alt="Reported vs trigonometric regression fit." width="672" />
+<p class="caption">
+Figure 11.4: Reported vs trigonometric regression fit.
+</p>
+</div>
+<p><strong>Smoothing splines</strong></p>
+<p>For the <span class="math inline">\(i\)</span>th year and <span class="math inline">\(j\)</span>th reported time point <span class="math inline">\(t_{ij}\)</span>, we have
+<span class="math display">\[
+Y_{ij} = m(t_{ij}) + \varepsilon_{ij}, 
+\]</span>
+where <span class="math inline">\(t_{ij} \in [0,1]\)</span>, <span class="math inline">\(i=1,2,\ldots,n\)</span>. In the following, we use the smoothing splines to estimate <span class="math inline">\(m\)</span> function.</p>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="regression.html#cb326-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mgcv)</span>
+<span id="cb326-2"><a href="regression.html#cb326-2" aria-hidden="true" tabindex="-1"></a>ss_fit <span class="ot">&lt;-</span> <span class="fu">gam</span>(weighted_ili <span class="sc">~</span> <span class="fu">s</span>(time_in_year, <span class="at">bs =</span> <span class="st">&quot;cc&quot;</span>), </span>
+<span id="cb326-3"><a href="regression.html#cb326-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> usflu)</span>
+<span id="cb326-4"><a href="regression.html#cb326-4" aria-hidden="true" tabindex="-1"></a>usflu<span class="sc">$</span>ss_preds <span class="ot">&lt;-</span> <span class="fu">predict</span>(ss_fit)</span></code></pre></div>
+<p>Figure <a href="regression.html#fig:trigspline">11.5</a> displays the reported, the fitted <code>weighted_ili</code> from 2010 to 2019 based on the trigonometric regression method and spline smoothing method.</p>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="regression.html#cb327-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(usflu, <span class="fu">aes</span>(<span class="at">x =</span> week)) <span class="sc">+</span> </span>
+<span id="cb327-2"><a href="regression.html#cb327-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> weighted_ili, <span class="at">color =</span> <span class="st">&quot;Reported&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb327-3"><a href="regression.html#cb327-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> trig_preds, <span class="at">color =</span> <span class="st">&quot;Trigonometric&quot;</span>)) <span class="sc">+</span> </span>
+<span id="cb327-4"><a href="regression.html#cb327-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> ss_preds, <span class="at">color =</span> <span class="st">&quot;Spline&quot;</span>)) <span class="sc">+</span> </span>
+<span id="cb327-5"><a href="regression.html#cb327-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(</span>
+<span id="cb327-6"><a href="regression.html#cb327-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="at">Reported =</span> <span class="st">&quot;black&quot;</span>, <span class="at">Trigonometric =</span> <span class="st">&quot;red&quot;</span>,</span>
+<span id="cb327-7"><a href="regression.html#cb327-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">Spline =</span> <span class="st">&quot;blue&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb327-8"><a href="regression.html#cb327-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;week&quot;</span>, </span>
+<span id="cb327-9"><a href="regression.html#cb327-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Spline smoothing vs trigonometric regression fit&quot;</span>) <span class="sc">+</span></span>
+<span id="cb327-10"><a href="regression.html#cb327-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="st">&quot;Series&quot;</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:trigspline"></span>
+<img src="SLID_book_files/figure-html/trigspline-1.png" alt="Spline smoothing vs trigonometric regression fit." width="672" />
+<p class="caption">
+Figure 11.5: Spline smoothing vs trigonometric regression fit.
+</p>
+</div>
+</div>
+<div id="poisson-regression" class="section level2" number="11.4">
+<h2><span class="header-section-number">11.4</span> Poisson regression</h2>
+<p>When the outcome of interest is a count of the number of events occurring in a population of a given size, or a count of the number of events in relation to the number of person- or animal-years at risk, a reasonable assumption is that these counts follow a Poisson distribution (especially for diseases that are either non-contagious or rare).</p>
+<p>To illustrate the regression technique appropriate for Poisson-distributed data, the county-level COVID-19 infected count is considered. We assume that county-level infected counts (<span class="math inline">\(Y_i\)</span>) follow a Poisson distribution.</p>
+<!-- Furthermore, the observed coounty-level count is an estimate of the true number of infected cases in each county ($\mu_i$), which is the product of exposure time in each county ($n_i$) and the incidence rate of disease ($\lambda_i$): -->
+<!-- \[  -->
+<!-- \mu_i=n_i\lambda_i. -->
+<!-- \] -->
+<!-- The incidence rate of COVID can be parameterized as a function of a series of $p$ explanatory variables, -->
+<!-- \[ -->
+<!-- \log(\lambda_i) = \beta_0+\beta_1X_{1i} +\cdots +\beta_pX_{pi} -->
+<!-- \] -->
+<p>We assume that the conditional mean value of daily new positive cases (<span class="math inline">\(\mu_i\)</span>) for county <span class="math inline">\(i\)</span> can be modeled via a <span class="math inline">\(\log(\cdot)\)</span> function as follows</p>
+<p><span class="math display" id="eq:log">\[\begin{equation} 
+\log(\mu_i) = \beta_0+\beta_1X_{1i} +\cdots +\beta_pX_{pi}. 
+\tag{11.1}
+\end{equation}\]</span></p>
+<!-- In \@ref(eq:log) the term $\log(n_i)$ is an adjustment known as an offset which accounts for counties with different times at risk. If all areas had the same number of holdings and were observed for the same amount of time, the offset would not be required.  -->
+<p>In <a href="regression.html#eq:log">(11.1)</a>, the terms (<span class="math inline">\(\beta_0+\beta_1X_{1i} +\cdots +\beta_pX_{pi}\)</span>) represent an adjustment to account for disease counts that are either above or below that expected, based on time at risk.</p>
+</div>
+<div id="logistic-regression" class="section level2" number="11.5">
+<h2><span class="header-section-number">11.5</span> Logistic regression</h2>
+<p>As the level of resolution of our analyses becomes greater, the spatial unit of interest typically shifts from areas to points. Instead of describing and explaining disease counts summarized by area, the objective here is to identify factors that influence the risk of disease being present or absent at specific locations (e.g. farm or household) using the binary labels ‘positive’ (i.e. disease present) or ‘negative’ (i.e. disease absent).</p>
+<p>When modelling binary data, explanatory variables are used to predict the probability of a study subject being disease positive (i.e. a ‘case’). Rather than modeling the response <span class="math inline">\(Y\)</span> directly, logistic regression models the probability that <span class="math inline">\(Y\)</span> belongs to a particular category.</p>
+<p>The logistic model solves the following problems:
+<span class="math display">\[
+\log\left\{\frac{P(Y=1|X=x)}{P(Y=0|X=x)}\right\}=\beta_0+\beta_1x,
+\]</span></p>
+<p>for some unknown <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>, which we will estimate directly.</p>
+<p><span class="math inline">\(P(Y=0|X=x)=1-P(Y=1|X=x) \Rightarrow \log\left(\frac{p}{1-p}\right)=\beta_0+\beta_1x\)</span></p>
+<ul>
+<li><span class="math inline">\(p\)</span> is the probability that event <span class="math inline">\(Y\)</span> occurs (range <span class="math inline">\(=0\)</span> to 1).</li>
+<li><span class="math inline">\(p/(1-p)\)</span> is the <strong>odds ratio</strong> (range <span class="math inline">\(=0\)</span> to <span class="math inline">\(\infty\)</span>).</li>
+<li><span class="math inline">\(\log\left\{p/(1-p)\right\}\)</span> is <strong>log odds ratio</strong> or logit (range <span class="math inline">\(=-\infty\)</span> to <span class="math inline">\(\infty\)</span>).</li>
+</ul>
+<p><strong>Odds and Odds Ratios</strong></p>
+<ul>
+<li>The definitions of an <strong>odds</strong>: <span class="math inline">\(odds=\frac{p}{1-p}\)</span>.</li>
+</ul>
+<p>The odds has a range from 0 to <span class="math inline">\(\infty\)</span> with values greater than 1 associated with an event being more likely to occur than not occur and values less than 1 associated with an event that is less likely to occur than not occur.</p>
+<ul>
+<li>The <strong>logit</strong> is defined as the log of the odds:</li>
+</ul>
+<p><span class="math display">\[
+\log (\mathrm{odds})=\log\left(\frac{p}{1-p}\right)=\log{(p)}-\log{(1-p)}.
+\]</span></p>
+<ul>
+<li><p>This transformation is useful because it creates a variable with a range from <span class="math inline">\(-\infty\)</span> to <span class="math inline">\(\infty\)</span>. Hence, this transformation solves the problem we encountered in fitting a linear model to probabilities. Because probabilities only range from 0 to 1, we can get linear predictions that are outside of this range.</p></li>
+<li><p>The interpretation of logits is simple – take the exponential of the logit and you have the odds for the two groups in question.</p></li>
+</ul>
+<p><strong>Interpretation</strong></p>
+<ul>
+<li><p>The logit distribution constrains the estimated probabilities to lie between 0 and 1.</p></li>
+<li><p>The estimated probability is</p></li>
+</ul>
+<p><span class="math display">\[
+p=P(Y=1|X=x)=\frac{\exp(\beta_0+\beta_1x)}{1+\exp(\beta_0+\beta_1x)}.
+\]</span></p>
+<ul>
+<li>If <span class="math inline">\(\beta_0+\beta_1x=0\)</span>, then <span class="math inline">\(p=0.5\)</span>.</li>
+<li>As <span class="math inline">\(\beta_0+\beta_1x\)</span> gets really big, <span class="math inline">\(p\)</span> approaches 1.</li>
+<li>As <span class="math inline">\(\beta_0+\beta_1x\)</span> gets really small, <span class="math inline">\(p\)</span> approaches 0.</li>
+</ul>
+<p><strong>Estimating Logistic Regression Coefficients</strong></p>
+<ul>
+<li><p>Suppose that we are given a sample <span class="math inline">\((x_{i},y_{i})\)</span>, <span class="math inline">\(i=1,\ldots,n\)</span>. Here <span class="math inline">\(y_{i}\)</span> denotes the class <span class="math inline">\(\in\{0,1\}\)</span> of the <span class="math inline">\(i\)</span>th observation.</p></li>
+<li><p>Assume that the classes are conditionally independent given <span class="math inline">\(x_{1},\ldots,x_{n}\)</span>, then
+<span class="math display">\[
+\mathbb{L}(\beta_0,\beta_1)=\prod_{i=1}^{n}P(Y=y_{i}|X=x_{i}),
+\]</span>
+the likelihood of these <span class="math inline">\(n\)</span> observations, so the log likelihood is
+<span class="math display">\[
+l(\beta_0,\beta_1)=\sum_{i=1}^{n}\log{P(Y=y_{i}|X=x_{i})}.
+\]</span></p></li>
+<li><p>For convenience, we define the indicator <span class="math inline">\(u_{i}=\left\{\begin{array}{cc}  1 &amp;\mathrm{if}~y_{i}=1\\  0 &amp;\mathrm{if}~y_{i}=0  \end{array}\right.\)</span></p></li>
+</ul>
+<p><strong>Estimating Logistic Regression Coefficients</strong></p>
+<ul>
+<li>The log-likelihood can be written as</li>
+</ul>
+<p><span class="math display">\[\begin{eqnarray*}
+l(\beta_0,\beta_1)&amp;=&amp;\sum_{i=1}^{n}\log{P(Y=y_{i}|x=x_{i})}\\
+&amp;=&amp;\sum_{i=1}^{n}[u_{i}(\beta_0+ \beta_1 x_{i})-\log{\{1+\exp(\beta_0+ \beta_1 x_{i})\}}]
+\end{eqnarray*}\]</span></p>
+<ul>
+<li>The coefficients are estimated by maximizing the likelihood,
+<span class="math display">\[
+\sum_{i=1}^{n}[u_{i}(\beta_0+ \beta_1 x_{i})-\log{\{1+\exp(\beta_0+ \beta_1 x_{i})\}}]
+\]</span></li>
+</ul>
 
 </div>
 </div>
