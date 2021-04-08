@@ -1548,5 +1548,11 @@ mean 0 and variance $\sigma^2$, and let $a$, $b$, and $c$ be constants. Which, i
 
   c. MA(2) model with $\theta_1=0.3$, $\theta_2=-0.4$ and $\sigma^2=1$.
 
-4. From `state.long` in the R package `slid`, choose a state and convert the data to time series. Use the automatic search in `ARIMA()` to find an ARIMA model. What model was selected? Write the model in terms of the backshift operator.
+4. From `state.long` in the R package `slid`, choose a state. Hold out the last seven days as test data and use all the data except the last seven days as your training data. Use the automatic search in `ARIMA()` to find an ARIMA model for the daily new death count based on your training data. What model was selected? Write the model in terms of the backshift operator.
+
+5. For the state you choose in Problem 4, consider a logarithm transformation, then use the automatic search in `ARIMA()` to find an ARIMA model for the daily new death count based on your training data. Make a 7-day ahead forecast using the selected ARIMA model, and provide a 95% prediction intervals. 
+
+6. Compare the forecasting performance of the selected ARIMA model in Problem 4 and Problem 5 without and with logarithm transform.
+
+7. For the state you choose in Problem 4, and the ARIMA model for the daily new death count with log transformation, aggregate them to make a 7-day ahead forecast for the cumulative death count and provide the corresponding 95% prediction intervals.
 

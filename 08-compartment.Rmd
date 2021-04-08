@@ -1,6 +1,6 @@
 # Compartment Models {#compartment}
 
-Mathematical models of infectious disease dynamics have a rich history that dates back more than 100 years. Mathematically simple formulations that describe the transition of individuals in a population between ‘compartments’ that capture the infection status of individuals leads to surprisingly significant insight. Their elegance and simplicity allow the ease of expansion to more complexities through, for example, the addition of compartments. Expanding these models is often straight forward but the apparent simplicity can mask subtle, but important, model structure and parameterization choices. Furthermore, while there are many wonderful texts focused on infectious disease modeling, there exist several complexities that are rarely discussed in sufficient detail for a novice disease modeler. 
+Infectious disease dynamics mathematical models have a long history, dating back over a century. Simple mathematical formulations that describe the transition of individuals in a population between “compartments” that capture their infection status yield surprisingly significant insight. Their elegance and simplicity make it simple to expand to more complexities by adding compartments, for example. Although it is often simple to expand these models, the apparent simplicity can hide subtle but important model structure and parameterization choices. Their elegance and simplicity make it simple to add more complexity, such as compartments, to the design. Although it is often simple to expand these models, the apparent simplicity can hide important model structure and parameterization decisions.
 
 We formulate our descriptions of disease transmission as compartmental models, with the population under study being divided into compartments.
 
@@ -13,7 +13,7 @@ At time $t$, denote
 
 ## A Simple SIS Model (A Model for Diseases with No Immunity)
 
-In many diseases, infectives return to the susceptible class on recovery because the disease confers no immunity. Such models are appropriate for most diseases transmitted by bacterial or helminth agents, and most sexually transmitted diseases (including gonorrhea, but not such diseases as AIDS, from which there is no recovery).
+Because many diseases do not confer immunity, infectives revert to the susceptible class after recovery. Most diseases transmitted by bacterial or helminth agents, as well as most sexually transmitted diseases, can be studied using these models (including gonorrhea, but not such diseases as AIDS, from which there is no recovery).
 
 ```{r SIS, out.width = "50%", echo = FALSE, fig.align = "center", fig.cap = "A simple SIS model."}
 knitr::include_graphics("figures/SIS.png")
@@ -33,11 +33,10 @@ where $\beta$ is the effective contact rate, and
 
 **Assumptions of SIS models**
 
-(i) The rate of new infections is given by mass action incidence.
-(ii) Infectives leave the infective class at rate $\gamma I$ per unit time and return to the susceptible class.
-(iii) There is no entry into or departure from the population.
-(iv) There are no disease deaths, and the total population size is a constant $N$.
-
+(i) The rate of new infections is determined by the incidence of mass action.
+(ii) Infectives leave the infective class and return to the susceptible class at a rate of $gamma I$ per unit time.
+(iii) No one enters or leaves the population.
+(iv) No disease deaths occur, and the total population remains constant at $N$.
 
 ## An SIR Model 
 
@@ -75,7 +74,7 @@ SIR models for diseases assume that infectives recover with immunity against rei
 * Constant (closed) population size: $N$;
 * Constant rates (e.g., transmission, removal rates);
 * No demography (i.e., births and deaths);
-* Well - mixed population: any infected individual has a probability of contacting any susceptible individual that is reasonably well approximated by the average.
+* Well-mixed population: any infected person has a probability of contacting any susceptible person that is reasonably close to the average.
 
 
 ```{r}
@@ -191,7 +190,7 @@ p1 + p2
 
 ### An SIR model with births and deaths
 
-We have omitted births and deaths in our description of epidemic models because the time scale of an epidemic is generally much shorter than the demographic time scale. In effect, we have used a time scale on which the number of births and deaths in unit time is negligible. However, there are diseases that are endemic in many parts of the world and that cause millions of deaths each year. To model a disease that may be endemic, we need to think on a longer time scale and include births and deaths. 
+Because the time scale of an epidemic is generally much shorter than the demographic time scale, we have omitted births and deaths from our description of epidemic models. In effect, we've used a time scale with a negligible number of births and deaths per unit of time. There are, however, diseases that are endemic in many parts of the world and kill millions of people every year.
 
 ```{r SIRbd, out.width = "75%", echo = FALSE, fig.align = "center", fig.cap = "An SIR model with birth and death."}
 knitr::include_graphics("figures/SIRBD.png")
@@ -238,11 +237,11 @@ where $R_0$ is the *basic reproduction number*, $I_0$ is the number of infectiou
 \[
 \log(I_t)\approx \log(I_0)+(R_0-1)(\gamma+\mu)t,
 \]
-which implies that we can obtain a quick estimate of $R_0$ by a simple linear regression. 
+which implies that we will be able to get a reasonable and cheerful estimate of $R_0$ by a simple linear regression. 
 
 2. Least squares
 
-The method of least squares gives us a way to quantify the discrepancy between the data and a model's predictions. We can then search over all possible values of a model's parameters to find the parameters that minimize this discrepancy. 
+The least squares method allows us to quantify the gap between the data and the model's predictions. Then we can search through all of the possible values of a model's parameters to find the ones that minimize the discrepancy.
 
 Let $\mu = 0$, for a given $(\beta, \gamma)$, we denote $I(t;\beta, \gamma) =  I(t)$ and 
 \[
@@ -276,9 +275,9 @@ plot_ly(data = niamey) %>%
             type = 'scatter', mode = 'lines+markers')
 ```
 
-#### Least squares method
+1. Least squares method
 
-The R package “pomp” provides facilities for dealing with the important special case of deterministic dynamics. The “pomp” package was developed for data analysis with partially observed Markov process (POMP) models; see details from https://cran.r-project.org/web/packages/pomp/index.html.
+The R package “pomp” provides facilities for dealing with deterministic dynamics, which is an important special case.
 
 ```{r, message = FALSE, warning = FALSE}
 library(pomp)
@@ -299,20 +298,11 @@ niameyA <- pomp(
 
 ```
 
-In the above `pomp()` function, `Csnippet` is for some C code snippets used to accelerate cumputations, and another two important arguments are:
+* **Grid search method**
 
-* `times`: The times corresponding to the observations. times must be a strictly increasing numeric vector. If data is a data-frame, times should be the name of the column of observation times.
-* `t0`: The zero-time. This must be no later than the time of the first observation, `times[1]`.
+If we assume all the other parameters are known, one simple option to find optimal $\beta$ would be grid searching a value that minimizes the sum of squared error (SSE), which is the difference between the fitted infection curve with given $beta$ compared to the true observations. For example, it is well known that measles’ infectious period is about two weeks, so we can safely assume that $\gamma = 1$.
 
-
-
-1. Grid search method
-
-If we assume all the other parameters are known, one simple option to find optimal $\beta$ would be grid searching a value that minimizes the sum of squared error (SSE), which is the difference between the fitted infection curve with given $\beta$ compared to the true observations. 
-
-For measles, the exposed infectious period is about two weeks, and persons who have had measles in the past have lifelong immunity. So we can safely assume that $\gamma = 1$. In addition, we assume that the initial numbers of susceptibles ($S(0)$), infectives $I(0)$, and population ($N$) are 10000, 10, and 50000, respectively.
-
-```{r sse, eval=T, out.width = "100%", echo=FALSE, fig.align = "center", fig.cap="The sum of squared errors function of beta."}
+```{r}
 sse <- function (params) {
   x <- trajectory(niameyA, params = params)
   discrep <- x["I", , ] - obs(niameyA)
@@ -335,15 +325,12 @@ abline(v = beta.hat1, lty = 2)
 
 Next, we plugin the estimated $\hat{\beta}$ to the process and visualize the fitted curve for $I(t)$ compared to the observed path.
 
-```{r measles1, eval=T, out.width = "100%", echo=FALSE, fig.align = "center", fig.cap="The observed and estimated measles count based on the grid search."}
+```{r}
 coef(niameyA) <- c(Beta = beta.hat1, gamma = 1, 
                    N = 50000, S_0 = 10000, I_0 = 10)
-# obtain the fitted trajectory 
 x1 <- trajectory(niameyA, format = "data.frame")
-x1
-# combine the fitted and observed trajectory of I(t)
 sir.fit.df <- left_join(as.data.frame(niameyA), x1, by = 'biweek')
-# display the fitted and observed I(t)
+
 plot_ly(data = sir.fit.df) %>% 
   add_trace(x = ~biweek, y = ~measles, type = 'scatter', 
             mode = 'lines+markers', name = 'data') %>% 
@@ -351,11 +338,11 @@ plot_ly(data = sir.fit.df) %>%
             mode = 'lines+markers', name = 'fitted')
 ```
 
-2. Optimization algorithm
+* **Optimization algorithm**
 
-However, this grid-search approach won't perform well when we have more than one parameter. For example, we would like to assume that $N = 50000$, $S_0 = 10000$, but $\beta$, $\gamma$ and $I_0$ are all unknown, and we would like to estimate them simultaneously. In that case, we can use the `optim` function instead of the grid search method.
+However, this grid-search approach won't perform well when we have more than one parameter. In that case, we can use the `optim` function instead.
 
-```{r measles2, message = FALSE, warning=FALSE, eval=T, out.width = "100%", echo=FALSE, fig.align = "center", fig.cap="The observed and estimated measles count based on ptimization algorithm."}
+```{r,meessage = FALSE, warning=FALSE}
 # General-purpose optimization
 f2 <- function (par) {
   params <- c(Beta = par[1], gamma = par[2], 
@@ -380,11 +367,11 @@ plot_ly(data = sir.fit.df) %>%
 
 ```
 
-#### Maximum likelihood approach 
+2. Maximum likelihood approach 
 
-Another way to fit the model is using maximum likelihood approach. Note that the model can be simplified a little bit by defining $b = \beta/N$. We assume $S_0 = 10000$, $I_0 = 10$, $\gamma = 1$, and $p=0.2$.
+Another way to fit the model is using likelihood. Note that the model can be simplified a little bit by defining $b = \beta/N$. 
 
-```{r ml, eval=T, out.width = "100%", echo=FALSE, fig.align = "center", fig.cap="The log likelihood function of b."}
+```{r}
 niameyA2 <- pomp(
   data = subset(niamey, community == "A", select = -community),
   times = "biweek", t0 = 0,
@@ -400,18 +387,16 @@ niameyA2 <- pomp(
   paramnames = c("b", "gamma", "S_0", "I_0"),
   statenames = c("S", "I"))
 
-# Poisson distribution
-loglik.poisson <- function (params) {
-  x <- trajectory(niameyA2, params=params)
-  sum(dpois(x=obs(niameyA2), 
-            lambda=params["p"]*x["I",,],
-            log=TRUE))
+loglik.normal <- function (params) {
+  x <- trajectory(niameyA2, params = params)
+  sum(dnorm(x = obs(niameyA2), mean = x["I",,],
+            sd = params["sigma"], log = TRUE))
 }
 
 f3 <- function (b) {
   params <- c(S_0 = 10000, I_0 = 10, gamma = 1, 
-              b = b, p=0.2)
-  loglik.poisson(params)
+              b = b, sigma = 1)
+  loglik.normal(params)
 }
 
 b <- seq(from = 0, to = 0.001, by = 0.00002)
@@ -420,13 +405,9 @@ ll <- sapply(b, f3)
 plot(b, ll, type='l', ylab = expression(log(L)))
 b.hat <- b[which.max(ll)]
 abline(v = b.hat, lty = 2)
-```
 
-Next, we plugin the maximum likelihood estimator $\hat{b}$ to the process and visualize the fitted curve for $I(t)$ compared to the observed path.
-
-```{r measles3, message = FALSE, warning=FALSE, eval=T, out.width = "100%", echo=FALSE, fig.align = "center", fig.cap="The observed and estimated measles count based on maximum likelihood estimator."}
 coef(niameyA2) <- c(S_0 = 10000, I_0 = 10, 
-                    gamma = 1, b = b.hat, p = 0.2)
+                    gamma = 1, b = b.hat, sigma = 1)
 x <- trajectory(niameyA2, format = "data.frame")
 sir.fit.df <- left_join(as.data.frame(niameyA2), 
                         x, by = 'biweek')
@@ -440,18 +421,14 @@ plot_ly(data = sir.fit.df) %>%
 
 Besides a gaussian distribution, it is also possible to choose other random compenent, for example, a poisson distribution.
 
-### Example 2. COVID-19 data
+### Example 2. COVID-19
 
-In the COVID-19 case, the situation becomes slightly more complicated due to the unsatisfying data quality in terms of active cases and recovered cases. Therefore, we modify the algorithm to find the parameters that minimize the distance between the curve of fitted active cases ($I$) plus removed compartment $R$ and the reported cumulative positive COVID-19 cases time series. 
-
-If we use the data observed since the beginning of the pandemic, it is reasonable to set the initial value $I_{0}$ to be 1, and focusing on the estimation of other parameters. However, if we choose a different training period, for example, the most recent 60 days, the initial value of active cases $I_{0}$ may be unobserved or calculated inaccurately. Therefore, the initial value can also be treated as a parameter and estimated based on collected data. In this case, an optimizing function such as `optim()` might be preferred than the grid search. 
-
-Here is an example of implementing the SIR model to fit the spread of COVID-19 in Orange County, California.
+In the COVID-19 case, the situation becomes slightly more complicated due to the unsatisfying data quality in terms of active cases and recovered cases. Therefore, we modify the algorithm to find the parameters that minimize the distance between the curve of fitted active cases ($I$) plus removed compartment $R$ and the cumulative positive COVID-19 cases time series. If we use the data observed since the beginning of the pandemic, it is reasonable to set the initial value $I_{0}$ to be 1 and focusing on the estimation of other parameters. However, if we choose a different training period, for example, the most recent 60 days, it is possible the initial value of active cases $I_{0}$ may be unobserved or calculated inaccurately. Therefore, the initial value can also be treated as a parameter and estimated based on collected data. In this case, an optimizing function such as `optim()` might be preferred than grid search. Here is an example of implementing SIR model to fit the spread of COVID-19 in Los Angeles, California.
 
 ```{r, message = FALSE, warning = FALSE}
 data("I.county")
 data("pop.county")
-# the row storing the data for Orange County, CA
+# the row storing the data for Los Angeles
 i <- which(I.county$County == 'Orange' & 
              I.county$State == 'California') 
 N0 <- pop.county %>% 
@@ -460,10 +437,8 @@ N0 <- pop.county %>%
 est.h <- 60
 pred.h <- 12
 date.start <- as.Date('2020-10-01')
-# training period
-dates.train <- date.start + 0:(est.h - 1) 
-# prediction period
-dates.test <- date.start + est.h + 0:(pred.h - 1) 
+dates.train <- date.start + 0:(est.h - 1) # training period
+dates.test <- date.start + est.h + 0:(pred.h - 1) # testing period
 dates.all <- date.start + 0:(est.h + pred.h - 1)
 P.train <- data.frame(Date = 0:(est.h - 1), 
                       P_cases = as.numeric(I.county[i, 
@@ -475,7 +450,7 @@ P.all <- data.frame(Date = 0:(est.h + pred.h - 1),
                            format = '%Y.%m.%d'))]))
 ```
 
-Now we define a `pomp` object encoding the model and the data and a loss function `SSE` that evaluate the loss function value based on the simulated trajectories with given parameters.
+Now we define a `pomp` object encoding the data and the model and a loss function `SSE` that evaluate the loss function value based on the simulated trajectories with given parameters.
 
 ```{r}
 process.tmp <- pomp(
@@ -492,6 +467,7 @@ process.tmp <- pomp(
                    R = N - S_0 - I_0;"), 
   statenames = c("S", "I", "R"), 
   paramnames = c("Beta", "gamma", "N", "S_0", "I_0"))
+
 
 sse <- function (params) {
   x <- trajectory(process.tmp, params = params)
@@ -516,22 +492,16 @@ f1 <- function (par) {
 beta0 <- 0.07
 I0 <- 1000
 
-# we estimate I0 and beta0
 fit1 <- optim(fn = f1, par = c(I0, beta0))
+
 I0.hat1 <- fit1$par[1]
 beta.hat1 <- fit1$par[2]
-```
-
-Figure \@ref(fig:covid19) shows the the reported, estimated and predicted reported cumulative number of positive cases of COVID-19 in Orange County, California.
-
-```{r covid19, message = FALSE, warning=FALSE, eval=T, out.width = "100%", echo=FALSE, fig.align = "center", fig.cap="The reported, estimated and predicted reported cumulative number of positive cases of COVID-19."}
 process.tmp1 <- process.tmp
 pomp::coef(process.tmp1) <- c(Beta = beta.hat1, gamma = R.rate, 
                               N = N0, S_0 = S0, I_0 = I0.hat1)
-# we estimate the cases in each compartment
 x1 <- trajectory(process.tmp1, times = 0:(est.h + pred.h - 1), 
                  format = "data.frame")
-# we estimate the reported cases
+
 valid.df <- data.frame(Date = dates.all, 
                        P_cases = P.all$P_cases, 
                        SIR_P = x1$I + x1$R, 
@@ -547,33 +517,33 @@ plot_ly(data = valid.df) %>%
 
 ## Basic Reproduction Number
 
-A key concept is the *basic reproduction number* ($R_0$), which is defined as the expected number of secondary cases produced by a single (typical) infection in a completely susceptible population. 
+The *basic reproduction number* ($R_0$) is a key concept, which is defined as the number of secondary cases expected from a single (typical) infection in a completely susceptible population.
 
 It is important to note that $R_0$ is a dimensionless number and not a rate, and
 \[
   R_0 \propto \left(\frac{\mathrm{infection}}{\mathrm{contact}} \right) \times \left(\frac{\mathrm{contact}}{\mathrm{time}}\right) \times \left(\frac{\mathrm{time}}{\mathrm{infection}}\right).
 \]
 
-* If $R_0 < 1$ the disease dies out, while if $R_0 > 1$ the disease becomes endemic. 
+* If $R_0 < 1$ the disease dies out, however, if $R_0 > 1$ the disease becomes endemic. 
 
 * For the SIR model, when $S(t) \approx N$, $R_0 = \frac{\beta}{\gamma + \mu}$.
 
 * For the SEIR model, when $S(t) \approx N$, $R_0 = \frac{\sigma}{\sigma + \mu} \times \frac{\beta}{\gamma + \mu}$.
 
-* If $R_0 < 1$, each existing infection causes less than one new infection. In this case, the disease will decline and eventually die out.
+* If $R_0 < 1$, each existing infection results in the formation of fewer new infections. The disease will deteriorate and eventually die out in this case.
 
-* If $R_0 = 1$, each existing infection causes one new infection. The disease will stay alive and stable, but there won’t be an outbreak or an epidemic.
+* If $R_0 = 1$, each existing infection results in the emergence of a new infection. The disease will remain alive and stable, but there will not be an outbreak or an epidemic.
 
-* If $R_0 > 1$, each existing infection causes more than one new infection. The disease will be transmitted between people, and there may be an outbreak or epidemic.
+* If $R_0 > 1$, each existing infection multiplies the number of new infections. The disease will spread from person to person, and an outbreak or epidemic may occur.
 
 
 **COVID-19 $R_0$**
   
-  * The $R_0$ for SAS-Cov-2 is a median of 5.7, according to a study published online in Emerging Infectious Diseases. That’s about double an earlier R0 estimate of 2.2 to 2.7
+  * The $R_0$ for SAS-Cov-2 is a median of 5.7, according to a study published online in Emerging Infectious Diseases, which is about double an earlier R0 estimate of 2.2 to 2.7
 
-* Here, 5.7 means that one person with COVID-19can potentially transmit the coronavirus to 5 to 6 people, rather than the 2 to 3 researchers originally thought.
+* In this case, 5.7 means that one person infected with COVID-19 can potentially spread the coronavirus to 5 to 6 people, rather than the 2 to 3 people previously thought by researchers.
 
-* With an $R_0$ of 5.7, at least 82\% of the population needs to be immune to COVID-19to stop its transmission through vaccination and herd immunity.
+* Based on the $R_0$ of 5.7, in order to stop COVID-19 transmission through vaccination and herd immunity, at least 82 percent of the population must be immune to it.
 
 ### SEIR Model
 
@@ -592,19 +562,18 @@ It is important to note that $R_0$ is a dimensionless number and not a rate, and
 
 ## Herd Immunity
 
-In order to prevent a disease from becoming endemic it is necessary to reduce the basic reproduction number $R_0$ below one. This may sometimes be achieved by immunization. 
+It is necessary to lower the basic reproduction number $R_0$ below one in order to prevent a disease from becoming endemic. Immunization can sometimes help with this.
 
-* If a fraction $p$ of the newborn members per unit time of the population is successfully immunized, the effect is to replace $N$ by $N(1 - p)$, and thus to reduce the basic reproduction number to $R_0(1 - p)$. The requirement $R_0(1 - p) < 1$ gives $1 - p < 1/R_0$, or
+* If a fraction $p$ of the population's newborn members are successfully immunized, the effect is to replace $N$ with $N(1 - p)$, bringing the basic reproduction number down to $R 0(1 - p)$. The requirement $R_0(1 - p) < 1$ gives $1 - p < 1/R_0$, or
 \[
   p > 1 - \frac{1}{R_0}.
 \]
 
-* A population is said to have **herd immunity** if a large enough fraction has been
-immunized to assure that the disease cannot become endemic. 
+* A population is said to have **herd immunity** if a large enough percentage of its members have been immunized to prevent the disease from becoming endemic.
 
-* The only disease for which this has actually been achieved worldwide is smallpox for which $R_0$ is approximately 5, so that 80% immunization does provide herd immunity, and rinderpest, a cattle disease.
+* The only diseases for which this has been achieved globally are smallpox ($R_0$ is approximately 5) and rinderpest, a cattle disease, for which 80 percent immunization does provide herd immunity.
 
-* For measles, epidemiological data in the United States indicate that $R_0$ for rural populations ranges from 5.4 to 6.3, requiring vaccination of 81.5% to 84.1% of the population. In urban areas $R_0$ ranges from 8.3 to 13.0, requiring vaccination of 88.0% to 92.3% percent of the population.
+* In the United States, epidemiological data show that $R_0$ for rural populations ranges from 5.4 to 6.3, implying that 81.5 percent to 84.1 percent of the population must be vaccinated. In urban areas, $R_0$ ranges from 8.3 to 13.0, implying that 88.0 to 92.3 percent of the population must be vaccinated.
 
 ## Exercises
 
@@ -699,7 +668,7 @@ plot_ly(data = sir.fit.df) %>%
   
 ```
 
-2. Change the optimization algorithm used by optim via the method argument. Investigate the effect on your parameter estimates. Try to use other optimizers, such as `nlm`, `nlminb`, `constrOptim`, or the `nloptr` package, etc. 
+2. Using the method argument, change the optimization algorithm used by optim. Examine the impact on your parameter estimations. Try to use other optimizers, such as `nlm`, `nlminb`, `constrOptim`, or the `nloptr` package, etc. 
 
 ```{r, echo = FALSE, eval = FALSE, warning = FALSE, message = FALSE}
 # for example:
@@ -716,7 +685,7 @@ tmp5 <- constrOptim(theta = c(8, 1, 10), f = f2, grad=NULL, ui = diag(1,3), ci=c
 tmp5
 ```
 
-3. Suppose, alternatively, that the errors are log-normal with constant variance. Under what definition of SSE will least-squares and maximum likelihood give the same parameter estimates?
+3. Assume instead that the errors are log-normal and have a constant variance. Will least-squares and maximum likelihood parameter estimates be the same under what definition of SSE?
 
 
 4. Simulate and visualize the dynamics using SIR model with births and deaths. Consider `time=seq(0,20,by=1/52)` in years, `N=100000`, `t_0 = 0`, `S_0=100000/12`, `I_0=100` and two sets of parameters: (a) $\mu = 1/50$, $\gamma = 365/13$, $\beta = 400$ and (b) $\mu = 1/50$, $\gamma = 365/5$, $\beta = 1000$. 
@@ -756,7 +725,7 @@ plot_ly() %>%
             mode = 'lines', name = 'set 2')
 ```
 
-5. Under the assumptions of this model, the average host lifespan is $1/\mu$. Explore how host lifespan affects the dynamics by integrating the differential equations for lifespans of 20 and 200 years. Consider `time=seq(0, 20, by=1/52)`, `N=100000`, `t_0 = 0`, `S_0=100000/12`, `I_0=100` and parameters: $\gamma = 365/13$, $\beta = 400$. 
+5. According to the model's assumptions, the average host lifespan is $1/\mu$. Explore the differential equations for lifespans of 20 and 200 years to see how the host lifespan affects the dynamics. Consider `time=seq(0, 20, by=1/52)`, `N=100000`, `t_0 = 0`, `S_0=100000/12`, `I_0=100` and parameters: $\gamma = 365/13$, $\beta = 400$. 
 
 ```{r, echo = FALSE, eval = FALSE}
 params3 <- c(mu=1/20, Beta=400, gamma=365/13,
@@ -774,7 +743,7 @@ plot_ly() %>%
 ```
 
 
-6: Compare the dynamics of SIR and SEIR models for the parameters $\mu = 1/50$, $\gamma = 365/13$, $\beta = 400$ and assuming that, for example, $E(0)=100$, the latent period has duration 8 days, and immunity lasts for 10 years in the SEIR model.
+6: Compare and contrast the dynamics of the SIR and SEIR models for the parameters $\mu = 1/50$, $\gamma = 365/13$, $\beta = 400$ and assuming that for example, $E(0)=100$, the latent period has duration 8 days, and immunity lasts for 10 years in the SEIR model.
 
 ```{r, echo = FALSE, eval = FALSE}
 open.seir.ode <- Csnippet("

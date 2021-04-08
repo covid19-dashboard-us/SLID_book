@@ -24,7 +24,7 @@
 <meta name="author" content="Lily Wang" />
 
 
-<meta name="date" content="2021-04-03" />
+<meta name="date" content="2021-04-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -367,7 +367,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.4" data-path="compartment.html"><a href="compartment.html#implementation-of-parameter-estimation-in-r"><i class="fa fa-check"></i><b>9.4</b> Implementation of parameter estimation in R</a>
 <ul>
 <li class="chapter" data-level="9.4.1" data-path="compartment.html"><a href="compartment.html#example-1.-outbreak-of-measles-in-niamey"><i class="fa fa-check"></i><b>9.4.1</b> Example 1. Outbreak of measles in Niamey</a></li>
-<li class="chapter" data-level="9.4.2" data-path="compartment.html"><a href="compartment.html#example-2.-covid-19-data"><i class="fa fa-check"></i><b>9.4.2</b> Example 2. COVID-19 data</a></li>
+<li class="chapter" data-level="9.4.2" data-path="compartment.html"><a href="compartment.html#example-2.-covid-19"><i class="fa fa-check"></i><b>9.4.2</b> Example 2. COVID-19</a></li>
 </ul></li>
 <li class="chapter" data-level="9.5" data-path="compartment.html"><a href="compartment.html#basic-reproduction-number"><i class="fa fa-check"></i><b>9.5</b> Basic Reproduction Number</a>
 <ul>
@@ -449,6 +449,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.3" data-path="regression.html"><a href="regression.html#example-cdc-fluview-portal-data"><i class="fa fa-check"></i><b>11.3</b> Example: CDC FluView Portal Data</a></li>
 <li class="chapter" data-level="11.4" data-path="regression.html"><a href="regression.html#poisson-regression"><i class="fa fa-check"></i><b>11.4</b> Poisson regression</a></li>
 <li class="chapter" data-level="11.5" data-path="regression.html"><a href="regression.html#logistic-regression"><i class="fa fa-check"></i><b>11.5</b> Logistic regression</a></li>
+<li class="chapter" data-level="11.6" data-path="regression.html"><a href="regression.html#exercises-6"><i class="fa fa-check"></i><b>11.6</b> Exercises</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="NN.html"><a href="NN.html"><i class="fa fa-check"></i><b>12</b> Neural Networks</a>
 <ul>
@@ -456,10 +457,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12.2" data-path="NN.html"><a href="NN.html#neural-network-structure"><i class="fa fa-check"></i><b>12.2</b> Neural Network Structure</a>
 <ul>
 <li class="chapter" data-level="12.2.1" data-path="NN.html"><a href="NN.html#forward-propagation"><i class="fa fa-check"></i><b>12.2.1</b> Forward propagation</a></li>
+<li class="chapter" data-level="12.2.2" data-path="NN.html"><a href="NN.html#back-propagation"><i class="fa fa-check"></i><b>12.2.2</b> Back-propagation</a></li>
 </ul></li>
 <li class="chapter" data-level="12.3" data-path="NN.html"><a href="NN.html#overfitting"><i class="fa fa-check"></i><b>12.3</b> Overfitting</a></li>
 <li class="chapter" data-level="12.4" data-path="NN.html"><a href="NN.html#neural-network-auto-regressive-nnar-models"><i class="fa fa-check"></i><b>12.4</b> Neural Network Auto-Regressive (NNAR) models</a></li>
 <li class="chapter" data-level="12.5" data-path="NN.html"><a href="NN.html#covid-19-forecasting"><i class="fa fa-check"></i><b>12.5</b> COVID-19 Forecasting</a></li>
+<li class="chapter" data-level="12.6" data-path="NN.html"><a href="NN.html#exercises-7"><i class="fa fa-check"></i><b>12.6</b> Exercises</a></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="ensemble.html"><a href="ensemble.html"><i class="fa fa-check"></i><b>13</b> Hybrid Mdels</a>
 <ul>
@@ -540,6 +543,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="NN" class="section level1" number="12">
 <h1><span class="header-section-number">Chapter 12</span> Neural Networks</h1>
+<p>Machine learning methods are attractive in epidemiological modeling and projection with their great flexibility to capture disease spread patterns. In this chapter, we describe a popular machine learning method for epi-forecasting called neural networks.</p>
 <p>Artificial Neural Network is computing system inspired by biological neural network that constitute animal brain. Such systems “learn” to perform tasks by considering examples, generally without being programmed with any task-specific rules.</p>
 <div id="a-single-neuron" class="section level2" number="12.1">
 <h2><span class="header-section-number">12.1</span> A Single Neuron</h2>
@@ -550,18 +554,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 Figure 12.1: An illustration of a single neuron.
 </p>
 </div>
-<p>The above network takes numerical inputs <span class="math inline">\(X_0,X_1,X_2, X_3\)</span> and has weights <span class="math inline">\(w_0,w_1,w_2,w_3\)</span> associated with those inputs. The output <span class="math inline">\(Y\)</span> from the neuron is computed as shown in the Figure <a href="NN.html#fig:NN1">12.1</a>. The function <span class="math inline">\(f\)</span> is non-linear and is called the Activation Function. The purpose of the activation function is to introduce non-linearity into the output of a neuron. This is important because most real world data is non linear and we want neurons to learn these non linear representations.</p>
+<p>The above network takes numerical inputs <span class="math inline">\(X_0,X_1,X_2,X_3\)</span> and has weights <span class="math inline">\(\beta_0,\beta_1,\beta_2,\beta_3\)</span> associated with those inputs. The output <span class="math inline">\(a_1^{(2)}\)</span> from the neuron shown in the Figure <a href="NN.html#fig:NN1">12.1</a> is computed using <span class="math inline">\(g(\sum_{k=0}^{3}\beta_kX_k)\)</span>, where <span class="math inline">\(g(\cdot)\)</span> is non-linear and is called the <strong>Activation Function</strong>. The purpose of the activation function is to introduce non-linearity into the output of a neuron. This is important because most real world data is non linear and we want neurons to learn these non linear representations.</p>
 <p>Every activation function (or non-linearity) takes a single number and performs a certain fixed mathematical operation on it. There are several activation functions you may encounter in practice:</p>
-<p><strong>Sigmoid:</strong> takes a real-valued input and squashes it to range between 0 and 1</p>
-<p><span class="math display">\[
-  \sigma(x) = 1 / (1 + \exp(-x))
+<p><strong>Sigmoid:</strong> takes a real-valued input and squashes it to range between 0 and 1
+<span class="math display">\[
+  g(x) = 1 / (1 + \exp(-x))
 \]</span></p>
-<p><strong>tanh:</strong> takes a real-valued input and squashes it to the range <span class="math inline">\([-1, 1]\)</span></p>
-<p><span class="math display">\[
-  \tanh(x) = 2\sigma(2x) - 1
+<p><strong>tanh:</strong> takes a real-valued input and squashes it to the range <span class="math inline">\([-1, 1]\)</span>
+<span class="math display">\[
+  \tanh(x) = 2g(2x) - 1
 \]</span></p>
-<p><strong>ReLU (Rectified Linear Unit):</strong> it takes a real-valued input and thresholds it at zero (replaces negative values with zero)</p>
-<p><span class="math display">\[
+<p><strong>ReLU (Rectified Linear Unit):</strong> it takes a real-valued input and thresholds it at zero (replaces negative values with zero)
+<span class="math display">\[
   f(x) = \max(0, x)
 \]</span></p>
 <p>Figure <a href="NN.html#fig:active">12.2</a> show each of the above activation functions.</p>
@@ -576,8 +580,8 @@ Figure 12.2: An illustration of activation functions.
 <div id="neural-network-structure" class="section level2" number="12.2">
 <h2><span class="header-section-number">12.2</span> Neural Network Structure</h2>
 <p>Figure <a href="NN.html#fig:NN2">12.3</a> shows a neural network constructed from 3 type of layers:</p>
-<p><strong>Input Layer:</strong> The Input layer has four nodes. The other two nodes take <span class="math inline">\(X_1\)</span>, <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span> as external inputs (which are numerical values depending upon the input dataset). As discussed above, no computation is performed in the Input layer, so the outputs from nodes in the Input layer are <span class="math inline">\(X_0\)</span>, <span class="math inline">\(X_1\)</span>, <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span> respectively, which are fed into the Hidden Layer.</p>
-<p><strong>Hidden Layer:</strong> The Hidden layer also has four nodes with the bias node <span class="math inline">\(a_0^{(2)}\)</span>. The output of the other two nodes in the Hidden layer depends on the outputs from the Input layer <span class="math inline">\((X_0, X_1, X_2, X_3)\)</span> as well as the weights associated with the connections (edges). Figure 4 shows the output calculation for one of the hidden nodes (highlighted). Similarly, the output from other hidden node can be calculated. Remember that <span class="math inline">\(f\)</span> refers to the activation function. These outputs are then fed to the nodes in the Output layer.</p>
+<p><strong>Input Layer:</strong> The Input layer has four nodes. The other two nodes take <span class="math inline">\(X_1\)</span>, <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span> as external inputs (which are numerical values depending upon the input dataset). As discussed above, no computation is performed in the input layer, so the outputs from nodes in the Input layer are <span class="math inline">\(X_0\)</span>, <span class="math inline">\(X_1\)</span>, <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span> respectively, which are fed into the Hidden Layer.</p>
+<p><strong>Hidden Layer:</strong> The Hidden layer also has four nodes with the bias node <span class="math inline">\(a_0^{(2)}\)</span>. The output of the other two nodes in the Hidden layer depends on the outputs from the Input layer <span class="math inline">\((X_0, X_1, X_2, X_3)\)</span> as well as the weights associated with the connections (edges). Figure 4 shows the output calculation for one of the hidden nodes (highlighted). Similarly, the output from other hidden node can be calculated. Remember that <span class="math inline">\(g\)</span> refers to the activation function. These outputs are then fed to the nodes in the Output layer.</p>
 <p><strong>Output Layer:</strong> The Output layer has one nodes which takes inputs from the Hidden layer and perform similar computations as shown for the highlighted hidden node. The value calculated <span class="math inline">\(a_1^{(3)}\)</span> as a result of these computations act as the output.</p>
 <div class="figure" style="text-align: center"><span id="fig:NN2"></span>
 <img src="figures/NN2.png" alt="A neural network with one hidden layer." width="50%" />
@@ -585,19 +589,28 @@ Figure 12.2: An illustration of activation functions.
 Figure 12.3: A neural network with one hidden layer.
 </p>
 </div>
-<p>In Figure <a href="NN.html#fig:NN2">12.3</a>,</p>
-<ul>
-<li><span class="math inline">\(a^{(j)}_i\)</span>: activation of unit <span class="math inline">\(i\)</span> in layer <span class="math inline">\(j\)</span>.</li>
-<li><span class="math inline">\(\boldsymbol{\beta}^{(j)}\)</span>: weight matrix stores parameters from layer <span class="math inline">\(j\)</span> to layer <span class="math inline">\(j+1\)</span>.</li>
-<li>If network has <span class="math inline">\(s_j\)</span> units in layer <span class="math inline">\(j\)</span> and <span class="math inline">\(s_{j+1}\)</span> units in layer <span class="math inline">\(j+1\)</span>, then <span class="math inline">\(\boldsymbol{\beta}^{(j)}\)</span> has dimension <span class="math inline">\(s_{j+1} \times (s_j+1)\)</span>.</li>
-</ul>
-<p><span class="math display">\[
+<div class="figure" style="text-align: center"><span id="fig:NN2coef"></span>
+<img src="figures/NN2_coef.png" alt="A neural network with one hidden layer." width="50%" />
+<p class="caption">
+Figure 12.4: A neural network with one hidden layer.
+</p>
+</div>
+<p>As shown in Figure <a href="NN.html#fig:NN2coef">12.4</a>, let <span class="math inline">\(a^{(2)}_i\)</span> be the activation of unit <span class="math inline">\(k\)</span> in the hidden layer. For the hidden neuron <span class="math inline">\(i\)</span>, we have
+<span class="math display">\[
+\alpha_i^{(2)}=g\left(\sum_{j=0}^3\beta_{j,i}^{(1)}X_j\right),
+\]</span>
+and for the output neuron, we have
+<span class="math display">\[
+\alpha_1^{(3)}=g\left(\sum_{j=0}^3\beta_{j,1}^{(2)}\alpha_{j}^{(2)}\right).
+\]</span></p>
+<p>Let’s make it more general. Let <span class="math inline">\(a^{(j)}_i\)</span> be the activation of unit <span class="math inline">\(i\)</span> in layer <span class="math inline">\(j\)</span>, and let <span class="math inline">\(\boldsymbol{\beta}^{(j)}\)</span> be a weight matrix which stores parameters from layer <span class="math inline">\(j\)</span> to layer <span class="math inline">\(j+1\)</span>. If network has <span class="math inline">\(s_j\)</span> units in layer <span class="math inline">\(j\)</span> and <span class="math inline">\(s_{j+1}\)</span> units in layer <span class="math inline">\(j+1\)</span>, then <span class="math inline">\(\boldsymbol{\beta}^{(j)}\)</span> has dimension <span class="math inline">\(s_{j+1} \times (s_j+1)\)</span>. Next, we denote
+<span class="math display">\[
 \mathbf{X}= \begin{bmatrix}
 X_0 \\ 
 X_1 \\
 X_2 \\ 
 X_3 \\ 
-\end{bmatrix},
+\end{bmatrix},~
 \mathbf{A}= \begin{bmatrix}
 a_0^{(2)} \\ 
 a_1^{(2)} \\
@@ -605,79 +618,87 @@ a_2^{(2)} \\
 a_3^{(2)} \\ 
 \end{bmatrix},
 \]</span></p>
-<p>In the regression, our objective function is
+<p>The neural network model has unknown parameters (weights), and we seek values for them that make the model fit the training data well. For regression, we use sum-of-squared errors as our measure of fit (error function). Thus, our objective function is
 <span class="math display">\[
-\ell(\boldsymbol{\beta}^{(1)}, \ldots, \boldsymbol{\beta}^{(L)})= \sum_{i=1}^{N}(Y_i - \widehat{Y}_i)^2
+\ell(\boldsymbol{\beta}^{(1)}, \ldots, \boldsymbol{\beta}^{(L)})= \sum_{i=1}^{N}(Y_i - \widehat{Y}_i)^2.
 \]</span></p>
-<p>Gradient Descent:
+<p>Typically we don’t want the global minimizer of <span class="math inline">\(\ell(\cdot)\)</span>, as this is likely to be an overfit solution. Instead some regularization is needed: this is achieved directly through a penalty term, or indirectly by early stopping.</p>
+<p>The generic approach to minimizing <span class="math inline">\(\ell(\cdot)\)</span> is by gradient descent, called <strong>back-propagation</strong>; see details below. Because of the compositional form of the model, the gradient can be easily derived using the chain rule for differentiation. This can be computed by a forward and backward sweep over the network, keeping track only of quantities local to each unit.</p>
+<p>For any <span class="math inline">\(j\)</span>, a gradient descent update at the <span class="math inline">\(j\)</span>th iteration has the form
 <span class="math display">\[
-\boldsymbol{\beta}^{(j)} \leftarrow \boldsymbol{\beta}^{(j)} - \alpha \nabla_{\boldsymbol{\beta}^{(j)}} \ell(\boldsymbol{\beta}^{(1)}, \ldots, \boldsymbol{\beta}^{(L)}), 
+\boldsymbol{\beta}^{(j)} \leftarrow \boldsymbol{\beta}^{(j)} - \alpha \nabla_{\boldsymbol{\beta}^{(j)}} \ell(\boldsymbol{\beta}^{(1)}, \ldots, \boldsymbol{\beta}^{(L)}),
 \]</span>
-for all <span class="math inline">\(j\)</span>.</p>
+where <span class="math inline">\(\nabla_{\boldsymbol{\beta}^{(j)}} \ell(\boldsymbol{\beta}^{(1)}, \ldots, \boldsymbol{\beta}^{(L)})\)</span> is the partial derivative of <span class="math inline">\(\ell(\boldsymbol{\beta}^{(1)}, \ldots, \boldsymbol{\beta}^{(L)})\)</span> w.r.t <span class="math inline">\(\boldsymbol{\beta}^{(j)}\)</span>, and <span class="math inline">\(\alpha\)</span> is the learning rate. When <span class="math inline">\(\alpha\)</span> is too big, gradient descent may jump across the valley and end up on the other side. This will lead to the error function diverge. When <span class="math inline">\(\alpha\)</span> is too small, it will take the algorithm long time to converge. Therefore, we need to have a proper learning rate before starting the gradient descent.</p>
 <div id="forward-propagation" class="section level3" number="12.2.1">
 <h3><span class="header-section-number">12.2.1</span> Forward propagation</h3>
 <div class="figure" style="text-align: center"><span id="fig:NN3"></span>
-<img src="figures/NN3.png" alt="A neural network with one hidden layer." width="60%" />
+<img src="figures/NN3.png" alt="A neural network with three hidden layer." width="60%" />
 <p class="caption">
-Figure 12.4: A neural network with one hidden layer.
+Figure 12.5: A neural network with three hidden layer.
 </p>
 </div>
-<p>We start with one single observation point <span class="math inline">\((Y_i, X_i)\)</span>.</p>
-<ul>
-<li><span class="math inline">\(a^{(1)} = X_i\)</span></li>
-<li><span class="math inline">\(z^{(2)} = \boldsymbol{\beta}^{(1)}a^{(1)}\)</span></li>
-<li><span class="math inline">\(a^{(2)} = g(z^{(2)})\)</span>, (add <span class="math inline">\(a^{(2)}_0\)</span>)</li>
-<li><span class="math inline">\(z^{(3)} = \boldsymbol{\beta}^{(2)}a^{(2)}\)</span></li>
-<li><span class="math inline">\(a^{(3)} = g(z^{(3)})\)</span>, (add <span class="math inline">\(a^{(3)}_0\)</span>)</li>
-<li><span class="math inline">\(z^{(4)} = \boldsymbol{\beta}^{(3)}a^{(3)}\)</span></li>
-<li><span class="math inline">\(a^{(4)} = g(z^{(4)})\)</span></li>
-</ul>
+<p>We start with one single observation point <span class="math inline">\((Y_i, \mathbf{X}_i)\)</span>. As shown in Figure <a href="NN.html#fig:NN3">12.5</a>, we can use the following equations to form network’s forward propagation.</p>
+<p><span class="math display">\[\begin{eqnarray*}
+\mathbf{a}^{(1)} &amp;=&amp; \mathbf{X}_i,\\
+\mathbf{z}^{(2)} &amp;=&amp; \boldsymbol{\beta}^{(1)\top}\mathbf{a}^{(1)},\\
+\mathbf{a}^{(2)} &amp;=&amp; g(\mathbf{z}^{(2)}), ~(\mathrm{add~} a^{(2)}_0),\\
+\mathbf{z}^{(3)} &amp;=&amp; \boldsymbol{\beta}^{(2)\top}\mathbf{a}^{(2)},\\
+\mathbf{a}^{(3)} &amp;=&amp; g(\mathbf{z}^{(3)}), ~(\mathrm{add~} a^{(3)}_0),\\
+\mathbf{z}^{(4)} &amp;=&amp; \boldsymbol{\beta}^{(3)\top}\mathbf{a}^{(3)},\\
+\mathbf{a}^{(4)} &amp;=&amp; g(\mathbf{z}^{(4)}).
+\end{eqnarray*}\]</span></p>
+<p>The final step in a forward pass is to evaluate the predicted output <span class="math inline">\(\hat{Y}_i\)</span> against an observed output <span class="math inline">\(Y_i\)</span>. Evaluation between <span class="math inline">\(\hat{Y}_i\)</span> and <span class="math inline">\(Y_i\)</span> happens through an error function, which can be the mean squared error in the regression case.</p>
+</div>
+<div id="back-propagation" class="section level3" number="12.2.2">
+<h3><span class="header-section-number">12.2.2</span> Back-propagation</h3>
+<p>Back-propagation is an efficient method for computing gradients needed to perform gradient-based optimization of the weights in a multi-layer network.</p>
 <p><strong>Backpropagation: top layer</strong></p>
 <div class="figure" style="text-align: center"><span id="fig:back1"></span>
 <img src="figures/back1.png" alt="A neural network with one hidden layer." width="50%" />
 <p class="caption">
-Figure 12.5: A neural network with one hidden layer.
+Figure 12.6: A neural network with one hidden layer.
 </p>
 </div>
-<p>We want to find
+<p>To minize the error function <span class="math inline">\(\ell\)</span>, we want to find partial derivatives:
 <span class="math display">\[
 \frac{\partial \ell}{\partial \beta_{01}^{(2)}}, \ldots, \frac{\partial \ell}{\partial \beta_{31}^{(2)}},
 \]</span>
+and we can show, for example,
 <span class="math display">\[\begin{align*}
 \frac{\partial \ell}{\partial \beta_{01}^{(2)}} &amp; = \frac{\partial \ell}{\partial a_1^{(3)}}
 \frac{\partial a_1^{(3)}}{\partial z_1^{(3)}} \frac{\partial z_1^{(3)}}{\partial \beta_{01}^{(2)}}\\
 &amp; = 2(Y-a_1^{(3)})g&#39;_0(z_1^{(3)})a_0^{(2)},
 \end{align*}\]</span>
-where <span class="math inline">\(g&#39;_0\)</span> is the derivative fo the activation function in the output layer.</p>
-<p>Update <span class="math inline">\(\beta_{01}^{(2)}\)</span> by
+where <span class="math inline">\(g&#39;_0\)</span> is the derivative of the activation function <span class="math inline">\(g\)</span> in the output layer.</p>
+<p>Then, we update <span class="math inline">\(\beta_{0,1}^{(2)}\)</span> by
 <span class="math display">\[
-\beta_{01}^{(2)} = \beta_{01}^{(2)} - \alpha \frac{\partial \ell}{\partial \beta_{01}^{(2)}}.
+\beta_{0,1}^{(2)} = \beta_{0,1}^{(2)} - \alpha \frac{\partial \ell}{\partial \beta_{0,1}^{(2)}}.
 \]</span></p>
 <p><strong>Backpropagation: next layer</strong></p>
 <div class="figure" style="text-align: center"><span id="fig:back2"></span>
 <img src="figures/back2.png" alt="a neural network with one hidden layer." width="50%" />
 <p class="caption">
-Figure 12.6: a neural network with one hidden layer.
+Figure 12.7: a neural network with one hidden layer.
 </p>
 </div>
-<p>We want to find
+<p>Next, we want to find the following partial derivatives:
 <span class="math display">\[
-\frac{\partial \ell}{\partial \beta_{01}^{(1)}}, \cdots, \frac{\partial \ell}{\partial \beta_{03}^{(1)}},
+\frac{\partial \ell}{\partial \beta_{0,1}^{(1)}}, \cdots, \frac{\partial \ell}{\partial \beta_{0,3}^{(1)}},
 \]</span>
+and for example, we have
 <span class="math display">\[\begin{align*}
 \frac{\partial \ell}{\partial \beta_{01}^{(2)}} &amp; = \frac{\partial \ell}{\partial a_1^{(3)}}
 \frac{\partial a_1^{(3)}}{\partial z_1^{(3)}} \frac{\partial z_1^{(3)}}{\partial \partial a_1^{(2)}} \frac{\partial a_1^{(2)}}{\partial z_1^{(2)}} \frac{\partial z_1^{(2)}}{\partial \beta_{01}^{(2)}}\\
 &amp; = 2(Y-a_1^{(3)})g&#39;_0(z_1^{(3)}) \beta^{(2)}_{11} g&#39;_1(z_1^{(2)}) X_0,
 \end{align*}\]</span>
-where <span class="math inline">\(g&#39;_0\)</span> is the derivative fo the activation function in the output layer and <span class="math inline">\(g&#39;_1\)</span> is the derivative fo the activation function in the Layer 2.</p>
-<p>Update <span class="math inline">\(\beta_{01}^{(1)}\)</span> by
+where <span class="math inline">\(g&#39;_0\)</span> is the derivative of the activation function in the output layer and <span class="math inline">\(g&#39;_1\)</span> is the derivative fo the activation function in Layer 2.</p>
+<p>Then, we update <span class="math inline">\(\beta_{01}^{(1)}\)</span> by
 <span class="math display">\[
-\beta_{01}^{(1)} = \beta_{01}^{(1)} - \alpha \frac{\partial \ell}{\partial \beta_{01}^{(1)}}.
+\beta_{0,1}^{(1)} = \beta_{0,1}^{(1)} - \alpha \frac{\partial \ell}{\partial \beta_{0,1}^{(1)}}.
 \]</span></p>
+<p>Initial values of the weights and biases <span class="math inline">\(\boldsymbol{\beta}\)</span> are randomly chosen. Derivative of <span class="math inline">\(\ell\)</span> can be calculated using the partial derivatives described above. Termination condition is met once the error function is minimized.</p>
 <p><strong>Back Propagation: Jacobian Matrix</strong></p>
-<ul>
-<li><p>The Jacobian matrix of a vector-valued function in several variables is the matrix of all its first-order partial derivatives.</p></li>
-<li><p>Suppose <span class="math inline">\(\boldsymbol{f}: R^{n} \to R^{m}\)</span>, the Jacobian matrix of function <span class="math inline">\(\boldsymbol{f}\)</span> is
+<p>The Jacobian matrix of a vector-valued function in several variables is the matrix of all its first-order partial derivatives. Suppose <span class="math inline">\(\boldsymbol{f}: R^{n} \to R^{m}\)</span>, the Jacobian matrix of function <span class="math inline">\(\boldsymbol{f}\)</span> is
 <span class="math display">\[
 \boldsymbol{J} = \frac{\partial \boldsymbol{f}}{\partial \boldsymbol{x}}
  = \begin{bmatrix}
@@ -685,13 +706,12 @@ where <span class="math inline">\(g&#39;_0\)</span> is the derivative fo the act
 \vdots  &amp; \ddots &amp; \vdots \\
 \frac{\partial f_m}{\partial x_1}  &amp; \ldots  &amp;  \frac{\partial f_m}{\partial x_n} 
 \end{bmatrix}.
-\]</span></p></li>
-<li><p>Chain rule:
+\]</span></p>
+<p>We have the following chain rule:
 <span class="math display">\[
 \frac{\partial \boldsymbol{f}\{{\boldsymbol{g}(\boldsymbol{x})\}}}{\partial \boldsymbol{x}} = \frac{\partial \boldsymbol{f}\{{\boldsymbol{g}(\boldsymbol{x})\}}}{\partial \boldsymbol{g}(\boldsymbol{x})}  \times 
-\frac{\boldsymbol{g}(\boldsymbol{x}) }{\partial \boldsymbol{x}} 
-\]</span></p></li>
-</ul>
+\frac{\boldsymbol{g}(\boldsymbol{x}) }{\partial \boldsymbol{x}}. 
+\]</span></p>
 </div>
 </div>
 <div id="overfitting" class="section level2" number="12.3">
@@ -720,20 +740,20 @@ where <span class="math inline">\(\|\cdot\|_F\)</span> denotes the Frobenius nor
 <h2><span class="header-section-number">12.5</span> COVID-19 Forecasting</h2>
 <p>The number of cases, we define <span class="math inline">\(x_n = (y_{n-w+1}, ..., y_{n-1}, y_n)^{\top}\in R^{w}\)</span> and <span class="math inline">\(t_n = y_{n+h}\in R\)</span>. We use cross-validation to find the proper window size <span class="math inline">\(w\)</span>, number of hidden neurons <span class="math inline">\(L\)</span>, and the regularization hyperparameter <span class="math inline">\(\lambda\)</span>.</p>
 <p>The <code>nnetar</code> function in the <code>forecast</code> package for R fits a feed-forward neural networks model with a single hidden layer and lagged inputs for forecasting univariate time series. It uses lagged values of the time series as inputs (and possibly some other exogenous inputs).</p>
-<p>To use the <code>forecast</code> package, it is better to store the time series as a <code>ts</code> object in R. Let us consider the time series of daily new death counts for Florida, and we first turn this into a <code>ts</code> object using the <code>ts</code> function. Since we have observed the 7-day cycle for this data, we can simply add a <code>frequency = 7</code> argument.</p>
-<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="NN.html#cb328-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(slid)</span>
-<span id="cb328-2"><a href="NN.html#cb328-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb328-3"><a href="NN.html#cb328-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(state.ts)</span>
-<span id="cb328-4"><a href="NN.html#cb328-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb328-5"><a href="NN.html#cb328-5" aria-hidden="true" tabindex="-1"></a>Florida.ts <span class="ot">&lt;-</span> state.ts <span class="sc">%&gt;%</span></span>
-<span id="cb328-6"><a href="NN.html#cb328-6" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(State <span class="sc">==</span> <span class="st">&quot;Florida&quot;</span>)  </span>
-<span id="cb328-7"><a href="NN.html#cb328-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb328-8"><a href="NN.html#cb328-8" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">ts</span>(Florida.ts<span class="sc">$</span>Y.Death, <span class="at">start =</span> <span class="dv">2020-01-23</span>, <span class="at">frequency =</span> <span class="dv">7</span>)</span></code></pre></div>
+<p>To use the <code>forecast</code> package, it is better to store the time series as a <code>ts</code> object in R. Let us consider the time series of daily new death counts for Florida, and we first turn this into a <code>ts</code> object using the <code>ts</code> function. There is a “frequency” argument in the <code>ts()</code> function, which needs to be set appropriately for your data. Here the “frequency” is the number of observations per “cycle.” For annual data, frequency <span class="math inline">\(=1\)</span>; for quarterly data, frequency <span class="math inline">\(=4\)</span>; for monthly data, frequency <span class="math inline">\(=12\)</span>, and for weekly data, frequency <span class="math inline">\(=52\)</span>. If the frequency of observations is greater than once per week, then there is usually more than one way of handling the frequency. For example, data with daily observations might have a weekly seasonality (frequency <span class="math inline">\(=7\)</span>) or an annual seasonality (frequency <span class="math inline">\(=365.25\)</span>). Read [Seasonal periods][<a href="https://robjhyndman.com/hyndsight/seasonal-periods/" class="uri">https://robjhyndman.com/hyndsight/seasonal-periods/</a>] for explanation how to set the frequency for seasonal period in <code>ts</code> objects. Since we have observed the 7-day cycle for this data, we can simply add a <code>frequency = 7</code> argument.</p>
+<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="NN.html#cb334-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb334-2"><a href="NN.html#cb334-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(slid)</span>
+<span id="cb334-3"><a href="NN.html#cb334-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(state.ts)</span>
+<span id="cb334-4"><a href="NN.html#cb334-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb334-5"><a href="NN.html#cb334-5" aria-hidden="true" tabindex="-1"></a>Florida.ts <span class="ot">&lt;-</span> state.ts <span class="sc">%&gt;%</span></span>
+<span id="cb334-6"><a href="NN.html#cb334-6" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(State <span class="sc">==</span> <span class="st">&quot;Florida&quot;</span>)  </span>
+<span id="cb334-7"><a href="NN.html#cb334-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb334-8"><a href="NN.html#cb334-8" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">ts</span>(Florida.ts<span class="sc">$</span>Y.Death, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2020</span>,<span class="dv">1</span>), <span class="at">frequency =</span> <span class="dv">7</span>)</span></code></pre></div>
 <p>Simply applying the default <code>nnetar()</code> function, we obtain feed-forward neural networks model NNAR<span class="math inline">\((21,1,11)_7\)</span>. It is based on an average of 20 networks, each of which is NNAR<span class="math inline">\((21,1,11)_7\)</span> with 254 weights.</p>
-<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="NN.html#cb329-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
-<span id="cb329-2"><a href="NN.html#cb329-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2020</span>)</span>
-<span id="cb329-3"><a href="NN.html#cb329-3" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">nnetar</span>(y)</span>
-<span id="cb329-4"><a href="NN.html#cb329-4" aria-hidden="true" tabindex="-1"></a>fit</span></code></pre></div>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="NN.html#cb335-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb335-2"><a href="NN.html#cb335-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2020</span>)</span>
+<span id="cb335-3"><a href="NN.html#cb335-3" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">nnetar</span>(y)</span>
+<span id="cb335-4"><a href="NN.html#cb335-4" aria-hidden="true" tabindex="-1"></a>fit</span></code></pre></div>
 <pre><code>## Series: y 
 ## Model:  NNAR(21,1,11)[7] 
 ## Call:   nnetar(y = y)
@@ -743,12 +763,26 @@ where <span class="math inline">\(\|\cdot\|_F\)</span> denotes the Frobenius nor
 ## options were - linear output units 
 ## 
 ## sigma^2 estimated as 6.598</code></pre>
-<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="NN.html#cb331-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(<span class="fu">forecast</span>(fit, <span class="at">h =</span> <span class="dv">14</span>), <span class="at">xlab =</span> <span class="st">&quot;Days&quot;</span>, </span>
-<span id="cb331-2"><a href="NN.html#cb331-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">ylab =</span> <span class="st">&quot;Daily new deaths&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="NN.html#cb337-1" aria-hidden="true" tabindex="-1"></a>nnar.fc.report <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">forecast</span>(fit, <span class="at">h =</span> <span class="dv">14</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb337-2"><a href="NN.html#cb337-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">DATE =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020-12-11&quot;</span>) <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">14</span>)</span>
+<span id="cb337-3"><a href="NN.html#cb337-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(nnar.fc.report) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Y.Death&quot;</span>, <span class="st">&quot;DATE&quot;</span>)</span>
+<span id="cb337-4"><a href="NN.html#cb337-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb337-5"><a href="NN.html#cb337-5" aria-hidden="true" tabindex="-1"></a><span class="co"># plot of reported vs NNAR predictions</span></span>
+<span id="cb337-6"><a href="NN.html#cb337-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb337-7"><a href="NN.html#cb337-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> DATE, <span class="at">y =</span> Y.Death, <span class="at">color =</span> <span class="st">&quot;Reported&quot;</span>), </span>
+<span id="cb337-8"><a href="NN.html#cb337-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> Florida.ts) <span class="sc">+</span></span>
+<span id="cb337-9"><a href="NN.html#cb337-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> DATE, <span class="at">y =</span> Y.Death, <span class="at">color =</span> <span class="st">&quot;NNAR&quot;</span>), </span>
+<span id="cb337-10"><a href="NN.html#cb337-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> nnar.fc.report) <span class="sc">+</span></span>
+<span id="cb337-11"><a href="NN.html#cb337-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(</span>
+<span id="cb337-12"><a href="NN.html#cb337-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="at">Reported =</span> <span class="st">&quot;black&quot;</span>, <span class="at">NNAR =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb337-13"><a href="NN.html#cb337-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb337-14"><a href="NN.html#cb337-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Death count&quot;</span>,</span>
+<span id="cb337-15"><a href="NN.html#cb337-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Reported vs NNAR(21,1,11)[7] predictions&quot;</span>) <span class="sc">+</span></span>
+<span id="cb337-16"><a href="NN.html#cb337-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="st">&quot;Series&quot;</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:nnetar1"></span>
 <img src="SLID_book_files/figure-html/nnetar1-1.png" alt="Two weeks ahead forecast of the daily new death count for Florida using nnetar." width="672" />
 <p class="caption">
-Figure 12.7: Two weeks ahead forecast of the daily new death count for Florida using nnetar.
+Figure 12.8: Two weeks ahead forecast of the daily new death count for Florida using nnetar.
 </p>
 </div>
 <p>We can also specify the <code>repeats</code> and <code>size</code> options in the <code>nnetar</code> function.</p>
@@ -758,25 +792,95 @@ Figure 12.7: Two weeks ahead forecast of the daily new death count for Florida u
 </ul>
 <p>We can consider a Box-Cox transformation for the data. For example, if we want to restrict to positive values, we can consider a Box-Cox transformation parameter <code>lambda</code>.</p>
 <p>If <code>lambda = auto</code>, then a transformation is automatically selected using <code>BoxCox.lambda</code>. The transformation is ignored if <code>NULL</code>. Otherwise, data transformed before model is estimated.</p>
-<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="NN.html#cb332-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">nnetar</span>(y <span class="sc">+</span> <span class="dv">1</span>, <span class="at">lambda =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">5</span>)</span>
-<span id="cb332-2"><a href="NN.html#cb332-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(<span class="fu">forecast</span>(fit, <span class="at">h =</span> <span class="dv">14</span>), <span class="at">xlab =</span> <span class="st">&quot;Days&quot;</span>, </span>
-<span id="cb332-3"><a href="NN.html#cb332-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">ylab =</span> <span class="st">&quot;Daily new deaths&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="NN.html#cb338-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">nnetar</span>(y <span class="sc">+</span> <span class="dv">1</span>, <span class="at">lambda =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">5</span>)</span>
+<span id="cb338-2"><a href="NN.html#cb338-2" aria-hidden="true" tabindex="-1"></a>fit</span></code></pre></div>
+<pre><code>## Series: y + 1 
+## Model:  NNAR(14,1,5)[7] 
+## Call:   nnetar(y = y + 1, size = 5, lambda = 0)
+## 
+## Average of 20 networks, each of which is
+## a 14-5-1 network with 81 weights
+## options were - linear output units 
+## 
+## sigma^2 estimated as 0.2213</code></pre>
+<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="NN.html#cb340-1" aria-hidden="true" tabindex="-1"></a>nnar.fc.report <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">forecast</span>(fit, <span class="at">h =</span> <span class="dv">14</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb340-2"><a href="NN.html#cb340-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">DATE =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020-12-11&quot;</span>) <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">14</span>)</span>
+<span id="cb340-3"><a href="NN.html#cb340-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(nnar.fc.report) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Y.Death&quot;</span>, <span class="st">&quot;DATE&quot;</span>)</span>
+<span id="cb340-4"><a href="NN.html#cb340-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb340-5"><a href="NN.html#cb340-5" aria-hidden="true" tabindex="-1"></a><span class="co"># plot of reported vs NNAR predictions</span></span>
+<span id="cb340-6"><a href="NN.html#cb340-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb340-7"><a href="NN.html#cb340-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> DATE, <span class="at">y =</span> Y.Death, <span class="at">color =</span> <span class="st">&quot;Reported&quot;</span>), </span>
+<span id="cb340-8"><a href="NN.html#cb340-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> Florida.ts) <span class="sc">+</span></span>
+<span id="cb340-9"><a href="NN.html#cb340-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> DATE, <span class="at">y =</span> Y.Death, <span class="at">color =</span> <span class="st">&quot;NNAR&quot;</span>), </span>
+<span id="cb340-10"><a href="NN.html#cb340-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> nnar.fc.report) <span class="sc">+</span></span>
+<span id="cb340-11"><a href="NN.html#cb340-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(</span>
+<span id="cb340-12"><a href="NN.html#cb340-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="at">Reported =</span> <span class="st">&quot;black&quot;</span>, <span class="at">NNAR =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb340-13"><a href="NN.html#cb340-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb340-14"><a href="NN.html#cb340-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Death count&quot;</span>,</span>
+<span id="cb340-15"><a href="NN.html#cb340-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Reported vs NNAR(14,1,5)[7] predictions&quot;</span>) <span class="sc">+</span></span>
+<span id="cb340-16"><a href="NN.html#cb340-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="st">&quot;Series&quot;</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:nnetar2"></span>
 <img src="SLID_book_files/figure-html/nnetar2-1.png" alt="Two weeks ahead forecast of the daily new death count for Florida using nnetar with predictions constrained to positive values." width="672" />
 <p class="caption">
-Figure 12.8: Two weeks ahead forecast of the daily new death count for Florida using nnetar with predictions constrained to positive values.
+Figure 12.9: Two weeks ahead forecast of the daily new death count for Florida using nnetar with predictions constrained to positive values.
 </p>
 </div>
-<p>Note that the NNAR model is a nonlinear autogressive model, and it is not possible to analytically derive prediction intervals.</p>
-<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="NN.html#cb333-1" aria-hidden="true" tabindex="-1"></a>fcast <span class="ot">&lt;-</span> <span class="fu">forecast</span>(fit, <span class="at">PI =</span> <span class="cn">TRUE</span>, <span class="at">h =</span> <span class="dv">14</span>, <span class="at">npaths =</span> <span class="dv">500</span>)</span>
-<span id="cb333-2"><a href="NN.html#cb333-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(fcast, <span class="at">xlab =</span> <span class="st">&quot;Days&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Daily new deaths&quot;</span>)</span></code></pre></div>
+<p>Note that the NNAR model is a nonlinear autogressive model, and it is not possible to analytically derive prediction intervals. Below we use the simulation method to generate simulated paths.</p>
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="NN.html#cb341-1" aria-hidden="true" tabindex="-1"></a>fcast <span class="ot">&lt;-</span> <span class="fu">forecast</span>(fit, <span class="at">PI =</span> <span class="cn">TRUE</span>, <span class="at">h =</span> <span class="dv">14</span>, <span class="at">npaths =</span> <span class="dv">500</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="NN.html#cb342-1" aria-hidden="true" tabindex="-1"></a><span class="co">#autoplot(fcast, xlab = &quot;Days&quot;, ylab = &quot;Daily new deaths&quot;)</span></span>
+<span id="cb342-2"><a href="NN.html#cb342-2" aria-hidden="true" tabindex="-1"></a>fcast.report <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(fcast) <span class="sc">%&gt;%</span></span>
+<span id="cb342-3"><a href="NN.html#cb342-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">DATE =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020-12-11&quot;</span>) <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">14</span>)</span>
+<span id="cb342-4"><a href="NN.html#cb342-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(fcast.report) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Y.Death&quot;</span>, <span class="st">&quot;Lo.80&quot;</span>, <span class="st">&quot;Hi.80&quot;</span>, </span>
+<span id="cb342-5"><a href="NN.html#cb342-5" aria-hidden="true" tabindex="-1"></a>                         <span class="st">&quot;Lo.95&quot;</span>, <span class="st">&quot;Hi.95&quot;</span>, <span class="st">&quot;DATE&quot;</span>) </span>
+<span id="cb342-6"><a href="NN.html#cb342-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb342-7"><a href="NN.html#cb342-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Florida.ts, <span class="fu">aes</span>(DATE, Y.Death)) <span class="sc">+</span> </span>
+<span id="cb342-8"><a href="NN.html#cb342-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb342-9"><a href="NN.html#cb342-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Days&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Death Count&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb342-10"><a href="NN.html#cb342-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add prediction intervals</span></span>
+<span id="cb342-11"><a href="NN.html#cb342-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> DATE, </span>
+<span id="cb342-12"><a href="NN.html#cb342-12" aria-hidden="true" tabindex="-1"></a>                            <span class="at">y =</span> Y.Death, </span>
+<span id="cb342-13"><a href="NN.html#cb342-13" aria-hidden="true" tabindex="-1"></a>                            <span class="at">ymin =</span> Lo<span class="fl">.95</span>, </span>
+<span id="cb342-14"><a href="NN.html#cb342-14" aria-hidden="true" tabindex="-1"></a>                            <span class="at">ymax =</span> Hi<span class="fl">.95</span>,</span>
+<span id="cb342-15"><a href="NN.html#cb342-15" aria-hidden="true" tabindex="-1"></a>                            <span class="at">fill =</span> <span class="st">&#39;95% Prediction intervals&#39;</span>), </span>
+<span id="cb342-16"><a href="NN.html#cb342-16" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> fcast.report, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb342-17"><a href="NN.html#cb342-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add line for predicted values</span></span>
+<span id="cb342-18"><a href="NN.html#cb342-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> DATE, </span>
+<span id="cb342-19"><a href="NN.html#cb342-19" aria-hidden="true" tabindex="-1"></a>                          <span class="at">y =</span> Y.Death,</span>
+<span id="cb342-20"><a href="NN.html#cb342-20" aria-hidden="true" tabindex="-1"></a>                          <span class="at">colour =</span> <span class="st">&#39;Predicted values&#39;</span>),</span>
+<span id="cb342-21"><a href="NN.html#cb342-21" aria-hidden="true" tabindex="-1"></a>            <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">data =</span> fcast.report,</span>
+<span id="cb342-22"><a href="NN.html#cb342-22" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Set the line type in legend</span></span>
+<span id="cb342-23"><a href="NN.html#cb342-23" aria-hidden="true" tabindex="-1"></a>            <span class="at">key_glyph =</span> <span class="st">&quot;timeseries&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb342-24"><a href="NN.html#cb342-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="st">&quot;&quot;</span>, <span class="at">values =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb342-25"><a href="NN.html#cb342-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="st">&quot;&quot;</span>, <span class="at">values =</span> <span class="st">&quot;pink&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb342-26"><a href="NN.html#cb342-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:nnetar3"></span>
 <img src="SLID_book_files/figure-html/nnetar3-1.png" alt="Two weeks ahead forecast and prediction intervals of the daily new death count for Florida using nnetar with predictions constrained to positive values." width="672" />
 <p class="caption">
-Figure 12.9: Two weeks ahead forecast and prediction intervals of the daily new death count for Florida using nnetar with predictions constrained to positive values.
+Figure 12.10: Two weeks ahead forecast and prediction intervals of the daily new death count for Florida using nnetar with predictions constrained to positive values.
 </p>
 </div>
 <p>Because it is a little slow, <code>PI = FALSE</code> is the default, so prediction intervals are not computed unless requested. The <code>npaths</code> argument in <code>forecast.nnetar</code> controls how many simulations are done (default 1000). By default, the errors are drawn from a normal distribution. The bootstrap argument allows the errors to be “bootstrapped” (i.e., randomly drawn from the historical errors).</p>
+</div>
+<div id="exercises-7" class="section level2" number="12.6">
+<h2><span class="header-section-number">12.6</span> Exercises</h2>
+<ol style="list-style-type: decimal">
+<li>Based on the input values and weights given in Figure <a href="NN.html#fig:NNE1">12.11</a>, find the values of <span class="math inline">\(a_1^{(2)}\)</span>, <span class="math inline">\(a_2^{(2)}\)</span> and <span class="math inline">\(a_1^{(3)}\)</span>. Use the sigmoid activation function.</li>
+</ol>
+<div class="figure" style="text-align: center"><span id="fig:NNE1"></span>
+<img src="figures/NNE1.png" alt="An example of neural network with one hidden layer." width="60%" />
+<p class="caption">
+Figure 12.11: An example of neural network with one hidden layer.
+</p>
+</div>
+<ol start="2" style="list-style-type: decimal">
+<li>From <code>state.long</code> in the R package <code>slid</code>, choose a state and focus on the daily new death count.</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li><p>Apply the <code>nnetar</code> to your time series diectly, and report the fitted model.</p></li>
+<li><p>Based on the model in Part a, make a 7-day ahead forecast, and provide the 95% prediction intervals.</p></li>
+<li><p>Apply the <code>nnetar</code> to the log-transformed time series, and repart the fitted model.</p></li>
+<li><p>Based on the model in Part c, make a 7-day ahead forecast, and provide the 95% prediction intervals.</p></li>
+</ol>
 
 </div>
 </div>

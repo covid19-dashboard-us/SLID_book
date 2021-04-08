@@ -51,8 +51,8 @@ E(D_{t+1}|t) = \exp\left\{\beta_0 + \beta_1 \log\left(D_t + 1\right)\right\}.
 5. A demographics shared-county exponential predictor: a predictor also similar to the shared-county exponential predictor, but which also includes various county demographic and health-related predictive features.
 
 \begin{eqnarray*}
-E(D_{t+1}|t) =& \exp\left\{\beta_0 + \beta_1 \log\left(D_t + 1\right) + \beta_2\log\left(I_{t-k+1}+1\right)\right. \\
-& \left. + \beta_3\log\left(D_{t-k+1}^\mathrm{neighbor}\right) + \beta_4\log\left(I_{t-k+1}^\mathrm{neighbor}\right) \right\}.
+E(D_{t+1}|t) &=& \exp\left\{\beta_0 + \beta_1 \log\left(D_t + 1\right) + \beta_2\log\left(I_{t-k+1}+1\right)\right. \\
+&& \left. + \beta_3\log\left(D_{t-k+1}^{\mathrm{neighbor}}\right) + \beta_4\log\left(I_{t-k+1}^{\mathrm{neighbor}}\right) \right\}.
 \end{eqnarray*}
 
 In the following, we illustrate Methods 1 and 2 using the data `Florida.ts`. We are interested in making predictions for the period December 05-December 11, 2020, and we use a training set from the past week (November 28 to December 04, 2020). The linear regression model and exponential model will be fitted on the training set, and the fitted model is used to make predictions. Figure \@ref(fig:celt) shows the forecasts of the daily death count. 
@@ -425,7 +425,7 @@ usflu <- usflu.raw %>%
 usflu.ts <- as_tsibble(usflu, index = week) 
 ```
 
-Figure \@ref(fig:ilits) displays the weekly time series of ``weighted_ili`` from 2010 to 2019.
+In the following, we will consider the variable ``weighted_ili`` as the response, which is the percentage of outpatient doctor visits for influenza like illness, weighted by state population. Figure \@ref(fig:ilits) displays the weekly time series of ``weighted_ili`` from 2010 to 2019.
 
 ```{r ilits, message=FALSE, warning=FALSE, fig.height=3, fig.width=7, fig.align = "center", fig.cap="National influenza-like illness weekly time series."}
 usflu.ts %>% autoplot(weighted_ili) +
@@ -443,8 +443,8 @@ Y_{ij} = \beta_0 + \beta_1\sin(2\pi t_{ij}) + \beta_2\cos(2\pi t_{ij}) + \vareps
 where $t_{ij} \in [0,1]$, $\beta_0$ and $\beta_1$ are unknown coefficients. We will consider linear regression method to estimate $\beta_0$ and $\beta_1$.
 
 ```{r, message=FALSE, warning=FALSE}
-trig_fit <- lm(weighted_ili ~ sin(dec_date*2*pi) 
-               + cos(dec_date*2*pi),
+trig_fit <- lm(weighted_ili ~ sin(time_in_year*2*pi) 
+               + cos(time_in_year*2*pi),
                data = usflu)
 usflu$trig_preds <- predict(trig_fit)
 ```
@@ -605,3 +605,23 @@ l(\beta_0,\beta_1)&=&\sum_{i=1}^{n}\log{P(Y=y_{i}|x=x_{i})}\\
 \[
 \sum_{i=1}^{n}[u_{i}(\beta_0+ \beta_1 x_{i})-\log{\{1+\exp(\beta_0+ \beta_1 x_{i})\}}]
 \]
+
+## Exercises
+
+1. From `state.long` in the R package `slid`, choose a state. Hold out the last seven days as test data and use all the data except the last seven days as your training data. Fit the following models based on your training data.
+
+  a. Piecewise constant spline regression model with 15 interior knots.
+  
+  b. Truncated linear spline regression model with 10 interior knots.
+  
+  c. Natural spline regression model with 8 interior knots.
+  
+  d. Smoothing spline regression model with knots automatically selected by the 'mgcv' package.
+  
+  
+2. Demonstrate different model fits in Problem 1 in one time series plot. In addition, for each model fitted, make some residual plots, such as the ACF and the histogram. Provide some comments about the model fit and model comparison.
+
+3. Use the fitted natural spline regression model in Problem 1 to make a 7-day ahead prediction, and show the 95% prediction intervals. 
+
+
+
