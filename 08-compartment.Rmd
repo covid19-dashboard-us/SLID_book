@@ -34,7 +34,7 @@ where $\beta$ is the effective contact rate, and
 **Assumptions of SIS models**
 
 (i) The rate of new infections is determined by the incidence of mass action.
-(ii) Infectives leave the infective class and return to the susceptible class at a rate of $gamma I$ per unit time.
+(ii) Infectives leave the infective class and return to the susceptible class at a rate of $\gamma I$ per unit time.
 (iii) No one enters or leaves the population.
 (iv) No disease deaths occur, and the total population remains constant at $N$.
 
@@ -210,7 +210,7 @@ where $\beta$ is the effective contact rate, and
 \]
 i.e., (probability of transmission given a contact between a susceptible and an infectious individual) $\times$ (average rate of contact between susceptible and infected individuals).
 
-* $\mu$ is the birth/death rate;
+* birth rate and death rate are equal, which is denoted as $\mu$;
 
 * $\gamma$ is the removal rate, and $\gamma^{-1}$ is the average infectious period.
 

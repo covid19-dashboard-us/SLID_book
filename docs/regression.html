@@ -24,7 +24,7 @@
 <meta name="author" content="Lily Wang" />
 
 
-<meta name="date" content="2021-04-07" />
+<meta name="date" content="2021-04-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -664,12 +664,12 @@ m(t)=\beta_{0}+\beta_{1}t.
 <h3><span class="header-section-number">11.2.1</span> Piecewise constant splines</h3>
 <p>We break the time domain into bins, and fit a different constant in each bin. We create cut-off points <span class="math inline">\(k_1\)</span>, <span class="math inline">\(k_2\)</span>, , <span class="math inline">\(k_{N}\)</span> in the time domain, and then construct <span class="math inline">\(N + 1\)</span> piecewise constant basis functions:</p>
 <p><span class="math display">\[\begin{eqnarray*}
-  B_0(t) &amp;=&amp; I(t &lt;k_1) \\
-  B_1(t) &amp;=&amp; I(k_1 \leq t &lt;k_2) \\
-  B_2(t) &amp;=&amp; I(k_2 \leq t &lt;k_3) \\
-  \cdots &amp;=&amp;  \cdots \\
-  B_{N-1}(t) &amp;=&amp; I(k_{N-1} \leq t &lt;k_N) \\
-  B_N(t) &amp;=&amp; I(k_N \leq t)
+  B_0(t) &amp;=&amp; I(t &lt;k_1), \\
+  B_1(t) &amp;=&amp; I(k_1 \leq t &lt;k_2), \\
+  B_2(t) &amp;=&amp; I(k_2 \leq t &lt;k_3), \\
+  \cdots &amp;=&amp;  \cdots, \\
+  B_{N-1}(t) &amp;=&amp; I(k_{N-1} \leq t &lt;k_N), \\
+  B_N(t) &amp;=&amp; I(k_N \leq t),
 \end{eqnarray*}\]</span>
 where <span class="math inline">\(I(\cdot)\)</span> is an indicator function that returns a <span class="math inline">\(1\)</span> if the condition is true, indicator and returns a <span class="math inline">\(0\)</span> otherwise.</p>
 <p>Figure <a href="regression.html#fig:pcs">11.2</a> shows a fit for the daily new death count for Florida using piecewise constant splines.</p>
@@ -714,8 +714,7 @@ Figure 11.2: Piecewise constant spline smoothing for the daily new death count f
 </div>
 <div id="truncated-power-splines" class="section level3" number="11.2.2">
 <h3><span class="header-section-number">11.2.2</span> Truncated power splines</h3>
-<p>For univariate data, polynomial splines of degree <span class="math inline">\(p\)</span> can be represented by an appropriate sequence of <span class="math inline">\(N+p+1\)</span> spline basis functions, determined in turn by <span class="math inline">\(N\)</span> interior knots. These produce functions that are piecewise polynomials of degree <span class="math inline">\(p\)</span> between the knots, and joined up with continuity of degree
-<span class="math inline">\(p-1\)</span> at the knots. As an example consider linear splines, or piecewise linear functions.</p>
+<p>For univariate data, polynomial splines of degree <span class="math inline">\(p\)</span> can be represented by an appropriate sequence of <span class="math inline">\(N+p+1\)</span> spline basis functions, determined in turn by <span class="math inline">\(N\)</span> interior knots. These produce functions that are piecewise polynomials of degree <span class="math inline">\(p\)</span> between the knots, and joined up with continuity of degree <span class="math inline">\(p-1\)</span> at the knots. As an example consider linear splines, or piecewise linear functions.</p>
 <p>Let <span class="math inline">\(k_1 &lt; k_2 &lt; \ldots &lt; k_N\)</span> be <strong>knots</strong> in the time domain, for example, <span class="math inline">\([1, n]\)</span>. Let <span class="math inline">\(\phi_0(t) = 1\)</span>, <span class="math inline">\(\phi_1(t) = t\)</span>, <span class="math inline">\(\phi_j(t) = (t-k_{j-1})_{+}\)</span> for <span class="math inline">\(j = 2, \ldots, N+1\)</span> be the basis functions, where <span class="math inline">\(x_{+}\)</span> denotes positive part of <span class="math inline">\(x\)</span>. Then, the regression is piecewise linear with bends at the knots.</p>
 <div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="regression.html#cb317-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> Florida.ts<span class="sc">$</span>Y.Death</span>
 <span id="cb317-2"><a href="regression.html#cb317-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(Florida.ts)</span>
@@ -793,10 +792,8 @@ b_{j,r}(t)=\frac{t-k_{j}}{k_{j+r-1}-k_{j}}b_{j,r-1}(t)+\frac{k_{j+r}-t}{k_{j+r}-
 b_{j,2}(t)=\frac{t-k_{j}}{k_{j+1}-k_{j}}b_{j,1}(t)+\frac{k_{j+2}-t}{k_{j+2}-k_{j+1}}b_{j+1,1}(t).
 \]</span></p></li>
 </ul>
-<p>It is well known that the behavior of polynomials fit to data tends to be erratic near the boundaries, and extrapolation can be dangerous. These problems are exacerbated with splines. The polynomials fit beyond the boundary knots behave even more wildly than the corresponding global polynomials in that region. This can be conveniently summarized in terms of the pointwise
-variance of spline functions fit by least squares.</p>
-<p>A <strong>natural cubic spline</strong> adds additional constraints, namely that the function is linear beyond the boundary knots. This frees up four degrees of
-freedom (two constraints each in both boundary regions), which can be
+<p>It is well known that the behavior of polynomials fit to data tends to be erratic near the boundaries, and extrapolation can be dangerous. These problems are exacerbated with splines. The polynomials fit beyond the boundary knots behave even more wildly than the corresponding global polynomials in that region. This can be conveniently summarized in terms of the pointwise variance of spline functions fit by least squares.</p>
+<p>A <strong>natural cubic spline</strong> adds additional constraints, namely that the function is linear beyond the boundary knots. This frees up four degrees of freedom (two constraints each in both boundary regions), which can be
 spent more profitably by sprinkling more knots in the interior region.</p>
 <div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="regression.html#cb318-1" aria-hidden="true" tabindex="-1"></a><span class="co"># natural spline fit</span></span>
 <span id="cb318-2"><a href="regression.html#cb318-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(splines)</span>
@@ -1043,19 +1040,26 @@ Figure 11.5: Spline smoothing vs trigonometric regression fit.
 </div>
 <div id="logistic-regression" class="section level2" number="11.5">
 <h2><span class="header-section-number">11.5</span> Logistic regression</h2>
-<p>As the level of resolution of our analyses becomes greater, the spatial unit of interest typically shifts from areas to points. Instead of describing and explaining disease counts summarized by area, the objective here is to identify factors that influence the risk of disease being present or absent at specific locations (e.g. farm or household) using the binary labels ‘positive’ (i.e. disease present) or ‘negative’ (i.e. disease absent).</p>
-<p>When modelling binary data, explanatory variables are used to predict the probability of a study subject being disease positive (i.e. a ‘case’). Rather than modeling the response <span class="math inline">\(Y\)</span> directly, logistic regression models the probability that <span class="math inline">\(Y\)</span> belongs to a particular category.</p>
-<p>The logistic model solves the following problems:
+<p>As the level of resolution of our analyses becomes greater, the spatial unit of interest typically shifts from areas to points. Instead of describing and explaining disease counts summarized by area, the objective here is to identify factors that influence the risk of disease being present or absent at specific locations (e.g., farm or household) using the binary labels “positive” (disease present) or “negative” (disease absent).</p>
+<p>When modeling binary data, explanatory variables are used to predict the probability of a study subject being disease present (a “case”). We can use the dummy variable to code the response
+<span class="math display">\[
+Y=\left\{
+    \begin{array}{ll}
+      0, &amp; \mathrm{if~disease~present;} \\
+      1, &amp; \mathrm{if~disease~absent.}
+    \end{array}
+  \right.
+\]</span></p>
+<p>Rather than modeling the response <span class="math inline">\(Y\)</span> directly, logistic regression models the probability that <span class="math inline">\(Y\)</span> belongs to a particular category. The logistic model solves the following problems:
 <span class="math display">\[
 \log\left\{\frac{P(Y=1|X=x)}{P(Y=0|X=x)}\right\}=\beta_0+\beta_1x,
-\]</span></p>
-<p>for some unknown <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>, which we will estimate directly.</p>
-<p><span class="math inline">\(P(Y=0|X=x)=1-P(Y=1|X=x) \Rightarrow \log\left(\frac{p}{1-p}\right)=\beta_0+\beta_1x\)</span></p>
-<ul>
-<li><span class="math inline">\(p\)</span> is the probability that event <span class="math inline">\(Y\)</span> occurs (range <span class="math inline">\(=0\)</span> to 1).</li>
-<li><span class="math inline">\(p/(1-p)\)</span> is the <strong>odds ratio</strong> (range <span class="math inline">\(=0\)</span> to <span class="math inline">\(\infty\)</span>).</li>
-<li><span class="math inline">\(\log\left\{p/(1-p)\right\}\)</span> is <strong>log odds ratio</strong> or logit (range <span class="math inline">\(=-\infty\)</span> to <span class="math inline">\(\infty\)</span>).</li>
-</ul>
+\]</span>
+for some unknown <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>, which we will estimate directly. Note that <span class="math inline">\(P(Y=0|X=x)=1-P(Y=1|X=x)\)</span>, so we have
+<span class="math display">\[
+\log\left(\frac{p}{1-p}\right)=\beta_0+\beta_1x,
+\]</span>
+where <span class="math inline">\(p\)</span> is the probability that event <span class="math inline">\(Y\)</span> occurs,
+<span class="math inline">\(p/(1-p)\)</span> is the <strong>odds ratio</strong>, and <span class="math inline">\(\log\left\{p/(1-p)\right\}\)</span> is <strong>log odds ratio</strong> or <strong>logit</strong>.</p>
 <p><strong>Odds and Odds Ratios</strong></p>
 <ul>
 <li>The definitions of an <strong>odds</strong>: <span class="math inline">\(odds=\frac{p}{1-p}\)</span>.</li>

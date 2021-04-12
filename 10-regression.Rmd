@@ -170,12 +170,12 @@ m(t)=\beta_{0}+\beta_{1}t.
 We break the time domain into bins, and fit a different constant in each bin. We create cut-off points $k_1$, $k_2$, \ldots, $k_{N}$ in the time domain, and then construct $N + 1$ piecewise constant basis functions:
 
 \begin{eqnarray*}
-  B_0(t) &=& I(t <k_1) \\
-  B_1(t) &=& I(k_1 \leq t <k_2) \\
-  B_2(t) &=& I(k_2 \leq t <k_3) \\
-  \cdots &=&  \cdots \\
-  B_{N-1}(t) &=& I(k_{N-1} \leq t <k_N) \\
-  B_N(t) &=& I(k_N \leq t)
+  B_0(t) &=& I(t <k_1), \\
+  B_1(t) &=& I(k_1 \leq t <k_2), \\
+  B_2(t) &=& I(k_2 \leq t <k_3), \\
+  \cdots &=&  \cdots, \\
+  B_{N-1}(t) &=& I(k_{N-1} \leq t <k_N), \\
+  B_N(t) &=& I(k_N \leq t),
 \end{eqnarray*}
 where $I(\cdot)$ is an indicator function that returns a $1$ if the condition is true, indicator and returns a $0$ otherwise.
 
@@ -218,8 +218,7 @@ Florida.ts %>%
 
 ### Truncated power splines
 
-For univariate data, polynomial splines of degree $p$ can be represented by an appropriate sequence of $N+p+1$ spline basis functions, determined in turn by $N$ interior knots. These produce functions that are piecewise polynomials of degree $p$ between the knots, and joined up with continuity of degree
-$p-1$ at the knots. As an example consider linear splines, or piecewise linear functions. 
+For univariate data, polynomial splines of degree $p$ can be represented by an appropriate sequence of $N+p+1$ spline basis functions, determined in turn by $N$ interior knots. These produce functions that are piecewise polynomials of degree $p$ between the knots, and joined up with continuity of degree $p-1$ at the knots. As an example consider linear splines, or piecewise linear functions. 
 
 Let $k_1 < k_2 < \ldots < k_N$ be **knots** in the time domain, for example, $[1, n]$. Let $\phi_0(t) = 1$, $\phi_1(t) = t$, $\phi_j(t) = (t-k_{j-1})_{+}$ for $j = 2, \ldots, N+1$ be the basis functions, where $x_{+}$ denotes positive part of $x$. Then, the regression is piecewise linear with bends at the knots.
 
@@ -307,11 +306,9 @@ b_{j,r}(t)=\frac{t-k_{j}}{k_{j+r-1}-k_{j}}b_{j,r-1}(t)+\frac{k_{j+r}-t}{k_{j+r}-
 b_{j,2}(t)=\frac{t-k_{j}}{k_{j+1}-k_{j}}b_{j,1}(t)+\frac{k_{j+2}-t}{k_{j+2}-k_{j+1}}b_{j+1,1}(t).
 \]
 
-It is well known that the behavior of polynomials fit to data tends to be erratic near the boundaries, and extrapolation can be dangerous. These problems are exacerbated with splines. The polynomials fit beyond the boundary knots behave even more wildly than the corresponding global polynomials in that region. This can be conveniently summarized in terms of the pointwise
-variance of spline functions fit by least squares.
+It is well known that the behavior of polynomials fit to data tends to be erratic near the boundaries, and extrapolation can be dangerous. These problems are exacerbated with splines. The polynomials fit beyond the boundary knots behave even more wildly than the corresponding global polynomials in that region. This can be conveniently summarized in terms of the pointwise variance of spline functions fit by least squares.
 
-A **natural cubic spline** adds additional constraints, namely that the function is linear beyond the boundary knots. This frees up four degrees of
-freedom (two constraints each in both boundary regions), which can be
+A **natural cubic spline** adds additional constraints, namely that the function is linear beyond the boundary knots. This frees up four degrees of freedom (two constraints each in both boundary regions), which can be
 spent more profitably by sprinkling more knots in the interior region.
 
 ```{r message=FALSE, warning=FALSE, fig.height=3, fig.width=7, fig.align = "center"}
@@ -526,22 +523,30 @@ In \@ref(eq:log), the terms ($\beta_0+\beta_1X_{1i} +\cdots +\beta_pX_{pi}$) rep
 
 ## Logistic regression
 
-As the level of resolution of our analyses becomes greater, the spatial unit of interest typically shifts from areas to points. Instead of describing and explaining disease counts summarized by area, the objective here is to identify factors that influence the risk of disease being present or absent at specific locations (e.g. farm or household) using the binary labels ‘positive’ (i.e. disease present) or ‘negative’ (i.e. disease absent).
+As the level of resolution of our analyses becomes greater, the spatial unit of interest typically shifts from areas to points. Instead of describing and explaining disease counts summarized by area, the objective here is to identify factors that influence the risk of disease being present or absent at specific locations (e.g., farm or household) using the binary labels “positive” (disease present) or “negative” (disease absent). 
 
-When modelling binary data, explanatory variables are used to predict the probability of a study subject being disease positive (i.e. a ‘case’). Rather than modeling the response $Y$ directly, logistic regression models the probability that $Y$ belongs to a particular category.
 
-The logistic model solves the following problems:
+
+When modeling binary data, explanatory variables are used to predict the probability of a study subject being disease present (a “case”). We can use the dummy variable to code the response
+\[
+Y=\left\{
+    \begin{array}{ll}
+      0, & \mathrm{if~disease~present;} \\
+      1, & \mathrm{if~disease~absent.}
+    \end{array}
+  \right.
+\]
+
+Rather than modeling the response $Y$ directly, logistic regression models the probability that $Y$ belongs to a particular category. The logistic model solves the following problems:
 \[
 \log\left\{\frac{P(Y=1|X=x)}{P(Y=0|X=x)}\right\}=\beta_0+\beta_1x,
 \]
-
-for some unknown $\beta_0$ and $\beta_1$, which we will estimate directly.
-
-$P(Y=0|X=x)=1-P(Y=1|X=x) \Rightarrow \log\left(\frac{p}{1-p}\right)=\beta_0+\beta_1x$
-
-* $p$ is the probability that event $Y$ occurs (range $=0$ to 1).
-* $p/(1-p)$ is the **odds ratio** (range $=0$ to $\infty$).
-* $\log\left\{p/(1-p)\right\}$ is **log odds ratio** or logit (range $=-\infty$ to $\infty$).
+for some unknown $\beta_0$ and $\beta_1$, which we will estimate directly. Note that $P(Y=0|X=x)=1-P(Y=1|X=x)$, so we have
+\[
+\log\left(\frac{p}{1-p}\right)=\beta_0+\beta_1x,
+\]
+where $p$ is the probability that event $Y$ occurs, 
+$p/(1-p)$ is the **odds ratio**, and $\log\left\{p/(1-p)\right\}$ is **log odds ratio** or **logit**.
 
 
 **Odds and Odds Ratios**

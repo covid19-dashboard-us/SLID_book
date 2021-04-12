@@ -24,7 +24,7 @@
 <meta name="author" content="Lily Wang" />
 
 
-<meta name="date" content="2021-04-07" />
+<meta name="date" content="2021-04-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -544,17 +544,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="NN" class="section level1" number="12">
 <h1><span class="header-section-number">Chapter 12</span> Neural Networks</h1>
 <p>Machine learning methods are attractive in epidemiological modeling and projection with their great flexibility to capture disease spread patterns. In this chapter, we describe a popular machine learning method for epi-forecasting called neural networks.</p>
-<p>Artificial Neural Network is computing system inspired by biological neural network that constitute animal brain. Such systems “learn” to perform tasks by considering examples, generally without being programmed with any task-specific rules.</p>
+<p>Artificial Neural Network is a computing system inspired by a biological neural network that constitutes the animal brain. Such systems “learn” to perform tasks by considering examples, generally without being programmed with any task-specific rules.</p>
 <div id="a-single-neuron" class="section level2" number="12.1">
 <h2><span class="header-section-number">12.1</span> A Single Neuron</h2>
-<p>The basic unit of computation in a neural network is the neuron, often called a node or unit. It receives input from some other nodes, or from an external source and computes an output. Each input has an associated weight (<span class="math inline">\(w\)</span>), which is assigned on the basis of its relative importance to other inputs. The node applies a function <span class="math inline">\(f\)</span> (defined below) to the weighted sum of its inputs as shown in Figure <a href="NN.html#fig:NN1">12.1</a> below:</p>
+<p>The basic unit of computation in a neural network is the neuron, often called a node or unit. It receives input from some other nodes or an external source and computes an output. Each input has an associated weight (<span class="math inline">\(w\)</span>), which is assigned on the basis of its relative importance to other inputs. The node applies a function <span class="math inline">\(f\)</span> (defined below) to the weighted sum of its inputs as shown in Figure <a href="NN.html#fig:NN1">12.1</a> below:</p>
 <div class="figure" style="text-align: center"><span id="fig:NN1"></span>
 <img src="figures/NN1.png" alt="An illustration of a single neuron." width="40%" />
 <p class="caption">
 Figure 12.1: An illustration of a single neuron.
 </p>
 </div>
-<p>The above network takes numerical inputs <span class="math inline">\(X_0,X_1,X_2,X_3\)</span> and has weights <span class="math inline">\(\beta_0,\beta_1,\beta_2,\beta_3\)</span> associated with those inputs. The output <span class="math inline">\(a_1^{(2)}\)</span> from the neuron shown in the Figure <a href="NN.html#fig:NN1">12.1</a> is computed using <span class="math inline">\(g(\sum_{k=0}^{3}\beta_kX_k)\)</span>, where <span class="math inline">\(g(\cdot)\)</span> is non-linear and is called the <strong>Activation Function</strong>. The purpose of the activation function is to introduce non-linearity into the output of a neuron. This is important because most real world data is non linear and we want neurons to learn these non linear representations.</p>
+<p>The above network takes numerical inputs <span class="math inline">\(X_0,X_1,X_2,X_3\)</span> and has weights <span class="math inline">\(\beta_0,\beta_1,\beta_2,\beta_3\)</span> associated with those inputs. The output <span class="math inline">\(a_1^{(2)}\)</span> from the neuron shown in Figure <a href="NN.html#fig:NN1">12.1</a> is computed using <span class="math inline">\(g(\sum_{k=0}^{3}\beta_kX_k)\)</span>, where <span class="math inline">\(g(\cdot)\)</span> is non-linear and is called the <strong>Activation Function</strong>. The purpose of the activation function is to introduce non-linearity into the output of a neuron. This is important because most real data is non linear and we want neurons to learn these non linear representations.</p>
 <p>Every activation function (or non-linearity) takes a single number and performs a certain fixed mathematical operation on it. There are several activation functions you may encounter in practice:</p>
 <p><strong>Sigmoid:</strong> takes a real-valued input and squashes it to range between 0 and 1
 <span class="math display">\[
@@ -575,14 +575,21 @@ Figure 12.1: An illustration of a single neuron.
 Figure 12.2: An illustration of activation functions.
 </p>
 </div>
-<p>As the number of training data for each country is limited, we use a single-layer neural network called the extreme learning machine (ELM) to avoid over-fitting. Due to the non-stationary nature of the time-series, a sliding window approach is used to provide a more accurate prediction.</p>
+<p>As the number of training data for each country is limited, we use a single-layer neural network called the extreme learning machine (ELM) to avoid over-fitting. Due to the non-stationary nature of the time series, a sliding window approach is used to provide a more accurate prediction.</p>
 </div>
 <div id="neural-network-structure" class="section level2" number="12.2">
 <h2><span class="header-section-number">12.2</span> Neural Network Structure</h2>
-<p>Figure <a href="NN.html#fig:NN2">12.3</a> shows a neural network constructed from 3 type of layers:</p>
-<p><strong>Input Layer:</strong> The Input layer has four nodes. The other two nodes take <span class="math inline">\(X_1\)</span>, <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span> as external inputs (which are numerical values depending upon the input dataset). As discussed above, no computation is performed in the input layer, so the outputs from nodes in the Input layer are <span class="math inline">\(X_0\)</span>, <span class="math inline">\(X_1\)</span>, <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span> respectively, which are fed into the Hidden Layer.</p>
-<p><strong>Hidden Layer:</strong> The Hidden layer also has four nodes with the bias node <span class="math inline">\(a_0^{(2)}\)</span>. The output of the other two nodes in the Hidden layer depends on the outputs from the Input layer <span class="math inline">\((X_0, X_1, X_2, X_3)\)</span> as well as the weights associated with the connections (edges). Figure 4 shows the output calculation for one of the hidden nodes (highlighted). Similarly, the output from other hidden node can be calculated. Remember that <span class="math inline">\(g\)</span> refers to the activation function. These outputs are then fed to the nodes in the Output layer.</p>
-<p><strong>Output Layer:</strong> The Output layer has one nodes which takes inputs from the Hidden layer and perform similar computations as shown for the highlighted hidden node. The value calculated <span class="math inline">\(a_1^{(3)}\)</span> as a result of these computations act as the output.</p>
+<p>Figure <a href="NN.html#fig:NN2">12.3</a> shows a neural network constructed from three types of layers:</p>
+<p><strong>Input Layer:</strong> The Input layer has four nodes. The other three nodes take <span class="math inline">\(X_1\)</span>, <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span> as external inputs (which are numerical values depending upon the input dataset). As discussed above, no computation is performed in the input layer, so the outputs from nodes in the input layer are <span class="math inline">\(X_0\)</span>, <span class="math inline">\(X_1\)</span>, <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span>, respectively, which are fed into the hidden Layer.</p>
+<p><strong>Hidden Layer:</strong> The Hidden layer also has four nodes with the bias node <span class="math inline">\(a_0^{(2)}\)</span>. The output of the other two nodes in the Hidden layer depends on the outputs from the Input layer <span class="math inline">\((X_0, X_1, X_2, X_3)\)</span> as well as the weights associated with the connections (edges). Figure <a href="NN.html#fig:NN2coef">12.4</a> shows the output calculation for one of the hidden nodes (highlighted red). Let <span class="math inline">\(a^{(2)}_i\)</span> be the activation of unit <span class="math inline">\(i\)</span> in the hidden layer. For the hidden neuron <span class="math inline">\(i\)</span>, we have
+<span class="math display">\[
+\alpha_i^{(2)}=g\left(\sum_{j=0}^3\beta_{j,i}^{(1)}X_j\right),
+\]</span>
+where <span class="math inline">\(g\)</span> refers to the activation function.</p>
+<p><strong>Output Layer:</strong> These outputs are then fed to the nodes in the output layer. In this simple example, the Output layer has one node which takes inputs from the hidden layer. Similarly, the output <span class="math inline">\(a_1^{(3)}\)</span> can be calculated using
+<span class="math display">\[
+\alpha_1^{(3)}=g\left(\sum_{j=0}^3\beta_{j,1}^{(2)}\alpha_{j}^{(2)}\right).
+\]</span></p>
 <div class="figure" style="text-align: center"><span id="fig:NN2"></span>
 <img src="figures/NN2.png" alt="A neural network with one hidden layer." width="50%" />
 <p class="caption">
@@ -595,35 +602,28 @@ Figure 12.3: A neural network with one hidden layer.
 Figure 12.4: A neural network with one hidden layer.
 </p>
 </div>
-<p>As shown in Figure <a href="NN.html#fig:NN2coef">12.4</a>, let <span class="math inline">\(a^{(2)}_i\)</span> be the activation of unit <span class="math inline">\(k\)</span> in the hidden layer. For the hidden neuron <span class="math inline">\(i\)</span>, we have
-<span class="math display">\[
-\alpha_i^{(2)}=g\left(\sum_{j=0}^3\beta_{j,i}^{(1)}X_j\right),
-\]</span>
-and for the output neuron, we have
-<span class="math display">\[
-\alpha_1^{(3)}=g\left(\sum_{j=0}^3\beta_{j,1}^{(2)}\alpha_{j}^{(2)}\right).
-\]</span></p>
-<p>Let’s make it more general. Let <span class="math inline">\(a^{(j)}_i\)</span> be the activation of unit <span class="math inline">\(i\)</span> in layer <span class="math inline">\(j\)</span>, and let <span class="math inline">\(\boldsymbol{\beta}^{(j)}\)</span> be a weight matrix which stores parameters from layer <span class="math inline">\(j\)</span> to layer <span class="math inline">\(j+1\)</span>. If network has <span class="math inline">\(s_j\)</span> units in layer <span class="math inline">\(j\)</span> and <span class="math inline">\(s_{j+1}\)</span> units in layer <span class="math inline">\(j+1\)</span>, then <span class="math inline">\(\boldsymbol{\beta}^{(j)}\)</span> has dimension <span class="math inline">\(s_{j+1} \times (s_j+1)\)</span>. Next, we denote
-<span class="math display">\[
-\mathbf{X}= \begin{bmatrix}
-X_0 \\ 
-X_1 \\
-X_2 \\ 
-X_3 \\ 
-\end{bmatrix},~
-\mathbf{A}= \begin{bmatrix}
-a_0^{(2)} \\ 
-a_1^{(2)} \\
-a_2^{(2)} \\ 
-a_3^{(2)} \\ 
-\end{bmatrix},
-\]</span></p>
+<p>Let’s make it more general for a neureal network with muliple hidden layers. Let <span class="math inline">\(a^{(j)}_i\)</span> be the activation of unit <span class="math inline">\(i\)</span> in layer <span class="math inline">\(j\)</span>, and let <span class="math inline">\(\boldsymbol{\beta}^{(j)}\)</span> be a weight matrix which stores parameters from layer <span class="math inline">\(j\)</span> to layer <span class="math inline">\(j+1\)</span>. If network has <span class="math inline">\(s_j\)</span> units in layer <span class="math inline">\(j\)</span> and <span class="math inline">\(s_{j+1}\)</span> units in layer <span class="math inline">\(j+1\)</span>, then <span class="math inline">\(\boldsymbol{\beta}^{(j)}\)</span> has dimension <span class="math inline">\(s_{j+1} \times (s_j+1)\)</span>.
+<!-- Next, we denote -->
+<!-- \[ -->
+<!-- \mathbf{X}= \begin{bmatrix} -->
+<!-- X_0 \\  -->
+<!-- X_1 \\ -->
+<!-- X_2 \\  -->
+<!-- X_3 \\  -->
+<!-- \end{bmatrix},~ -->
+<!-- \mathbf{A}= \begin{bmatrix} -->
+<!-- a_0^{(2)} \\  -->
+<!-- a_1^{(2)} \\ -->
+<!-- a_2^{(2)} \\  -->
+<!-- a_3^{(2)} \\  -->
+<!-- \end{bmatrix}, -->
+<!-- \] --></p>
 <p>The neural network model has unknown parameters (weights), and we seek values for them that make the model fit the training data well. For regression, we use sum-of-squared errors as our measure of fit (error function). Thus, our objective function is
 <span class="math display">\[
-\ell(\boldsymbol{\beta}^{(1)}, \ldots, \boldsymbol{\beta}^{(L)})= \sum_{i=1}^{N}(Y_i - \widehat{Y}_i)^2.
+\ell(\boldsymbol{\beta}^{(1)}, \ldots, \boldsymbol{\beta}^{(L)})= \sum_{i=1}^{N}(Y_i - \hat{Y}_i)^2.
 \]</span></p>
-<p>Typically we don’t want the global minimizer of <span class="math inline">\(\ell(\cdot)\)</span>, as this is likely to be an overfit solution. Instead some regularization is needed: this is achieved directly through a penalty term, or indirectly by early stopping.</p>
-<p>The generic approach to minimizing <span class="math inline">\(\ell(\cdot)\)</span> is by gradient descent, called <strong>back-propagation</strong>; see details below. Because of the compositional form of the model, the gradient can be easily derived using the chain rule for differentiation. This can be computed by a forward and backward sweep over the network, keeping track only of quantities local to each unit.</p>
+<p>Typically we don’t want the global minimizer of <span class="math inline">\(\ell(\cdot)\)</span>, as this is likely to be an overfit solution. Instead, some regularization is needed: this is achieved directly through a penalty term, or indirectly by early stopping.</p>
+<p>The generic approach to minimizing <span class="math inline">\(\ell(\cdot)\)</span> is by gradient descent, called <strong>back-propagation</strong>; see details below. Because of the model’s compositional form, the gradient can be easily derived using the chain rule for differentiation. This can be computed by a forward and backward sweep over the network, keeping track only of quantities local to each unit.</p>
 <p>For any <span class="math inline">\(j\)</span>, a gradient descent update at the <span class="math inline">\(j\)</span>th iteration has the form
 <span class="math display">\[
 \boldsymbol{\beta}^{(j)} \leftarrow \boldsymbol{\beta}^{(j)} - \alpha \nabla_{\boldsymbol{\beta}^{(j)}} \ell(\boldsymbol{\beta}^{(1)}, \ldots, \boldsymbol{\beta}^{(L)}),
@@ -718,7 +718,7 @@ where <span class="math inline">\(g&#39;_0\)</span> is the derivative of the act
 <h2><span class="header-section-number">12.3</span> Overfitting</h2>
 <p>Often neural networks have too many weights and will overfit the data, so we add a penalty to the error function:
 <span class="math display">\[
-\sum_{j = 1}^{L} \|\boldsymbol{\beta}^{(j)}\|_F,~\|\boldsymbol{\beta}^{(j)}\|_F= \sum_{k=1}^{s_j} \sum_{k=1}^{s_{j+1}}(\beta^{(j)}_{k,k&#39;})^2,
+\sum_{j = 1}^{L} \|\boldsymbol{\beta}^{(j)}\|_F,~\|\boldsymbol{\beta}^{(j)}\|_F= \sum_{k=1}^{s_j} \sum_{k&#39;=1}^{s_{j+1}}(\beta^{(j)}_{k,k&#39;})^2,
 \]</span>
 where <span class="math inline">\(\|\boldsymbol{\beta}^{(j)}\|_F\)</span> is the Frobenius norm of matrix <span class="math inline">\(\boldsymbol{\beta}^{(j)}\)</span>.</p>
 <p>We minimize the following objective function
@@ -733,14 +733,14 @@ where <span class="math inline">\(\|\cdot\|_F\)</span> denotes the Frobenius nor
 <p>NNAR<span class="math inline">\((p,0)\)</span> model is equivalent to an ARIMA<span class="math inline">\((p,0,0)\)</span> model but without stationarity restrictions, but without the restrictions on the parameters to ensure stationarity.</p>
 <p>For seasonal data, we can consider seasonal NNAR<span class="math inline">\((p,P,k)\)</span>, which use inputs <span class="math inline">\((Y_{t-1},Y_{t-2},\ldots, Y_{t-p}, Y_{t-m}, Y_{t-2m},\ldots, Y_{t-Pm})\)</span> and <span class="math inline">\(k\)</span> neurons in the hidden layer. For example, an NNAR<span class="math inline">\((3,1,2)_{7}\)</span> model has inputs <span class="math inline">\((Y_{t-1},Y_{t-2}, Y_{t-3}, Y_{t-7})\)</span>, and two neurons in the hidden layer. An NNAR<span class="math inline">\((p,P,0)_m\)</span> model is equivalent to an ARIMA<span class="math inline">\((p,0,0)(P,0,0)_m\)</span> model but without stationarity restrictions.</p>
 <p><strong>NNAR models in R</strong></p>
-<p>The <code>nnetar()</code> function fits an NNAR<span class="math inline">\((p,P,k)_m\)</span> model. If <span class="math inline">\(p\)</span> and <span class="math inline">\(P\)</span> are not specified, they are automatically selected. For non-seasonal time series, default <span class="math inline">\(p =\)</span> optimal number of lags (according to the AIC) for a linear AR<span class="math inline">\((p)\)</span> model. For seasonal time series, defaults are <span class="math inline">\(P = 1\)</span> and <span class="math inline">\(P\)</span> is chosen from the optimal linear model fitted to the seasonally adjusted data. Default <span class="math inline">\(k = (p + P + 1)=2\)</span> (rounded to the nearest integer).</p>
+<p>The <code>nnetar()</code> function fits an NNAR<span class="math inline">\((p,P,k)_m\)</span> model. If <span class="math inline">\(p\)</span> and <span class="math inline">\(P\)</span> are not specified, they are automatically selected. For non-seasonal time series, default <span class="math inline">\(p =\)</span> optimal number of lags (according to the AIC) for a linear AR<span class="math inline">\((p)\)</span> model. For seasonal time series, defaults are <span class="math inline">\(P = 1\)</span> and <span class="math inline">\(P\)</span> is chosen from the optimal linear model fitted to the seasonally adjusted data. Default <span class="math inline">\(k = (p+P+1)=2\)</span> (rounded to the nearest integer).</p>
 <p>When it comes to forecasting, the network is applied iteratively. For forecasting one step ahead, we simply use the available historical inputs. For forecasting two steps ahead, we use the one-step forecast as an input, along with the historical data. This process proceeds until we have computed all the required forecasts.</p>
 </div>
 <div id="covid-19-forecasting" class="section level2" number="12.5">
 <h2><span class="header-section-number">12.5</span> COVID-19 Forecasting</h2>
-<p>The number of cases, we define <span class="math inline">\(x_n = (y_{n-w+1}, ..., y_{n-1}, y_n)^{\top}\in R^{w}\)</span> and <span class="math inline">\(t_n = y_{n+h}\in R\)</span>. We use cross-validation to find the proper window size <span class="math inline">\(w\)</span>, number of hidden neurons <span class="math inline">\(L\)</span>, and the regularization hyperparameter <span class="math inline">\(\lambda\)</span>.</p>
+<p>To forecast the future number of cases, we define <span class="math inline">\(\mathbf{y} = (y_{n-w+1}, \ldots, y_{n-1}, y_n)^{\top}\in R^{w}\)</span>. We are interested in predict <span class="math inline">\(y_{n+h}\in R\)</span>. We use cross-validation to find the proper window size <span class="math inline">\(w\)</span>, number of hidden neurons <span class="math inline">\(L\)</span>, and the regularization hyperparameter <span class="math inline">\(\lambda\)</span>.</p>
 <p>The <code>nnetar</code> function in the <code>forecast</code> package for R fits a feed-forward neural networks model with a single hidden layer and lagged inputs for forecasting univariate time series. It uses lagged values of the time series as inputs (and possibly some other exogenous inputs).</p>
-<p>To use the <code>forecast</code> package, it is better to store the time series as a <code>ts</code> object in R. Let us consider the time series of daily new death counts for Florida, and we first turn this into a <code>ts</code> object using the <code>ts</code> function. There is a “frequency” argument in the <code>ts()</code> function, which needs to be set appropriately for your data. Here the “frequency” is the number of observations per “cycle.” For annual data, frequency <span class="math inline">\(=1\)</span>; for quarterly data, frequency <span class="math inline">\(=4\)</span>; for monthly data, frequency <span class="math inline">\(=12\)</span>, and for weekly data, frequency <span class="math inline">\(=52\)</span>. If the frequency of observations is greater than once per week, then there is usually more than one way of handling the frequency. For example, data with daily observations might have a weekly seasonality (frequency <span class="math inline">\(=7\)</span>) or an annual seasonality (frequency <span class="math inline">\(=365.25\)</span>). Read [Seasonal periods][<a href="https://robjhyndman.com/hyndsight/seasonal-periods/" class="uri">https://robjhyndman.com/hyndsight/seasonal-periods/</a>] for explanation how to set the frequency for seasonal period in <code>ts</code> objects. Since we have observed the 7-day cycle for this data, we can simply add a <code>frequency = 7</code> argument.</p>
+<p>To use the <code>forecast</code> package, it is better to store the time series as a <code>ts</code> object in R. Let us consider the time series of daily new death counts for Florida, and we first turn this into a <code>ts</code> object using the <code>ts</code> function. There is a “frequency” argument in the <code>ts()</code> function, which needs to be set appropriately for your data. Here the “frequency” is the number of observations per “cycle.” For annual data, frequency <span class="math inline">\(=1\)</span>; for quarterly data, frequency <span class="math inline">\(=4\)</span>; for monthly data, frequency <span class="math inline">\(=12\)</span>, and for weekly data, frequency <span class="math inline">\(=52\)</span>. If the frequency of observations is greater than once per week, then there is usually more than one way of handling the frequency. For example, data with daily observations might have a weekly seasonality (frequency <span class="math inline">\(=7\)</span>) or an annual seasonality (frequency <span class="math inline">\(=365.25\)</span>). Read the online materials of <a href="https://robjhyndman.com/hyndsight/seasonal-periods/">Seasonal Periods</a> for an explanation about how to set the frequency for the seasonal period in <code>ts</code> objects. Since we have observed the 7-day cycle for this data, we can simply add a <code>frequency = 7</code> argument.</p>
 <div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="NN.html#cb334-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb334-2"><a href="NN.html#cb334-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(slid)</span>
 <span id="cb334-3"><a href="NN.html#cb334-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(state.ts)</span>
@@ -876,9 +876,9 @@ Figure 12.11: An example of neural network with one hidden layer.
 <li>From <code>state.long</code> in the R package <code>slid</code>, choose a state and focus on the daily new death count.</li>
 </ol>
 <ol style="list-style-type: lower-alpha">
-<li><p>Apply the <code>nnetar</code> to your time series diectly, and report the fitted model.</p></li>
+<li><p>Apply the <code>nnetar</code> to your time series directly and report the fitted model.</p></li>
 <li><p>Based on the model in Part a, make a 7-day ahead forecast, and provide the 95% prediction intervals.</p></li>
-<li><p>Apply the <code>nnetar</code> to the log-transformed time series, and repart the fitted model.</p></li>
+<li><p>Apply the <code>nnetar</code> to the log-transformed time series and report the fitted model.</p></li>
 <li><p>Based on the model in Part c, make a 7-day ahead forecast, and provide the 95% prediction intervals.</p></li>
 </ol>
 
