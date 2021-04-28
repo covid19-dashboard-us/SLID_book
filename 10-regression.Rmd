@@ -284,7 +284,6 @@ where $\{\hat{\beta}_{0},\ldots,\hat{\beta}_{p},\hat{\gamma}_{1},\ldots,\hat{\ga
 
 Both B-splines and natural splines similarly define a basis over the time domain. They are made up of piecewise polynomials of a given degree, and have defined derivatives similarly to the piecewise defined functions.
 
-
 To introduce the space of splines, we pre-select an integer $N$, and divide the time domain $[a,b]$ into $(N+1)$ subintervals $J_{j}=[k_{j},k_{j+1})$, $j=0,\ldots,N-1$, $J_{N}=[k_{N},b]$, where $\{k_{j}\}_{j=1}^{N}$ is a sequence of equally-spaced points, called interior knots, given as
 \[
 k_{1-p}=...=k_{-1}=k_{0}=a<k_{1}<\ldots<k_{N}<b=k_{N+1}=\ldots=k_{N+p},
@@ -525,8 +524,6 @@ In \@ref(eq:log), the terms ($\beta_0+\beta_1X_{1i} +\cdots +\beta_pX_{pi}$) rep
 
 As the level of resolution of our analyses becomes greater, the spatial unit of interest typically shifts from areas to points. Instead of describing and explaining disease counts summarized by area, the objective here is to identify factors that influence the risk of disease being present or absent at specific locations (e.g., farm or household) using the binary labels “positive” (disease present) or “negative” (disease absent). 
 
-
-
 When modeling binary data, explanatory variables are used to predict the probability of a study subject being disease present (a “case”). We can use the dummy variable to code the response
 \[
 Y=\left\{
@@ -545,45 +542,47 @@ for some unknown $\beta_0$ and $\beta_1$, which we will estimate directly. Note 
 \[
 \log\left(\frac{p}{1-p}\right)=\beta_0+\beta_1x,
 \]
-where $p$ is the probability that event $Y$ occurs, 
-$p/(1-p)$ is the **odds ratio**, and $\log\left\{p/(1-p)\right\}$ is **log odds ratio** or **logit**.
+where $p$ is the probability that event $Y$ occurs.
 
+### Odds and odds ratios
 
-**Odds and Odds Ratios**
+#### Odds
 
-* The definitions of an **odds**: $odds=\frac{p}{1-p}$.
+**Odds** are the probability of an event occurring ($p$) divided by the probability of the event not occurring ($1-p$), i.e., $odds=p/(1-p)$. For example, suppose that the probability of mortality is 0.25 in a group of patients. This can be expressed as the odds of dying: $0.25/(1-0.25)=0.333$. The odds has a range from 0 to $\infty$ with values greater than 1 associated with an event being more likely to occur than not occur and values less than 1 associated with an event that is less likely to occur than not occur.
 
-The odds has a range from 0 to $\infty$ with values greater than 1 associated with an event being more likely to occur than not occur and values less than 1 associated with an event that is less likely to occur than not occur.
-
-* The **logit** is defined as the log of the odds:
-
+The **logit** is defined as the log of the odds:
 \[
 \log (\mathrm{odds})=\log\left(\frac{p}{1-p}\right)=\log{(p)}-\log{(1-p)}.
 \]
 
-* This transformation is useful because it creates a variable with a range from $-\infty$ to $\infty$. Hence, this transformation solves the problem we encountered in fitting a linear model to probabilities. Because probabilities only range from 0 to 1, we can get linear predictions that are outside of this range.
+This transformation is useful because it creates a variable with a range from $-\infty$ to $\infty$. Hence, this transformation solves the problem we encountered in fitting a linear model to probabilities. Because probabilities only range from 0 to 1, we can get linear predictions that are outside of this range.
 
-* The interpretation of logits is simple -- take the exponential of the logit and you have the odds for the two groups in question.
+The interpretation of logits is simple -- take the exponential of the logit and you have the odds for the two groups in question.
  
-**Interpretation**
+#### Odds ratio
 
-* The logit distribution constrains the estimated probabilities to lie between 0 and 1.
-
-* The estimated probability is
-
+For a continuous independent variable the **odds ratio** can be defined as:
 \[
-p=P(Y=1|X=x)=\frac{\exp(\beta_0+\beta_1x)}{1+\exp(\beta_0+\beta_1x)}.
+\text{OR}=\frac{\text{odd}(x+1)}{\text{odd}(x)}=\frac{\exp(\beta_0+\beta_1(x+1))}{\exp(\beta_0+\beta_1x)}=\exp(\beta_1).
+\]
+Thus, the **log odds ratio** is $\beta_1$. Although mathematically the log odds ratios are easier to work with, when it comes to interpretation, it is more natural to use the odds ratios. Unlike the log odds ratio, the odds ratio is always positive. A value of 1 indicates no change. Values between 0 and less than 1 indicate a decrease in the probability of the outcome event. Values greater than 1 indicate an increase in the probability of the outcome event.
+
+When the independent variable is a categorical variable, the **odds ratio** is the increase or decrease in odds over the baseline category. For a binary independent variable the odds ratio is defined as the odd of an event happening under two different conditions. For example, consider the following contigency table:
+
+| |Disease|No Disease|
+|----------|----------|----------|       
+|Exposed| a | b |
+|Unexposed| c | d|
+
+The odd ratio is defined as 
+\[
+\text{OR}=\frac{a/c}{b/d}=\frac{ad}{bc}.
 \]
 
-* If $\beta_0+\beta_1x=0$, then $p=0.5$.
-* As $\beta_0+\beta_1x$ gets really big, $p$ approaches 1.
-* As $\beta_0+\beta_1x$ gets really small, $p$ approaches 0.
 
-**Estimating Logistic Regression Coefficients** 
+### Estimating logistic regression coefficients 
 
-* Suppose that we are given a sample $(x_{i},y_{i})$, $i=1,\ldots,n$. Here $y_{i}$ denotes the class $\in\{0,1\}$ of the $i$th observation.
-
-* Assume that the classes are conditionally independent given $x_{1},\ldots,x_{n}$, then
+Suppose that we are given a sample $(x_{i},y_{i})$, $i=1,\ldots,n$, where $y_{i}$ denotes the class $\in\{0,1\}$ of the $i$th observation. Assume that the classes are conditionally independent given $x_{1},\ldots,x_{n}$, then
 \[
 \mathbb{L}(\beta_0,\beta_1)=\prod_{i=1}^{n}P(Y=y_{i}|X=x_{i}),
 \]
@@ -592,24 +591,39 @@ the likelihood of these $n$ observations, so the log likelihood is
 l(\beta_0,\beta_1)=\sum_{i=1}^{n}\log{P(Y=y_{i}|X=x_{i})}.
 \]
 
-* For convenience, we define the indicator $u_{i}=\left\{\begin{array}{cc}
+For convenience, we define the indicator $u_{i}=\left\{\begin{array}{cc}
 											1 &\mathrm{if}~y_{i}=1\\
 											0 &\mathrm{if}~y_{i}=0
 										     \end{array}\right.$
 
-**Estimating Logistic Regression Coefficients** 
-
-* The log-likelihood can be written as
+Then, the log-likelihood can be written as
 
 \begin{eqnarray*}
 l(\beta_0,\beta_1)&=&\sum_{i=1}^{n}\log{P(Y=y_{i}|x=x_{i})}\\
 &=&\sum_{i=1}^{n}[u_{i}(\beta_0+ \beta_1 x_{i})-\log{\{1+\exp(\beta_0+ \beta_1 x_{i})\}}]
 \end{eqnarray*}
 
-* The coefficients are estimated by maximizing the likelihood,
+The coefficients are estimated by maximizing the likelihood,
 \[
-\sum_{i=1}^{n}[u_{i}(\beta_0+ \beta_1 x_{i})-\log{\{1+\exp(\beta_0+ \beta_1 x_{i})\}}]
+\sum_{i=1}^{n}\left[u_{i}(\beta_0+ \beta_1 x_{i})-
+\log{\{1+\exp(\beta_0+ \beta_1 x_{i})\}}\right].
 \]
+
+### Logistic regression with multiple explanatory variables
+
+Logistic regression is widely used to assess the likelihood of an infectious disease as a function of a risk or exposure factor (and covariates), to illustrate the exposure-response relationship. If there are multiple explanatory variables $X_{1},\ldots,X_{p}$, then we can consider the following logistic regression model
+\[
+\log\left(\frac{p}{1-p}\right)=\beta_{0}+\beta_{1}X_{1}+\cdots+\beta_{p}X_{p}.
+\]
+Odds ratios are the increase or decrease in odds associated with a unit change of the predictor, all other predictors been held constant.
+
+The predicted value is
+\[
+\hat{p}=\frac{e^{\hat{\beta}_{0}+\hat{\beta}_{1}X_{1}+\cdots+\hat{\beta}_{p}X_{p}}}{1+e^{\hat{\beta}_{0}+\hat{\beta}_{1}X_{1}+\cdots+\hat{\beta}_{p}X_{p}}}.
+\]
+
+To do a logistic regression analysis, we can implement the R function `glm()` using the `family = binomial` argument. You can use the `predict()` function along with the results of a `glm()` object to predict new data.
+
 
 ## Exercises
 

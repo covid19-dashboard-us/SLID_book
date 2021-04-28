@@ -297,7 +297,23 @@ names(nnar.fc.report) <- c("Y.Death", "DATE")
   guides(color = guide_legend(title = "Series"))
 ```
 
-Note that the NNAR model is a nonlinear autogressive model, and it is not possible to analytically derive prediction intervals. Below we use the simulation method to generate simulated paths.
+Note that the NNAR model is a nonlinear autogressive model, and it is not possible to analytically derive prediction intervals. Below we use a bootstrap method to generate simulated paths. Consider the following NNAR$(p, k)$ model:
+\[
+Y_t = f(Y_{t-1}, \ldots,Y_{t-p})+\varepsilon_t,
+\]
+where $f$ is a neural network with $k$ hidden nodes in a single layer. The error series $\{\varepsilon_t\}$  is assumed to be homogeneous.
+
+We can simulate future sample paths of this model iteratively, by randomly generating a value for $\varepsilon_t$, either from a normal distribution, or by resampling from the historical values. For example, let $\varepsilon_{T+1}^{*}$ be a random draw from the distribution of errors at time$T+1$, then we can obtain
+\[
+Y_{T+1}^{*} = f(Y_{T}, \ldots,Y_{T-p+1})+\varepsilon_{T+1}^{*},
+\]
+which is one possible draw from the forecast distribution for $Y_{T+1} $. We can then repeat the process to get 
+\[
+Y_{T+2}^{*} = f(Y_{T+1}^{*}, Y_{T}, \ldots,Y_{T-p+1})+\varepsilon_{T+2}^{*},
+\] 
+and obtain a sample path $\{Y_{T+1}^{*},Y_{T+2}^{*},\ldots,Y_{T+h}^{*}\}$. 
+
+If we generate many sample paths, we can get a good picture of the forecast distributions, which can be used to construct the prediction intervals. For example, below we set up `npaths = 500` to generate 500 simulation bootstrap paths and construct prediction intervals.
 
 ```{r, warning=FALSE, message=FALSE}
 fcast <- forecast(fit, PI = TRUE, h = 14, npaths = 500)

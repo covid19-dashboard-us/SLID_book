@@ -24,7 +24,7 @@
 <meta name="author" content="Lily Wang" />
 
 
-<meta name="date" content="2021-04-12" />
+<meta name="date" content="2021-04-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -448,7 +448,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="11.3" data-path="regression.html"><a href="regression.html#example-cdc-fluview-portal-data"><i class="fa fa-check"></i><b>11.3</b> Example: CDC FluView Portal Data</a></li>
 <li class="chapter" data-level="11.4" data-path="regression.html"><a href="regression.html#poisson-regression"><i class="fa fa-check"></i><b>11.4</b> Poisson regression</a></li>
-<li class="chapter" data-level="11.5" data-path="regression.html"><a href="regression.html#logistic-regression"><i class="fa fa-check"></i><b>11.5</b> Logistic regression</a></li>
+<li class="chapter" data-level="11.5" data-path="regression.html"><a href="regression.html#logistic-regression"><i class="fa fa-check"></i><b>11.5</b> Logistic regression</a>
+<ul>
+<li class="chapter" data-level="11.5.1" data-path="regression.html"><a href="regression.html#odds-and-odds-ratios"><i class="fa fa-check"></i><b>11.5.1</b> Odds and odds ratios</a></li>
+<li class="chapter" data-level="11.5.2" data-path="regression.html"><a href="regression.html#estimating-logistic-regression-coefficients"><i class="fa fa-check"></i><b>11.5.2</b> Estimating logistic regression coefficients</a></li>
+<li class="chapter" data-level="11.5.3" data-path="regression.html"><a href="regression.html#logistic-regression-with-multiple-explanatory-variables"><i class="fa fa-check"></i><b>11.5.3</b> Logistic regression with multiple explanatory variables</a></li>
+</ul></li>
 <li class="chapter" data-level="11.6" data-path="regression.html"><a href="regression.html#exercises-6"><i class="fa fa-check"></i><b>11.6</b> Exercises</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="NN.html"><a href="NN.html"><i class="fa fa-check"></i><b>12</b> Neural Networks</a>
@@ -473,6 +478,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13.3.1" data-path="ensemble.html"><a href="ensemble.html#perform-cross-validation-on-a-time-series"><i class="fa fa-check"></i><b>13.3.1</b> Perform cross validation on a time series</a></li>
 </ul></li>
 <li class="chapter" data-level="13.4" data-path="ensemble.html"><a href="ensemble.html#weights-selection-using-cross-validation"><i class="fa fa-check"></i><b>13.4</b> Weights Selection Using Cross Validation</a></li>
+<li class="chapter" data-level="13.5" data-path="ensemble.html"><a href="ensemble.html#a-project"><i class="fa fa-check"></i><b>13.5</b> A Project</a>
+<ul>
+<li class="chapter" data-level="13.5.1" data-path="ensemble.html"><a href="ensemble.html#projection"><i class="fa fa-check"></i><b>13.5.1</b> Projection</a></li>
+<li class="chapter" data-level="13.5.2" data-path="ensemble.html"><a href="ensemble.html#visualization"><i class="fa fa-check"></i><b>13.5.2</b> Visualization</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i>Appendix</a></li>
@@ -741,19 +751,19 @@ where <span class="math inline">\(\|\cdot\|_F\)</span> denotes the Frobenius nor
 <p>To forecast the future number of cases, we define <span class="math inline">\(\mathbf{y} = (y_{n-w+1}, \ldots, y_{n-1}, y_n)^{\top}\in R^{w}\)</span>. We are interested in predict <span class="math inline">\(y_{n+h}\in R\)</span>. We use cross-validation to find the proper window size <span class="math inline">\(w\)</span>, number of hidden neurons <span class="math inline">\(L\)</span>, and the regularization hyperparameter <span class="math inline">\(\lambda\)</span>.</p>
 <p>The <code>nnetar</code> function in the <code>forecast</code> package for R fits a feed-forward neural networks model with a single hidden layer and lagged inputs for forecasting univariate time series. It uses lagged values of the time series as inputs (and possibly some other exogenous inputs).</p>
 <p>To use the <code>forecast</code> package, it is better to store the time series as a <code>ts</code> object in R. Let us consider the time series of daily new death counts for Florida, and we first turn this into a <code>ts</code> object using the <code>ts</code> function. There is a “frequency” argument in the <code>ts()</code> function, which needs to be set appropriately for your data. Here the “frequency” is the number of observations per “cycle.” For annual data, frequency <span class="math inline">\(=1\)</span>; for quarterly data, frequency <span class="math inline">\(=4\)</span>; for monthly data, frequency <span class="math inline">\(=12\)</span>, and for weekly data, frequency <span class="math inline">\(=52\)</span>. If the frequency of observations is greater than once per week, then there is usually more than one way of handling the frequency. For example, data with daily observations might have a weekly seasonality (frequency <span class="math inline">\(=7\)</span>) or an annual seasonality (frequency <span class="math inline">\(=365.25\)</span>). Read the online materials of <a href="https://robjhyndman.com/hyndsight/seasonal-periods/">Seasonal Periods</a> for an explanation about how to set the frequency for the seasonal period in <code>ts</code> objects. Since we have observed the 7-day cycle for this data, we can simply add a <code>frequency = 7</code> argument.</p>
-<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="NN.html#cb334-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb334-2"><a href="NN.html#cb334-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(slid)</span>
-<span id="cb334-3"><a href="NN.html#cb334-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(state.ts)</span>
-<span id="cb334-4"><a href="NN.html#cb334-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb334-5"><a href="NN.html#cb334-5" aria-hidden="true" tabindex="-1"></a>Florida.ts <span class="ot">&lt;-</span> state.ts <span class="sc">%&gt;%</span></span>
-<span id="cb334-6"><a href="NN.html#cb334-6" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(State <span class="sc">==</span> <span class="st">&quot;Florida&quot;</span>)  </span>
-<span id="cb334-7"><a href="NN.html#cb334-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb334-8"><a href="NN.html#cb334-8" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">ts</span>(Florida.ts<span class="sc">$</span>Y.Death, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2020</span>,<span class="dv">1</span>), <span class="at">frequency =</span> <span class="dv">7</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="NN.html#cb335-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb335-2"><a href="NN.html#cb335-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(slid)</span>
+<span id="cb335-3"><a href="NN.html#cb335-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(state.ts)</span>
+<span id="cb335-4"><a href="NN.html#cb335-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb335-5"><a href="NN.html#cb335-5" aria-hidden="true" tabindex="-1"></a>Florida.ts <span class="ot">&lt;-</span> state.ts <span class="sc">%&gt;%</span></span>
+<span id="cb335-6"><a href="NN.html#cb335-6" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(State <span class="sc">==</span> <span class="st">&quot;Florida&quot;</span>)  </span>
+<span id="cb335-7"><a href="NN.html#cb335-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb335-8"><a href="NN.html#cb335-8" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">ts</span>(Florida.ts<span class="sc">$</span>Y.Death, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2020</span>,<span class="dv">1</span>), <span class="at">frequency =</span> <span class="dv">7</span>)</span></code></pre></div>
 <p>Simply applying the default <code>nnetar()</code> function, we obtain feed-forward neural networks model NNAR<span class="math inline">\((21,1,11)_7\)</span>. It is based on an average of 20 networks, each of which is NNAR<span class="math inline">\((21,1,11)_7\)</span> with 254 weights.</p>
-<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="NN.html#cb335-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
-<span id="cb335-2"><a href="NN.html#cb335-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2020</span>)</span>
-<span id="cb335-3"><a href="NN.html#cb335-3" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">nnetar</span>(y)</span>
-<span id="cb335-4"><a href="NN.html#cb335-4" aria-hidden="true" tabindex="-1"></a>fit</span></code></pre></div>
+<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="NN.html#cb336-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb336-2"><a href="NN.html#cb336-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2020</span>)</span>
+<span id="cb336-3"><a href="NN.html#cb336-3" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">nnetar</span>(y)</span>
+<span id="cb336-4"><a href="NN.html#cb336-4" aria-hidden="true" tabindex="-1"></a>fit</span></code></pre></div>
 <pre><code>## Series: y 
 ## Model:  NNAR(21,1,11)[7] 
 ## Call:   nnetar(y = y)
@@ -763,22 +773,22 @@ where <span class="math inline">\(\|\cdot\|_F\)</span> denotes the Frobenius nor
 ## options were - linear output units 
 ## 
 ## sigma^2 estimated as 6.598</code></pre>
-<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="NN.html#cb337-1" aria-hidden="true" tabindex="-1"></a>nnar.fc.report <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">forecast</span>(fit, <span class="at">h =</span> <span class="dv">14</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb337-2"><a href="NN.html#cb337-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">DATE =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020-12-11&quot;</span>) <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">14</span>)</span>
-<span id="cb337-3"><a href="NN.html#cb337-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(nnar.fc.report) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Y.Death&quot;</span>, <span class="st">&quot;DATE&quot;</span>)</span>
-<span id="cb337-4"><a href="NN.html#cb337-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb337-5"><a href="NN.html#cb337-5" aria-hidden="true" tabindex="-1"></a><span class="co"># plot of reported vs NNAR predictions</span></span>
-<span id="cb337-6"><a href="NN.html#cb337-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb337-7"><a href="NN.html#cb337-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> DATE, <span class="at">y =</span> Y.Death, <span class="at">color =</span> <span class="st">&quot;Reported&quot;</span>), </span>
-<span id="cb337-8"><a href="NN.html#cb337-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> Florida.ts) <span class="sc">+</span></span>
-<span id="cb337-9"><a href="NN.html#cb337-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> DATE, <span class="at">y =</span> Y.Death, <span class="at">color =</span> <span class="st">&quot;NNAR&quot;</span>), </span>
-<span id="cb337-10"><a href="NN.html#cb337-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> nnar.fc.report) <span class="sc">+</span></span>
-<span id="cb337-11"><a href="NN.html#cb337-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(</span>
-<span id="cb337-12"><a href="NN.html#cb337-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="at">Reported =</span> <span class="st">&quot;black&quot;</span>, <span class="at">NNAR =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb337-13"><a href="NN.html#cb337-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb337-14"><a href="NN.html#cb337-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Death count&quot;</span>,</span>
-<span id="cb337-15"><a href="NN.html#cb337-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Reported vs NNAR(21,1,11)[7] predictions&quot;</span>) <span class="sc">+</span></span>
-<span id="cb337-16"><a href="NN.html#cb337-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="st">&quot;Series&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="NN.html#cb338-1" aria-hidden="true" tabindex="-1"></a>nnar.fc.report <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">forecast</span>(fit, <span class="at">h =</span> <span class="dv">14</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb338-2"><a href="NN.html#cb338-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">DATE =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020-12-11&quot;</span>) <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">14</span>)</span>
+<span id="cb338-3"><a href="NN.html#cb338-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(nnar.fc.report) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Y.Death&quot;</span>, <span class="st">&quot;DATE&quot;</span>)</span>
+<span id="cb338-4"><a href="NN.html#cb338-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb338-5"><a href="NN.html#cb338-5" aria-hidden="true" tabindex="-1"></a><span class="co"># plot of reported vs NNAR predictions</span></span>
+<span id="cb338-6"><a href="NN.html#cb338-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb338-7"><a href="NN.html#cb338-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> DATE, <span class="at">y =</span> Y.Death, <span class="at">color =</span> <span class="st">&quot;Reported&quot;</span>), </span>
+<span id="cb338-8"><a href="NN.html#cb338-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> Florida.ts) <span class="sc">+</span></span>
+<span id="cb338-9"><a href="NN.html#cb338-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> DATE, <span class="at">y =</span> Y.Death, <span class="at">color =</span> <span class="st">&quot;NNAR&quot;</span>), </span>
+<span id="cb338-10"><a href="NN.html#cb338-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> nnar.fc.report) <span class="sc">+</span></span>
+<span id="cb338-11"><a href="NN.html#cb338-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(</span>
+<span id="cb338-12"><a href="NN.html#cb338-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="at">Reported =</span> <span class="st">&quot;black&quot;</span>, <span class="at">NNAR =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb338-13"><a href="NN.html#cb338-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb338-14"><a href="NN.html#cb338-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Death count&quot;</span>,</span>
+<span id="cb338-15"><a href="NN.html#cb338-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Reported vs NNAR(21,1,11)[7] predictions&quot;</span>) <span class="sc">+</span></span>
+<span id="cb338-16"><a href="NN.html#cb338-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="st">&quot;Series&quot;</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:nnetar1"></span>
 <img src="SLID_book_files/figure-html/nnetar1-1.png" alt="Two weeks ahead forecast of the daily new death count for Florida using nnetar." width="672" />
 <p class="caption">
@@ -792,8 +802,8 @@ Figure 12.8: Two weeks ahead forecast of the daily new death count for Florida u
 </ul>
 <p>We can consider a Box-Cox transformation for the data. For example, if we want to restrict to positive values, we can consider a Box-Cox transformation parameter <code>lambda</code>.</p>
 <p>If <code>lambda = auto</code>, then a transformation is automatically selected using <code>BoxCox.lambda</code>. The transformation is ignored if <code>NULL</code>. Otherwise, data transformed before model is estimated.</p>
-<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="NN.html#cb338-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">nnetar</span>(y <span class="sc">+</span> <span class="dv">1</span>, <span class="at">lambda =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">5</span>)</span>
-<span id="cb338-2"><a href="NN.html#cb338-2" aria-hidden="true" tabindex="-1"></a>fit</span></code></pre></div>
+<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="NN.html#cb339-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">nnetar</span>(y <span class="sc">+</span> <span class="dv">1</span>, <span class="at">lambda =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">5</span>)</span>
+<span id="cb339-2"><a href="NN.html#cb339-2" aria-hidden="true" tabindex="-1"></a>fit</span></code></pre></div>
 <pre><code>## Series: y + 1 
 ## Model:  NNAR(14,1,5)[7] 
 ## Call:   nnetar(y = y + 1, size = 5, lambda = 0)
@@ -803,56 +813,70 @@ Figure 12.8: Two weeks ahead forecast of the daily new death count for Florida u
 ## options were - linear output units 
 ## 
 ## sigma^2 estimated as 0.2213</code></pre>
-<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="NN.html#cb340-1" aria-hidden="true" tabindex="-1"></a>nnar.fc.report <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">forecast</span>(fit, <span class="at">h =</span> <span class="dv">14</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb340-2"><a href="NN.html#cb340-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">DATE =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020-12-11&quot;</span>) <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">14</span>)</span>
-<span id="cb340-3"><a href="NN.html#cb340-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(nnar.fc.report) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Y.Death&quot;</span>, <span class="st">&quot;DATE&quot;</span>)</span>
-<span id="cb340-4"><a href="NN.html#cb340-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb340-5"><a href="NN.html#cb340-5" aria-hidden="true" tabindex="-1"></a><span class="co"># plot of reported vs NNAR predictions</span></span>
-<span id="cb340-6"><a href="NN.html#cb340-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb340-7"><a href="NN.html#cb340-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> DATE, <span class="at">y =</span> Y.Death, <span class="at">color =</span> <span class="st">&quot;Reported&quot;</span>), </span>
-<span id="cb340-8"><a href="NN.html#cb340-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> Florida.ts) <span class="sc">+</span></span>
-<span id="cb340-9"><a href="NN.html#cb340-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> DATE, <span class="at">y =</span> Y.Death, <span class="at">color =</span> <span class="st">&quot;NNAR&quot;</span>), </span>
-<span id="cb340-10"><a href="NN.html#cb340-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> nnar.fc.report) <span class="sc">+</span></span>
-<span id="cb340-11"><a href="NN.html#cb340-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(</span>
-<span id="cb340-12"><a href="NN.html#cb340-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="at">Reported =</span> <span class="st">&quot;black&quot;</span>, <span class="at">NNAR =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb340-13"><a href="NN.html#cb340-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb340-14"><a href="NN.html#cb340-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Death count&quot;</span>,</span>
-<span id="cb340-15"><a href="NN.html#cb340-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Reported vs NNAR(14,1,5)[7] predictions&quot;</span>) <span class="sc">+</span></span>
-<span id="cb340-16"><a href="NN.html#cb340-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="st">&quot;Series&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="NN.html#cb341-1" aria-hidden="true" tabindex="-1"></a>nnar.fc.report <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">forecast</span>(fit, <span class="at">h =</span> <span class="dv">14</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb341-2"><a href="NN.html#cb341-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">DATE =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020-12-11&quot;</span>) <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">14</span>)</span>
+<span id="cb341-3"><a href="NN.html#cb341-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(nnar.fc.report) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Y.Death&quot;</span>, <span class="st">&quot;DATE&quot;</span>)</span>
+<span id="cb341-4"><a href="NN.html#cb341-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb341-5"><a href="NN.html#cb341-5" aria-hidden="true" tabindex="-1"></a><span class="co"># plot of reported vs NNAR predictions</span></span>
+<span id="cb341-6"><a href="NN.html#cb341-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb341-7"><a href="NN.html#cb341-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> DATE, <span class="at">y =</span> Y.Death, <span class="at">color =</span> <span class="st">&quot;Reported&quot;</span>), </span>
+<span id="cb341-8"><a href="NN.html#cb341-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> Florida.ts) <span class="sc">+</span></span>
+<span id="cb341-9"><a href="NN.html#cb341-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> DATE, <span class="at">y =</span> Y.Death, <span class="at">color =</span> <span class="st">&quot;NNAR&quot;</span>), </span>
+<span id="cb341-10"><a href="NN.html#cb341-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> nnar.fc.report) <span class="sc">+</span></span>
+<span id="cb341-11"><a href="NN.html#cb341-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(</span>
+<span id="cb341-12"><a href="NN.html#cb341-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="at">Reported =</span> <span class="st">&quot;black&quot;</span>, <span class="at">NNAR =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb341-13"><a href="NN.html#cb341-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb341-14"><a href="NN.html#cb341-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Death count&quot;</span>,</span>
+<span id="cb341-15"><a href="NN.html#cb341-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Reported vs NNAR(14,1,5)[7] predictions&quot;</span>) <span class="sc">+</span></span>
+<span id="cb341-16"><a href="NN.html#cb341-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="st">&quot;Series&quot;</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:nnetar2"></span>
 <img src="SLID_book_files/figure-html/nnetar2-1.png" alt="Two weeks ahead forecast of the daily new death count for Florida using nnetar with predictions constrained to positive values." width="672" />
 <p class="caption">
 Figure 12.9: Two weeks ahead forecast of the daily new death count for Florida using nnetar with predictions constrained to positive values.
 </p>
 </div>
-<p>Note that the NNAR model is a nonlinear autogressive model, and it is not possible to analytically derive prediction intervals. Below we use the simulation method to generate simulated paths.</p>
-<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="NN.html#cb341-1" aria-hidden="true" tabindex="-1"></a>fcast <span class="ot">&lt;-</span> <span class="fu">forecast</span>(fit, <span class="at">PI =</span> <span class="cn">TRUE</span>, <span class="at">h =</span> <span class="dv">14</span>, <span class="at">npaths =</span> <span class="dv">500</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="NN.html#cb342-1" aria-hidden="true" tabindex="-1"></a><span class="co">#autoplot(fcast, xlab = &quot;Days&quot;, ylab = &quot;Daily new deaths&quot;)</span></span>
-<span id="cb342-2"><a href="NN.html#cb342-2" aria-hidden="true" tabindex="-1"></a>fcast.report <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(fcast) <span class="sc">%&gt;%</span></span>
-<span id="cb342-3"><a href="NN.html#cb342-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">DATE =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020-12-11&quot;</span>) <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">14</span>)</span>
-<span id="cb342-4"><a href="NN.html#cb342-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(fcast.report) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Y.Death&quot;</span>, <span class="st">&quot;Lo.80&quot;</span>, <span class="st">&quot;Hi.80&quot;</span>, </span>
-<span id="cb342-5"><a href="NN.html#cb342-5" aria-hidden="true" tabindex="-1"></a>                         <span class="st">&quot;Lo.95&quot;</span>, <span class="st">&quot;Hi.95&quot;</span>, <span class="st">&quot;DATE&quot;</span>) </span>
-<span id="cb342-6"><a href="NN.html#cb342-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb342-7"><a href="NN.html#cb342-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Florida.ts, <span class="fu">aes</span>(DATE, Y.Death)) <span class="sc">+</span> </span>
-<span id="cb342-8"><a href="NN.html#cb342-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
-<span id="cb342-9"><a href="NN.html#cb342-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Days&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Death Count&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb342-10"><a href="NN.html#cb342-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add prediction intervals</span></span>
-<span id="cb342-11"><a href="NN.html#cb342-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> DATE, </span>
-<span id="cb342-12"><a href="NN.html#cb342-12" aria-hidden="true" tabindex="-1"></a>                            <span class="at">y =</span> Y.Death, </span>
-<span id="cb342-13"><a href="NN.html#cb342-13" aria-hidden="true" tabindex="-1"></a>                            <span class="at">ymin =</span> Lo<span class="fl">.95</span>, </span>
-<span id="cb342-14"><a href="NN.html#cb342-14" aria-hidden="true" tabindex="-1"></a>                            <span class="at">ymax =</span> Hi<span class="fl">.95</span>,</span>
-<span id="cb342-15"><a href="NN.html#cb342-15" aria-hidden="true" tabindex="-1"></a>                            <span class="at">fill =</span> <span class="st">&#39;95% Prediction intervals&#39;</span>), </span>
-<span id="cb342-16"><a href="NN.html#cb342-16" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> fcast.report, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb342-17"><a href="NN.html#cb342-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add line for predicted values</span></span>
-<span id="cb342-18"><a href="NN.html#cb342-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> DATE, </span>
-<span id="cb342-19"><a href="NN.html#cb342-19" aria-hidden="true" tabindex="-1"></a>                          <span class="at">y =</span> Y.Death,</span>
-<span id="cb342-20"><a href="NN.html#cb342-20" aria-hidden="true" tabindex="-1"></a>                          <span class="at">colour =</span> <span class="st">&#39;Predicted values&#39;</span>),</span>
-<span id="cb342-21"><a href="NN.html#cb342-21" aria-hidden="true" tabindex="-1"></a>            <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">data =</span> fcast.report,</span>
-<span id="cb342-22"><a href="NN.html#cb342-22" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Set the line type in legend</span></span>
-<span id="cb342-23"><a href="NN.html#cb342-23" aria-hidden="true" tabindex="-1"></a>            <span class="at">key_glyph =</span> <span class="st">&quot;timeseries&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb342-24"><a href="NN.html#cb342-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="st">&quot;&quot;</span>, <span class="at">values =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
-<span id="cb342-25"><a href="NN.html#cb342-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="st">&quot;&quot;</span>, <span class="at">values =</span> <span class="st">&quot;pink&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb342-26"><a href="NN.html#cb342-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
+<p>Note that the NNAR model is a nonlinear autogressive model, and it is not possible to analytically derive prediction intervals. Below we use a bootstrap method to generate simulated paths. Consider the following NNAR<span class="math inline">\((p, k)\)</span> model:
+<span class="math display">\[
+Y_t = f(Y_{t-1}, \ldots,Y_{t-p})+\varepsilon_t,
+\]</span>
+where <span class="math inline">\(f\)</span> is a neural network with <span class="math inline">\(k\)</span> hidden nodes in a single layer. The error series <span class="math inline">\(\{\varepsilon_t\}\)</span> is assumed to be homogeneous.</p>
+<p>We can simulate future sample paths of this model iteratively, by randomly generating a value for <span class="math inline">\(\varepsilon_t\)</span>, either from a normal distribution, or by resampling from the historical values. For example, let <span class="math inline">\(\varepsilon_{T+1}^{*}\)</span> be a random draw from the distribution of errors at time<span class="math inline">\(T+1\)</span>, then we can obtain
+<span class="math display">\[
+Y_{T+1}^{*} = f(Y_{T}, \ldots,Y_{T-p+1})+\varepsilon_{T+1}^{*},
+\]</span>
+which is one possible draw from the forecast distribution for $Y_{T+1} $. We can then repeat the process to get
+<span class="math display">\[
+Y_{T+2}^{*} = f(Y_{T+1}^{*}, Y_{T}, \ldots,Y_{T-p+1})+\varepsilon_{T+2}^{*},
+\]</span>
+and obtain a sample path <span class="math inline">\(\{Y_{T+1}^{*},Y_{T+2}^{*},\ldots,Y_{T+h}^{*}\}\)</span>.</p>
+<p>If we generate many sample paths, we can get a good picture of the forecast distributions, which can be used to construct the prediction intervals. For example, below we set up <code>npaths = 500</code> to generate 500 simulation bootstrap paths and construct prediction intervals.</p>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="NN.html#cb342-1" aria-hidden="true" tabindex="-1"></a>fcast <span class="ot">&lt;-</span> <span class="fu">forecast</span>(fit, <span class="at">PI =</span> <span class="cn">TRUE</span>, <span class="at">h =</span> <span class="dv">14</span>, <span class="at">npaths =</span> <span class="dv">500</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="NN.html#cb343-1" aria-hidden="true" tabindex="-1"></a><span class="co">#autoplot(fcast, xlab = &quot;Days&quot;, ylab = &quot;Daily new deaths&quot;)</span></span>
+<span id="cb343-2"><a href="NN.html#cb343-2" aria-hidden="true" tabindex="-1"></a>fcast.report <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(fcast) <span class="sc">%&gt;%</span></span>
+<span id="cb343-3"><a href="NN.html#cb343-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">DATE =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020-12-11&quot;</span>) <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">14</span>)</span>
+<span id="cb343-4"><a href="NN.html#cb343-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(fcast.report) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Y.Death&quot;</span>, <span class="st">&quot;Lo.80&quot;</span>, <span class="st">&quot;Hi.80&quot;</span>, </span>
+<span id="cb343-5"><a href="NN.html#cb343-5" aria-hidden="true" tabindex="-1"></a>                         <span class="st">&quot;Lo.95&quot;</span>, <span class="st">&quot;Hi.95&quot;</span>, <span class="st">&quot;DATE&quot;</span>) </span>
+<span id="cb343-6"><a href="NN.html#cb343-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb343-7"><a href="NN.html#cb343-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Florida.ts, <span class="fu">aes</span>(DATE, Y.Death)) <span class="sc">+</span> </span>
+<span id="cb343-8"><a href="NN.html#cb343-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb343-9"><a href="NN.html#cb343-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Days&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Death Count&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb343-10"><a href="NN.html#cb343-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add prediction intervals</span></span>
+<span id="cb343-11"><a href="NN.html#cb343-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> DATE, </span>
+<span id="cb343-12"><a href="NN.html#cb343-12" aria-hidden="true" tabindex="-1"></a>                            <span class="at">y =</span> Y.Death, </span>
+<span id="cb343-13"><a href="NN.html#cb343-13" aria-hidden="true" tabindex="-1"></a>                            <span class="at">ymin =</span> Lo<span class="fl">.95</span>, </span>
+<span id="cb343-14"><a href="NN.html#cb343-14" aria-hidden="true" tabindex="-1"></a>                            <span class="at">ymax =</span> Hi<span class="fl">.95</span>,</span>
+<span id="cb343-15"><a href="NN.html#cb343-15" aria-hidden="true" tabindex="-1"></a>                            <span class="at">fill =</span> <span class="st">&#39;95% Prediction intervals&#39;</span>), </span>
+<span id="cb343-16"><a href="NN.html#cb343-16" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> fcast.report, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb343-17"><a href="NN.html#cb343-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add line for predicted values</span></span>
+<span id="cb343-18"><a href="NN.html#cb343-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> DATE, </span>
+<span id="cb343-19"><a href="NN.html#cb343-19" aria-hidden="true" tabindex="-1"></a>                          <span class="at">y =</span> Y.Death,</span>
+<span id="cb343-20"><a href="NN.html#cb343-20" aria-hidden="true" tabindex="-1"></a>                          <span class="at">colour =</span> <span class="st">&#39;Predicted values&#39;</span>),</span>
+<span id="cb343-21"><a href="NN.html#cb343-21" aria-hidden="true" tabindex="-1"></a>            <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">data =</span> fcast.report,</span>
+<span id="cb343-22"><a href="NN.html#cb343-22" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Set the line type in legend</span></span>
+<span id="cb343-23"><a href="NN.html#cb343-23" aria-hidden="true" tabindex="-1"></a>            <span class="at">key_glyph =</span> <span class="st">&quot;timeseries&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb343-24"><a href="NN.html#cb343-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="st">&quot;&quot;</span>, <span class="at">values =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb343-25"><a href="NN.html#cb343-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="st">&quot;&quot;</span>, <span class="at">values =</span> <span class="st">&quot;pink&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb343-26"><a href="NN.html#cb343-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:nnetar3"></span>
 <img src="SLID_book_files/figure-html/nnetar3-1.png" alt="Two weeks ahead forecast and prediction intervals of the daily new death count for Florida using nnetar with predictions constrained to positive values." width="672" />
 <p class="caption">

@@ -343,6 +343,11 @@ smoothing-splines
 example-cdc-fluview-portal-data
 poisson-regression
 logistic-regression
+odds-and-odds-ratios
+odds
+odds-ratio
+estimating-logistic-regression-coefficients
+logistic-regression-with-multiple-explanatory-variables
 exercises-6
 NN
 a-single-neuron
@@ -359,6 +364,9 @@ model-diagnostics
 forecasting
 perform-cross-validation-on-a-time-series
 weights-selection-using-cross-validation
+a-project
+projection
+visualization
 appendix-a
 r-introduction-and-preliminaries
 the-r-environment-and-language

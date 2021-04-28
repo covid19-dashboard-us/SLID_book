@@ -225,3 +225,39 @@ cvMod <- hybridModel(y, weights = "cv.errors", windowSize = 100,
                      cvHorizon = 8, num.cores = 4)
 cvMod
 ```
+
+## A Project
+
+The coronavirus disease 2019 (COVID-19) pandemic caused by the novel severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2) has placed epidemic modeling at the center of attention of public policymaking. Predicting the severity and speed of transmission of COVID-19 is crucial to resource management and developing strategies to deal with this epidemic. In this project, we focus on the projection of COVID-19. 
+
+In this project, you will work with the `state.long` dataset in the `slid` package, which contains some COVID-19 count information from January 22 to December 11, 2020. 
+
+```{r}
+library(slid)
+data(state.long)
+```
+
+Note that `state.long` is a dataframe with 15,925 rows and 7 columns. Each row of the dataframe stands for one state on a specific date. The columns are `State`, `Region`, `Division`, `pop`, `DATE`, `Infected` and `Death`. 
+
+* `State`: name of a state.
+* `Region`: region of a state.
+* `Division`: division of a state.
+* `pop`: population of a state.
+* `DATE`: date that the data is reported.
+* `Infected`: the cumulative infected count of a state.
+* `Death`: the cumulative death count of a state.
+
+### Projection
+
+You will make a projection of the number of daily new death cases and the cumulative number of death cases for each state in the US. For each state, you will hold out the last two weeks as test data and use all the data except the last two weeks as your training data. Based on the training data, you fit model and make the projection of the number of daily new death cases and the cumulative number of death cases for the last two weeks. 
+
+Recall that, in this course, we learned three main types of epidemic models: (i) mechanistic models, (ii) phenomenological models, and (iii) hybrid models. You can choose some models (with minimum 5 models and maximum 10 models) from what we have discussed in class or those in the `forecastHybrid` R package as individual models to make the forecast, and combining these models to make an ensemble forecast. 
+
+For each state and forecast method, you need to provide point forecast, 80% prediction intervals, and 90% prediction intervals for the last two weeks. Then you aggregate all the state forecasts to obtain the forecast for the US. 
+
+### Visualization
+
+To demonstrate your projection results, you need to develop a shiny app. Through the app, you can (i) select each state and showcase the corresponding time series plot, (ii) select the forecast method, and illustrate your point projection, 80% prediction intervals and 90% prediction intervals. Some app design idea can be found from the following websites:
+
+* https://covid19.stat.iastate.edu/longtermproj.html
+* https://viz.covid19forecasthub.org/

@@ -24,7 +24,7 @@
 <meta name="author" content="Lily Wang" />
 
 
-<meta name="date" content="2021-04-12" />
+<meta name="date" content="2021-04-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -448,7 +448,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="11.3" data-path="regression.html"><a href="regression.html#example-cdc-fluview-portal-data"><i class="fa fa-check"></i><b>11.3</b> Example: CDC FluView Portal Data</a></li>
 <li class="chapter" data-level="11.4" data-path="regression.html"><a href="regression.html#poisson-regression"><i class="fa fa-check"></i><b>11.4</b> Poisson regression</a></li>
-<li class="chapter" data-level="11.5" data-path="regression.html"><a href="regression.html#logistic-regression"><i class="fa fa-check"></i><b>11.5</b> Logistic regression</a></li>
+<li class="chapter" data-level="11.5" data-path="regression.html"><a href="regression.html#logistic-regression"><i class="fa fa-check"></i><b>11.5</b> Logistic regression</a>
+<ul>
+<li class="chapter" data-level="11.5.1" data-path="regression.html"><a href="regression.html#odds-and-odds-ratios"><i class="fa fa-check"></i><b>11.5.1</b> Odds and odds ratios</a></li>
+<li class="chapter" data-level="11.5.2" data-path="regression.html"><a href="regression.html#estimating-logistic-regression-coefficients"><i class="fa fa-check"></i><b>11.5.2</b> Estimating logistic regression coefficients</a></li>
+<li class="chapter" data-level="11.5.3" data-path="regression.html"><a href="regression.html#logistic-regression-with-multiple-explanatory-variables"><i class="fa fa-check"></i><b>11.5.3</b> Logistic regression with multiple explanatory variables</a></li>
+</ul></li>
 <li class="chapter" data-level="11.6" data-path="regression.html"><a href="regression.html#exercises-6"><i class="fa fa-check"></i><b>11.6</b> Exercises</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="NN.html"><a href="NN.html"><i class="fa fa-check"></i><b>12</b> Neural Networks</a>
@@ -473,6 +478,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13.3.1" data-path="ensemble.html"><a href="ensemble.html#perform-cross-validation-on-a-time-series"><i class="fa fa-check"></i><b>13.3.1</b> Perform cross validation on a time series</a></li>
 </ul></li>
 <li class="chapter" data-level="13.4" data-path="ensemble.html"><a href="ensemble.html#weights-selection-using-cross-validation"><i class="fa fa-check"></i><b>13.4</b> Weights Selection Using Cross Validation</a></li>
+<li class="chapter" data-level="13.5" data-path="ensemble.html"><a href="ensemble.html#a-project"><i class="fa fa-check"></i><b>13.5</b> A Project</a>
+<ul>
+<li class="chapter" data-level="13.5.1" data-path="ensemble.html"><a href="ensemble.html#projection"><i class="fa fa-check"></i><b>13.5.1</b> Projection</a></li>
+<li class="chapter" data-level="13.5.2" data-path="ensemble.html"><a href="ensemble.html#visualization"><i class="fa fa-check"></i><b>13.5.2</b> Visualization</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="chapter" data-level="" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i>Appendix</a></li>
@@ -543,9 +553,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="timeseries" class="section level1" number="10">
 <h1><span class="header-section-number">Chapter 10</span> Time Series Analysis of Infectious Disease Data</h1>
-<p>Several quantities are of interest in epidemic forecasting, such as the timing of and incidence in the peak week, cumulative incidence, and weekly incidence. The policy/decision-makers are also interested in evaluating outbreak size and duration, and employing the epidemic curve to identify the mode of transmission of the disease and measure its prevalence of the disease.</p>
-<p>Forecasting goals can also be classified as long-term or short-term forecasts. Long-term disease forecasts can predict COVID-19 peak or severity, while short-term forecasts can be used to guide resource allocation in the short term by local agencies or to anticipate the case burden by hospitals in the coming week; see <span class="citation"><a href="appendix-b.html#ref-altieri2020curating" role="doc-biblioref">Altieri et al.</a> (<a href="appendix-b.html#ref-altieri2020curating" role="doc-biblioref">2020</a>)</span>. The projection can be made at different resolution levels, for example, national, regional or local. National-level or state-level long-term forecasts are of interest to policymakers regulating intervention strategies and deciding how much funding to allocate for resources. Prediction models with a finer resolution are needed to assess the local risk of COVID-19. Knowing more about the vulnerable communities and the reasons for those communities that are more likely to be infected are crucial for the policy and decision-makers to assist in prevention efforts <span class="citation">(<a href="appendix-b.html#ref-altieri2020curating" role="doc-biblioref">Altieri et al. 2020</a>)</span>.</p>
-<p>We provide a predictive analysis of the spread of COVID-19, using the dataset made publicly available online by the Johns Hopkins University. Our main objective is to provide future predictions of the number of infected people for different countries. We use two well-known methods for prediction: time series analysis and neural network.</p>
+<p>Predicting the severity and speed of transmission of disease is crucial to resource management and developing strategies to deal with this epidemic. Forecasting goals can also be classified as long-term or short-term forecasts. Long-term disease forecasts can predict the peak or severity, while short-term forecasts can be used to guide resource allocation in the short term by local agencies or to anticipate the case burden by hospitals in the coming week; see <span class="citation"><a href="appendix-b.html#ref-altieri2020curating" role="doc-biblioref">Altieri et al.</a> (<a href="appendix-b.html#ref-altieri2020curating" role="doc-biblioref">2020</a>)</span>.</p>
+<p>In this chapter, we provide a predictive analysis of the spread of infectious disease in a given area. Our main objective is to provide short-term predictions of the number of infected people or deaths. We use a well-known method in Statistics for prediction: time series analysis. In time series analysis, we focus on using the past observations of a random variable to capture the underlying patterns and predict the future values.</p>
 <div id="datasets-and-r-packages" class="section level2" number="10.1">
 <h2><span class="header-section-number">10.1</span> Datasets and R Packages</h2>
 <p><strong>Data</strong></p>
@@ -2204,11 +2213,13 @@ Figure 10.38: Two weeks ahead forecast of the cumulative death count for Florida
 </ol>
 <ol style="list-style-type: lower-alpha">
 <li><p>Construct time series plots for the daily new death, daily new infection, cumulative deaths and cumulative infection.</p></li>
-<li><p>For the daily new death series and daily new infection series, use the following graphics functions: <code>autoplot()</code>, <code>gg_season()</code>, <code>gg_subseries()</code>, <code>gg_lag()</code>, <code>ACF()</code> and explore features from the following time series:
-+ Can you spot any seasonality and trend?
+<li><p>For the daily new death series and daily new infection series, use the following graphics functions: <code>autoplot()</code>, <code>gg_season()</code>, <code>gg_subseries()</code>, <code>gg_lag()</code>, <code>ACF()</code> and explore features from the following time series:</p></li>
+</ol>
+<pre><code>+ Can you spot any seasonality and trend?
 + What do you learn about the series?
 + What can you say about the seasonal patterns?
-+ Can you identify any unusual pattern?</p></li>
++ Can you identify any unusual pattern?</code></pre>
+<ol start="3" style="list-style-type: lower-alpha">
 <li><p>Conduct an STL decomposition for the daily new death series.</p></li>
 <li><p>For the daily new death series, create a training dataset consisting of observations from JAN 23 to NOV 27. Calculate 14-day ahead forecasts using <code>SNAIVE()</code> and <code>ETS</code> applied to your training data.</p></li>
 <li><p>Compare the accuracy of your forecasts against the actual values.</p></li>

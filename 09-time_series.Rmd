@@ -1,10 +1,8 @@
 # Time Series Analysis of Infectious Disease Data {#timeseries}
 
-Several quantities are of interest in epidemic forecasting, such as the timing of and incidence in the peak week, cumulative incidence, and weekly incidence. The policy/decision-makers are also interested in evaluating outbreak size and duration, and employing the epidemic curve to identify the mode of transmission of the disease and measure its prevalence of the disease. 
-
-Forecasting goals can also be classified as long-term or short-term forecasts. Long-term disease forecasts can predict COVID-19 peak or severity, while short-term forecasts can be used to guide resource allocation in the short term by local agencies or to anticipate the case burden by hospitals in the coming week; see @altieri2020curating. The projection can be made at different resolution levels, for example, national, regional or local. National-level or state-level long-term forecasts are of interest to policymakers regulating intervention strategies and deciding how much funding to allocate for resources. Prediction models with a finer resolution are needed to assess the local risk of COVID-19. Knowing more about the vulnerable communities and the reasons for those communities that are more likely to be infected are crucial for the policy and decision-makers to assist in prevention efforts [@altieri2020curating].
+Predicting the severity and speed of transmission of disease is crucial to resource management and developing strategies to deal with this epidemic. Forecasting goals can also be classified as long-term or short-term forecasts. Long-term disease forecasts can predict the peak or severity, while short-term forecasts can be used to guide resource allocation in the short term by local agencies or to anticipate the case burden by hospitals in the coming week; see @altieri2020curating. 
  
-We provide a predictive analysis of the spread of COVID-19, using the dataset made publicly available online by the Johns Hopkins University. Our main objective is to provide future predictions of the number of infected people for different countries. We use two well-known methods for prediction: time series analysis and neural network. 
+In this chapter, we provide a predictive analysis of the spread of infectious disease in a given area. Our main objective is to provide short-term predictions of the number of infected people or deaths. We use a well-known method in Statistics for prediction: time series analysis. In time series analysis, we focus on using the past observations of a random variable to capture the underlying patterns and predict the future values.
 
 ## Datasets and R Packages
 
@@ -503,8 +501,6 @@ ets_fit %>% forecast(h = 14) %>%
 ```  
 
 The `ETS()` also allows you to extend the simple exponential smoothing to allow the forecasting of data with a trend and seasonality. 
-
-
 
 ```{r, warning=FALSE, message=FALSE}
 etss_fit <- Florida.ts %>% 
@@ -1516,7 +1512,8 @@ ggplot(train, aes(DATE, Death)) +
 
   a. Construct time series plots for the daily new death, daily new infection, cumulative deaths and cumulative infection. 
 
-  b. For the daily new death series and daily new infection series, use the following graphics functions: `autoplot()`, `gg_season()`, `gg_subseries()`, `gg_lag()`, `ACF()` and explore features from the following time series: 
+  b. For the daily new death series and daily new infection series, use the following graphics functions: `autoplot()`, `gg_season()`, `gg_subseries()`, `gg_lag()`, `ACF()` and explore features from the following time series:
+  
     + Can you spot any seasonality and trend?
     + What do you learn about the series?
     + What can you say about the seasonal patterns?
