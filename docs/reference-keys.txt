@@ -1,14 +1,4 @@
-fig:infection
-fig:process
-fig:plottypes
 preface
 data-sets-used-in-labs-and-exercises
 acknowledgements
 about-the-author
-intro
-aims-and-scope-of-this-book
-the-structure-of-this-book
-infectious-disease-data
-basic-characteristics-of-the-infection-process
-data-visualization
-modeling-and-forecasting
